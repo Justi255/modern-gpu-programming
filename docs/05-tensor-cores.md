@@ -82,6 +82,11 @@ torch.testing.assert_close(c.float(), reference, rtol=2e-2, atol=2e-2)
 
 PTX 的架构和指令要求见 [NVIDIA PTX ISA](https://docs.nvidia.com/cuda/parallel-thread-execution/)。阅读时检查 `Target ISA Notes`，不要只根据“Blackwell”章节标题作推断。
 
+
+## 本机实验观察
+
+`results/gemm.json` 中，FP16 的 512³ 分块 GEMM 最大绝对误差为 0.03125，累计后的结果还要存回 FP16。普通提交中位时间为 31.760 μs，而同模式 PyTorch 为 18.512 μs。使用 Tensor Core 是必要的实现事实，仍不足以保证战胜库函数。
+
 ## 练习
 
 1. 计算 32×64×32 一次 tile 更新的 FLOP 数。若最终 K=256，需要几次这样的 K tile 更新？

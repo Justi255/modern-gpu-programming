@@ -81,6 +81,11 @@ python -m fa5060.experiments gemm --output results/gemm.json
 
 先用无 profiler 的计时确定现象，再用 Nsight Systems 查看主机提交间隙与 GPU 工作连续性，最后使用 Nsight Compute 针对代表性内核检查资源和停顿。Profiler 会扰动时间，尤其是指标重放与串行化；不要拿 profiler 中的一次内核时长替换公开基准的稳定计时。具体命令与边界说明见[测量附录](appendix/benchmarking.md)。
 
+
+## 本机实验观察
+
+本机 FP16 512³ 实验的基础与流水线普通提交中位时间为 31.760 与 30.400 μs；BF16 为 30.064 与 29.888 μs，见 `results/gemm.json`。这点差异尚不足以独立归因为访存重叠，应结合生成代码，并把图内批量计时和普通提交分开。
+
 ## 练习
 
 1. 代入 $T=2$ 与 $T=32$，推导 $L=C$ 时理想流水线相对串行的加速上限。为什么较深流水线对前者通常不划算？

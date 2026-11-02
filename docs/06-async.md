@@ -92,6 +92,11 @@ for variant in ("tiled", "pipelined", "persistent"):
 
 先确认同一 shape 的语义相同，再用 `python -m fa5060.experiments gemm --output results/gemm.json` 测量。只有看到编译资源和稳态时间，才能判断多 stage 是否有效。persistent 表示软件复用 CTA 处理多个输出 tile，不自动代表用了硬件工作窃取或 CLC。
 
+
+## 本机实验观察
+
+本机 FP16 512³ GEMM 的普通提交实验中，基础、流水线和持久化版本分别为 31.760、30.400 和 38.528 μs，数据来自 `results/gemm.json`。流水线的小幅收益与持久化的回退都应保留；这些数字包含接口提交成本，不能仅凭差值证明加载与计算重叠了多少周期。
+
 ## 练习
 
 1. 若假设 $L=3,C=5,n=8$，计算串行模型与理想双缓冲模型时间，解释为什么收益小于两倍。

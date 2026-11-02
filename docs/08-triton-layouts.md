@@ -109,6 +109,11 @@ rg 'ld.global|st.global|ld.shared|st.shared|shfl|bar.sync|mma' results/ir-add/ad
 
 Triton 的公开语言与教程见 [Triton documentation](https://triton-lang.org/main/index.html)。本书保留的上游 TIRx 材料属于另一套语言与布局接口，数学模型可以比较，API 不应直接替换；对应关系见{doc}`appendix/sources`。下一章把本章的 load、dot、store 布局连成第一个完整 GEMM。
 
+
+## 本机实验观察
+
+本机归约实验包含 17×781 和 128×1024 两个外层跨步输入，`results/basics.json` 中最大绝对误差分别为 1.79×10⁻⁷ 与 2.38×10⁻⁷。781 迫使最后一个逻辑归约块处理尾部；同时检查概率归一化与数值参考，比只测试 2 的幂宽度更有解释力。
+
 ## 练习
 
 1. 证明 $i=\ell+32r$ 和 $i=4\ell+r$ 都是 128 个位置的双射。固定一个寄存器槽后，二者对应的全局地址间隔分别是多少？

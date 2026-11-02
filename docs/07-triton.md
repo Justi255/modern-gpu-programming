@@ -112,6 +112,11 @@ offsets = rows[:, None] * stride + cols[None, :]  # [BLOCK_M, BLOCK_N]
 
 需要调试时，可使用 `tl.static_assert` 检查编译期条件、`tl.static_print` 输出编译信息，或在小输入下使用 `tl.device_print`。这些工具会改变编译或运行行为，不能带着大量 device 打印去测稳态性能。更多错误定位方法见{doc}`appendix/debugging`。
 
+
+## 本机实验观察
+
+本机 `results/basics.json` 的两组向量长度是 100003 与 1048576，结果都与 PyTorch 完全一致。第一组专门检查尾部，第二组扩大工作量。普通提交 event 中位时间分别为 23.376 与 23.888 μs；时间接近提示提交和固定开销值得单独测量，并不表示工作量没有增加。
+
 ## 练习
 
 1. 把独立加法例子的 `n` 改成 0、1、255、256、257，决定 host 端在零长度时是否应跳过 launch，并实现这个选择。

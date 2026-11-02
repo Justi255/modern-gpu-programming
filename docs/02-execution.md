@@ -76,6 +76,11 @@ occupancy 是活跃 warp 相对硬件上限的比例，不是计算单元利用�
 
 这种限制带来一个实用设计方法：先让每个 CTA 独立完成一个输出 tile。需要跨 CTA 汇总时，明确写出“第一阶段临时结果 → 第二阶段归约”的全局边界。后面的 split-K 和 split-KV 正是这个思想；不能把一个 CTA 内的 barrier 扩大解释为整个 grid 的 barrier。
 
+
+## 本机实验观察
+
+本机 `results/basics.json` 中，长度 100003 的向量加法与 PyTorch 逐元素一致，普通提交 event 中位时间为 23.376 μs。这个不整除 block 的输入把尾部 mask 变成真实检查；该时间还可能包含主机提交空隙，不能用来反推 warp 指令延迟。
+
 ## 练习
 
 1. 对 $N=4097,B=512$ 写出 grid 大小、最后一个 program 的有效元素数，证明不存在两个 program 写同一位置。
