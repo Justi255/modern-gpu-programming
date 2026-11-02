@@ -64,6 +64,6 @@ appendix/sources
 
 ## 代码与术语约定
 
-`src/fa5060/` 是本书原生 Triton 实现；`tests/` 表达形状、掩码、数值与缓存契约；`results/` 存放实验输出。仓库中的 `tutorial/` 是保留的上游参考材料，不参与本书构建。对应关系、参考来源与架构差异见{doc}`appendix/sources`。
+`src/fa5060/` 是本书原生 Triton 实现；`tests/` 表达形状、掩码、数值与缓存契约；`results/` 存放实验输出。上游参考通过固定提交链接访问；章节对应关系、参考来源与架构差异见{doc}`appendix/sources`。
 
 本书说“块”时会注明是逻辑 tile、CUDA thread block（CTA），还是缓存页。`program` 指 Triton 的一个程序实例，通常对应一个 CTA；`warp` 固定包含 32 个 lane。GB/s 与 TFLOP/s 使用十进制单位，KiB 与 MiB 使用二进制单位；没有单位的 stride 均以元素计。注意力张量采用 $Q[B,S_q,H_q,D]$ 的存储约定，decode 的单 token 查询写成 $Q[B,H_q,D]$。
