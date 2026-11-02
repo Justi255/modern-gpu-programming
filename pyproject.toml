@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "modern-gpu-programming-5060"
+version = "0.1.0"
+description = "A Chinese SM120/Triton textbook with executable GPU experiments"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = ["numpy>=1.24"]
+
+[project.optional-dependencies]
+gpu = ["torch>=2.6", "triton>=3.3"]
+docs = ["sphinx>=7,<9", "myst-parser>=4,<5", "sphinx-book-theme>=1.1,<2", "sphinx-copybutton>=0.5,<1", "jieba>=0.42,<1"]
+test = ["pytest>=8,<10"]
+baselines = ["flashinfer-python==0.7.2.post1", "flash-attn-4[cu13]==4.0.0b37"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+markers = ["gpu: requires a visible CUDA GPU", "slow: extended numerical or graph checks"]

@@ -1,0 +1,13 @@
+# Versions actually exercised on the RTX 5060 Laptop, Python 3.13.
+# Select the CUDA 13.0 PyTorch wheel using the installation appendix first.
+# This records the experiment stack; full package/build metadata is in results/.
+-e .[docs,test]
+torch==2.12.1
+triton==3.7.1
+flashinfer-python==0.7.2.post1
+flash-attn-4[cu13]==4.0.0b37
+nvidia-cutlass-dsl[cu13]==4.8.1
+sphinx==8.2.3
+myst-parser==4.0.1
+sphinx-book-theme==1.4.0
+sphinx-copybutton==0.5.2
