@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1060" height="430" viewBox="0 0 1060 430" role="img" aria-labelledby="title desc">
+<title id="title">串行与双缓冲时间线</title><desc id="desc">串行安排交替加载和计算；流水安排同时加载未来数据与计算当前数据，槽位只在消费完成后复用。</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 10 5 0 10Z" fill="#475569"/></marker></defs>
+<rect width="1060" height="430" rx="20" fill="#f8fafc"/>
+<g font-family="system-ui, 'Noto Sans CJK SC', sans-serif" fill="#0f172a">
+<text x="35" y="43" font-size="23" font-weight="700">流水线重叠：示意依赖，不代表实测时长</text>
+<path d="M180 83H1000" stroke="#475569" stroke-width="2" marker-end="url(#arrow)"/><text x="925" y="73" font-size="16">时间 →</text>
+<text x="35" y="139" font-size="19" font-weight="600">串行</text>
+<g stroke="white" stroke-width="2"><rect x="180" y="109" width="120" height="49" rx="6" fill="#bfdbfe"/><rect x="300" y="109" width="120" height="49" rx="6" fill="#a7f3d0"/><rect x="420" y="109" width="120" height="49" rx="6" fill="#bfdbfe"/><rect x="540" y="109" width="120" height="49" rx="6" fill="#a7f3d0"/><rect x="660" y="109" width="120" height="49" rx="6" fill="#bfdbfe"/><rect x="780" y="109" width="120" height="49" rx="6" fill="#a7f3d0"/></g>
+<g font-size="18"><text x="213" y="140">加载 0</text><text x="333" y="140">计算 0</text><text x="453" y="140">加载 1</text><text x="573" y="140">计算 1</text><text x="693" y="140">加载 2</text><text x="813" y="140">计算 2</text></g>
+<text x="35" y="222" font-size="19" font-weight="600">流水：搬运</text><text x="35" y="284" font-size="19" font-weight="600">流水：计算</text>
+<g stroke="white" stroke-width="2"><rect x="180" y="191" width="120" height="49" rx="6" fill="#bfdbfe"/><rect x="300" y="191" width="120" height="49" rx="6" fill="#bfdbfe"/><rect x="420" y="191" width="120" height="49" rx="6" fill="#bfdbfe"/><rect x="540" y="191" width="120" height="49" rx="6" fill="#bfdbfe"/><rect x="300" y="253" width="120" height="49" rx="6" fill="#a7f3d0"/><rect x="420" y="253" width="120" height="49" rx="6" fill="#a7f3d0"/><rect x="540" y="253" width="120" height="49" rx="6" fill="#a7f3d0"/><rect x="660" y="253" width="120" height="49" rx="6" fill="#a7f3d0"/></g>
+<g font-size="18"><text x="203" y="221">0 / 槽 A</text><text x="323" y="221">1 / 槽 B</text><text x="443" y="221">2 / 槽 A</text><text x="563" y="221">3 / 槽 B</text><text x="333" y="284">计算 0</text><text x="453" y="284">计算 1</text><text x="573" y="284">计算 2</text><text x="693" y="284">计算 3</text></g>
+<path d="M280 239 311 252M400 239 431 252M520 239 551 252M640 239 671 252" stroke="#475569" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="180" y="334" width="800" height="65" rx="12" fill="white" stroke="#cbd5e1"/>
+<text x="201" y="360" font-size="17" font-weight="600">加载完成 → 才能计算；计算完成 → 才能覆盖原槽位。</text>
+<text x="201" y="385" font-size="16" fill="#475569">更深流水需要更多空间；短循环未必能摊薄填充与排空成本。</text>
+</g></svg>

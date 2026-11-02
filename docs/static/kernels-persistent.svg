@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1060" height="445" viewBox="0 0 1060 445" role="img" aria-labelledby="title desc">
+<title id="title">持久化工作池的静态步进</title><desc id="desc">普通网格为每个输出块分配工作，持久化工作池由三个 program 以步长三遍历十二个输出块。</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 10 5 0 10Z" fill="#475569"/></marker></defs>
+<rect width="1060" height="445" rx="20" fill="#f8fafc"/>
+<g font-family="system-ui, 'Noto Sans CJK SC', sans-serif" fill="#0f172a">
+<text x="35" y="43" font-size="23" font-weight="700">静态持久化：program p 处理 p、p+P、p+2P、…</text>
+<text x="40" y="92" font-size="19" font-weight="600">12 个输出块（按行编号）</text>
+<g fill="#e2e8f0" stroke="white" stroke-width="4"><rect x="40" y="112" width="70" height="64" rx="6"/><rect x="110" y="112" width="70" height="64" rx="6"/><rect x="180" y="112" width="70" height="64" rx="6"/><rect x="250" y="112" width="70" height="64" rx="6"/><rect x="40" y="176" width="70" height="64" rx="6"/><rect x="110" y="176" width="70" height="64" rx="6"/><rect x="180" y="176" width="70" height="64" rx="6"/><rect x="250" y="176" width="70" height="64" rx="6"/><rect x="40" y="240" width="70" height="64" rx="6"/><rect x="110" y="240" width="70" height="64" rx="6"/><rect x="180" y="240" width="70" height="64" rx="6"/><rect x="250" y="240" width="70" height="64" rx="6"/></g>
+<g font-size="21" text-anchor="middle"><text x="75" y="151">0</text><text x="145" y="151">1</text><text x="215" y="151">2</text><text x="285" y="151">3</text><text x="75" y="215">4</text><text x="145" y="215">5</text><text x="215" y="215">6</text><text x="285" y="215">7</text><text x="75" y="279">8</text><text x="145" y="279">9</text><text x="215" y="279">10</text><text x="285" y="279">11</text></g>
+<path d="M342 207H410" stroke="#475569" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="440" y="92" font-size="19" font-weight="600">示例 P=3：工作池持续复用</text>
+<rect x="435" y="112" width="575" height="52" rx="10" fill="#bfdbfe"/><rect x="435" y="182" width="575" height="52" rx="10" fill="#a7f3d0"/><rect x="435" y="252" width="575" height="52" rx="10" fill="#fed7aa"/>
+<g font-size="20"><text x="455" y="146">p=0　块 0 → 块 3 → 块 6 → 块 9</text><text x="455" y="216">p=1　块 1 → 块 4 → 块 7 → 块 10</text><text x="455" y="286">p=2　块 2 → 块 5 → 块 8 → 块 11</text></g>
+<rect x="40" y="337" width="970" height="76" rx="12" fill="white" stroke="#cbd5e1"/>
+<text x="60" y="366" font-size="18" font-weight="600">每个新输出块：重新算地址、清零 accumulator、完整归约 K、独占写回。</text>
+<text x="60" y="394" font-size="16" fill="#475569">池大小与硬件资源有关；静态持久化不等于 CLC，也不保证物理驻留或性能提升。</text>
+</g></svg>

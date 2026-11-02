@@ -1,0 +1,1052 @@
+{
+  "schema_version": 1,
+  "suite": "gemm",
+  "seed": 20261102,
+  "environment": {
+    "schema_version": 1,
+    "timestamp_utc": "2026-11-02T06:42:59.243671+00:00",
+    "python": {
+      "version": "3.13.13",
+      "sys_version": "3.13.13 | packaged by Anaconda, Inc. | (main, Apr 14 2026, 06:19:41) [GCC 14.3.0]",
+      "implementation": "CPython",
+      "compiler": "GCC 14.3.0",
+      "executable": "/home/justi/Workspace/cuda/fa/.venv/bin/python"
+    },
+    "platform": {
+      "system": "Linux",
+      "release": "7.0.0-42-generic",
+      "machine": "x86_64",
+      "description": "Linux-7.0.0-42-generic-x86_64-with-glibc2.43"
+    },
+    "packages": {
+      "modern-gpu-programming-5060": "0.1.0",
+      "numpy": "2.5.0",
+      "torch": "2.12.1",
+      "triton": "3.7.1",
+      "flashinfer-python": null,
+      "flash-attn-4": null,
+      "flash-attn": null
+    },
+    "cuda_build": "13.0",
+    "cuda_available": true,
+    "gpus": [
+      {
+        "index": 0,
+        "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+        "compute_capability": [
+          12,
+          0
+        ],
+        "sm_count": 26,
+        "total_memory_bytes": 8055947264,
+        "l2_cache_bytes": 33554432,
+        "shared_memory_per_block_bytes": 49152,
+        "shared_memory_per_block_optin_bytes": 101376,
+        "shared_memory_per_sm_bytes": 102400,
+        "warp_size": 32,
+        "max_threads_per_block": 1024
+      }
+    ],
+    "gpu_unavailable_reason": null,
+    "nvidia_smi": {
+      "available": true,
+      "devices": [
+        {
+          "index": 0,
+          "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+          "driver_version": "595.99.02",
+          "performance_state": "P2",
+          "power_draw_watts": 12.71,
+          "power_limit_watts": null,
+          "sm_clock_mhz": 1620,
+          "memory_clock_mhz": 11001,
+          "temperature_celsius": 49
+        }
+      ],
+      "error": null
+    },
+    "compiler": {
+      "nvcc": {
+        "available": false,
+        "output": null,
+        "returncode": null,
+        "error": "FileNotFoundError: [Errno 2] No such file or directory: 'nvcc'"
+      },
+      "ptxas": {
+        "available": false,
+        "output": null,
+        "returncode": null,
+        "error": "FileNotFoundError: [Errno 2] No such file or directory: 'ptxas'"
+      },
+      "triton_version": "3.7.1"
+    }
+  },
+  "records": [
+    {
+      "name": "matmul/tiled",
+      "inputs": {
+        "m": 65,
+        "n": 79,
+        "k": 97,
+        "dtype": "float16"
+      },
+      "provider": {
+        "name": "fa5060/Triton",
+        "version": "0.1.0",
+        "triton_version": "3.7.1"
+      },
+      "reference": {
+        "name": "torch.matmul fp32 inputs, float32_matmul_precision=highest",
+        "torch_version": "2.12.1"
+      },
+      "correctness": {
+        "passed": true,
+        "rtol": 0.02,
+        "atol": 0.02,
+        "max_error": 0.015598297119140625,
+        "rms_relative_error": 0.0002090952418335431
+      },
+      "max_error": 0.015598297119140625,
+      "latency_ms": 0.028032000176608562,
+      "timing": {
+        "clock": "CUDA events on the current stream",
+        "mode": "eager",
+        "warmup": 3,
+        "repetitions": 10,
+        "summary": "median",
+        "median_ms": 0.028032000176608562,
+        "samples_ms": [
+          0.41788798570632935,
+          0.03244800120592117,
+          0.029120000079274178,
+          0.026944000273942947,
+          0.025631999596953392,
+          0.02953599952161312,
+          0.190528005361557,
+          0.009279999881982803,
+          0.024927999824285507,
+          0.026655999943614006
+        ]
+      },
+      "timing_scope": "public call; output allocation included",
+      "baseline_provider": {
+        "name": "PyTorch",
+        "version": "2.12.1"
+      },
+      "baseline_correctness": {
+        "passed": true,
+        "rtol": 0.02,
+        "atol": 0.02,
+        "max_error": 0.01848602294921875,
+        "rms_relative_error": 0.0002949453716488452
+      },
+      "baseline_latency_ms": 0.012304000090807676,
+      "baseline_timing": {
+        "clock": "CUDA events on the current stream",
+        "mode": "eager",
+        "warmup": 3,
+        "repetitions": 10,
+        "summary": "median",
+        "median_ms": 0.012304000090807676,
+        "samples_ms": [
+          0.013376000337302685,
+          0.014015999622642994,
+          0.01283199992030859,
+          0.012703999876976013,
+          0.011776000261306763,
+          0.01235199999064207,
+          0.011839999817311764,
+          0.011264000087976456,
+          0.011872000060975552,
+          0.012256000190973282
+        ]
+      }
+    },
+    {
+      "name": "matmul/pipelined",
+      "inputs": {
+        "m": 65,
+        "n": 79,
+        "k": 97,
+        "dtype": "float16"
+      },
+      "provider": {
+        "name": "fa5060/Triton",
+        "version": "0.1.0",
+        "triton_version": "3.7.1"
+      },
+      "reference": {
+        "name": "torch.matmul fp32 inputs, float32_matmul_precision=highest",
+        "torch_version": "2.12.1"
+      },
+      "correctness": {
+        "passed": true,
+        "rtol": 0.02,
+        "atol": 0.02,
+        "max_error": 0.015598297119140625,
+        "rms_relative_error": 0.0002090952418335431
+      },
+      "max_error": 0.015598297119140625,
+      "latency_ms": 0.026352000422775745,
+      "timing": {
+        "clock": "CUDA events on the current stream",
+        "mode": "eager",
+        "warmup": 3,
+        "repetitions": 10,
+        "summary": "median",
+        "median_ms": 0.026352000422775745,
+        "samples_ms": [
+          0.03481600061058998,
+          0.029600000008940697,
+          0.027615999802947044,
+          0.026528000831604004,
+          0.02566399984061718,
+          0.0261439997702837,
+          0.02534399926662445,
+          0.026176000013947487,
+          0.027264000847935677,
+          0.024447999894618988
+        ]
+      },
+      "timing_scope": "public call; output allocation included",
+      "baseline_provider": {
+        "name": "PyTorch",
+        "version": "2.12.1"
+      },
+      "baseline_correctness": {
+        "passed": true,
+        "rtol": 0.02,
+        "atol": 0.02,
+        "max_error": 0.01848602294921875,
+        "rms_relative_error": 0.0002949453716488452
+      },
+      "baseline_latency_ms": 0.012495999690145254,
+      "baseline_timing": {
+        "clock": "CUDA events on the current stream",
+        "mode": "eager",
+        "warmup": 3,
+        "repetitions": 10,
+        "summary": "median",
+        "median_ms": 0.012495999690145254,
+        "samples_ms": [
+          0.013151999562978745,
+          0.012575999833643436,
+          0.012415999546647072,
+          0.012608000077307224,
+          0.011552000418305397,
+          0.01228800043463707,
+          0.012160000391304493,
+          0.012095999903976917,
+          0.016896000131964684,
+          0.012575999833643436
+        ]
+      }
+    },
+    {
+      "name": "matmul/persistent",
+      "inputs": {
+        "m": 65,
+        "n": 79,
+        "k": 97,
+        "dtype": "float16"
+      },
+      "provider": {
+        "name": "fa5060/Triton",
+        "version": "0.1.0",
+        "triton_version": "3.7.1"
+      },
+      "reference": {
+        "name": "torch.matmul fp32 inputs, float32_matmul_precision=highest",
+        "torch_version": "2.12.1"
+      },
+      "correctness": {
+        "passed": true,
+        "rtol": 0.02,
+        "atol": 0.02,
+        "max_error": 0.015598297119140625,
+        "rms_relative_error": 0.0002090952418335431
+      },
+      "max_error": 0.015598297119140625,
+      "latency_ms": 0.02739199995994568,
+      "timing": {
+        "clock": "CUDA events on the current stream",
+        "mode": "eager",
+        "warmup": 3,
+        "repetitions": 10,
+        "summary": "median",
+        "median_ms": 0.02739199995994568,
+        "samples_ms": [
+          0.03593600168824196,
+          0.03174399957060814,
+          0.02876799926161766,
+          0.027488000690937042,
+          0.027615999802947044,
+          0.02672000043094158,
+          0.026367999613285065,
+          0.027295999228954315,
+          0.026016000658273697,
+          0.02691200003027916
+        ]
+      },
+      "timing_scope": "public call; output allocation included",
+      "baseline_provider": {
+        "name": "PyTorch",
+        "version": "2.12.1"
+      },
+      "baseline_correctness": {
+        "passed": true,
+        "rtol": 0.02,
+        "atol": 0.02,
+        "max_error": 0.01848602294921875,
+        "rms_relative_error": 0.0002949453716488452
+      },
+      "baseline_latency_ms": 0.012527999933809042,
+      "baseline_timing": {
+        "clock": "CUDA events on the current stream",
+        "mode": "eager",
+        "warmup": 3,
+        "repetitions": 10,
+        "summary": "median",
+        "median_ms": 0.012527999933809042,
+        "samples_ms": [
+          0.013439999893307686,
+          0.013088000006973743,
+          0.01283199992030859,
+          0.012671999633312225,
+          0.012095999903976917,
+          0.012480000033974648,
+          0.012000000104308128,
+          0.011935999616980553,
+          0.012575999833643436,
+          0.01196799986064434
+        ]
+      }
+    },
+    {
+      "name": "matmul/tiled",
+      "inputs": {
+        "m": 512,
+        "n": 512,
+        "k": 512,
+        "dtype": "float16"
+      },
+      "provider": {
+        "name": "fa5060/Triton",
+        "version": "0.1.0",
+        "triton_version": "3.7.1"
+      },
+      "reference": {
+        "name": "torch.matmul fp32 inputs, float32_matmul_precision=highest",
+        "torch_version": "2.12.1"
+      },
+      "correctness": {
+        "passed": true,
+        "rtol": 0.02,
+        "atol": 0.02,
+        "max_error": 0.03125,
+        "rms_relative_error": 0.00020675657786975834
+      },
+      "max_error": 0.03125,
+      "latency_ms": 0.03175999969244003,
+      "timing": {
+        "clock": "CUDA events on the current stream",
+        "mode": "eager",
+        "warmup": 3,
+        "repetitions": 10,
+        "summary": "median",
+        "median_ms": 0.03175999969244003,
+        "samples_ms": [
+          0.03766399994492531,
+          0.03328000009059906,
+          0.031808000057935715,
+          0.0306560005992651,
+          0.032287999987602234,
+          0.03171199932694435,
+          0.029983999207615852,
+          0.02908799983561039,
+          0.03500799834728241,
+          0.030688000842928886
+        ]
+      },
+      "timing_scope": "public call; output allocation included",
+      "baseline_provider": {
+        "name": "PyTorch",
+        "version": "2.12.1"
+      },
+      "baseline_correctness": {
+        "passed": true,
+        "rtol": 0.02,
+        "atol": 0.02,
+        "max_error": 0.03125,
+        "rms_relative_error": 0.00020675657786975834
+      },
+      "baseline_latency_ms": 0.0185120003297925,
+      "baseline_timing": {
+        "clock": "CUDA events on the current stream",
+        "mode": "eager",
+        "warmup": 3,
+        "repetitions": 10,
+        "summary": "median",
+        "median_ms": 0.0185120003297925,
+        "samples_ms": [
+          0.017952000722289085,
+          0.018848000094294548,
+          0.017952000722289085,
+          0.018751999363303185,
+          0.01897599920630455,
+          0.018400000408291817,
+          0.018624000251293182,
+          0.018271999433636665,
+          0.018880000337958336,
+          0.01817600056529045
+        ]
+      }
+    },
+    {
+      "name": "matmul/pipelined",
+      "inputs": {
+        "m": 512,
+        "n": 512,
+        "k": 512,
+        "dtype": "float16"
+      },
+      "provider": {
+        "name": "fa5060/Triton",
+        "version": "0.1.0",
+        "triton_version": "3.7.1"
+      },
+      "reference": {
+        "name": "torch.matmul fp32 inputs, float32_matmul_precision=highest",
+        "torch_version": "2.12.1"
+      },
+      "correctness": {
+        "passed": true,
+        "rtol": 0.02,
+        "atol": 0.02,
+        "max_error": 0.03125,
+        "rms_relative_error": 0.00020675657786975834
+      },
+      "max_error": 0.03125,
+      "latency_ms": 0.030400000512599945,
+      "timing": {
+        "clock": "CUDA events on the current stream",
+        "mode": "eager",
+        "warmup": 3,
+        "repetitions": 10,
+        "summary": "median",
+        "median_ms": 0.030400000512599945,
+        "samples_ms": [
+          0.03747199848294258,
+          0.03468799963593483,
+          0.032127998769283295,
+          0.0306560005992651,
+          0.03468799963593483,
+          0.02985600009560585,
+          0.03014400042593479,
+          0.029120000079274178,
+          0.029279999434947968,
+          0.029664000496268272
+        ]
+      },
+      "timing_scope": "public call; output allocation included",
+      "baseline_provider": {
+        "name": "PyTorch",
+        "version": "2.12.1"
+      },
+      "baseline_correctness": {
+        "passed": true,
+        "rtol": 0.02,
+        "atol": 0.02,
+        "max_error": 0.03125,
+        "rms_relative_error": 0.00020675657786975834
+      },
+      "baseline_latency_ms": 0.01880000066012144,
+      "baseline_timing": {
+        "clock": "CUDA events on the current stream",
+        "mode": "eager",
+        "warmup": 3,
+        "repetitions": 10,
+        "summary": "median",
+        "median_ms": 0.01880000066012144,
+        "samples_ms": [
+          0.020096000283956528,
+          0.01894400082528591,
+          0.019039999693632126,
+          0.01865600049495697,
+          0.019168000668287277,
+          0.01836800016462803,
+          0.018432000651955605,
+          0.018303999677300453,
+          0.019039999693632126,
+          0.018239999189972878
+        ]
+      }
+    },
+    {
+      "name": "matmul/persistent",
+      "inputs": {
+        "m": 512,
+        "n": 512,
+        "k": 512,
+        "dtype": "float16"
+      },
+      "provider": {
+        "name": "fa5060/Triton",
+        "version": "0.1.0",
+        "triton_version": "3.7.1"
+      },
+      "reference": {
+        "name": "torch.matmul fp32 inputs, float32_matmul_precision=highest",
+        "torch_version": "2.12.1"
+      },
+      "correctness": {
+        "passed": true,
+        "rtol": 0.02,
+        "atol": 0.02,
+        "max_error": 0.03125,
+        "rms_relative_error": 0.00020675657786975834
+      },
+      "max_error": 0.03125,
+      "latency_ms": 0.03852799907326698,
+      "timing": {
+        "clock": "CUDA events on the current stream",
+        "mode": "eager",
+        "warmup": 3,
+        "repetitions": 10,
+        "summary": "median",
+        "median_ms": 0.03852799907326698,
+        "samples_ms": [
+          0.2099200040102005,
+          0.04134399816393852,
+          0.04460800066590309,
+          0.03916800022125244,
+          0.03791999816894531,
+          0.03711999952793121,
+          0.03763199970126152,
+          0.03743999823927879,
+          0.03564799949526787,
+          0.039135999977588654
+        ]
+      },
+      "timing_scope": "public call; output allocation included",
+      "baseline_provider": {
+        "name": "PyTorch",
+        "version": "2.12.1"
+      },
+      "baseline_correctness": {
+        "passed": true,
+        "rtol": 0.02,
+        "atol": 0.02,
+        "max_error": 0.03125,
+        "rms_relative_error": 0.00020675657786975834
+      },
+      "baseline_latency_ms": 0.018112000077962875,
+      "baseline_timing": {
+        "clock": "CUDA events on the current stream",
+        "mode": "eager",
+        "warmup": 3,
+        "repetitions": 10,
+        "summary": "median",
+        "median_ms": 0.018112000077962875,
+        "samples_ms": [
+          0.017952000722289085,
+          0.01820800080895424,
+          0.017855999991297722,
+          0.0180479995906353,
+          0.01817600056529045,
+          0.019231999292969704,
+          0.01759999990463257,
+          0.01759999990463257,
+          0.01849599927663803,
+          0.018400000408291817
+        ]
+      }
+    },
+    {
+      "name": "matmul/tiled",
+      "inputs": {
+        "m": 65,
+        "n": 79,
+        "k": 97,
+        "dtype": "bfloat16"
+      },
+      "provider": {
+        "name": "fa5060/Triton",
+        "version": "0.1.0",
+        "triton_version": "3.7.1"
+      },
+      "reference": {
+        "name": "torch.matmul fp32 inputs, float32_matmul_precision=highest",
+        "torch_version": "2.12.1"
+      },
+      "correctness": {
+        "passed": true,
+        "rtol": 0.05,
+        "atol": 0.05,
+        "max_error": 0.10702133178710938,
+        "rms_relative_error": 0.0016113629865095506
+      },
+      "max_error": 0.10702133178710938,
+      "latency_ms": 0.02532800007611513,
+      "timing": {
+        "clock": "CUDA events on the current stream",
+        "mode": "eager",
+        "warmup": 3,
+        "repetitions": 10,
+        "summary": "median",
+        "median_ms": 0.02532800007611513,
+        "samples_ms": [
+          0.037696000188589096,
+          0.03017600066959858,
+          0.027264000847935677,
+          0.02675200067460537,
+          0.025760000571608543,
+          0.02489599958062172,
+          0.024032000452280045,
+          0.02393599972128868,
+          0.024351999163627625,
+          0.024032000452280045
+        ]
+      },
+      "timing_scope": "public call; output allocation included",
+      "baseline_provider": {
+        "name": "PyTorch",
+        "version": "2.12.1"
+      },
+      "baseline_correctness": {
+        "passed": true,
+        "rtol": 0.05,
+        "atol": 0.05,
+        "max_error": 0.10702133178710938,
+        "rms_relative_error": 0.002276429486737445
+      },
+      "baseline_latency_ms": 0.012623999733477831,
+      "baseline_timing": {
+        "clock": "CUDA events on the current stream",
+        "mode": "eager",
+        "warmup": 3,
+        "repetitions": 10,
+        "summary": "median",
+        "median_ms": 0.012623999733477831,
+        "samples_ms": [
+          0.014175999909639359,
+          0.01244799979031086,
+          0.012191999703645706,
+          0.01196799986064434,
+          0.012319999746978283,
+          0.011711999773979187,
+          0.3196159899234772,
+          0.012799999676644802,
+          0.015359999611973763,
+          0.012864000163972378
+        ]
+      }
+    },
+    {
+      "name": "matmul/pipelined",
+      "inputs": {
+        "m": 65,
+        "n": 79,
+        "k": 97,
+        "dtype": "bfloat16"
+      },
+      "provider": {
+        "name": "fa5060/Triton",
+        "version": "0.1.0",
+        "triton_version": "3.7.1"
+      },
+      "reference": {
+        "name": "torch.matmul fp32 inputs, float32_matmul_precision=highest",
+        "torch_version": "2.12.1"
+      },
+      "correctness": {
+        "passed": true,
+        "rtol": 0.05,
+        "atol": 0.05,
+        "max_error": 0.10702133178710938,
+        "rms_relative_error": 0.0016113629865095506
+      },
+      "max_error": 0.10702133178710938,
+      "latency_ms": 0.02495999913662672,
+      "timing": {
+        "clock": "CUDA events on the current stream",
+        "mode": "eager",
+        "warmup": 3,
+        "repetitions": 10,
+        "summary": "median",
+        "median_ms": 0.02495999913662672,
+        "samples_ms": [
+          0.033344000577926636,
+          0.02969600073993206,
+          0.026079999282956123,
+          0.025631999596953392,
+          0.024831999093294144,
+          0.025087999179959297,
+          0.024159999564290047,
+          0.024768000468611717,
+          0.023615999147295952,
+          0.022784000262618065
+        ]
+      },
+      "timing_scope": "public call; output allocation included",
+      "baseline_provider": {
+        "name": "PyTorch",
+        "version": "2.12.1"
+      },
+      "baseline_correctness": {
+        "passed": true,
+        "rtol": 0.05,
+        "atol": 0.05,
+        "max_error": 0.10702133178710938,
+        "rms_relative_error": 0.002276429486737445
+      },
+      "baseline_latency_ms": 0.011952000204473734,
+      "baseline_timing": {
+        "clock": "CUDA events on the current stream",
+        "mode": "eager",
+        "warmup": 3,
+        "repetitions": 10,
+        "summary": "median",
+        "median_ms": 0.011952000204473734,
+        "samples_ms": [
+          0.012992000207304955,
+          0.012032000347971916,
+          0.012223999947309494,
+          0.012896000407636166,
+          0.012032000347971916,
+          0.011680000461637974,
+          0.011807999573647976,
+          0.011839999817311764,
+          0.011744000017642975,
+          0.011872000060975552
+        ]
+      }
+    },
+    {
+      "name": "matmul/persistent",
+      "inputs": {
+        "m": 65,
+        "n": 79,
+        "k": 97,
+        "dtype": "bfloat16"
+      },
+      "provider": {
+        "name": "fa5060/Triton",
+        "version": "0.1.0",
+        "triton_version": "3.7.1"
+      },
+      "reference": {
+        "name": "torch.matmul fp32 inputs, float32_matmul_precision=highest",
+        "torch_version": "2.12.1"
+      },
+      "correctness": {
+        "passed": true,
+        "rtol": 0.05,
+        "atol": 0.05,
+        "max_error": 0.10702133178710938,
+        "rms_relative_error": 0.0016113629865095506
+      },
+      "max_error": 0.10702133178710938,
+      "latency_ms": 0.028224000707268715,
+      "timing": {
+        "clock": "CUDA events on the current stream",
+        "mode": "eager",
+        "warmup": 3,
+        "repetitions": 10,
+        "summary": "median",
+        "median_ms": 0.028224000707268715,
+        "samples_ms": [
+          0.03673600032925606,
+          0.031072000041604042,
+          0.02844800055027008,
+          0.026944000273942947,
+          0.03049599938094616,
+          0.02800000086426735,
+          0.026399999856948853,
+          0.029055999591946602,
+          0.026048000901937485,
+          0.026048000901937485
+        ]
+      },
+      "timing_scope": "public call; output allocation included",
+      "baseline_provider": {
+        "name": "PyTorch",
+        "version": "2.12.1"
+      },
+      "baseline_correctness": {
+        "passed": true,
+        "rtol": 0.05,
+        "atol": 0.05,
+        "max_error": 0.10702133178710938,
+        "rms_relative_error": 0.002276429486737445
+      },
+      "baseline_latency_ms": 0.011807999573647976,
+      "baseline_timing": {
+        "clock": "CUDA events on the current stream",
+        "mode": "eager",
+        "warmup": 3,
+        "repetitions": 10,
+        "summary": "median",
+        "median_ms": 0.011807999573647976,
+        "samples_ms": [
+          0.01375999953597784,
+          0.012543999589979649,
+          0.01190400030463934,
+          0.011807999573647976,
+          0.011744000017642975,
+          0.011839999817311764,
+          0.011807999573647976,
+          0.01152000017464161,
+          0.011680000461637974,
+          0.011487999930977821
+        ]
+      }
+    },
+    {
+      "name": "matmul/tiled",
+      "inputs": {
+        "m": 512,
+        "n": 512,
+        "k": 512,
+        "dtype": "bfloat16"
+      },
+      "provider": {
+        "name": "fa5060/Triton",
+        "version": "0.1.0",
+        "triton_version": "3.7.1"
+      },
+      "reference": {
+        "name": "torch.matmul fp32 inputs, float32_matmul_precision=highest",
+        "torch_version": "2.12.1"
+      },
+      "correctness": {
+        "passed": true,
+        "rtol": 0.05,
+        "atol": 0.05,
+        "max_error": 0.2496490478515625,
+        "rms_relative_error": 0.0016544322891303396
+      },
+      "max_error": 0.2496490478515625,
+      "latency_ms": 0.030063999816775322,
+      "timing": {
+        "clock": "CUDA events on the current stream",
+        "mode": "eager",
+        "warmup": 3,
+        "repetitions": 10,
+        "summary": "median",
+        "median_ms": 0.030063999816775322,
+        "samples_ms": [
+          0.036320000886917114,
+          0.03276799991726875,
+          0.03244800120592117,
+          0.03244800120592117,
+          0.0297279991209507,
+          0.030368000268936157,
+          0.02953599952161312,
+          0.029472000896930695,
+          0.029279999434947968,
+          0.029759999364614487
+        ]
+      },
+      "timing_scope": "public call; output allocation included",
+      "baseline_provider": {
+        "name": "PyTorch",
+        "version": "2.12.1"
+      },
+      "baseline_correctness": {
+        "passed": true,
+        "rtol": 0.05,
+        "atol": 0.05,
+        "max_error": 0.2496490478515625,
+        "rms_relative_error": 0.0016544322891303396
+      },
+      "baseline_latency_ms": 0.018543999642133713,
+      "baseline_timing": {
+        "clock": "CUDA events on the current stream",
+        "mode": "eager",
+        "warmup": 3,
+        "repetitions": 10,
+        "summary": "median",
+        "median_ms": 0.018543999642133713,
+        "samples_ms": [
+          0.018144000321626663,
+          0.01852799952030182,
+          0.01865600049495697,
+          0.022272000089287758,
+          0.018880000337958336,
+          0.017952000722289085,
+          0.018559999763965607,
+          0.019071999937295914,
+          0.018271999433636665,
+          0.018239999189972878
+        ]
+      }
+    },
+    {
+      "name": "matmul/pipelined",
+      "inputs": {
+        "m": 512,
+        "n": 512,
+        "k": 512,
+        "dtype": "bfloat16"
+      },
+      "provider": {
+        "name": "fa5060/Triton",
+        "version": "0.1.0",
+        "triton_version": "3.7.1"
+      },
+      "reference": {
+        "name": "torch.matmul fp32 inputs, float32_matmul_precision=highest",
+        "torch_version": "2.12.1"
+      },
+      "correctness": {
+        "passed": true,
+        "rtol": 0.05,
+        "atol": 0.05,
+        "max_error": 0.2496490478515625,
+        "rms_relative_error": 0.0016544322891303396
+      },
+      "max_error": 0.2496490478515625,
+      "latency_ms": 0.029888000339269638,
+      "timing": {
+        "clock": "CUDA events on the current stream",
+        "mode": "eager",
+        "warmup": 3,
+        "repetitions": 10,
+        "summary": "median",
+        "median_ms": 0.029888000339269638,
+        "samples_ms": [
+          0.03670400008559227,
+          0.033440001308918,
+          0.03606399893760681,
+          0.0318400003015995,
+          0.028991999104619026,
+          0.02956799976527691,
+          0.02924799919128418,
+          0.030208000913262367,
+          0.028192000463604927,
+          0.028224000707268715
+        ]
+      },
+      "timing_scope": "public call; output allocation included",
+      "baseline_provider": {
+        "name": "PyTorch",
+        "version": "2.12.1"
+      },
+      "baseline_correctness": {
+        "passed": true,
+        "rtol": 0.05,
+        "atol": 0.05,
+        "max_error": 0.2496490478515625,
+        "rms_relative_error": 0.0016544322891303396
+      },
+      "baseline_latency_ms": 0.01867199968546629,
+      "baseline_timing": {
+        "clock": "CUDA events on the current stream",
+        "mode": "eager",
+        "warmup": 3,
+        "repetitions": 10,
+        "summary": "median",
+        "median_ms": 0.01867199968546629,
+        "samples_ms": [
+          0.01942400075495243,
+          0.019039999693632126,
+          0.017696000635623932,
+          0.017823999747633934,
+          0.019487999379634857,
+          0.01913600042462349,
+          0.018303999677300453,
+          0.018239999189972878,
+          0.019392000511288643,
+          0.018271999433636665
+        ]
+      }
+    },
+    {
+      "name": "matmul/persistent",
+      "inputs": {
+        "m": 512,
+        "n": 512,
+        "k": 512,
+        "dtype": "bfloat16"
+      },
+      "provider": {
+        "name": "fa5060/Triton",
+        "version": "0.1.0",
+        "triton_version": "3.7.1"
+      },
+      "reference": {
+        "name": "torch.matmul fp32 inputs, float32_matmul_precision=highest",
+        "torch_version": "2.12.1"
+      },
+      "correctness": {
+        "passed": true,
+        "rtol": 0.05,
+        "atol": 0.05,
+        "max_error": 0.2496490478515625,
+        "rms_relative_error": 0.0016544322891303396
+      },
+      "max_error": 0.2496490478515625,
+      "latency_ms": 0.038656000047922134,
+      "timing": {
+        "clock": "CUDA events on the current stream",
+        "mode": "eager",
+        "warmup": 3,
+        "repetitions": 10,
+        "summary": "median",
+        "median_ms": 0.038656000047922134,
+        "samples_ms": [
+          0.04499199986457825,
+          0.041280001401901245,
+          0.03929600119590759,
+          0.03830400109291077,
+          0.0390079990029335,
+          0.03750399872660637,
+          0.03782400116324425,
+          0.036607999354600906,
+          0.036896001547575,
+          0.03907199949026108
+        ]
+      },
+      "timing_scope": "public call; output allocation included",
+      "baseline_provider": {
+        "name": "PyTorch",
+        "version": "2.12.1"
+      },
+      "baseline_correctness": {
+        "passed": true,
+        "rtol": 0.05,
+        "atol": 0.05,
+        "max_error": 0.2496490478515625,
+        "rms_relative_error": 0.0016544322891303396
+      },
+      "baseline_latency_ms": 0.01905599981546402,
+      "baseline_timing": {
+        "clock": "CUDA events on the current stream",
+        "mode": "eager",
+        "warmup": 3,
+        "repetitions": 10,
+        "summary": "median",
+        "median_ms": 0.01905599981546402,
+        "samples_ms": [
+          0.019872000440955162,
+          0.019328000023961067,
+          0.01913600042462349,
+          0.019231999292969704,
+          0.01897599920630455,
+          0.018880000337958336,
+          0.018432000651955605,
+          0.01929599978029728,
+          0.018592000007629395,
+          0.018751999363303185
+        ]
+      }
+    }
+  ],
+  "notes": [
+    "Numerical checks precede all timing; latency_ms is a median of 10 CUDA-event samples.",
+    "Teaching experiments are not an exhaustive benchmark or SOTA claim.",
+    "FP32 numerical references are separate from same-dtype PyTorch timing baselines.",
+    "Attention has a numerical reference only; no native paged performance baseline is claimed."
+  ]
+}
