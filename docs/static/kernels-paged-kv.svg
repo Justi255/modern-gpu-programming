@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="470" viewBox="0 0 1100 470" role="img" aria-labelledby="title desc">
+<title id="title">分页 KV 的逻辑与物理地址</title><desc id="desc">逻辑序列页通过块表映射到五个物理页，最后一个逻辑页只有部分 token 有效。</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 10 5 0 10Z" fill="#475569"/></marker></defs>
+<rect width="1100" height="470" rx="20" fill="#f8fafc"/>
+<g font-family="system-ui, 'Noto Sans CJK SC', sans-serif" fill="#0f172a">
+<text x="35" y="43" font-size="23" font-weight="700">分页 KV：示例 page=16，寻址改变，逻辑序列不变</text>
+<text x="35" y="95" font-size="19" font-weight="600">逻辑序列</text>
+<text x="35" y="130" font-size="17">b=0，L=35</text>
+<rect x="35" y="145" width="100" height="54" rx="5" fill="#bfdbfe"/><rect x="145" y="145" width="100" height="54" rx="5" fill="#bfdbfe"/><rect x="255" y="145" width="100" height="54" rx="5" fill="#e2e8f0"/><rect x="255" y="145" width="19" height="54" rx="5" fill="#bfdbfe"/>
+<text x="57" y="178" font-size="17">页 0</text><text x="167" y="178" font-size="17">页 1</text><text x="277" y="178" font-size="17">页 2</text>
+<text x="35" y="240" font-size="17">b=1，L=18</text>
+<rect x="35" y="255" width="100" height="54" rx="5" fill="#a7f3d0"/><rect x="145" y="255" width="100" height="54" rx="5" fill="#e2e8f0"/><rect x="145" y="255" width="13" height="54" rx="5" fill="#a7f3d0"/>
+<text x="57" y="288" font-size="17">页 0</text><text x="167" y="288" font-size="17">页 1</text>
+<path d="M375 211H436" stroke="#475569" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="450" y="126" width="230" height="178" rx="12" fill="white" stroke="#94a3b8"/>
+<text x="470" y="157" font-size="19" font-weight="600">block_table</text><text x="470" y="193" font-size="18">b=0： [3, 0, 4]</text><text x="470" y="231" font-size="18">b=1： [2, 1, …]</text><text x="470" y="278" font-size="15" fill="#475569">只访问有效逻辑页</text>
+<path d="M689 211H748" stroke="#475569" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="770" y="95" font-size="19" font-weight="600">物理页池 [P,page,Hkv,D]</text>
+<rect x="770" y="112" width="285" height="39" rx="5" fill="#bfdbfe"/><rect x="770" y="157" width="285" height="39" rx="5" fill="#a7f3d0"/><rect x="770" y="202" width="285" height="39" rx="5" fill="#a7f3d0"/><rect x="770" y="247" width="285" height="39" rx="5" fill="#bfdbfe"/><rect x="770" y="292" width="285" height="39" rx="5" fill="#bfdbfe"/>
+<g font-size="17"><text x="787" y="138">物理 0 ← b0 / 逻辑页 1</text><text x="787" y="183">物理 1 ← b1 / 逻辑页 1</text><text x="787" y="228">物理 2 ← b1 / 逻辑页 0</text><text x="787" y="273">物理 3 ← b0 / 逻辑页 0</text><text x="787" y="318">物理 4 ← b0 / 逻辑页 2</text></g>
+<rect x="35" y="367" width="1020" height="70" rx="12" fill="white" stroke="#cbd5e1"/>
+<text x="55" y="395" font-size="18" font-weight="600">j → logical_page = j // page → physical_page = table[b, logical_page]</text>
+<text x="55" y="422" font-size="17" fill="#475569">页内位置 = j % page；有效性与 causal 使用逻辑 j，不能使用物理页编号。</text>
+</g></svg>

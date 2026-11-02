@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="470" viewBox="0 0 1100 470" role="img" aria-labelledby="title desc">
+<title id="title">在线 softmax 的状态更新</title><desc id="desc">当前分数块确定新最大值，历史分母和加权和共同重缩放，再加上新块贡献。</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 10 5 0 10Z" fill="#475569"/></marker></defs>
+<rect width="1100" height="470" rx="20" fill="#f8fafc"/>
+<g font-family="system-ui, 'Noto Sans CJK SC', sans-serif" fill="#0f172a">
+<text x="35" y="43" font-size="23" font-weight="700">在线 softmax：同一个指数基准，同时作用于分母与输出累计</text>
+<rect x="35" y="94" width="180" height="66" rx="10" fill="#bfdbfe"/><text x="55" y="121" font-size="18" font-weight="600">Q 块 × K 块ᵀ</text><text x="55" y="146" font-size="16">缩放并应用 mask</text>
+<rect x="282" y="94" width="220" height="66" rx="10" fill="#dbeafe"/><text x="302" y="122" font-size="18">当前分数 S</text><text x="302" y="147" font-size="16">m′ = max(m, rowmax S)</text>
+<path d="M215 127H277" stroke="#475569" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="570" y="94" width="232" height="66" rx="10" fill="#a7f3d0"/><text x="590" y="122" font-size="18">P = exp(S − m′)</text><text x="590" y="147" font-size="16">仅保存当前块</text>
+<path d="M502 127H565" stroke="#475569" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="870" y="94" width="195" height="66" rx="10" fill="#d1fae5"/><text x="889" y="122" font-size="18">sum(P)、P × V</text><text x="889" y="147" font-size="16">新块的两项贡献</text>
+<path d="M802 127H865" stroke="#475569" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="35" y="232" width="215" height="86" rx="10" fill="#e2e8f0"/><text x="55" y="262" font-size="18" font-weight="600">历史状态 m、ℓ、u</text><text x="55" y="289" font-size="16">u 为未归一化加权和</text>
+<rect x="323" y="232" width="265" height="86" rx="10" fill="#fed7aa"/><text x="343" y="262" font-size="18">α = exp(m − m′)</text><text x="343" y="289" font-size="18">ℓ ← αℓ；u ← αu</text>
+<path d="M250 275H318" stroke="#475569" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M393 160V204H455V227" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="690" y="232" width="375" height="86" rx="10" fill="#ffedd5"/><text x="710" y="262" font-size="18">ℓ′ = αℓ + sum(P)</text><text x="710" y="289" font-size="18">u′ = αu + P × V；m ← m′</text>
+<path d="M588 275H685" stroke="#475569" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M966 160V227" stroke="#475569" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="35" y="361" width="1030" height="76" rx="12" fill="white" stroke="#cbd5e1"/>
+<text x="55" y="390" font-size="18" font-weight="600">扫描全部 KV 后只归一化一次：O = u / ℓ。</text>
+<text x="55" y="418" font-size="16" fill="#475569">全掩码行使用安全指数基准；ℓ = 0 时输出零，避免 −∞ − (−∞) 与 0/0。</text>
+</g></svg>

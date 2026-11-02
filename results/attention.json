@@ -1,0 +1,668 @@
+{
+  "schema_version": 1,
+  "suite": "attention",
+  "seed": 20261102,
+  "environment": {
+    "schema_version": 1,
+    "timestamp_utc": "2026-11-02T06:43:02.683602+00:00",
+    "python": {
+      "version": "3.13.13",
+      "sys_version": "3.13.13 | packaged by Anaconda, Inc. | (main, Apr 14 2026, 06:19:41) [GCC 14.3.0]",
+      "implementation": "CPython",
+      "compiler": "GCC 14.3.0",
+      "executable": "/home/justi/Workspace/cuda/fa/.venv/bin/python"
+    },
+    "platform": {
+      "system": "Linux",
+      "release": "7.0.0-42-generic",
+      "machine": "x86_64",
+      "description": "Linux-7.0.0-42-generic-x86_64-with-glibc2.43"
+    },
+    "packages": {
+      "modern-gpu-programming-5060": "0.1.0",
+      "numpy": "2.5.0",
+      "torch": "2.12.1",
+      "triton": "3.7.1",
+      "flashinfer-python": null,
+      "flash-attn-4": "4.0.0b37",
+      "flash-attn": null
+    },
+    "cuda_build": "13.0",
+    "cuda_available": true,
+    "gpus": [
+      {
+        "index": 0,
+        "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+        "compute_capability": [
+          12,
+          0
+        ],
+        "sm_count": 26,
+        "total_memory_bytes": 8055947264,
+        "l2_cache_bytes": 33554432,
+        "shared_memory_per_block_bytes": 49152,
+        "shared_memory_per_block_optin_bytes": 101376,
+        "shared_memory_per_sm_bytes": 102400,
+        "warp_size": 32,
+        "max_threads_per_block": 1024
+      }
+    ],
+    "gpu_unavailable_reason": null,
+    "nvidia_smi": {
+      "available": true,
+      "devices": [
+        {
+          "index": 0,
+          "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+          "driver_version": "595.99.02",
+          "performance_state": "P2",
+          "power_draw_watts": 12.62,
+          "power_limit_watts": null,
+          "sm_clock_mhz": 1567,
+          "memory_clock_mhz": 11001,
+          "temperature_celsius": 50
+        }
+      ],
+      "error": null
+    },
+    "compiler": {
+      "nvcc": {
+        "available": false,
+        "output": null,
+        "returncode": null,
+        "error": "FileNotFoundError: [Errno 2] No such file or directory: 'nvcc'"
+      },
+      "ptxas": {
+        "available": false,
+        "output": null,
+        "returncode": null,
+        "error": "FileNotFoundError: [Errno 2] No such file or directory: 'ptxas'"
+      },
+      "triton_version": "3.7.1"
+    }
+  },
+  "records": [
+    {
+      "name": "attention/prefill/dense",
+      "inputs": {
+        "q_shape": [
+          3,
+          17,
+          4,
+          64
+        ],
+        "kv_shape": [
+          3,
+          80,
+          2,
+          64
+        ],
+        "dtype": "float16",
+        "layout": "dense",
+        "kv_lens": [
+          79,
+          53,
+          0
+        ],
+        "page_size": null,
+        "block_table_shape": null,
+        "causal": true,
+        "num_splits": null
+      },
+      "provider": {
+        "name": "fa5060/Triton",
+        "version": "0.1.0",
+        "triton_version": "3.7.1"
+      },
+      "reference": {
+        "name": "fa5060.reference.attention_reference blockwise fp32",
+        "torch_version": "2.12.1"
+      },
+      "correctness": {
+        "passed": true,
+        "rtol": 0.01,
+        "atol": 0.01,
+        "max_error": 0.00048828125,
+        "rms_relative_error": 0.00027920498095900366
+      },
+      "max_error": 0.00048828125,
+      "latency_ms": 0.029360000044107437,
+      "timing": {
+        "clock": "CUDA events on the current stream",
+        "mode": "eager",
+        "warmup": 3,
+        "repetitions": 10,
+        "summary": "median",
+        "median_ms": 0.029360000044107437,
+        "samples_ms": [
+          0.05071999877691269,
+          0.03471999987959862,
+          0.03030399978160858,
+          0.02940800040960312,
+          0.030400000512599945,
+          0.028063999488949776,
+          0.026976000517606735,
+          0.029311999678611755,
+          0.027488000690937042,
+          0.02630399912595749
+        ]
+      },
+      "timing_scope": "eager attention call; preallocated output and decode workspace; no cache update",
+      "baseline_provider": null,
+      "baseline_correctness": null,
+      "baseline_latency_ms": null,
+      "baseline_timing": null
+    },
+    {
+      "name": "attention/decode/dense",
+      "inputs": {
+        "q_shape": [
+          3,
+          4,
+          64
+        ],
+        "kv_shape": [
+          3,
+          80,
+          2,
+          64
+        ],
+        "dtype": "float16",
+        "layout": "dense",
+        "kv_lens": [
+          79,
+          53,
+          0
+        ],
+        "page_size": null,
+        "block_table_shape": null,
+        "causal": false,
+        "num_splits": 2
+      },
+      "provider": {
+        "name": "fa5060/Triton",
+        "version": "0.1.0",
+        "triton_version": "3.7.1"
+      },
+      "reference": {
+        "name": "fa5060.reference.attention_reference blockwise fp32",
+        "torch_version": "2.12.1"
+      },
+      "correctness": {
+        "passed": true,
+        "rtol": 0.01,
+        "atol": 0.01,
+        "max_error": 6.103515625e-05,
+        "rms_relative_error": 1.2915599523064423e-05
+      },
+      "max_error": 6.103515625e-05,
+      "latency_ms": 0.035071998834609985,
+      "timing": {
+        "clock": "CUDA events on the current stream",
+        "mode": "eager",
+        "warmup": 3,
+        "repetitions": 10,
+        "summary": "median",
+        "median_ms": 0.035071998834609985,
+        "samples_ms": [
+          0.04623999819159508,
+          0.04483199864625931,
+          0.040511999279260635,
+          0.035071998834609985,
+          0.035071998834609985,
+          0.033535998314619064,
+          0.03276799991726875,
+          0.03513599932193756,
+          0.034143999218940735,
+          0.034143999218940735
+        ]
+      },
+      "timing_scope": "eager attention call; preallocated output and decode workspace; no cache update",
+      "baseline_provider": null,
+      "baseline_correctness": null,
+      "baseline_latency_ms": null,
+      "baseline_timing": null
+    },
+    {
+      "name": "attention/prefill/paged",
+      "inputs": {
+        "q_shape": [
+          3,
+          17,
+          4,
+          64
+        ],
+        "kv_shape": [
+          15,
+          16,
+          2,
+          64
+        ],
+        "dtype": "float16",
+        "layout": "paged",
+        "kv_lens": [
+          79,
+          53,
+          0
+        ],
+        "page_size": 16,
+        "block_table_shape": [
+          3,
+          5
+        ],
+        "causal": true,
+        "num_splits": null
+      },
+      "provider": {
+        "name": "fa5060/Triton",
+        "version": "0.1.0",
+        "triton_version": "3.7.1"
+      },
+      "reference": {
+        "name": "fa5060.reference.attention_reference blockwise fp32",
+        "torch_version": "2.12.1"
+      },
+      "correctness": {
+        "passed": true,
+        "rtol": 0.01,
+        "atol": 0.01,
+        "max_error": 0.00048828125,
+        "rms_relative_error": 0.00027920498095900366
+      },
+      "max_error": 0.00048828125,
+      "latency_ms": 0.02812799997627735,
+      "timing": {
+        "clock": "CUDA events on the current stream",
+        "mode": "eager",
+        "warmup": 3,
+        "repetitions": 10,
+        "summary": "median",
+        "median_ms": 0.02812799997627735,
+        "samples_ms": [
+          0.03721600025892258,
+          0.03561599925160408,
+          0.029664000496268272,
+          0.027775999158620834,
+          0.02707199938595295,
+          0.026528000831604004,
+          0.028896000236272812,
+          0.02848000079393387,
+          0.02755199931561947,
+          0.025728000327944756
+        ]
+      },
+      "timing_scope": "eager attention call; preallocated output and decode workspace; no cache update",
+      "baseline_provider": null,
+      "baseline_correctness": null,
+      "baseline_latency_ms": null,
+      "baseline_timing": null
+    },
+    {
+      "name": "attention/decode/paged",
+      "inputs": {
+        "q_shape": [
+          3,
+          4,
+          64
+        ],
+        "kv_shape": [
+          15,
+          16,
+          2,
+          64
+        ],
+        "dtype": "float16",
+        "layout": "paged",
+        "kv_lens": [
+          79,
+          53,
+          0
+        ],
+        "page_size": 16,
+        "block_table_shape": [
+          3,
+          5
+        ],
+        "causal": false,
+        "num_splits": 2
+      },
+      "provider": {
+        "name": "fa5060/Triton",
+        "version": "0.1.0",
+        "triton_version": "3.7.1"
+      },
+      "reference": {
+        "name": "fa5060.reference.attention_reference blockwise fp32",
+        "torch_version": "2.12.1"
+      },
+      "correctness": {
+        "passed": true,
+        "rtol": 0.01,
+        "atol": 0.01,
+        "max_error": 6.103515625e-05,
+        "rms_relative_error": 1.2915599523064423e-05
+      },
+      "max_error": 6.103515625e-05,
+      "latency_ms": 0.03630400076508522,
+      "timing": {
+        "clock": "CUDA events on the current stream",
+        "mode": "eager",
+        "warmup": 3,
+        "repetitions": 10,
+        "summary": "median",
+        "median_ms": 0.03630400076508522,
+        "samples_ms": [
+          0.04912000149488449,
+          0.040383998304605484,
+          0.03680000081658363,
+          0.03580800071358681,
+          0.040063999593257904,
+          0.035071998834609985,
+          0.0342399999499321,
+          0.0379519984126091,
+          0.03532800078392029,
+          0.03315199911594391
+        ]
+      },
+      "timing_scope": "eager attention call; preallocated output and decode workspace; no cache update",
+      "baseline_provider": null,
+      "baseline_correctness": null,
+      "baseline_latency_ms": null,
+      "baseline_timing": null
+    },
+    {
+      "name": "attention/prefill/dense",
+      "inputs": {
+        "q_shape": [
+          3,
+          17,
+          4,
+          128
+        ],
+        "kv_shape": [
+          3,
+          80,
+          2,
+          128
+        ],
+        "dtype": "bfloat16",
+        "layout": "dense",
+        "kv_lens": [
+          79,
+          53,
+          0
+        ],
+        "page_size": null,
+        "block_table_shape": null,
+        "causal": true,
+        "num_splits": null
+      },
+      "provider": {
+        "name": "fa5060/Triton",
+        "version": "0.1.0",
+        "triton_version": "3.7.1"
+      },
+      "reference": {
+        "name": "fa5060.reference.attention_reference blockwise fp32",
+        "torch_version": "2.12.1"
+      },
+      "correctness": {
+        "passed": true,
+        "rtol": 0.03,
+        "atol": 0.03,
+        "max_error": 0.00390625,
+        "rms_relative_error": 0.002247555821116987
+      },
+      "max_error": 0.00390625,
+      "latency_ms": 0.057471999898552895,
+      "timing": {
+        "clock": "CUDA events on the current stream",
+        "mode": "eager",
+        "warmup": 3,
+        "repetitions": 10,
+        "summary": "median",
+        "median_ms": 0.057471999898552895,
+        "samples_ms": [
+          0.07580800354480743,
+          0.06412799656391144,
+          0.05913599953055382,
+          0.0594559982419014,
+          0.05580800026655197,
+          0.05510399863123894,
+          0.06470400094985962,
+          0.054207999259233475,
+          0.05315199866890907,
+          0.05552000179886818
+        ]
+      },
+      "timing_scope": "eager attention call; preallocated output and decode workspace; no cache update",
+      "baseline_provider": null,
+      "baseline_correctness": null,
+      "baseline_latency_ms": null,
+      "baseline_timing": null
+    },
+    {
+      "name": "attention/decode/dense",
+      "inputs": {
+        "q_shape": [
+          3,
+          4,
+          128
+        ],
+        "kv_shape": [
+          3,
+          80,
+          2,
+          128
+        ],
+        "dtype": "bfloat16",
+        "layout": "dense",
+        "kv_lens": [
+          79,
+          53,
+          0
+        ],
+        "page_size": null,
+        "block_table_shape": null,
+        "causal": false,
+        "num_splits": 2
+      },
+      "provider": {
+        "name": "fa5060/Triton",
+        "version": "0.1.0",
+        "triton_version": "3.7.1"
+      },
+      "reference": {
+        "name": "fa5060.reference.attention_reference blockwise fp32",
+        "torch_version": "2.12.1"
+      },
+      "correctness": {
+        "passed": true,
+        "rtol": 0.03,
+        "atol": 0.03,
+        "max_error": 0.0,
+        "rms_relative_error": 0.0
+      },
+      "max_error": 0.0,
+      "latency_ms": 0.03339199908077717,
+      "timing": {
+        "clock": "CUDA events on the current stream",
+        "mode": "eager",
+        "warmup": 3,
+        "repetitions": 10,
+        "summary": "median",
+        "median_ms": 0.03339199908077717,
+        "samples_ms": [
+          0.04790399968624115,
+          0.03827200084924698,
+          0.03526400029659271,
+          0.03296000137925148,
+          0.03219199925661087,
+          0.03267199918627739,
+          0.0331839993596077,
+          0.034912001341581345,
+          0.03359999880194664,
+          0.03270399942994118
+        ]
+      },
+      "timing_scope": "eager attention call; preallocated output and decode workspace; no cache update",
+      "baseline_provider": null,
+      "baseline_correctness": null,
+      "baseline_latency_ms": null,
+      "baseline_timing": null
+    },
+    {
+      "name": "attention/prefill/paged",
+      "inputs": {
+        "q_shape": [
+          3,
+          17,
+          4,
+          128
+        ],
+        "kv_shape": [
+          15,
+          16,
+          2,
+          128
+        ],
+        "dtype": "bfloat16",
+        "layout": "paged",
+        "kv_lens": [
+          79,
+          53,
+          0
+        ],
+        "page_size": 16,
+        "block_table_shape": [
+          3,
+          5
+        ],
+        "causal": true,
+        "num_splits": null
+      },
+      "provider": {
+        "name": "fa5060/Triton",
+        "version": "0.1.0",
+        "triton_version": "3.7.1"
+      },
+      "reference": {
+        "name": "fa5060.reference.attention_reference blockwise fp32",
+        "torch_version": "2.12.1"
+      },
+      "correctness": {
+        "passed": true,
+        "rtol": 0.03,
+        "atol": 0.03,
+        "max_error": 0.00390625,
+        "rms_relative_error": 0.002247555821116987
+      },
+      "max_error": 0.00390625,
+      "latency_ms": 0.05867200158536434,
+      "timing": {
+        "clock": "CUDA events on the current stream",
+        "mode": "eager",
+        "warmup": 3,
+        "repetitions": 10,
+        "summary": "median",
+        "median_ms": 0.05867200158536434,
+        "samples_ms": [
+          0.08166400343179703,
+          0.07145600020885468,
+          0.06521599739789963,
+          0.06111999973654747,
+          0.0589120015501976,
+          0.05843200162053108,
+          0.057631999254226685,
+          0.057151999324560165,
+          0.05612799897789955,
+          0.05740800127387047
+        ]
+      },
+      "timing_scope": "eager attention call; preallocated output and decode workspace; no cache update",
+      "baseline_provider": null,
+      "baseline_correctness": null,
+      "baseline_latency_ms": null,
+      "baseline_timing": null
+    },
+    {
+      "name": "attention/decode/paged",
+      "inputs": {
+        "q_shape": [
+          3,
+          4,
+          128
+        ],
+        "kv_shape": [
+          15,
+          16,
+          2,
+          128
+        ],
+        "dtype": "bfloat16",
+        "layout": "paged",
+        "kv_lens": [
+          79,
+          53,
+          0
+        ],
+        "page_size": 16,
+        "block_table_shape": [
+          3,
+          5
+        ],
+        "causal": false,
+        "num_splits": 2
+      },
+      "provider": {
+        "name": "fa5060/Triton",
+        "version": "0.1.0",
+        "triton_version": "3.7.1"
+      },
+      "reference": {
+        "name": "fa5060.reference.attention_reference blockwise fp32",
+        "torch_version": "2.12.1"
+      },
+      "correctness": {
+        "passed": true,
+        "rtol": 0.03,
+        "atol": 0.03,
+        "max_error": 0.0,
+        "rms_relative_error": 0.0
+      },
+      "max_error": 0.0,
+      "latency_ms": 0.045711999759078026,
+      "timing": {
+        "clock": "CUDA events on the current stream",
+        "mode": "eager",
+        "warmup": 3,
+        "repetitions": 10,
+        "summary": "median",
+        "median_ms": 0.045711999759078026,
+        "samples_ms": [
+          0.08124800026416779,
+          0.0514880008995533,
+          0.047968000173568726,
+          0.0459199994802475,
+          0.04419200122356415,
+          0.045504000037908554,
+          0.04521600157022476,
+          0.047839999198913574,
+          0.043455999344587326,
+          0.04390399903059006
+        ]
+      },
+      "timing_scope": "eager attention call; preallocated output and decode workspace; no cache update",
+      "baseline_provider": null,
+      "baseline_correctness": null,
+      "baseline_latency_ms": null,
+      "baseline_timing": null
+    }
+  ],
+  "notes": [
+    "Numerical checks precede all timing; latency_ms is a median of 10 CUDA-event samples.",
+    "Teaching experiments are not an exhaustive benchmark or SOTA claim.",
+    "FP32 numerical references are separate from same-dtype PyTorch timing baselines.",
+    "Attention has a numerical reference only; no native paged performance baseline is claimed."
+  ]
+}

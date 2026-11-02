@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="495" viewBox="0 0 1100 495" role="img" aria-labelledby="title desc">
+<title id="title">split-KV 的两个阶段</title><desc id="desc">三个分段并行计算最大值分母和加权和，第二阶段把它们换到共同最大值后归约。</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 10 5 0 10Z" fill="#475569"/></marker></defs>
+<rect width="1100" height="495" rx="20" fill="#f8fafc"/>
+<g font-family="system-ui, 'Noto Sans CJK SC', sans-serif" fill="#0f172a">
+<text x="35" y="43" font-size="23" font-weight="700">split-KV：为少量查询展开 KV 轴并行度</text>
+<rect x="35" y="91" width="120" height="227" rx="12" fill="#e2e8f0"/>
+<text x="58" y="175" font-size="20" font-weight="600">同一个 q</text><text x="55" y="208" font-size="16">一个查询头</text><text x="55" y="235" font-size="16">只读 KV</text>
+<rect x="220" y="91" width="245" height="60" rx="10" fill="#bfdbfe"/><rect x="220" y="174" width="245" height="60" rx="10" fill="#a7f3d0"/><rect x="220" y="257" width="245" height="60" rx="10" fill="#fed7aa"/>
+<g font-size="18"><text x="240" y="116">段 0：KV[0 : t₁]</text><text x="240" y="140">局部 m₀、ℓ₀、u₀</text><text x="240" y="199">段 1：KV[t₁ : t₂]</text><text x="240" y="223">局部 m₁、ℓ₁、u₁</text><text x="240" y="282">段 2：KV[t₂ : L]</text><text x="240" y="306">局部 m₂、ℓ₂、u₂</text></g>
+<path d="M155 204H185V121H215M185 204H215M185 204V287H215" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="545" y="91" width="190" height="227" rx="12" fill="white" stroke="#94a3b8"/>
+<text x="565" y="126" font-size="19" font-weight="600">scratch</text><text x="565" y="167" font-size="17">每段 fp32 状态</text><text x="565" y="204" font-size="17">最大值 mᵣ</text><text x="565" y="240" font-size="17">分母 ℓᵣ</text><text x="565" y="276" font-size="17">加权和 uᵣ[D]</text>
+<path d="M465 121H540M465 204H540M465 287H540" stroke="#475569" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="805" y="91" width="260" height="227" rx="12" fill="#dbeafe"/>
+<text x="825" y="126" font-size="19" font-weight="600">合并 kernel</text><text x="825" y="167" font-size="18">m = maxᵣ mᵣ</text><text x="825" y="204" font-size="18">wᵣ = exp(mᵣ − m)</text><text x="825" y="240" font-size="18">ℓ = Σᵣ wᵣ ℓᵣ</text><text x="825" y="276" font-size="18">O = (Σᵣ wᵣ uᵣ) / ℓ</text>
+<path d="M735 204H800" stroke="#475569" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="35" y="363" width="1030" height="98" rx="12" fill="white" stroke="#cbd5e1"/>
+<text x="55" y="392" font-size="18" font-weight="600">增加 splits：更多第一阶段工作，也有更多 scratch 流量与合并成本。</text>
+<text x="55" y="421" font-size="17" fill="#475569">空段贡献零分母与零加权和；全空序列输出零。局部输出不能简单平均。</text>
+<text x="55" y="447" font-size="16" fill="#475569">输出与 workspace 可在计时或图捕获前分配；并发调用必须使用独立可写缓冲。</text>
+</g></svg>

@@ -4,6 +4,8 @@
 -e .[docs,test]
 torch==2.12.1
 triton==3.7.1
+numpy==2.5.0
+pytest==9.1.1
 flashinfer-python==0.7.2.post1
 flash-attn-4[cu13]==4.0.0b37
 nvidia-cutlass-dsl[cu13]==4.8.1
