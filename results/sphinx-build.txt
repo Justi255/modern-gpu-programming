@@ -1,0 +1,49 @@
+Running Sphinx v8.2.3
+loading translations [zh_CN]... done
+loading pickled environment... The configuration has changed (7 options: 'html_context', 'html_permalinks_icon', 'html_sourcelink_suffix', 'html_static_path', 'html_theme_options', ...)
+done
+myst v4.0.1: MdParserConfig(commonmark_only=False, gfm_only=False, enable_extensions={'amsmath', 'dollarmath', 'colon_fence'}, disable_syntax=[], all_links_external=False, links_external_new_tab=False, url_schemes=('http', 'https', 'mailto', 'ftp'), ref_domains=None, fence_as_directive=set(), number_code_blocks=[], title_to_header=False, heading_anchors=3, heading_slug_func=None, html_meta={}, footnote_sort=True, footnote_transition=True, words_per_minute=200, substitutions={}, linkify_fuzzy_links=True, dmath_allow_labels=True, dmath_allow_space=True, dmath_allow_digits=True, dmath_double_inline=False, update_mathjax=True, mathjax_classes='tex2jax_process|mathjax_process|math|output_area', enable_checkboxes=False, suppress_warnings=[], highlight_code_blocks=True)
+building [mo]: targets for 0 po files that are out of date
+writing output...
+building [html]: targets for 1 source files that are out of date
+updating environment: 0 added, 1 changed, 0 removed
+reading sources... [100%] 15-results
+
+looking for now-outdated files... none found
+pickling environment... done
+checking consistency... done
+preparing documents... done
+copying assets...
+copying downloadable files... [  8%] ../../results/full-tuned.json
+copying downloadable files... [ 15%] ../../results/cases.csv
+copying downloadable files... [ 23%] ../../results/regressions.csv
+copying downloadable files... [ 31%] ../../results/providers.csv
+copying downloadable files... [ 38%] ../../results/manifest-full.json
+copying downloadable files... [ 46%] ../../results/selected-configs.json
+copying downloadable files... [ 54%] ../../results/full-telemetry.csv
+copying downloadable files... [ 62%] ../../results/provider-sources.json
+copying downloadable files... [ 69%] ../../results/smoke.json
+copying downloadable files... [ 77%] ../../results/basics.json
+copying downloadable files... [ 85%] ../../results/gemm.json
+copying downloadable files... [ 92%] ../../results/attention.json
+copying downloadable files... [100%] ../../results/verification.json
+
+copying static files...
+Writing evaluated template result to /home/justi/Workspace/cuda/fa/_build/html/_static/language_data.js
+Writing evaluated template result to /home/justi/Workspace/cuda/fa/_build/html/_static/documentation_options.js
+Writing evaluated template result to /home/justi/Workspace/cuda/fa/_build/html/_static/basic.css
+Writing evaluated template result to /home/justi/Workspace/cuda/fa/_build/html/_static/copybutton.js
+copying static files: done
+copying extra files...
+copying extra files: done
+copying assets: done
+writing output... [ 50%] 15-results
+writing output... [100%] index
+
+generating indices... genindex done
+writing additional pages... search done
+dumping search index in Chinese (code: zh)... done
+dumping object inventory... done
+build succeeded.
+
+The HTML pages are in _build/html.

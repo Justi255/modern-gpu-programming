@@ -1,0 +1,24 @@
+{
+  "versions": {
+    "flash-attn-4": "4.0.0b37",
+    "flashinfer-python": "0.7.2.post1",
+    "nvidia-cutlass-dsl": "4.8.1"
+  },
+  "files": {
+    "flash_attn/cute/interface.py": "03fd903e7bc517db21fde26a706de7220be043fb9153bbaa90176fad8f13aaf9",
+    "flash_attn/cute/flash_fwd_sm120.py": "abd017add69914e46f0fcfc017ad51c3d07d79fd87d15f969036ddd82bcc7da2",
+    "flashinfer/jit/attention/fmha_v2/fmha_library.py": "d929df931333a4d89360940a791de72ede88781f913497baf789241da380e27b",
+    "flashinfer/prefill.py": "b4a51047d4ddcc5fd9deda930fe165c622b00eb183a7a958a6f3f812b6bd402d",
+    "flashinfer/decode.py": "e230c0d41ddf9383fadbeeecd4f5017064ae109f64338b6b2a849d8cdbc6fd14",
+    "flashinfer/data/include/flashinfer/attention/scheduler.cuh": "b1fb27078084262158ed070e220ad317467306d1f0b32e0d9624bf85e6ef97ce"
+  },
+  "fa4_sm120_dispatch": {
+    "module": "flash_attn.cute.interface",
+    "implementation": "flash_attn.cute.flash_fwd_sm120.FlashAttentionForwardSm120",
+    "evidence": "interface.py explicit SM120 dispatch; native smoke compilation diagnostics also name FlashAttentionForwardSm120"
+  },
+  "notes": [
+    "Third-party file hashes pin installed implementation evidence; no upstream files are vendored or modified by this project.",
+    "Dense FMHAv2 uses public ragged wrapper with timed KV packing; separate-layout diagnostic is rejected."
+  ]
+}

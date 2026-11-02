@@ -141,6 +141,19 @@ python -m fa5060.benchmark --suite full --phase decode --rounds 5 --output resul
 
 教学实验固定 split=2，覆盖同一组 [79,53,0] 长度和随机页表；`results/attention.json` 中稠密与分页 decode 均通过，FP16 最大误差 0.00006103515625，BF16 在这次输入上与存回低精度的参考相同。它验证了两阶段合并与空分段处理，不构成大上下文性能结论。
 
+调优记录中的首个 decode（B=1、L=512、Hq=Hkv=32、D=64、FP16、dense）展示了 split 数的折中。以下是完整算子的一轮图内试测，包含最终 merge；正式选中配置另测五轮。
+
+| mode | splits | 单轮试测 μs |
+|---|---:|---:|
+| vector | 1 | 13.844 |
+| grouped | 1 | 9.706 |
+| vector | 4 | 7.017 |
+| grouped | 4 | 6.468 |
+| vector | 16 | 11.702 |
+| grouped | 16 | 10.767 |
+
+本项选择 grouped、split=4。继续增加 split 后延迟回升，说明不能只优化第一阶段的并行度而忽略局部状态与合并工作。这还是 MHA 输入，`grouped` 只是内核模式名，不会把输入语义改成 GQA。查看 `results/full-tuned.json` 的对应候选，可以进一步比较不同 KV 头数和长度是否选择相同模式。
+
 ## 练习
 
 1. 构造两段，它们的最大分数相差很大，且局部 value 常数不同。手算正确合并值，再算简单平均，比较两者差异。

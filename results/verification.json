@@ -1,0 +1,41 @@
+{
+  "timestamp_utc": "2026-11-02T07:30:10.178937+00:00",
+  "source_commit": "541fd8c",
+  "source_sha256_matches_frozen_manifest": true,
+  "full_tests": {
+    "command": ".venv/bin/python -m pytest -q",
+    "exit_code": 0,
+    "passed": 284,
+    "log": "results/pytest-gpu.txt",
+    "gpu": "NVIDIA GeForce RTX 5060 Laptop GPU (SM120)"
+  },
+  "clean_cpu_tests": {
+    "command": "python -m pytest -q -m 'not gpu'",
+    "environment": "independent Python3.13 venv without torch/triton",
+    "exit_code": 0,
+    "passed": 33,
+    "skipped": 12,
+    "deselected": 4,
+    "log": "results/pytest-cpu.txt"
+  },
+  "book_examples": {
+    "syntax_checked": 21,
+    "svg_xml_checked": 12,
+    "selected_configuration_replay": "passed on RTX 5060 via chapter15 example"
+  },
+  "documentation": {
+    "command": "python -m sphinx -n -W --keep-going -b html docs _build/html",
+    "status": "passed",
+    "exit_code": 0,
+    "log": "results/sphinx-build.txt",
+    "source_pages": 20
+  },
+  "benchmark": {
+    "cases": 312,
+    "custom_correct": 312,
+    "provider_runtime_errors": 0,
+    "flashinfer_fmha_v2_numerical_failures": 4,
+    "target_met": false,
+    "report": "results/full-tuned.json"
+  }
+}

@@ -1,0 +1,2586 @@
+{
+  "schema_version": 1,
+  "environment": {
+    "schema_version": 1,
+    "timestamp_utc": "2026-11-02T06:46:12.989214+00:00",
+    "python": {
+      "version": "3.13.13",
+      "sys_version": "3.13.13 | packaged by Anaconda, Inc. | (main, Apr 14 2026, 06:19:41) [GCC 14.3.0]",
+      "implementation": "CPython",
+      "compiler": "GCC 14.3.0",
+      "executable": "/home/justi/Workspace/cuda/fa/.venv/bin/python"
+    },
+    "platform": {
+      "system": "Linux",
+      "release": "7.0.0-42-generic",
+      "machine": "x86_64",
+      "description": "Linux-7.0.0-42-generic-x86_64-with-glibc2.43"
+    },
+    "packages": {
+      "modern-gpu-programming-5060": "0.1.0",
+      "numpy": "2.5.0",
+      "torch": "2.12.1",
+      "triton": "3.7.1",
+      "flashinfer-python": "0.7.2.post1",
+      "flash-attn-4": "4.0.0b37",
+      "flash-attn": null
+    },
+    "cuda_build": "13.0",
+    "cuda_available": true,
+    "gpus": [
+      {
+        "index": 0,
+        "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+        "compute_capability": [
+          12,
+          0
+        ],
+        "sm_count": 26,
+        "total_memory_bytes": 8055947264,
+        "l2_cache_bytes": 33554432,
+        "shared_memory_per_block_bytes": 49152,
+        "shared_memory_per_block_optin_bytes": 101376,
+        "shared_memory_per_sm_bytes": 102400,
+        "warp_size": 32,
+        "max_threads_per_block": 1024
+      }
+    ],
+    "gpu_unavailable_reason": null,
+    "nvidia_smi": {
+      "available": true,
+      "devices": [
+        {
+          "index": 0,
+          "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+          "driver_version": "595.99.02",
+          "performance_state": "P4",
+          "power_draw_watts": 13.32,
+          "power_limit_watts": null,
+          "sm_clock_mhz": 690,
+          "memory_clock_mhz": 9001,
+          "temperature_celsius": 48
+        }
+      ],
+      "error": null
+    },
+    "compiler": {
+      "nvcc": {
+        "available": true,
+        "output": "nvcc: NVIDIA (R) Cuda compiler driver\nCopyright (c) 2005-2025 NVIDIA Corporation\nBuilt on Tue_Dec_16_07:23:41_PM_PST_2025\nCuda compilation tools, release 13.1, V13.1.115\nBuild cuda_13.1.r13.1/compiler.37061995_0",
+        "returncode": 0,
+        "error": null
+      },
+      "ptxas": {
+        "available": true,
+        "output": "ptxas: NVIDIA (R) Ptx optimizing assembler\nCopyright (c) 2005-2025 NVIDIA Corporation\nBuilt on Tue_Dec_16_07:22:11_PM_PST_2025\nCuda compilation tools, release 13.1, V13.1.115\nBuild cuda_13.1.r13.1/compiler.37061995_0",
+        "returncode": 0,
+        "error": null
+      },
+      "triton_version": "3.7.1"
+    }
+  },
+  "suite": "smoke",
+  "rounds": 5,
+  "tune": false,
+  "seed": 20261102,
+  "timing": {
+    "gpu_us_p50": "median of per-round CUDA Graph replay CUDA-event means",
+    "eager_us_p50": "median of per-round public eager API CUDA-event means",
+    "eager_wall_us_p50": "median of per-round synchronized public eager API wall means",
+    "round_target_ms": 10,
+    "warmup_calls": 3,
+    "graph_boundary": "complete operator including all decode splits and merge; planning outside",
+    "eager_boundary": "public operator including output/workspace allocation where API permits"
+  },
+  "cases": [
+    {
+      "id": "prefill-b1-l512-hq32-hkv32-d64-fp16-dense",
+      "phase": "prefill",
+      "batch": 1,
+      "kv_len": 512,
+      "query_len": 512,
+      "head_dim": 64,
+      "heads_q": 32,
+      "heads_kv": 32,
+      "dtype": "fp16",
+      "layout": "dense",
+      "page_size": 16,
+      "causal": true,
+      "shape": {
+        "q": [
+          1,
+          512,
+          32,
+          64
+        ],
+        "k": [
+          1,
+          512,
+          32,
+          64
+        ],
+        "v": [
+          1,
+          512,
+          32,
+          64
+        ],
+        "kv_lens": [
+          512
+        ],
+        "block_table": null,
+        "heads_q": 32,
+        "heads_kv": 32,
+        "head_dim": 64,
+        "batch": 1,
+        "query_len": 512,
+        "kv_len": 512
+      },
+      "seed": 20261102,
+      "providers": {
+        "flashinfer_fmha_v2": {
+          "status": "incorrect",
+          "validated": false,
+          "stage": "correctness",
+          "reason": "CorrectnessError: reference mismatch: max_abs=5.1760254, max_relative_atol_floor=226.50223, atol=0.02, rtol=0.02",
+          "gpu_us_p50": null,
+          "eager_us_p50": null,
+          "metadata": {
+            "backend": "fmha_v2",
+            "workspace_bytes": 134217728,
+            "planning_timed": false,
+            "input_copies": false,
+            "gqa_expansion": false,
+            "preallocated_output": true,
+            "native_paged": false,
+            "kv_layout": "NHD",
+            "api": "flashinfer.prefill.trtllm_fmha_v2_prefill",
+            "signature": "(qkv: Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor], Tuple[torch.Tensor, torch.Tensor, torch.Tensor]], input_layout: str, workspace_buffer: torch.Tensor, seq_lens: torch.Tensor, max_q_len: int, max_kv_len: int, bmm1_scale: float, bmm2_scale: float, batch_size: int, cum_seq_lens_q: torch.Tensor, cum_seq_lens_kv: torch.Tensor, block_tables: Optional[torch.Tensor] = None, out: Optional[torch.Tensor] = None, out_dtype: Union[str, torch.dtype, NoneType] = None, sinks: Optional[List[torch.Tensor]] = None, pos_encoding_mode: str = None, logits_soft_cap_scale: Optional[float] = None, mask_mode: str = 'causal', window_left: int = -1, chunked_attention_size: int = 0, save_softmax_stats: bool = False, skip_softmax_threshold_scale_factor: float = 0) -> Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]]",
+            "input_layout": "SEPARATE_Q_K_V",
+            "decode_entry": null
+          }
+        },
+        "torch_cudnn": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 0.0009765625,
+          "max_relative_error_atol_floor": 0.011444091796875,
+          "atol": 0.02,
+          "rtol": 0.02,
+          "gpu_us_p50": 77.20172588641827,
+          "eager_us_p50": 75.02007066157826,
+          "eager_wall_us_p50": 76.2753596491228,
+          "gpu_us_rounds": [
+            77.20172588641827,
+            84.67471049382137,
+            75.80085901113657,
+            78.53070772611179,
+            75.77403141902043
+          ],
+          "eager_us_rounds": [
+            74.04294766877827,
+            74.15494584200675,
+            75.02007066157826,
+            79.73978812234444,
+            75.36561028999195
+          ],
+          "eager_wall_us_rounds": [
+            74.97235964912281,
+            74.25769298245615,
+            76.2753596491228,
+            79.84481578947367,
+            76.71247368421052
+          ],
+          "graph_replays_per_round": 130,
+          "eager_calls_per_round": 114,
+          "metadata": {
+            "api": "torch.nn.functional.scaled_dot_product_attention",
+            "forced_backend": "CUDNN_ATTENTION",
+            "q_layout": "BHSD view of BSHD",
+            "kv_layout": "BHSD view of BSHD",
+            "gqa_expansion": false,
+            "input_copies": false,
+            "preallocated_output": false
+          }
+        },
+        "torch_efficient": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 0.0009765625,
+          "max_relative_error_atol_floor": 0.011444091796875,
+          "atol": 0.02,
+          "rtol": 0.02,
+          "gpu_us_p50": 101.22769612532396,
+          "eager_us_p50": 102.79066363970439,
+          "eager_wall_us_p50": 104.693,
+          "gpu_us_rounds": [
+            98.61569221203143,
+            97.13414999154898,
+            101.22769612532396,
+            101.40738120445839,
+            102.85076728233925
+          ],
+          "eager_us_rounds": [
+            93.86700391769409,
+            103.5116712252299,
+            102.03933715820312,
+            110.82266767819722,
+            102.79066363970439
+          ],
+          "eager_wall_us_rounds": [
+            93.97423958333333,
+            103.62309375,
+            104.693,
+            112.85567708333333,
+            107.26835416666667
+          ],
+          "graph_replays_per_round": 104,
+          "eager_calls_per_round": 96,
+          "metadata": {
+            "api": "torch.nn.functional.scaled_dot_product_attention",
+            "forced_backend": "EFFICIENT_ATTENTION",
+            "q_layout": "BHSD view of BSHD",
+            "kv_layout": "BHSD view of BSHD",
+            "gqa_expansion": false,
+            "input_copies": false,
+            "preallocated_output": false
+          }
+        },
+        "ours": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 0.0009765625,
+          "max_relative_error_atol_floor": 0.011444091796875,
+          "atol": 0.02,
+          "rtol": 0.02,
+          "gpu_us_p50": 57.49410028615709,
+          "eager_us_p50": 57.639303414717965,
+          "eager_wall_us_p50": 57.69928260869565,
+          "gpu_us_rounds": [
+            56.00972465388683,
+            61.658875059686316,
+            57.49410028615709,
+            59.435670547063836,
+            57.24198778689895
+          ],
+          "eager_us_rounds": [
+            51.64678200431492,
+            56.99947605962338,
+            57.639303414717965,
+            61.978956927423894,
+            63.79826172538426
+          ],
+          "eager_wall_us_rounds": [
+            51.700342391304346,
+            57.05908695652174,
+            57.69928260869565,
+            62.61742934782609,
+            63.85692934782608
+          ],
+          "graph_replays_per_round": 181,
+          "eager_calls_per_round": 184,
+          "metadata": {
+            "api": "fa5060.prefill",
+            "preallocated_output": true,
+            "preallocated_workspace": false,
+            "config": null,
+            "num_splits": null,
+            "native_paged": false,
+            "eager_allocates_output": true,
+            "eager_allocates_workspace": false
+          }
+        },
+        "fa4": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 0.0009765625,
+          "max_relative_error_atol_floor": 0.011444091796875,
+          "atol": 0.02,
+          "rtol": 0.02,
+          "gpu_us_p50": 59.52578614660575,
+          "eager_us_p50": 56.89599859805507,
+          "eager_wall_us_p50": 57.20464122137405,
+          "gpu_us_rounds": [
+            59.52578614660575,
+            55.82897272487145,
+            60.09347021242993,
+            57.72185460322321,
+            60.62065275375453
+          ],
+          "eager_us_rounds": [
+            57.77441272298798,
+            56.89599859805507,
+            55.68561845153343,
+            54.73416816187269,
+            56.95828954682096
+          ],
+          "eager_wall_us_rounds": [
+            59.153725190839694,
+            56.97907633587786,
+            57.20464122137405,
+            54.81643511450382,
+            58.25128244274809
+          ],
+          "graph_replays_per_round": 177,
+          "eager_calls_per_round": 131,
+          "metadata": {
+            "api": "flash_attn.cute.interface.flash_attn_func",
+            "signature": "(q: torch.Tensor, k: torch.Tensor, v: torch.Tensor, qv: Optional[torch.Tensor] = None, gather_kv_indices: Optional[torch.Tensor] = None, softmax_scale: Optional[float] = None, causal: bool = False, window_size: Tuple[Optional[int], Optional[int]] = (None, None), learnable_sink: Optional[torch.Tensor] = None, softcap: float = 0.0, num_splits: int = 1, pack_gqa: Optional[bool] = None, deterministic: bool = False, score_mod: Optional[Callable] = None, score_mod_bwd: Optional[Callable] = None, mask_mod: Optional[Callable] = None, aux_tensors: Optional[list] = None, aux_scalars: Optional[tuple] = None, block_sparse_tensors: Optional[flash_attn.cute.block_sparsity.BlockSparseTensorsTorch] = None, block_sparse_tensors_bwd: Optional[flash_attn.cute.block_sparsity.BlockSparseTensorsTorch] = None, return_lse: bool = False, gather_bwd_recompute_p: bool = False, gather_bwd_token_chunk: Optional[int] = None)",
+            "q_layout": "BSHD",
+            "kv_layout": "BSHD",
+            "input_copies": false,
+            "gqa_expansion": false,
+            "preallocated_output": false
+          }
+        },
+        "flashinfer_fa2": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 0.001953125,
+          "max_relative_error_atol_floor": 0.011444091796875,
+          "atol": 0.02,
+          "rtol": 0.02,
+          "gpu_us_p50": 79.90103809773422,
+          "eager_us_p50": 86.5670769615511,
+          "eager_wall_us_p50": 86.66015044247787,
+          "gpu_us_rounds": [
+            80.19710989559398,
+            81.8170098697438,
+            79.90103809773422,
+            79.72544181246717,
+            79.68672584084904
+          ],
+          "eager_us_rounds": [
+            78.07377165397712,
+            86.97259953591676,
+            79.11419657479345,
+            88.13904450003025,
+            86.5670769615511
+          ],
+          "eager_wall_us_rounds": [
+            78.16846017699115,
+            87.13194690265486,
+            79.20769026548672,
+            88.23493805309735,
+            86.66015044247787
+          ],
+          "graph_replays_per_round": 119,
+          "eager_calls_per_round": 113,
+          "metadata": {
+            "backend": "fa2",
+            "workspace_bytes": 134217728,
+            "planning_timed": false,
+            "input_copies": false,
+            "gqa_expansion": false,
+            "preallocated_output": true,
+            "native_paged": false,
+            "kv_layout": "NHD",
+            "api": "flashinfer.BatchPrefillWithRaggedKVCacheWrapper.run",
+            "constructor_signature": "(float_workspace_buffer: torch.Tensor, kv_layout: str = 'NHD', use_cuda_graph: bool = False, qo_indptr_buf: Optional[torch.Tensor] = None, kv_indptr_buf: Optional[torch.Tensor] = None, custom_mask_buf: Optional[torch.Tensor] = None, mask_indptr_buf: Optional[torch.Tensor] = None, backend: str = 'auto', jit_args: Optional[List[Any]] = None, jit_kwargs: Optional[Dict[str, Any]] = None, variant_owns_mask: bool = False) -> None",
+            "run_signature": "(q: torch.Tensor, k: torch.Tensor, v: torch.Tensor, *args, q_scale: Optional[float] = None, k_scale: Optional[float] = None, v_scale: Optional[float] = None, o_scale: Optional[float] = None, out: Optional[torch.Tensor] = None, lse: Optional[torch.Tensor] = None, return_lse: bool = False, lse_base: str = 'log2', lse_layout: str = 'NH', enable_pdl: Optional[bool] = None, kv_cache_sf: Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor], NoneType] = None) -> Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]]",
+            "resolved_backend": "fa2"
+          }
+        },
+        "torch_flash": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 0.0009765625,
+          "max_relative_error_atol_floor": 0.011444091796875,
+          "atol": 0.02,
+          "rtol": 0.02,
+          "gpu_us_p50": 54.66844240824381,
+          "eager_us_p50": 56.8897619187457,
+          "eager_wall_us_p50": 56.953150943396224,
+          "gpu_us_rounds": [
+            54.60729069179959,
+            55.679824617173935,
+            54.395198822021484,
+            54.66844240824381,
+            54.716269175211586
+          ],
+          "eager_us_rounds": [
+            53.48951111799516,
+            57.270541880865515,
+            56.8897619187457,
+            54.582337913273264,
+            58.344655066916026
+          ],
+          "eager_wall_us_rounds": [
+            53.55533333333334,
+            57.33979874213836,
+            56.953150943396224,
+            55.8835534591195,
+            59.05252201257862
+          ],
+          "graph_replays_per_round": 180,
+          "eager_calls_per_round": 159,
+          "metadata": {
+            "api": "torch.nn.functional.scaled_dot_product_attention",
+            "forced_backend": "FLASH_ATTENTION",
+            "q_layout": "BHSD view of BSHD",
+            "kv_layout": "BHSD view of BSHD",
+            "gqa_expansion": false,
+            "input_copies": false,
+            "preallocated_output": false
+          }
+        }
+      },
+      "provider_execution_order": [
+        "flashinfer_fmha_v2",
+        "torch_cudnn",
+        "torch_efficient",
+        "ours",
+        "fa4",
+        "flashinfer_fa2",
+        "torch_flash"
+      ],
+      "reference": {
+        "api": "fa5060.reference.attention_reference",
+        "algorithm": "blockwise fp32; no full Sq*Sk scores",
+        "tf32": false
+      },
+      "fastest_baseline": "torch_flash",
+      "speedup_vs_fastest": 0.9508530812057318,
+      "mandatory_baseline_groups": {
+        "torch_forced_sdpa": [
+          "torch_flash",
+          "torch_cudnn",
+          "torch_efficient"
+        ],
+        "fa4_native": [
+          "fa4"
+        ],
+        "flashinfer_native": [
+          "flashinfer_fa2",
+          "flashinfer_fmha_v2"
+        ]
+      },
+      "baseline_coverage": {
+        "torch_forced_sdpa": true,
+        "fa4_native": true,
+        "flashinfer_native": true
+      },
+      "mandatory_baselines_covered": true,
+      "correctness_passed": false,
+      "incorrect_providers": [
+        "flashinfer_fmha_v2"
+      ],
+      "missing_provider_records": []
+    },
+    {
+      "id": "prefill-b1-l512-hq32-hkv1-d64-fp16-paged16",
+      "phase": "prefill",
+      "batch": 1,
+      "kv_len": 512,
+      "query_len": 512,
+      "head_dim": 64,
+      "heads_q": 32,
+      "heads_kv": 1,
+      "dtype": "fp16",
+      "layout": "paged",
+      "page_size": 16,
+      "causal": true,
+      "shape": {
+        "q": [
+          1,
+          512,
+          32,
+          64
+        ],
+        "k": [
+          32,
+          16,
+          1,
+          64
+        ],
+        "v": [
+          32,
+          16,
+          1,
+          64
+        ],
+        "kv_lens": [
+          512
+        ],
+        "block_table": [
+          1,
+          32
+        ],
+        "heads_q": 32,
+        "heads_kv": 1,
+        "head_dim": 64,
+        "batch": 1,
+        "query_len": 512,
+        "kv_len": 512
+      },
+      "seed": 20261102,
+      "providers": {
+        "flashinfer_fa2": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 0.001953125,
+          "max_relative_error_atol_floor": 0.0110626220703125,
+          "atol": 0.02,
+          "rtol": 0.02,
+          "gpu_us_p50": 75.3389181092728,
+          "eager_us_p50": 75.10500630055826,
+          "eager_wall_us_p50": 75.19271653543308,
+          "gpu_us_rounds": [
+            75.30989388162776,
+            78.48781763121139,
+            75.3389181092728,
+            77.40825091221537,
+            73.78257337466691
+          ],
+          "eager_us_rounds": [
+            75.15061746432086,
+            75.10249070295198,
+            75.10500630055826,
+            78.03666122316376,
+            75.05789328747846
+          ],
+          "eager_wall_us_rounds": [
+            75.24953543307088,
+            75.19271653543308,
+            75.18181102362205,
+            78.11648818897638,
+            75.13071653543308
+          ],
+          "graph_replays_per_round": 129,
+          "eager_calls_per_round": 127,
+          "metadata": {
+            "backend": "fa2",
+            "workspace_bytes": 134217728,
+            "planning_timed": false,
+            "input_copies": false,
+            "gqa_expansion": false,
+            "preallocated_output": true,
+            "native_paged": true,
+            "kv_layout": "NHD",
+            "api": "flashinfer.BatchPrefillWithPagedKVCacheWrapper.run",
+            "constructor_signature": "(float_workspace_buffer: torch.Tensor, kv_layout: str = 'NHD', use_cuda_graph: bool = False, qo_indptr_buf: Optional[torch.Tensor] = None, paged_kv_indptr_buf: Optional[torch.Tensor] = None, paged_kv_indices_buf: Optional[torch.Tensor] = None, paged_kv_last_page_len_buf: Optional[torch.Tensor] = None, custom_mask_buf: Optional[torch.Tensor] = None, mask_indptr_buf: Optional[torch.Tensor] = None, backend: str = 'auto', jit_args: Optional[List[Any]] = None, jit_kwargs: Optional[Dict[str, Any]] = None, variant_owns_mask: bool = False) -> None",
+            "run_signature": "(q: torch.Tensor, paged_kv_cache: Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]], *args, q_scale: Union[float, torch.Tensor, NoneType] = None, k_scale: Union[float, torch.Tensor, NoneType] = None, v_scale: Union[float, torch.Tensor, NoneType] = None, out: Optional[torch.Tensor] = None, lse: Optional[torch.Tensor] = None, return_lse: bool = False, lse_base: str = 'log2', lse_layout: str = 'NH', enable_pdl: Optional[bool] = None, window_left: Optional[int] = None, sinks: Optional[torch.Tensor] = None, kv_cache_sf: Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor], NoneType] = None, skip_softmax_threshold_scale_factor: Optional[float] = None, use_fp16_softmax: Optional[bool] = None, uses_spcompress: Optional[bool] = None) -> Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]]",
+            "resolved_backend": "fa2"
+          }
+        },
+        "torch_efficient": {
+          "status": "unsupported",
+          "validated": false,
+          "stage": "prepare",
+          "reason": "UnsupportedProvider: forced Torch SDPA has no native paged-KV public API",
+          "gpu_us_p50": null,
+          "eager_us_p50": null,
+          "metadata": {}
+        },
+        "torch_cudnn": {
+          "status": "unsupported",
+          "validated": false,
+          "stage": "prepare",
+          "reason": "UnsupportedProvider: forced Torch SDPA has no native paged-KV public API",
+          "gpu_us_p50": null,
+          "eager_us_p50": null,
+          "metadata": {}
+        },
+        "ours": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 0.001953125,
+          "max_relative_error_atol_floor": 0.0110626220703125,
+          "atol": 0.02,
+          "rtol": 0.02,
+          "gpu_us_p50": 63.00652233851439,
+          "eager_us_p50": 60.538557921948076,
+          "eager_wall_us_p50": 61.92469387755102,
+          "gpu_us_rounds": [
+            55.689618766652366,
+            64.51273791362784,
+            63.57974675349418,
+            63.00652233851439,
+            60.94908852108641
+          ],
+          "eager_us_rounds": [
+            54.975126876312046,
+            56.985251757563375,
+            60.538557921948076,
+            66.78683092804994,
+            68.32435504108871
+          ],
+          "eager_wall_us_rounds": [
+            55.04095238095238,
+            57.06102721088435,
+            61.92469387755102,
+            68.85545578231293,
+            70.3754149659864
+          ],
+          "graph_replays_per_round": 173,
+          "eager_calls_per_round": 147,
+          "metadata": {
+            "api": "fa5060.prefill",
+            "preallocated_output": true,
+            "preallocated_workspace": false,
+            "config": null,
+            "num_splits": null,
+            "native_paged": true,
+            "eager_allocates_output": true,
+            "eager_allocates_workspace": false
+          }
+        },
+        "fa4": {
+          "status": "unsupported",
+          "validated": false,
+          "stage": "prepare",
+          "reason": "UnsupportedProvider: FA4 flash_attn_func adapter has no verified native page-table API",
+          "gpu_us_p50": null,
+          "eager_us_p50": null,
+          "metadata": {}
+        },
+        "torch_flash": {
+          "status": "unsupported",
+          "validated": false,
+          "stage": "prepare",
+          "reason": "UnsupportedProvider: forced Torch SDPA has no native paged-KV public API",
+          "gpu_us_p50": null,
+          "eager_us_p50": null,
+          "metadata": {}
+        },
+        "flashinfer_fmha_v2": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 0.00244140625,
+          "max_relative_error_atol_floor": 0.052642822265625,
+          "atol": 0.02,
+          "rtol": 0.02,
+          "gpu_us_p50": 88.56342185256828,
+          "eager_us_p50": 81.04994490339949,
+          "eager_wall_us_p50": 81.23535135135135,
+          "gpu_us_rounds": [
+            91.52766170664731,
+            82.48861426981087,
+            88.56342185256828,
+            91.7505606626853,
+            82.37046461838942
+          ],
+          "eager_us_rounds": [
+            80.91099197800095,
+            80.69938797134537,
+            81.46566098874753,
+            81.04994490339949,
+            81.25808647087028
+          ],
+          "eager_wall_us_rounds": [
+            81.02282882882882,
+            80.82076576576576,
+            81.57327027027027,
+            81.23535135135135,
+            81.34436036036035
+          ],
+          "graph_replays_per_round": 117,
+          "eager_calls_per_round": 111,
+          "metadata": {
+            "backend": "fmha_v2",
+            "workspace_bytes": 134217728,
+            "planning_timed": false,
+            "input_copies": false,
+            "gqa_expansion": false,
+            "preallocated_output": true,
+            "native_paged": true,
+            "kv_layout": "NHD",
+            "block_table_format": "[B,2,M] native K/V block offsets; static preprocessing",
+            "api": "flashinfer.prefill.trtllm_fmha_v2_prefill",
+            "signature": "(qkv: Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor], Tuple[torch.Tensor, torch.Tensor, torch.Tensor]], input_layout: str, workspace_buffer: torch.Tensor, seq_lens: torch.Tensor, max_q_len: int, max_kv_len: int, bmm1_scale: float, bmm2_scale: float, batch_size: int, cum_seq_lens_q: torch.Tensor, cum_seq_lens_kv: torch.Tensor, block_tables: Optional[torch.Tensor] = None, out: Optional[torch.Tensor] = None, out_dtype: Union[str, torch.dtype, NoneType] = None, sinks: Optional[List[torch.Tensor]] = None, pos_encoding_mode: str = None, logits_soft_cap_scale: Optional[float] = None, mask_mode: str = 'causal', window_left: int = -1, chunked_attention_size: int = 0, save_softmax_stats: bool = False, skip_softmax_threshold_scale_factor: float = 0) -> Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]]",
+            "input_layout": "Q_PAGED_KV_NHD",
+            "decode_entry": null
+          }
+        }
+      },
+      "provider_execution_order": [
+        "flashinfer_fa2",
+        "torch_efficient",
+        "torch_cudnn",
+        "ours",
+        "fa4",
+        "torch_flash",
+        "flashinfer_fmha_v2"
+      ],
+      "reference": {
+        "api": "fa5060.reference.attention_reference",
+        "algorithm": "blockwise fp32; no full Sq*Sk scores",
+        "tf32": false
+      },
+      "fastest_baseline": "flashinfer_fa2",
+      "speedup_vs_fastest": 1.1957320498424004,
+      "mandatory_baseline_groups": {
+        "flashinfer_native": [
+          "flashinfer_fa2",
+          "flashinfer_fmha_v2"
+        ]
+      },
+      "baseline_coverage": {
+        "flashinfer_native": true
+      },
+      "mandatory_baselines_covered": true,
+      "correctness_passed": true,
+      "incorrect_providers": [],
+      "missing_provider_records": []
+    },
+    {
+      "id": "prefill-b1-l512-hq32-hkv8-d128-bf16-dense",
+      "phase": "prefill",
+      "batch": 1,
+      "kv_len": 512,
+      "query_len": 512,
+      "head_dim": 128,
+      "heads_q": 32,
+      "heads_kv": 8,
+      "dtype": "bf16",
+      "layout": "dense",
+      "page_size": 16,
+      "causal": true,
+      "shape": {
+        "q": [
+          1,
+          512,
+          32,
+          128
+        ],
+        "k": [
+          1,
+          512,
+          8,
+          128
+        ],
+        "v": [
+          1,
+          512,
+          8,
+          128
+        ],
+        "kv_lens": [
+          512
+        ],
+        "block_table": null,
+        "heads_q": 32,
+        "heads_kv": 8,
+        "head_dim": 128,
+        "batch": 1,
+        "query_len": 512,
+        "kv_len": 512
+      },
+      "seed": 20261102,
+      "providers": {
+        "torch_flash": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 0.015625,
+          "max_relative_error_atol_floor": 0.0390625,
+          "atol": 0.05,
+          "rtol": 0.05,
+          "gpu_us_p50": 112.15563253922896,
+          "eager_us_p50": 117.95771689642044,
+          "eager_wall_us_p50": 118.06872619047618,
+          "gpu_us_rounds": [
+            112.15563253922896,
+            114.09854888916016,
+            111.89926754344593,
+            114.40181732177734,
+            112.08944970911199
+          ],
+          "eager_us_rounds": [
+            110.64762160891578,
+            117.95771689642044,
+            110.44914381844657,
+            121.36990683419364,
+            129.3881961277553
+          ],
+          "eager_wall_us_rounds": [
+            110.76030952380952,
+            118.06872619047618,
+            110.56885714285714,
+            121.49948809523809,
+            129.5115119047619
+          ],
+          "graph_replays_per_round": 88,
+          "eager_calls_per_round": 84,
+          "metadata": {
+            "api": "torch.nn.functional.scaled_dot_product_attention",
+            "forced_backend": "FLASH_ATTENTION",
+            "q_layout": "BHSD view of BSHD",
+            "kv_layout": "BHSD view of BSHD",
+            "gqa_expansion": false,
+            "input_copies": false,
+            "preallocated_output": false
+          }
+        },
+        "ours": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 0.015625,
+          "max_relative_error_atol_floor": 0.0390625,
+          "atol": 0.05,
+          "rtol": 0.05,
+          "gpu_us_p50": 110.72746912638347,
+          "eager_us_p50": 115.4958096946158,
+          "eager_wall_us_p50": 116.01918292682927,
+          "gpu_us_rounds": [
+            107.73902469211154,
+            112.62684928046332,
+            111.22204462687175,
+            110.72746912638347,
+            110.48249138726129
+          ],
+          "eager_us_rounds": [
+            106.41560903409632,
+            115.89502706760314,
+            113.44389799164563,
+            115.4958096946158,
+            121.13560699835057
+          ],
+          "eager_wall_us_rounds": [
+            106.52164634146341,
+            116.01918292682927,
+            113.5677804878049,
+            117.74139024390244,
+            121.26164634146342
+          ],
+          "graph_replays_per_round": 90,
+          "eager_calls_per_round": 82,
+          "metadata": {
+            "api": "fa5060.prefill",
+            "preallocated_output": true,
+            "preallocated_workspace": false,
+            "config": null,
+            "num_splits": null,
+            "native_paged": false,
+            "eager_allocates_output": true,
+            "eager_allocates_workspace": false
+          }
+        },
+        "torch_efficient": {
+          "status": "unsupported",
+          "validated": false,
+          "stage": "prepare",
+          "reason": "UnsupportedProvider: Torch can_use_efficient_attention rejected the exact strided/GQA inputs; backend=EFFICIENT_ATTENTION, case=prefill-b1-l512-hq32-hkv8-d128-bf16-dense",
+          "gpu_us_p50": null,
+          "eager_us_p50": null,
+          "metadata": {}
+        },
+        "fa4": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 0.015625,
+          "max_relative_error_atol_floor": 0.0390625,
+          "atol": 0.05,
+          "rtol": 0.05,
+          "gpu_us_p50": 111.25962106805099,
+          "eager_us_p50": 103.61951734961534,
+          "eager_wall_us_p50": 103.73725609756097,
+          "gpu_us_rounds": [
+            115.74399847733348,
+            104.54602492483039,
+            111.25962106805099,
+            115.77262878417969,
+            104.51200384842723
+          ],
+          "eager_us_rounds": [
+            103.53560563994617,
+            103.59493116053139,
+            107.19883151170684,
+            107.76195293519555,
+            103.61951734961534
+          ],
+          "eager_wall_us_rounds": [
+            103.6635243902439,
+            103.73219512195124,
+            107.33354878048782,
+            107.89565853658536,
+            103.73725609756097
+          ],
+          "graph_replays_per_round": 95,
+          "eager_calls_per_round": 82,
+          "metadata": {
+            "api": "flash_attn.cute.interface.flash_attn_func",
+            "signature": "(q: torch.Tensor, k: torch.Tensor, v: torch.Tensor, qv: Optional[torch.Tensor] = None, gather_kv_indices: Optional[torch.Tensor] = None, softmax_scale: Optional[float] = None, causal: bool = False, window_size: Tuple[Optional[int], Optional[int]] = (None, None), learnable_sink: Optional[torch.Tensor] = None, softcap: float = 0.0, num_splits: int = 1, pack_gqa: Optional[bool] = None, deterministic: bool = False, score_mod: Optional[Callable] = None, score_mod_bwd: Optional[Callable] = None, mask_mod: Optional[Callable] = None, aux_tensors: Optional[list] = None, aux_scalars: Optional[tuple] = None, block_sparse_tensors: Optional[flash_attn.cute.block_sparsity.BlockSparseTensorsTorch] = None, block_sparse_tensors_bwd: Optional[flash_attn.cute.block_sparsity.BlockSparseTensorsTorch] = None, return_lse: bool = False, gather_bwd_recompute_p: bool = False, gather_bwd_token_chunk: Optional[int] = None)",
+            "q_layout": "BSHD",
+            "kv_layout": "BSHD",
+            "input_copies": false,
+            "gqa_expansion": false,
+            "preallocated_output": false
+          }
+        },
+        "flashinfer_fa2": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 0.015625,
+          "max_relative_error_atol_floor": 0.0390625,
+          "atol": 0.05,
+          "rtol": 0.05,
+          "gpu_us_p50": 132.0598602294922,
+          "eager_us_p50": 119.42824195413029,
+          "eager_wall_us_p50": 119.7865,
+          "gpu_us_rounds": [
+            132.0598602294922,
+            132.98823412726907,
+            124.15247524485869,
+            132.2134578929228,
+            120.4288033878102
+          ],
+          "eager_us_rounds": [
+            118.30871245440315,
+            119.42824195413029,
+            132.77271214653464,
+            119.69741652993595,
+            118.84518230662627
+          ],
+          "eager_wall_us_rounds": [
+            119.7865,
+            119.74516176470588,
+            134.113,
+            119.8545588235294,
+            119.00270588235294
+          ],
+          "graph_replays_per_round": 85,
+          "eager_calls_per_round": 68,
+          "metadata": {
+            "backend": "fa2",
+            "workspace_bytes": 134217728,
+            "planning_timed": false,
+            "input_copies": false,
+            "gqa_expansion": false,
+            "preallocated_output": true,
+            "native_paged": false,
+            "kv_layout": "NHD",
+            "api": "flashinfer.BatchPrefillWithRaggedKVCacheWrapper.run",
+            "constructor_signature": "(float_workspace_buffer: torch.Tensor, kv_layout: str = 'NHD', use_cuda_graph: bool = False, qo_indptr_buf: Optional[torch.Tensor] = None, kv_indptr_buf: Optional[torch.Tensor] = None, custom_mask_buf: Optional[torch.Tensor] = None, mask_indptr_buf: Optional[torch.Tensor] = None, backend: str = 'auto', jit_args: Optional[List[Any]] = None, jit_kwargs: Optional[Dict[str, Any]] = None, variant_owns_mask: bool = False) -> None",
+            "run_signature": "(q: torch.Tensor, k: torch.Tensor, v: torch.Tensor, *args, q_scale: Optional[float] = None, k_scale: Optional[float] = None, v_scale: Optional[float] = None, o_scale: Optional[float] = None, out: Optional[torch.Tensor] = None, lse: Optional[torch.Tensor] = None, return_lse: bool = False, lse_base: str = 'log2', lse_layout: str = 'NH', enable_pdl: Optional[bool] = None, kv_cache_sf: Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor], NoneType] = None) -> Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]]",
+            "resolved_backend": "fa2"
+          }
+        },
+        "flashinfer_fmha_v2": {
+          "status": "incorrect",
+          "validated": false,
+          "stage": "correctness",
+          "reason": "CorrectnessError: reference mismatch: max_abs=3.21875, max_relative_atol_floor=13.168488, atol=0.05, rtol=0.05",
+          "gpu_us_p50": null,
+          "eager_us_p50": null,
+          "metadata": {
+            "backend": "fmha_v2",
+            "workspace_bytes": 134217728,
+            "planning_timed": false,
+            "input_copies": false,
+            "gqa_expansion": false,
+            "preallocated_output": true,
+            "native_paged": false,
+            "kv_layout": "NHD",
+            "api": "flashinfer.prefill.trtllm_fmha_v2_prefill",
+            "signature": "(qkv: Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor], Tuple[torch.Tensor, torch.Tensor, torch.Tensor]], input_layout: str, workspace_buffer: torch.Tensor, seq_lens: torch.Tensor, max_q_len: int, max_kv_len: int, bmm1_scale: float, bmm2_scale: float, batch_size: int, cum_seq_lens_q: torch.Tensor, cum_seq_lens_kv: torch.Tensor, block_tables: Optional[torch.Tensor] = None, out: Optional[torch.Tensor] = None, out_dtype: Union[str, torch.dtype, NoneType] = None, sinks: Optional[List[torch.Tensor]] = None, pos_encoding_mode: str = None, logits_soft_cap_scale: Optional[float] = None, mask_mode: str = 'causal', window_left: int = -1, chunked_attention_size: int = 0, save_softmax_stats: bool = False, skip_softmax_threshold_scale_factor: float = 0) -> Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]]",
+            "input_layout": "SEPARATE_Q_K_V",
+            "decode_entry": null
+          }
+        },
+        "torch_cudnn": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 0.015625,
+          "max_relative_error_atol_floor": 0.0390625,
+          "atol": 0.05,
+          "rtol": 0.05,
+          "gpu_us_p50": 110.67685116542859,
+          "eager_us_p50": 113.35749798510449,
+          "eager_wall_us_p50": 113.48401204819278,
+          "gpu_us_rounds": [
+            114.77932233488961,
+            115.43765764557914,
+            110.40718635816252,
+            110.67685116542859,
+            110.64557279093881
+          ],
+          "eager_us_rounds": [
+            108.76645237566477,
+            113.35749798510449,
+            108.92183234892696,
+            117.58573371243764,
+            116.58948875335325
+          ],
+          "eager_wall_us_rounds": [
+            108.89101204819276,
+            113.48401204819278,
+            109.03550602409639,
+            121.15177108433734,
+            116.71404819277107
+          ],
+          "graph_replays_per_round": 89,
+          "eager_calls_per_round": 83,
+          "metadata": {
+            "api": "torch.nn.functional.scaled_dot_product_attention",
+            "forced_backend": "CUDNN_ATTENTION",
+            "q_layout": "BHSD view of BSHD",
+            "kv_layout": "BHSD view of BSHD",
+            "gqa_expansion": false,
+            "input_copies": false,
+            "preallocated_output": false
+          }
+        }
+      },
+      "provider_execution_order": [
+        "torch_flash",
+        "ours",
+        "torch_efficient",
+        "fa4",
+        "flashinfer_fa2",
+        "flashinfer_fmha_v2",
+        "torch_cudnn"
+      ],
+      "reference": {
+        "api": "fa5060.reference.attention_reference",
+        "algorithm": "blockwise fp32; no full Sq*Sk scores",
+        "tf32": false
+      },
+      "fastest_baseline": "torch_cudnn",
+      "speedup_vs_fastest": 0.9995428599483557,
+      "mandatory_baseline_groups": {
+        "torch_forced_sdpa": [
+          "torch_flash",
+          "torch_cudnn",
+          "torch_efficient"
+        ],
+        "fa4_native": [
+          "fa4"
+        ],
+        "flashinfer_native": [
+          "flashinfer_fa2",
+          "flashinfer_fmha_v2"
+        ]
+      },
+      "baseline_coverage": {
+        "torch_forced_sdpa": true,
+        "fa4_native": true,
+        "flashinfer_native": true
+      },
+      "mandatory_baselines_covered": true,
+      "correctness_passed": false,
+      "incorrect_providers": [
+        "flashinfer_fmha_v2"
+      ],
+      "missing_provider_records": []
+    },
+    {
+      "id": "prefill-b1-l512-hq32-hkv1-d128-bf16-paged16",
+      "phase": "prefill",
+      "batch": 1,
+      "kv_len": 512,
+      "query_len": 512,
+      "head_dim": 128,
+      "heads_q": 32,
+      "heads_kv": 1,
+      "dtype": "bf16",
+      "layout": "paged",
+      "page_size": 16,
+      "causal": true,
+      "shape": {
+        "q": [
+          1,
+          512,
+          32,
+          128
+        ],
+        "k": [
+          32,
+          16,
+          1,
+          128
+        ],
+        "v": [
+          32,
+          16,
+          1,
+          128
+        ],
+        "kv_lens": [
+          512
+        ],
+        "block_table": [
+          1,
+          32
+        ],
+        "heads_q": 32,
+        "heads_kv": 1,
+        "head_dim": 128,
+        "batch": 1,
+        "query_len": 512,
+        "kv_len": 512
+      },
+      "seed": 20261102,
+      "providers": {
+        "torch_flash": {
+          "status": "unsupported",
+          "validated": false,
+          "stage": "prepare",
+          "reason": "UnsupportedProvider: forced Torch SDPA has no native paged-KV public API",
+          "gpu_us_p50": null,
+          "eager_us_p50": null,
+          "metadata": {}
+        },
+        "ours": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 0.0078125,
+          "max_relative_error_atol_floor": 0.04302978515625,
+          "atol": 0.05,
+          "rtol": 0.05,
+          "gpu_us_p50": 128.06852004107307,
+          "eager_us_p50": 128.8416773773903,
+          "eager_wall_us_p50": 130.95499999999998,
+          "gpu_us_rounds": [
+            128.89487322639016,
+            130.8506348553826,
+            125.02550237319049,
+            127.90701249066521,
+            128.06852004107307
+          ],
+          "eager_us_rounds": [
+            123.43107267867687,
+            126.78326007931732,
+            133.43516061472337,
+            133.65730019502863,
+            128.8416773773903
+          ],
+          "eager_wall_us_rounds": [
+            123.55050000000001,
+            130.95499999999998,
+            133.57506976744187,
+            136.3852441860465,
+            128.9571976744186
+          ],
+          "graph_replays_per_round": 85,
+          "eager_calls_per_round": 86,
+          "metadata": {
+            "api": "fa5060.prefill",
+            "preallocated_output": true,
+            "preallocated_workspace": false,
+            "config": null,
+            "num_splits": null,
+            "native_paged": true,
+            "eager_allocates_output": true,
+            "eager_allocates_workspace": false
+          }
+        },
+        "torch_cudnn": {
+          "status": "unsupported",
+          "validated": false,
+          "stage": "prepare",
+          "reason": "UnsupportedProvider: forced Torch SDPA has no native paged-KV public API",
+          "gpu_us_p50": null,
+          "eager_us_p50": null,
+          "metadata": {}
+        },
+        "fa4": {
+          "status": "unsupported",
+          "validated": false,
+          "stage": "prepare",
+          "reason": "UnsupportedProvider: FA4 flash_attn_func adapter has no verified native page-table API",
+          "gpu_us_p50": null,
+          "eager_us_p50": null,
+          "metadata": {}
+        },
+        "flashinfer_fmha_v2": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 0.0078125,
+          "max_relative_error_atol_floor": 0.04302978515625,
+          "atol": 0.05,
+          "rtol": 0.05,
+          "gpu_us_p50": 130.88799658275786,
+          "eager_us_p50": 127.0046121933881,
+          "eager_wall_us_p50": 129.70450588235295,
+          "gpu_us_rounds": [
+            133.3733286176409,
+            136.1870425088065,
+            129.84533537001838,
+            129.04609952654158,
+            130.88799658275786
+          ],
+          "eager_us_rounds": [
+            134.66579212861902,
+            127.0046121933881,
+            125.20470338709214,
+            129.77467705221738,
+            124.36028648825253
+          ],
+          "eager_wall_us_rounds": [
+            140.40447058823528,
+            128.23415294117646,
+            128.20770588235294,
+            131.22750588235294,
+            129.70450588235295
+          ],
+          "graph_replays_per_round": 84,
+          "eager_calls_per_round": 85,
+          "metadata": {
+            "backend": "fmha_v2",
+            "workspace_bytes": 134217728,
+            "planning_timed": false,
+            "input_copies": false,
+            "gqa_expansion": false,
+            "preallocated_output": true,
+            "native_paged": true,
+            "kv_layout": "NHD",
+            "block_table_format": "[B,2,M] native K/V block offsets; static preprocessing",
+            "api": "flashinfer.prefill.trtllm_fmha_v2_prefill",
+            "signature": "(qkv: Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor], Tuple[torch.Tensor, torch.Tensor, torch.Tensor]], input_layout: str, workspace_buffer: torch.Tensor, seq_lens: torch.Tensor, max_q_len: int, max_kv_len: int, bmm1_scale: float, bmm2_scale: float, batch_size: int, cum_seq_lens_q: torch.Tensor, cum_seq_lens_kv: torch.Tensor, block_tables: Optional[torch.Tensor] = None, out: Optional[torch.Tensor] = None, out_dtype: Union[str, torch.dtype, NoneType] = None, sinks: Optional[List[torch.Tensor]] = None, pos_encoding_mode: str = None, logits_soft_cap_scale: Optional[float] = None, mask_mode: str = 'causal', window_left: int = -1, chunked_attention_size: int = 0, save_softmax_stats: bool = False, skip_softmax_threshold_scale_factor: float = 0) -> Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]]",
+            "input_layout": "Q_PAGED_KV_NHD",
+            "decode_entry": null
+          }
+        },
+        "torch_efficient": {
+          "status": "unsupported",
+          "validated": false,
+          "stage": "prepare",
+          "reason": "UnsupportedProvider: forced Torch SDPA has no native paged-KV public API",
+          "gpu_us_p50": null,
+          "eager_us_p50": null,
+          "metadata": {}
+        },
+        "flashinfer_fa2": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 0.0078125,
+          "max_relative_error_atol_floor": 0.04302978515625,
+          "atol": 0.05,
+          "rtol": 0.05,
+          "gpu_us_p50": 135.47505153698867,
+          "eager_us_p50": 141.85041605040084,
+          "eager_wall_us_p50": 145.84551162790697,
+          "gpu_us_rounds": [
+            131.44233789336815,
+            139.11406913500153,
+            135.47505153698867,
+            126.61572788538558,
+            139.64152604006648
+          ],
+          "eager_us_rounds": [
+            139.6446560704431,
+            144.26046194032182,
+            133.07907414990802,
+            142.47218952622524,
+            141.85041605040084
+          ],
+          "eager_wall_us_rounds": [
+            146.81968604651163,
+            145.84551162790697,
+            137.17716279069768,
+            146.01223255813954,
+            145.36313953488371
+          ],
+          "graph_replays_per_round": 89,
+          "eager_calls_per_round": 86,
+          "metadata": {
+            "backend": "fa2",
+            "workspace_bytes": 134217728,
+            "planning_timed": false,
+            "input_copies": false,
+            "gqa_expansion": false,
+            "preallocated_output": true,
+            "native_paged": true,
+            "kv_layout": "NHD",
+            "api": "flashinfer.BatchPrefillWithPagedKVCacheWrapper.run",
+            "constructor_signature": "(float_workspace_buffer: torch.Tensor, kv_layout: str = 'NHD', use_cuda_graph: bool = False, qo_indptr_buf: Optional[torch.Tensor] = None, paged_kv_indptr_buf: Optional[torch.Tensor] = None, paged_kv_indices_buf: Optional[torch.Tensor] = None, paged_kv_last_page_len_buf: Optional[torch.Tensor] = None, custom_mask_buf: Optional[torch.Tensor] = None, mask_indptr_buf: Optional[torch.Tensor] = None, backend: str = 'auto', jit_args: Optional[List[Any]] = None, jit_kwargs: Optional[Dict[str, Any]] = None, variant_owns_mask: bool = False) -> None",
+            "run_signature": "(q: torch.Tensor, paged_kv_cache: Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]], *args, q_scale: Union[float, torch.Tensor, NoneType] = None, k_scale: Union[float, torch.Tensor, NoneType] = None, v_scale: Union[float, torch.Tensor, NoneType] = None, out: Optional[torch.Tensor] = None, lse: Optional[torch.Tensor] = None, return_lse: bool = False, lse_base: str = 'log2', lse_layout: str = 'NH', enable_pdl: Optional[bool] = None, window_left: Optional[int] = None, sinks: Optional[torch.Tensor] = None, kv_cache_sf: Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor], NoneType] = None, skip_softmax_threshold_scale_factor: Optional[float] = None, use_fp16_softmax: Optional[bool] = None, uses_spcompress: Optional[bool] = None) -> Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]]",
+            "resolved_backend": "fa2"
+          }
+        }
+      },
+      "provider_execution_order": [
+        "torch_flash",
+        "ours",
+        "torch_cudnn",
+        "fa4",
+        "flashinfer_fmha_v2",
+        "torch_efficient",
+        "flashinfer_fa2"
+      ],
+      "reference": {
+        "api": "fa5060.reference.attention_reference",
+        "algorithm": "blockwise fp32; no full Sq*Sk scores",
+        "tf32": false
+      },
+      "fastest_baseline": "flashinfer_fmha_v2",
+      "speedup_vs_fastest": 1.0220153753692207,
+      "mandatory_baseline_groups": {
+        "flashinfer_native": [
+          "flashinfer_fa2",
+          "flashinfer_fmha_v2"
+        ]
+      },
+      "baseline_coverage": {
+        "flashinfer_native": true
+      },
+      "mandatory_baselines_covered": true,
+      "correctness_passed": true,
+      "incorrect_providers": [],
+      "missing_provider_records": []
+    },
+    {
+      "id": "decode-b1-l512-hq32-hkv32-d64-fp16-dense",
+      "phase": "decode",
+      "batch": 1,
+      "kv_len": 512,
+      "query_len": 1,
+      "head_dim": 64,
+      "heads_q": 32,
+      "heads_kv": 32,
+      "dtype": "fp16",
+      "layout": "dense",
+      "page_size": 16,
+      "causal": false,
+      "shape": {
+        "q": [
+          1,
+          32,
+          64
+        ],
+        "k": [
+          1,
+          512,
+          32,
+          64
+        ],
+        "v": [
+          1,
+          512,
+          32,
+          64
+        ],
+        "kv_lens": [
+          512
+        ],
+        "block_table": null,
+        "heads_q": 32,
+        "heads_kv": 32,
+        "head_dim": 64,
+        "batch": 1,
+        "query_len": 1,
+        "kv_len": 512
+      },
+      "seed": 20261102,
+      "providers": {
+        "flashinfer_fmha_v2": {
+          "status": "incorrect",
+          "validated": false,
+          "stage": "correctness",
+          "reason": "CorrectnessError: reference mismatch: max_abs=512.29639, max_relative_atol_floor=25601.002, atol=0.02, rtol=0.02",
+          "gpu_us_p50": null,
+          "eager_us_p50": null,
+          "metadata": {
+            "backend": "fmha_v2",
+            "workspace_bytes": 134217728,
+            "planning_timed": false,
+            "input_copies": false,
+            "gqa_expansion": false,
+            "preallocated_output": true,
+            "native_paged": false,
+            "kv_layout": "NHD",
+            "api": "flashinfer.prefill.trtllm_fmha_v2_prefill",
+            "signature": "(qkv: Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor], Tuple[torch.Tensor, torch.Tensor, torch.Tensor]], input_layout: str, workspace_buffer: torch.Tensor, seq_lens: torch.Tensor, max_q_len: int, max_kv_len: int, bmm1_scale: float, bmm2_scale: float, batch_size: int, cum_seq_lens_q: torch.Tensor, cum_seq_lens_kv: torch.Tensor, block_tables: Optional[torch.Tensor] = None, out: Optional[torch.Tensor] = None, out_dtype: Union[str, torch.dtype, NoneType] = None, sinks: Optional[List[torch.Tensor]] = None, pos_encoding_mode: str = None, logits_soft_cap_scale: Optional[float] = None, mask_mode: str = 'causal', window_left: int = -1, chunked_attention_size: int = 0, save_softmax_stats: bool = False, skip_softmax_threshold_scale_factor: float = 0) -> Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]]",
+            "input_layout": "SEPARATE_Q_K_V",
+            "decode_entry": "one-query native FMHAv2"
+          }
+        },
+        "torch_cudnn": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 0.000244140625,
+          "max_relative_error_atol_floor": 0.0019073486328125,
+          "atol": 0.02,
+          "rtol": 0.02,
+          "gpu_us_p50": 9.4624820269211,
+          "eager_us_p50": 15.240232149759928,
+          "eager_wall_us_p50": 15.297224637681158,
+          "gpu_us_rounds": [
+            9.88610888572962,
+            10.284232911436302,
+            9.050997469513842,
+            9.37734227503221,
+            9.4624820269211
+          ],
+          "eager_us_rounds": [
+            14.803013939788377,
+            15.283361725185229,
+            14.477912930474766,
+            15.240232149759928,
+            15.26226168093474
+          ],
+          "eager_wall_us_rounds": [
+            15.703576086956522,
+            15.317289855072465,
+            15.294264492753621,
+            15.276634057971012,
+            15.297224637681158
+          ],
+          "graph_replays_per_round": 1049,
+          "eager_calls_per_round": 276,
+          "metadata": {
+            "api": "torch.nn.functional.scaled_dot_product_attention",
+            "forced_backend": "CUDNN_ATTENTION",
+            "q_layout": "BHSD view of BSHD",
+            "kv_layout": "BHSD view of BSHD",
+            "gqa_expansion": false,
+            "input_copies": false,
+            "preallocated_output": false
+          }
+        },
+        "fa4": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 0.0001220703125,
+          "max_relative_error_atol_floor": 0.0024984385818243027,
+          "atol": 0.02,
+          "rtol": 0.02,
+          "gpu_us_p50": 28.672481800342823,
+          "eager_us_p50": 40.50909100156842,
+          "eager_wall_us_p50": 40.57518181818182,
+          "gpu_us_rounds": [
+            29.762305296935118,
+            28.677668299402917,
+            28.66815733122038,
+            28.672481800342823,
+            28.67103840137745
+          ],
+          "eager_us_rounds": [
+            40.95903165412672,
+            40.168727527965196,
+            40.040920719955906,
+            41.4879018610174,
+            40.50909100156842
+          ],
+          "eager_wall_us_rounds": [
+            41.01132727272727,
+            40.23861818181818,
+            40.10160606060606,
+            41.55529696969697,
+            40.57518181818182
+          ],
+          "graph_replays_per_round": 333,
+          "eager_calls_per_round": 165,
+          "metadata": {
+            "api": "flash_attn.cute.interface.flash_attn_func",
+            "signature": "(q: torch.Tensor, k: torch.Tensor, v: torch.Tensor, qv: Optional[torch.Tensor] = None, gather_kv_indices: Optional[torch.Tensor] = None, softmax_scale: Optional[float] = None, causal: bool = False, window_size: Tuple[Optional[int], Optional[int]] = (None, None), learnable_sink: Optional[torch.Tensor] = None, softcap: float = 0.0, num_splits: int = 1, pack_gqa: Optional[bool] = None, deterministic: bool = False, score_mod: Optional[Callable] = None, score_mod_bwd: Optional[Callable] = None, mask_mod: Optional[Callable] = None, aux_tensors: Optional[list] = None, aux_scalars: Optional[tuple] = None, block_sparse_tensors: Optional[flash_attn.cute.block_sparsity.BlockSparseTensorsTorch] = None, block_sparse_tensors_bwd: Optional[flash_attn.cute.block_sparsity.BlockSparseTensorsTorch] = None, return_lse: bool = False, gather_bwd_recompute_p: bool = False, gather_bwd_token_chunk: Optional[int] = None)",
+            "q_layout": "BSHD",
+            "kv_layout": "BSHD",
+            "input_copies": false,
+            "gqa_expansion": false,
+            "preallocated_output": false
+          }
+        },
+        "flashinfer_fa2": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 0.0001220703125,
+          "max_relative_error_atol_floor": 0.0015495867701247334,
+          "atol": 0.02,
+          "rtol": 0.02,
+          "gpu_us_p50": 10.242601279957523,
+          "eager_us_p50": 12.762625708834815,
+          "eager_wall_us_p50": 12.851702290076336,
+          "gpu_us_rounds": [
+            10.705709988396524,
+            10.24099766278851,
+            10.582200668436913,
+            10.239964338612715,
+            10.242601279957523
+          ],
+          "eager_us_rounds": [
+            13.148579888671408,
+            12.762625708834815,
+            12.010259482696766,
+            12.782656509457654,
+            12.615572405225448
+          ],
+          "eager_wall_us_rounds": [
+            13.220625954198473,
+            12.835740458015266,
+            13.267916030534352,
+            12.851702290076336,
+            12.682625954198473
+          ],
+          "graph_replays_per_round": 898,
+          "eager_calls_per_round": 131,
+          "metadata": {
+            "backend": "fa2",
+            "workspace_bytes": 134217728,
+            "planning_timed": false,
+            "input_copies": false,
+            "gqa_expansion": false,
+            "preallocated_output": true,
+            "native_paged": false,
+            "kv_layout": "NHD",
+            "dense_storage_view": "zero-copy page16 view for native decode wrapper",
+            "api": "flashinfer.BatchDecodeWithPagedKVCacheWrapper.run",
+            "constructor_signature": "(float_workspace_buffer: torch.Tensor, kv_layout: str = 'NHD', use_cuda_graph: bool = False, use_tensor_cores: bool = False, paged_kv_indptr_buffer: Optional[torch.Tensor] = None, paged_kv_indices_buffer: Optional[torch.Tensor] = None, paged_kv_last_page_len_buffer: Optional[torch.Tensor] = None, backend: str = 'auto', jit_args: Optional[List[Any]] = None) -> None",
+            "run_signature": "(q: torch.Tensor, paged_kv_cache: Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]], *args, q_scale: Optional[float] = None, k_scale: Optional[float] = None, v_scale: Optional[float] = None, out: Optional[torch.Tensor] = None, lse: Optional[torch.Tensor] = None, return_lse: bool = False, enable_pdl: Optional[bool] = None, window_left: Optional[int] = None, sinks: Optional[torch.Tensor] = None, q_len_per_req: Optional[int] = None, skip_softmax_threshold_scale_factor: Optional[float] = None, kv_cache_sf: Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor], NoneType] = None) -> Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]]",
+            "resolved_backend": "fa2"
+          }
+        },
+        "torch_flash": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 0.0001220703125,
+          "max_relative_error_atol_floor": 0.0024984385818243027,
+          "atol": 0.02,
+          "rtol": 0.02,
+          "gpu_us_p50": 31.11797937683303,
+          "eager_us_p50": 28.083467664827413,
+          "eager_wall_us_p50": 28.13044486692015,
+          "gpu_us_rounds": [
+            31.897476961697574,
+            30.81527574162653,
+            31.11797937683303,
+            30.661903924540795,
+            33.168363725483225
+          ],
+          "eager_us_rounds": [
+            28.092714316944658,
+            28.083467664827413,
+            27.975542916997757,
+            28.070083589154958,
+            30.218220482307697
+          ],
+          "eager_wall_us_rounds": [
+            28.13044486692015,
+            28.122730038022816,
+            28.36610266159696,
+            28.112190114068444,
+            30.25652091254753
+          ],
+          "graph_replays_per_round": 309,
+          "eager_calls_per_round": 263,
+          "metadata": {
+            "api": "torch.nn.functional.scaled_dot_product_attention",
+            "forced_backend": "FLASH_ATTENTION",
+            "q_layout": "BHSD view of BSHD",
+            "kv_layout": "BHSD view of BSHD",
+            "gqa_expansion": false,
+            "input_copies": false,
+            "preallocated_output": false
+          }
+        },
+        "torch_efficient": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 0.000244140625,
+          "max_relative_error_atol_floor": 0.0019550323486328125,
+          "atol": 0.02,
+          "rtol": 0.02,
+          "gpu_us_p50": 38.181922613938085,
+          "eager_us_p50": 34.43885660495888,
+          "eager_wall_us_p50": 34.470836734693876,
+          "gpu_us_rounds": [
+            38.053807838955805,
+            35.6120146890552,
+            38.38006966478884,
+            38.24478366621024,
+            38.181922613938085
+          ],
+          "eager_us_rounds": [
+            34.527019578583385,
+            34.41676314996214,
+            34.43646268779729,
+            34.71521131035422,
+            34.43885660495888
+          ],
+          "eager_wall_us_rounds": [
+            35.93872789115647,
+            34.45453401360544,
+            34.4684387755102,
+            34.75061904761905,
+            34.470836734693876
+          ],
+          "graph_replays_per_round": 281,
+          "eager_calls_per_round": 294,
+          "metadata": {
+            "api": "torch.nn.functional.scaled_dot_product_attention",
+            "forced_backend": "EFFICIENT_ATTENTION",
+            "q_layout": "BHSD view of BSHD",
+            "kv_layout": "BHSD view of BSHD",
+            "gqa_expansion": false,
+            "input_copies": false,
+            "preallocated_output": false
+          }
+        },
+        "ours": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 1.9073486328125e-06,
+          "max_relative_error_atol_floor": 9.5367431640625e-05,
+          "atol": 0.02,
+          "rtol": 0.02,
+          "gpu_us_p50": 15.063326720256718,
+          "eager_us_p50": 16.66977598860457,
+          "eager_wall_us_p50": 16.812517374517373,
+          "gpu_us_rounds": [
+            14.997512969269687,
+            15.063326720256718,
+            15.901745187195665,
+            14.999326849056787,
+            17.50595974885669
+          ],
+          "eager_us_rounds": [
+            17.4496367171004,
+            16.77331224831835,
+            16.30616280102822,
+            16.66977598860457,
+            16.336185131293927
+          ],
+          "eager_wall_us_rounds": [
+            17.48719691119691,
+            16.812517374517373,
+            16.747602316602315,
+            16.71000386100386,
+            17.568729729729732
+          ],
+          "graph_replays_per_round": 653,
+          "eager_calls_per_round": 259,
+          "metadata": {
+            "api": "fa5060.decode",
+            "preallocated_output": true,
+            "preallocated_workspace": true,
+            "config": null,
+            "num_splits": null,
+            "native_paged": false,
+            "eager_allocates_output": true,
+            "eager_allocates_workspace": true
+          }
+        }
+      },
+      "provider_execution_order": [
+        "flashinfer_fmha_v2",
+        "torch_cudnn",
+        "fa4",
+        "flashinfer_fa2",
+        "torch_flash",
+        "torch_efficient",
+        "ours"
+      ],
+      "reference": {
+        "api": "fa5060.reference.attention_reference",
+        "algorithm": "blockwise fp32; no full Sq*Sk scores",
+        "tf32": false
+      },
+      "fastest_baseline": "torch_cudnn",
+      "speedup_vs_fastest": 0.6281800961135784,
+      "mandatory_baseline_groups": {
+        "torch_forced_sdpa": [
+          "torch_flash",
+          "torch_cudnn",
+          "torch_efficient"
+        ],
+        "fa4_native": [
+          "fa4"
+        ],
+        "flashinfer_native": [
+          "flashinfer_fa2",
+          "flashinfer_fmha_v2"
+        ]
+      },
+      "baseline_coverage": {
+        "torch_forced_sdpa": true,
+        "fa4_native": true,
+        "flashinfer_native": true
+      },
+      "mandatory_baselines_covered": true,
+      "correctness_passed": false,
+      "incorrect_providers": [
+        "flashinfer_fmha_v2"
+      ],
+      "missing_provider_records": []
+    },
+    {
+      "id": "decode-b1-l512-hq32-hkv1-d64-fp16-paged16",
+      "phase": "decode",
+      "batch": 1,
+      "kv_len": 512,
+      "query_len": 1,
+      "head_dim": 64,
+      "heads_q": 32,
+      "heads_kv": 1,
+      "dtype": "fp16",
+      "layout": "paged",
+      "page_size": 16,
+      "causal": false,
+      "shape": {
+        "q": [
+          1,
+          32,
+          64
+        ],
+        "k": [
+          32,
+          16,
+          1,
+          64
+        ],
+        "v": [
+          32,
+          16,
+          1,
+          64
+        ],
+        "kv_lens": [
+          512
+        ],
+        "block_table": [
+          1,
+          32
+        ],
+        "heads_q": 32,
+        "heads_kv": 1,
+        "head_dim": 64,
+        "batch": 1,
+        "query_len": 1,
+        "kv_len": 512
+      },
+      "seed": 20261102,
+      "providers": {
+        "torch_flash": {
+          "status": "unsupported",
+          "validated": false,
+          "stage": "prepare",
+          "reason": "UnsupportedProvider: forced Torch SDPA has no native paged-KV public API",
+          "gpu_us_p50": null,
+          "eager_us_p50": null,
+          "metadata": {}
+        },
+        "fa4": {
+          "status": "unsupported",
+          "validated": false,
+          "stage": "prepare",
+          "reason": "UnsupportedProvider: FA4 flash_attn_func adapter has no verified native page-table API",
+          "gpu_us_p50": null,
+          "eager_us_p50": null,
+          "metadata": {}
+        },
+        "torch_cudnn": {
+          "status": "unsupported",
+          "validated": false,
+          "stage": "prepare",
+          "reason": "UnsupportedProvider: forced Torch SDPA has no native paged-KV public API",
+          "gpu_us_p50": null,
+          "eager_us_p50": null,
+          "metadata": {}
+        },
+        "ours": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 6.103515625e-05,
+          "max_relative_error_atol_floor": 0.000762939453125,
+          "atol": 0.02,
+          "rtol": 0.02,
+          "gpu_us_p50": 14.839628532575011,
+          "eager_us_p50": 17.522831933688273,
+          "eager_wall_us_p50": 18.120469026548673,
+          "gpu_us_rounds": [
+            15.911083103333464,
+            14.839628532575011,
+            15.89226058393071,
+            14.547269779831263,
+            14.574167529126807
+          ],
+          "eager_us_rounds": [
+            16.926442627358227,
+            17.522831933688273,
+            16.795752322779293,
+            18.159999256640408,
+            18.419398670702908
+          ],
+          "eager_wall_us_rounds": [
+            18.120469026548673,
+            17.56611946902655,
+            17.515128318584072,
+            18.20280530973451,
+            18.4614203539823
+          ],
+          "graph_replays_per_round": 646,
+          "eager_calls_per_round": 226,
+          "metadata": {
+            "api": "fa5060.decode",
+            "preallocated_output": true,
+            "preallocated_workspace": true,
+            "config": null,
+            "num_splits": null,
+            "native_paged": true,
+            "eager_allocates_output": true,
+            "eager_allocates_workspace": true
+          }
+        },
+        "torch_efficient": {
+          "status": "unsupported",
+          "validated": false,
+          "stage": "prepare",
+          "reason": "UnsupportedProvider: forced Torch SDPA has no native paged-KV public API",
+          "gpu_us_p50": null,
+          "eager_us_p50": null,
+          "metadata": {}
+        },
+        "flashinfer_fmha_v2": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 0.000732421875,
+          "max_relative_error_atol_floor": 0.013637542724609375,
+          "atol": 0.02,
+          "rtol": 0.02,
+          "gpu_us_p50": 23.39859822350091,
+          "eager_us_p50": 21.249751879777275,
+          "eager_wall_us_p50": 21.276308357348704,
+          "gpu_us_rounds": [
+            22.53831167356663,
+            23.400266023608747,
+            23.39859822350091,
+            24.42168737474776,
+            22.554465379760163
+          ],
+          "eager_us_rounds": [
+            22.93911172608477,
+            21.247169813436457,
+            21.25712980110982,
+            21.242281889022255,
+            21.249751879777275
+          ],
+          "eager_wall_us_rounds": [
+            23.321619596541787,
+            21.276308357348704,
+            21.287484149855906,
+            21.272106628242074,
+            21.276259365994235
+          ],
+          "graph_replays_per_round": 422,
+          "eager_calls_per_round": 347,
+          "metadata": {
+            "backend": "fmha_v2",
+            "workspace_bytes": 134217728,
+            "planning_timed": false,
+            "input_copies": false,
+            "gqa_expansion": false,
+            "preallocated_output": true,
+            "native_paged": true,
+            "kv_layout": "NHD",
+            "block_table_format": "[B,2,M] native K/V block offsets; static preprocessing",
+            "api": "flashinfer.prefill.trtllm_fmha_v2_prefill",
+            "signature": "(qkv: Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor], Tuple[torch.Tensor, torch.Tensor, torch.Tensor]], input_layout: str, workspace_buffer: torch.Tensor, seq_lens: torch.Tensor, max_q_len: int, max_kv_len: int, bmm1_scale: float, bmm2_scale: float, batch_size: int, cum_seq_lens_q: torch.Tensor, cum_seq_lens_kv: torch.Tensor, block_tables: Optional[torch.Tensor] = None, out: Optional[torch.Tensor] = None, out_dtype: Union[str, torch.dtype, NoneType] = None, sinks: Optional[List[torch.Tensor]] = None, pos_encoding_mode: str = None, logits_soft_cap_scale: Optional[float] = None, mask_mode: str = 'causal', window_left: int = -1, chunked_attention_size: int = 0, save_softmax_stats: bool = False, skip_softmax_threshold_scale_factor: float = 0) -> Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]]",
+            "input_layout": "Q_PAGED_KV_NHD",
+            "decode_entry": "one-query native FMHAv2"
+          }
+        },
+        "flashinfer_fa2": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 0.000244140625,
+          "max_relative_error_atol_floor": 0.003407154930755496,
+          "atol": 0.02,
+          "rtol": 0.02,
+          "gpu_us_p50": 8.321084899630108,
+          "eager_us_p50": 12.270942635851188,
+          "eager_wall_us_p50": 12.405954441913439,
+          "gpu_us_rounds": [
+            8.460046562310524,
+            8.321084899630108,
+            8.491504202986487,
+            8.192314195590399,
+            8.190543815347363
+          ],
+          "eager_us_rounds": [
+            12.270942635851188,
+            12.382979816619248,
+            11.942924290963349,
+            12.114515065603756,
+            12.663471943153608
+          ],
+          "eager_wall_us_rounds": [
+            12.63957630979499,
+            12.405954441913439,
+            12.3142437357631,
+            12.135902050113895,
+            12.684902050113894
+          ],
+          "graph_replays_per_round": 1121,
+          "eager_calls_per_round": 439,
+          "metadata": {
+            "backend": "fa2",
+            "workspace_bytes": 134217728,
+            "planning_timed": false,
+            "input_copies": false,
+            "gqa_expansion": false,
+            "preallocated_output": true,
+            "native_paged": true,
+            "kv_layout": "NHD",
+            "api": "flashinfer.BatchDecodeWithPagedKVCacheWrapper.run",
+            "constructor_signature": "(float_workspace_buffer: torch.Tensor, kv_layout: str = 'NHD', use_cuda_graph: bool = False, use_tensor_cores: bool = False, paged_kv_indptr_buffer: Optional[torch.Tensor] = None, paged_kv_indices_buffer: Optional[torch.Tensor] = None, paged_kv_last_page_len_buffer: Optional[torch.Tensor] = None, backend: str = 'auto', jit_args: Optional[List[Any]] = None) -> None",
+            "run_signature": "(q: torch.Tensor, paged_kv_cache: Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]], *args, q_scale: Optional[float] = None, k_scale: Optional[float] = None, v_scale: Optional[float] = None, out: Optional[torch.Tensor] = None, lse: Optional[torch.Tensor] = None, return_lse: bool = False, enable_pdl: Optional[bool] = None, window_left: Optional[int] = None, sinks: Optional[torch.Tensor] = None, q_len_per_req: Optional[int] = None, skip_softmax_threshold_scale_factor: Optional[float] = None, kv_cache_sf: Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor], NoneType] = None) -> Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]]",
+            "resolved_backend": "fa2"
+          }
+        }
+      },
+      "provider_execution_order": [
+        "torch_flash",
+        "fa4",
+        "torch_cudnn",
+        "ours",
+        "torch_efficient",
+        "flashinfer_fmha_v2",
+        "flashinfer_fa2"
+      ],
+      "reference": {
+        "api": "fa5060.reference.attention_reference",
+        "algorithm": "blockwise fp32; no full Sq*Sk scores",
+        "tf32": false
+      },
+      "fastest_baseline": "flashinfer_fa2",
+      "speedup_vs_fastest": 0.5607340427264867,
+      "mandatory_baseline_groups": {
+        "flashinfer_native": [
+          "flashinfer_fa2",
+          "flashinfer_fmha_v2"
+        ]
+      },
+      "baseline_coverage": {
+        "flashinfer_native": true
+      },
+      "mandatory_baselines_covered": true,
+      "correctness_passed": true,
+      "incorrect_providers": [],
+      "missing_provider_records": []
+    },
+    {
+      "id": "decode-b1-l512-hq32-hkv8-d128-bf16-dense",
+      "phase": "decode",
+      "batch": 1,
+      "kv_len": 512,
+      "query_len": 1,
+      "head_dim": 128,
+      "heads_q": 32,
+      "heads_kv": 8,
+      "dtype": "bf16",
+      "layout": "dense",
+      "page_size": 16,
+      "causal": false,
+      "shape": {
+        "q": [
+          1,
+          32,
+          128
+        ],
+        "k": [
+          1,
+          512,
+          8,
+          128
+        ],
+        "v": [
+          1,
+          512,
+          8,
+          128
+        ],
+        "kv_lens": [
+          512
+        ],
+        "block_table": null,
+        "heads_q": 32,
+        "heads_kv": 8,
+        "head_dim": 128,
+        "batch": 1,
+        "query_len": 1,
+        "kv_len": 512
+      },
+      "seed": 20261102,
+      "providers": {
+        "torch_cudnn": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 0.0009765625,
+          "max_relative_error_atol_floor": 0.009765625,
+          "atol": 0.05,
+          "rtol": 0.05,
+          "gpu_us_p50": 8.202613943455104,
+          "eager_us_p50": 17.415058963439044,
+          "eager_wall_us_p50": 17.45337867647059,
+          "gpu_us_rounds": [
+            8.19949715704865,
+            8.202613943455104,
+            8.198707524122057,
+            8.823358909710414,
+            8.70920844495517
+          ],
+          "eager_us_rounds": [
+            17.445529208463782,
+            17.109529060475968,
+            17.43717579280629,
+            17.415058963439044,
+            17.16458797454834
+          ],
+          "eager_wall_us_rounds": [
+            17.479154411764707,
+            17.146404411764706,
+            17.46883088235294,
+            17.45337867647059,
+            17.196165441176472
+          ],
+          "graph_replays_per_round": 811,
+          "eager_calls_per_round": 272,
+          "metadata": {
+            "api": "torch.nn.functional.scaled_dot_product_attention",
+            "forced_backend": "CUDNN_ATTENTION",
+            "q_layout": "BHSD view of BSHD",
+            "kv_layout": "BHSD view of BSHD",
+            "gqa_expansion": false,
+            "input_copies": false,
+            "preallocated_output": false
+          }
+        },
+        "flashinfer_fmha_v2": {
+          "status": "incorrect",
+          "validated": false,
+          "stage": "correctness",
+          "reason": "CorrectnessError: reference mismatch: max_abs=0.44238281, max_relative_atol_floor=6.5155029, atol=0.05, rtol=0.05",
+          "gpu_us_p50": null,
+          "eager_us_p50": null,
+          "metadata": {
+            "backend": "fmha_v2",
+            "workspace_bytes": 134217728,
+            "planning_timed": false,
+            "input_copies": false,
+            "gqa_expansion": false,
+            "preallocated_output": true,
+            "native_paged": false,
+            "kv_layout": "NHD",
+            "api": "flashinfer.prefill.trtllm_fmha_v2_prefill",
+            "signature": "(qkv: Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor], Tuple[torch.Tensor, torch.Tensor, torch.Tensor]], input_layout: str, workspace_buffer: torch.Tensor, seq_lens: torch.Tensor, max_q_len: int, max_kv_len: int, bmm1_scale: float, bmm2_scale: float, batch_size: int, cum_seq_lens_q: torch.Tensor, cum_seq_lens_kv: torch.Tensor, block_tables: Optional[torch.Tensor] = None, out: Optional[torch.Tensor] = None, out_dtype: Union[str, torch.dtype, NoneType] = None, sinks: Optional[List[torch.Tensor]] = None, pos_encoding_mode: str = None, logits_soft_cap_scale: Optional[float] = None, mask_mode: str = 'causal', window_left: int = -1, chunked_attention_size: int = 0, save_softmax_stats: bool = False, skip_softmax_threshold_scale_factor: float = 0) -> Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]]",
+            "input_layout": "SEPARATE_Q_K_V",
+            "decode_entry": "one-query native FMHAv2"
+          }
+        },
+        "ours": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 9.5367431640625e-07,
+          "max_relative_error_atol_floor": 1.9073486328125e-05,
+          "atol": 0.05,
+          "rtol": 0.05,
+          "gpu_us_p50": 24.57384494919851,
+          "eager_us_p50": 24.06152887233896,
+          "eager_wall_us_p50": 24.098467181467182,
+          "gpu_us_rounds": [
+            24.57384494919851,
+            24.575006158858383,
+            24.57185606882362,
+            26.097161782220237,
+            24.570529325020747
+          ],
+          "eager_us_rounds": [
+            24.06152887233896,
+            24.17766725694811,
+            24.84917364525519,
+            23.21754367195041,
+            22.702456441164937
+          ],
+          "eager_wall_us_rounds": [
+            24.098467181467182,
+            24.793864864864865,
+            24.887243243243244,
+            24.017185328185327,
+            22.74338223938224
+          ],
+          "graph_replays_per_round": 386,
+          "eager_calls_per_round": 259,
+          "metadata": {
+            "api": "fa5060.decode",
+            "preallocated_output": true,
+            "preallocated_workspace": true,
+            "config": null,
+            "num_splits": null,
+            "native_paged": false,
+            "eager_allocates_output": true,
+            "eager_allocates_workspace": true
+          }
+        },
+        "flashinfer_fa2": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 0.001953125,
+          "max_relative_error_atol_floor": 0.01220703125,
+          "atol": 0.05,
+          "rtol": 0.05,
+          "gpu_us_p50": 10.395076628379865,
+          "eager_us_p50": 12.642321808968184,
+          "eager_wall_us_p50": 12.697753886010362,
+          "gpu_us_rounds": [
+            10.239607514346323,
+            10.787174986091877,
+            10.395076628379865,
+            10.23964366253669,
+            11.032116187190265
+          ],
+          "eager_us_rounds": [
+            12.642321808968184,
+            12.59821807782267,
+            12.673491641029793,
+            13.696497586107007,
+            12.504870409792568
+          ],
+          "eager_wall_us_rounds": [
+            12.665709844559585,
+            12.622740932642486,
+            12.697753886010362,
+            13.722106217616581,
+            12.831839378238342
+          ],
+          "graph_replays_per_round": 897,
+          "eager_calls_per_round": 386,
+          "metadata": {
+            "backend": "fa2",
+            "workspace_bytes": 134217728,
+            "planning_timed": false,
+            "input_copies": false,
+            "gqa_expansion": false,
+            "preallocated_output": true,
+            "native_paged": false,
+            "kv_layout": "NHD",
+            "dense_storage_view": "zero-copy page16 view for native decode wrapper",
+            "api": "flashinfer.BatchDecodeWithPagedKVCacheWrapper.run",
+            "constructor_signature": "(float_workspace_buffer: torch.Tensor, kv_layout: str = 'NHD', use_cuda_graph: bool = False, use_tensor_cores: bool = False, paged_kv_indptr_buffer: Optional[torch.Tensor] = None, paged_kv_indices_buffer: Optional[torch.Tensor] = None, paged_kv_last_page_len_buffer: Optional[torch.Tensor] = None, backend: str = 'auto', jit_args: Optional[List[Any]] = None) -> None",
+            "run_signature": "(q: torch.Tensor, paged_kv_cache: Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]], *args, q_scale: Optional[float] = None, k_scale: Optional[float] = None, v_scale: Optional[float] = None, out: Optional[torch.Tensor] = None, lse: Optional[torch.Tensor] = None, return_lse: bool = False, enable_pdl: Optional[bool] = None, window_left: Optional[int] = None, sinks: Optional[torch.Tensor] = None, q_len_per_req: Optional[int] = None, skip_softmax_threshold_scale_factor: Optional[float] = None, kv_cache_sf: Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor], NoneType] = None) -> Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]]",
+            "resolved_backend": "fa2"
+          }
+        },
+        "torch_efficient": {
+          "status": "unsupported",
+          "validated": false,
+          "stage": "prepare",
+          "reason": "UnsupportedProvider: Torch can_use_efficient_attention rejected the exact strided/GQA inputs; backend=EFFICIENT_ATTENTION, case=decode-b1-l512-hq32-hkv8-d128-bf16-dense",
+          "gpu_us_p50": null,
+          "eager_us_p50": null,
+          "metadata": {}
+        },
+        "torch_flash": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 0.0009765625,
+          "max_relative_error_atol_floor": 0.009765625,
+          "atol": 0.05,
+          "rtol": 0.05,
+          "gpu_us_p50": 14.337962229072318,
+          "eager_us_p50": 19.350692337634516,
+          "eager_wall_us_p50": 19.38092156862745,
+          "gpu_us_rounds": [
+            14.338017345101111,
+            14.336223568891269,
+            14.33650415958331,
+            14.63677795463602,
+            14.337962229072318
+          ],
+          "eager_us_rounds": [
+            19.698509203842264,
+            19.330091725767048,
+            19.29118898179796,
+            19.76219657199835,
+            19.350692337634516
+          ],
+          "eager_wall_us_rounds": [
+            19.729866013071895,
+            19.363003267973856,
+            19.31986928104575,
+            19.793506535947714,
+            19.38092156862745
+          ],
+          "graph_replays_per_round": 571,
+          "eager_calls_per_round": 306,
+          "metadata": {
+            "api": "torch.nn.functional.scaled_dot_product_attention",
+            "forced_backend": "FLASH_ATTENTION",
+            "q_layout": "BHSD view of BSHD",
+            "kv_layout": "BHSD view of BSHD",
+            "gqa_expansion": false,
+            "input_copies": false,
+            "preallocated_output": false
+          }
+        },
+        "fa4": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 0.0009765625,
+          "max_relative_error_atol_floor": 0.009765625,
+          "atol": 0.05,
+          "rtol": 0.05,
+          "gpu_us_p50": 29.220598186561446,
+          "eager_us_p50": 40.54829260198081,
+          "eager_wall_us_p50": 40.91960365853658,
+          "gpu_us_rounds": [
+            28.67468245729001,
+            28.68023889507362,
+            32.92157978354814,
+            32.94380838999491,
+            29.220598186561446
+          ],
+          "eager_us_rounds": [
+            42.71083052565412,
+            40.54829260198081,
+            39.639609615977214,
+            40.34048754994462,
+            41.18321872339016
+          ],
+          "eager_wall_us_rounds": [
+            42.77220121951219,
+            40.61663414634146,
+            40.91960365853658,
+            40.40261585365854,
+            41.24706707317073
+          ],
+          "graph_replays_per_round": 334,
+          "eager_calls_per_round": 164,
+          "metadata": {
+            "api": "flash_attn.cute.interface.flash_attn_func",
+            "signature": "(q: torch.Tensor, k: torch.Tensor, v: torch.Tensor, qv: Optional[torch.Tensor] = None, gather_kv_indices: Optional[torch.Tensor] = None, softmax_scale: Optional[float] = None, causal: bool = False, window_size: Tuple[Optional[int], Optional[int]] = (None, None), learnable_sink: Optional[torch.Tensor] = None, softcap: float = 0.0, num_splits: int = 1, pack_gqa: Optional[bool] = None, deterministic: bool = False, score_mod: Optional[Callable] = None, score_mod_bwd: Optional[Callable] = None, mask_mod: Optional[Callable] = None, aux_tensors: Optional[list] = None, aux_scalars: Optional[tuple] = None, block_sparse_tensors: Optional[flash_attn.cute.block_sparsity.BlockSparseTensorsTorch] = None, block_sparse_tensors_bwd: Optional[flash_attn.cute.block_sparsity.BlockSparseTensorsTorch] = None, return_lse: bool = False, gather_bwd_recompute_p: bool = False, gather_bwd_token_chunk: Optional[int] = None)",
+            "q_layout": "BSHD",
+            "kv_layout": "BSHD",
+            "input_copies": false,
+            "gqa_expansion": false,
+            "preallocated_output": false
+          }
+        }
+      },
+      "provider_execution_order": [
+        "torch_cudnn",
+        "flashinfer_fmha_v2",
+        "ours",
+        "flashinfer_fa2",
+        "torch_efficient",
+        "torch_flash",
+        "fa4"
+      ],
+      "reference": {
+        "api": "fa5060.reference.attention_reference",
+        "algorithm": "blockwise fp32; no full Sq*Sk scores",
+        "tf32": false
+      },
+      "fastest_baseline": "torch_cudnn",
+      "speedup_vs_fastest": 0.3337944859834658,
+      "mandatory_baseline_groups": {
+        "torch_forced_sdpa": [
+          "torch_flash",
+          "torch_cudnn",
+          "torch_efficient"
+        ],
+        "fa4_native": [
+          "fa4"
+        ],
+        "flashinfer_native": [
+          "flashinfer_fa2",
+          "flashinfer_fmha_v2"
+        ]
+      },
+      "baseline_coverage": {
+        "torch_forced_sdpa": true,
+        "fa4_native": true,
+        "flashinfer_native": true
+      },
+      "mandatory_baselines_covered": true,
+      "correctness_passed": false,
+      "incorrect_providers": [
+        "flashinfer_fmha_v2"
+      ],
+      "missing_provider_records": []
+    },
+    {
+      "id": "decode-b1-l512-hq32-hkv1-d128-bf16-paged16",
+      "phase": "decode",
+      "batch": 1,
+      "kv_len": 512,
+      "query_len": 1,
+      "head_dim": 128,
+      "heads_q": 32,
+      "heads_kv": 1,
+      "dtype": "bf16",
+      "layout": "paged",
+      "page_size": 16,
+      "causal": false,
+      "shape": {
+        "q": [
+          1,
+          32,
+          128
+        ],
+        "k": [
+          32,
+          16,
+          1,
+          128
+        ],
+        "v": [
+          32,
+          16,
+          1,
+          128
+        ],
+        "kv_lens": [
+          512
+        ],
+        "block_table": [
+          1,
+          32
+        ],
+        "heads_q": 32,
+        "heads_kv": 1,
+        "head_dim": 128,
+        "batch": 1,
+        "query_len": 1,
+        "kv_len": 512
+      },
+      "seed": 20261102,
+      "providers": {
+        "torch_cudnn": {
+          "status": "unsupported",
+          "validated": false,
+          "stage": "prepare",
+          "reason": "UnsupportedProvider: forced Torch SDPA has no native paged-KV public API",
+          "gpu_us_p50": null,
+          "eager_us_p50": null,
+          "metadata": {}
+        },
+        "torch_efficient": {
+          "status": "unsupported",
+          "validated": false,
+          "stage": "prepare",
+          "reason": "UnsupportedProvider: forced Torch SDPA has no native paged-KV public API",
+          "gpu_us_p50": null,
+          "eager_us_p50": null,
+          "metadata": {}
+        },
+        "flashinfer_fmha_v2": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 0.001953125,
+          "max_relative_error_atol_floor": 0.009765625,
+          "atol": 0.05,
+          "rtol": 0.05,
+          "gpu_us_p50": 39.41991889619257,
+          "eager_us_p50": 38.178716387067524,
+          "eager_wall_us_p50": 38.224535714285715,
+          "gpu_us_rounds": [
+            39.35745132871833,
+            39.275347949024216,
+            39.85338477024519,
+            42.076939130684295,
+            39.41991889619257
+          ],
+          "eager_us_rounds": [
+            38.482857601983206,
+            38.16556930541992,
+            40.22599969591413,
+            36.5297155720847,
+            38.178716387067524
+          ],
+          "eager_wall_us_rounds": [
+            39.22622321428572,
+            38.21929017857143,
+            40.26925,
+            37.10768303571428,
+            38.224535714285715
+          ],
+          "graph_replays_per_round": 251,
+          "eager_calls_per_round": 224,
+          "metadata": {
+            "backend": "fmha_v2",
+            "workspace_bytes": 134217728,
+            "planning_timed": false,
+            "input_copies": false,
+            "gqa_expansion": false,
+            "preallocated_output": true,
+            "native_paged": true,
+            "kv_layout": "NHD",
+            "block_table_format": "[B,2,M] native K/V block offsets; static preprocessing",
+            "api": "flashinfer.prefill.trtllm_fmha_v2_prefill",
+            "signature": "(qkv: Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor], Tuple[torch.Tensor, torch.Tensor, torch.Tensor]], input_layout: str, workspace_buffer: torch.Tensor, seq_lens: torch.Tensor, max_q_len: int, max_kv_len: int, bmm1_scale: float, bmm2_scale: float, batch_size: int, cum_seq_lens_q: torch.Tensor, cum_seq_lens_kv: torch.Tensor, block_tables: Optional[torch.Tensor] = None, out: Optional[torch.Tensor] = None, out_dtype: Union[str, torch.dtype, NoneType] = None, sinks: Optional[List[torch.Tensor]] = None, pos_encoding_mode: str = None, logits_soft_cap_scale: Optional[float] = None, mask_mode: str = 'causal', window_left: int = -1, chunked_attention_size: int = 0, save_softmax_stats: bool = False, skip_softmax_threshold_scale_factor: float = 0) -> Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]]",
+            "input_layout": "Q_PAGED_KV_NHD",
+            "decode_entry": "one-query native FMHAv2"
+          }
+        },
+        "ours": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 3.814697265625e-06,
+          "max_relative_error_atol_floor": 7.62939453125e-05,
+          "atol": 0.05,
+          "rtol": 0.05,
+          "gpu_us_p50": 22.174217861379105,
+          "eager_us_p50": 19.357485430581228,
+          "eager_wall_us_p50": 19.827792857142857,
+          "gpu_us_rounds": [
+            23.05366047020578,
+            22.174217861379105,
+            21.027045017605314,
+            22.50357404385808,
+            20.85902574720626
+          ],
+          "eager_us_rounds": [
+            19.13577147892543,
+            19.303315026419504,
+            19.357485430581228,
+            20.566628660474503,
+            20.223542622157506
+          ],
+          "eager_wall_us_rounds": [
+            19.827792857142857,
+            19.371914285714286,
+            19.428135714285713,
+            22.65477142857143,
+            20.295992857142856
+          ],
+          "graph_replays_per_round": 431,
+          "eager_calls_per_round": 140,
+          "metadata": {
+            "api": "fa5060.decode",
+            "preallocated_output": true,
+            "preallocated_workspace": true,
+            "config": null,
+            "num_splits": null,
+            "native_paged": true,
+            "eager_allocates_output": true,
+            "eager_allocates_workspace": true
+          }
+        },
+        "torch_flash": {
+          "status": "unsupported",
+          "validated": false,
+          "stage": "prepare",
+          "reason": "UnsupportedProvider: forced Torch SDPA has no native paged-KV public API",
+          "gpu_us_p50": null,
+          "eager_us_p50": null,
+          "metadata": {}
+        },
+        "fa4": {
+          "status": "unsupported",
+          "validated": false,
+          "stage": "prepare",
+          "reason": "UnsupportedProvider: FA4 flash_attn_func adapter has no verified native page-table API",
+          "gpu_us_p50": null,
+          "eager_us_p50": null,
+          "metadata": {}
+        },
+        "flashinfer_fa2": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 0.001953125,
+          "max_relative_error_atol_floor": 0.01007080078125,
+          "atol": 0.05,
+          "rtol": 0.05,
+          "gpu_us_p50": 10.707532172595268,
+          "eager_us_p50": 12.488888971733324,
+          "eager_wall_us_p50": 12.863242424242424,
+          "gpu_us_rounds": [
+            10.8171778839904,
+            10.424692393381358,
+            10.557091081297242,
+            10.734753175215287,
+            10.707532172595268
+          ],
+          "eager_us_rounds": [
+            12.488888971733324,
+            12.935434929048172,
+            12.59854586437495,
+            12.470625867747296,
+            12.449535456570713
+          ],
+          "eager_wall_us_rounds": [
+            12.512611111111111,
+            12.961093434343434,
+            13.005128787878787,
+            12.495512626262625,
+            12.863242424242424
+          ],
+          "graph_replays_per_round": 924,
+          "eager_calls_per_round": 396,
+          "metadata": {
+            "backend": "fa2",
+            "workspace_bytes": 134217728,
+            "planning_timed": false,
+            "input_copies": false,
+            "gqa_expansion": false,
+            "preallocated_output": true,
+            "native_paged": true,
+            "kv_layout": "NHD",
+            "api": "flashinfer.BatchDecodeWithPagedKVCacheWrapper.run",
+            "constructor_signature": "(float_workspace_buffer: torch.Tensor, kv_layout: str = 'NHD', use_cuda_graph: bool = False, use_tensor_cores: bool = False, paged_kv_indptr_buffer: Optional[torch.Tensor] = None, paged_kv_indices_buffer: Optional[torch.Tensor] = None, paged_kv_last_page_len_buffer: Optional[torch.Tensor] = None, backend: str = 'auto', jit_args: Optional[List[Any]] = None) -> None",
+            "run_signature": "(q: torch.Tensor, paged_kv_cache: Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]], *args, q_scale: Optional[float] = None, k_scale: Optional[float] = None, v_scale: Optional[float] = None, out: Optional[torch.Tensor] = None, lse: Optional[torch.Tensor] = None, return_lse: bool = False, enable_pdl: Optional[bool] = None, window_left: Optional[int] = None, sinks: Optional[torch.Tensor] = None, q_len_per_req: Optional[int] = None, skip_softmax_threshold_scale_factor: Optional[float] = None, kv_cache_sf: Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor], NoneType] = None) -> Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]]",
+            "resolved_backend": "fa2"
+          }
+        }
+      },
+      "provider_execution_order": [
+        "torch_cudnn",
+        "torch_efficient",
+        "flashinfer_fmha_v2",
+        "ours",
+        "torch_flash",
+        "fa4",
+        "flashinfer_fa2"
+      ],
+      "reference": {
+        "api": "fa5060.reference.attention_reference",
+        "algorithm": "blockwise fp32; no full Sq*Sk scores",
+        "tf32": false
+      },
+      "fastest_baseline": "flashinfer_fa2",
+      "speedup_vs_fastest": 0.48288206779300236,
+      "mandatory_baseline_groups": {
+        "flashinfer_native": [
+          "flashinfer_fa2",
+          "flashinfer_fmha_v2"
+        ]
+      },
+      "baseline_coverage": {
+        "flashinfer_native": true
+      },
+      "mandatory_baselines_covered": true,
+      "correctness_passed": true,
+      "incorrect_providers": [],
+      "missing_provider_records": []
+    }
+  ],
+  "summary": {
+    "suite": "smoke",
+    "unexpected_cases": [],
+    "thresholds": {
+      "geometric_mean_speedup": 1.1,
+      "worst_speedup": 0.95
+    },
+    "prefill": {
+      "expected_cases": 4,
+      "completed_cases": 4,
+      "comparable_cases": 4,
+      "missing_cases": [],
+      "duplicate_cases": [],
+      "uncovered_or_incorrect_cases": [
+        "prefill-b1-l512-hq32-hkv32-d64-fp16-dense",
+        "prefill-b1-l512-hq32-hkv8-d128-bf16-dense"
+      ],
+      "coverage_complete": false,
+      "geometric_mean_speedup": 1.03812950564563,
+      "worst_speedup": 0.9508530812057318,
+      "target_met": false
+    },
+    "decode": {
+      "expected_cases": 4,
+      "completed_cases": 4,
+      "comparable_cases": 4,
+      "missing_cases": [],
+      "duplicate_cases": [],
+      "uncovered_or_incorrect_cases": [
+        "decode-b1-l512-hq32-hkv32-d64-fp16-dense",
+        "decode-b1-l512-hq32-hkv8-d128-bf16-dense"
+      ],
+      "coverage_complete": false,
+      "geometric_mean_speedup": 0.48813543209372107,
+      "worst_speedup": 0.3337944859834658,
+      "target_met": false
+    },
+    "target_met": false
+  }
+}

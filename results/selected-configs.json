@@ -1,0 +1,2489 @@
+{
+  "prefill-b1-l512-hq32-hkv32-d64-fp16-dense": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b1-l512-hq32-hkv32-d64-fp16-paged16": {
+    "config": null,
+    "num_splits": null
+  },
+  "prefill-b1-l512-hq32-hkv32-d64-bf16-dense": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "tma"
+    },
+    "num_splits": null
+  },
+  "prefill-b1-l512-hq32-hkv32-d64-bf16-paged16": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b1-l512-hq32-hkv8-d64-fp16-dense": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b1-l512-hq32-hkv8-d64-fp16-paged16": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b1-l512-hq32-hkv8-d64-bf16-dense": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "tma"
+    },
+    "num_splits": null
+  },
+  "prefill-b1-l512-hq32-hkv8-d64-bf16-paged16": {
+    "config": null,
+    "num_splits": null
+  },
+  "prefill-b1-l512-hq32-hkv1-d64-fp16-dense": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "tma"
+    },
+    "num_splits": null
+  },
+  "prefill-b1-l512-hq32-hkv1-d64-fp16-paged16": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b1-l512-hq32-hkv1-d64-bf16-dense": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "tma"
+    },
+    "num_splits": null
+  },
+  "prefill-b1-l512-hq32-hkv1-d64-bf16-paged16": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b1-l512-hq32-hkv32-d128-fp16-dense": {
+    "config": null,
+    "num_splits": null
+  },
+  "prefill-b1-l512-hq32-hkv32-d128-fp16-paged16": {
+    "config": {
+      "block_m": 32,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b1-l512-hq32-hkv32-d128-bf16-dense": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b1-l512-hq32-hkv32-d128-bf16-paged16": {
+    "config": null,
+    "num_splits": null
+  },
+  "prefill-b1-l512-hq32-hkv8-d128-fp16-dense": {
+    "config": null,
+    "num_splits": null
+  },
+  "prefill-b1-l512-hq32-hkv8-d128-fp16-paged16": {
+    "config": {
+      "block_m": 32,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b1-l512-hq32-hkv8-d128-bf16-dense": {
+    "config": null,
+    "num_splits": null
+  },
+  "prefill-b1-l512-hq32-hkv8-d128-bf16-paged16": {
+    "config": null,
+    "num_splits": null
+  },
+  "prefill-b1-l512-hq32-hkv1-d128-fp16-dense": {
+    "config": null,
+    "num_splits": null
+  },
+  "prefill-b1-l512-hq32-hkv1-d128-fp16-paged16": {
+    "config": {
+      "block_m": 32,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b1-l512-hq32-hkv1-d128-bf16-dense": {
+    "config": null,
+    "num_splits": null
+  },
+  "prefill-b1-l512-hq32-hkv1-d128-bf16-paged16": {
+    "config": {
+      "block_m": 32,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b1-l2048-hq32-hkv32-d64-fp16-dense": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "tma"
+    },
+    "num_splits": null
+  },
+  "prefill-b1-l2048-hq32-hkv32-d64-fp16-paged16": {
+    "config": {
+      "block_m": 64,
+      "block_n": 128,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b1-l2048-hq32-hkv32-d64-bf16-dense": {
+    "config": {
+      "block_m": 64,
+      "block_n": 128,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b1-l2048-hq32-hkv32-d64-bf16-paged16": {
+    "config": {
+      "block_m": 64,
+      "block_n": 128,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b1-l2048-hq32-hkv8-d64-fp16-dense": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b1-l2048-hq32-hkv8-d64-fp16-paged16": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b1-l2048-hq32-hkv8-d64-bf16-dense": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "tma"
+    },
+    "num_splits": null
+  },
+  "prefill-b1-l2048-hq32-hkv8-d64-bf16-paged16": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b1-l2048-hq32-hkv1-d64-fp16-dense": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b1-l2048-hq32-hkv1-d64-fp16-paged16": {
+    "config": {
+      "block_m": 64,
+      "block_n": 128,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b1-l2048-hq32-hkv1-d64-bf16-dense": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "tma"
+    },
+    "num_splits": null
+  },
+  "prefill-b1-l2048-hq32-hkv1-d64-bf16-paged16": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b1-l2048-hq32-hkv32-d128-fp16-dense": {
+    "config": null,
+    "num_splits": null
+  },
+  "prefill-b1-l2048-hq32-hkv32-d128-fp16-paged16": {
+    "config": null,
+    "num_splits": null
+  },
+  "prefill-b1-l2048-hq32-hkv32-d128-bf16-dense": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b1-l2048-hq32-hkv32-d128-bf16-paged16": {
+    "config": {
+      "block_m": 32,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b1-l2048-hq32-hkv8-d128-fp16-dense": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b1-l2048-hq32-hkv8-d128-fp16-paged16": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b1-l2048-hq32-hkv8-d128-bf16-dense": {
+    "config": null,
+    "num_splits": null
+  },
+  "prefill-b1-l2048-hq32-hkv8-d128-bf16-paged16": {
+    "config": null,
+    "num_splits": null
+  },
+  "prefill-b1-l2048-hq32-hkv1-d128-fp16-dense": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b1-l2048-hq32-hkv1-d128-fp16-paged16": {
+    "config": {
+      "block_m": 32,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b1-l2048-hq32-hkv1-d128-bf16-dense": {
+    "config": null,
+    "num_splits": null
+  },
+  "prefill-b1-l2048-hq32-hkv1-d128-bf16-paged16": {
+    "config": null,
+    "num_splits": null
+  },
+  "prefill-b1-l8192-hq32-hkv32-d64-fp16-dense": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b1-l8192-hq32-hkv32-d64-fp16-paged16": {
+    "config": {
+      "block_m": 64,
+      "block_n": 128,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b1-l8192-hq32-hkv32-d64-bf16-dense": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b1-l8192-hq32-hkv32-d64-bf16-paged16": {
+    "config": {
+      "block_m": 64,
+      "block_n": 128,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b1-l8192-hq32-hkv8-d64-fp16-dense": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b1-l8192-hq32-hkv8-d64-fp16-paged16": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b1-l8192-hq32-hkv8-d64-bf16-dense": {
+    "config": {
+      "block_m": 64,
+      "block_n": 128,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b1-l8192-hq32-hkv8-d64-bf16-paged16": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b1-l8192-hq32-hkv1-d64-fp16-dense": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b1-l8192-hq32-hkv1-d64-fp16-paged16": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b1-l8192-hq32-hkv1-d64-bf16-dense": {
+    "config": {
+      "block_m": 64,
+      "block_n": 128,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b1-l8192-hq32-hkv1-d64-bf16-paged16": {
+    "config": {
+      "block_m": 64,
+      "block_n": 128,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b1-l8192-hq32-hkv32-d128-fp16-dense": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b1-l8192-hq32-hkv32-d128-fp16-paged16": {
+    "config": null,
+    "num_splits": null
+  },
+  "prefill-b1-l8192-hq32-hkv32-d128-bf16-dense": {
+    "config": null,
+    "num_splits": null
+  },
+  "prefill-b1-l8192-hq32-hkv32-d128-bf16-paged16": {
+    "config": {
+      "block_m": 32,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b1-l8192-hq32-hkv8-d128-fp16-dense": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b1-l8192-hq32-hkv8-d128-fp16-paged16": {
+    "config": null,
+    "num_splits": null
+  },
+  "prefill-b1-l8192-hq32-hkv8-d128-bf16-dense": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b1-l8192-hq32-hkv8-d128-bf16-paged16": {
+    "config": null,
+    "num_splits": null
+  },
+  "prefill-b1-l8192-hq32-hkv1-d128-fp16-dense": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b1-l8192-hq32-hkv1-d128-fp16-paged16": {
+    "config": null,
+    "num_splits": null
+  },
+  "prefill-b1-l8192-hq32-hkv1-d128-bf16-dense": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b1-l8192-hq32-hkv1-d128-bf16-paged16": {
+    "config": {
+      "block_m": 32,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b4-l512-hq32-hkv32-d64-fp16-dense": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "tma"
+    },
+    "num_splits": null
+  },
+  "prefill-b4-l512-hq32-hkv32-d64-fp16-paged16": {
+    "config": null,
+    "num_splits": null
+  },
+  "prefill-b4-l512-hq32-hkv32-d64-bf16-dense": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "tma"
+    },
+    "num_splits": null
+  },
+  "prefill-b4-l512-hq32-hkv32-d64-bf16-paged16": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b4-l512-hq32-hkv8-d64-fp16-dense": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "tma"
+    },
+    "num_splits": null
+  },
+  "prefill-b4-l512-hq32-hkv8-d64-fp16-paged16": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b4-l512-hq32-hkv8-d64-bf16-dense": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "tma"
+    },
+    "num_splits": null
+  },
+  "prefill-b4-l512-hq32-hkv8-d64-bf16-paged16": {
+    "config": null,
+    "num_splits": null
+  },
+  "prefill-b4-l512-hq32-hkv1-d64-fp16-dense": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "tma"
+    },
+    "num_splits": null
+  },
+  "prefill-b4-l512-hq32-hkv1-d64-fp16-paged16": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b4-l512-hq32-hkv1-d64-bf16-dense": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "tma"
+    },
+    "num_splits": null
+  },
+  "prefill-b4-l512-hq32-hkv1-d64-bf16-paged16": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b4-l512-hq32-hkv32-d128-fp16-dense": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b4-l512-hq32-hkv32-d128-fp16-paged16": {
+    "config": null,
+    "num_splits": null
+  },
+  "prefill-b4-l512-hq32-hkv32-d128-bf16-dense": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b4-l512-hq32-hkv32-d128-bf16-paged16": {
+    "config": {
+      "block_m": 32,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b4-l512-hq32-hkv8-d128-fp16-dense": {
+    "config": null,
+    "num_splits": null
+  },
+  "prefill-b4-l512-hq32-hkv8-d128-fp16-paged16": {
+    "config": {
+      "block_m": 32,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b4-l512-hq32-hkv8-d128-bf16-dense": {
+    "config": null,
+    "num_splits": null
+  },
+  "prefill-b4-l512-hq32-hkv8-d128-bf16-paged16": {
+    "config": null,
+    "num_splits": null
+  },
+  "prefill-b4-l512-hq32-hkv1-d128-fp16-dense": {
+    "config": null,
+    "num_splits": null
+  },
+  "prefill-b4-l512-hq32-hkv1-d128-fp16-paged16": {
+    "config": {
+      "block_m": 32,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b4-l512-hq32-hkv1-d128-bf16-dense": {
+    "config": null,
+    "num_splits": null
+  },
+  "prefill-b4-l512-hq32-hkv1-d128-bf16-paged16": {
+    "config": null,
+    "num_splits": null
+  },
+  "prefill-b4-l2048-hq32-hkv32-d64-fp16-dense": {
+    "config": {
+      "block_m": 64,
+      "block_n": 128,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b4-l2048-hq32-hkv32-d64-fp16-paged16": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b4-l2048-hq32-hkv32-d64-bf16-dense": {
+    "config": {
+      "block_m": 64,
+      "block_n": 128,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b4-l2048-hq32-hkv32-d64-bf16-paged16": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b4-l2048-hq32-hkv8-d64-fp16-dense": {
+    "config": {
+      "block_m": 64,
+      "block_n": 128,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b4-l2048-hq32-hkv8-d64-fp16-paged16": {
+    "config": {
+      "block_m": 64,
+      "block_n": 128,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b4-l2048-hq32-hkv8-d64-bf16-dense": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b4-l2048-hq32-hkv8-d64-bf16-paged16": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b4-l2048-hq32-hkv1-d64-fp16-dense": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b4-l2048-hq32-hkv1-d64-fp16-paged16": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b4-l2048-hq32-hkv1-d64-bf16-dense": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b4-l2048-hq32-hkv1-d64-bf16-paged16": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b4-l2048-hq32-hkv32-d128-fp16-dense": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b4-l2048-hq32-hkv32-d128-fp16-paged16": {
+    "config": {
+      "block_m": 32,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b4-l2048-hq32-hkv32-d128-bf16-dense": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b4-l2048-hq32-hkv32-d128-bf16-paged16": {
+    "config": null,
+    "num_splits": null
+  },
+  "prefill-b4-l2048-hq32-hkv8-d128-fp16-dense": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b4-l2048-hq32-hkv8-d128-fp16-paged16": {
+    "config": null,
+    "num_splits": null
+  },
+  "prefill-b4-l2048-hq32-hkv8-d128-bf16-dense": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b4-l2048-hq32-hkv8-d128-bf16-paged16": {
+    "config": {
+      "block_m": 32,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b4-l2048-hq32-hkv1-d128-fp16-dense": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b4-l2048-hq32-hkv1-d128-fp16-paged16": {
+    "config": null,
+    "num_splits": null
+  },
+  "prefill-b4-l2048-hq32-hkv1-d128-bf16-dense": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b4-l2048-hq32-hkv1-d128-bf16-paged16": {
+    "config": {
+      "block_m": 32,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b4-l8192-hq32-hkv32-d64-fp16-dense": {
+    "config": {
+      "block_m": 64,
+      "block_n": 128,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b4-l8192-hq32-hkv32-d64-fp16-paged16": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b4-l8192-hq32-hkv32-d64-bf16-dense": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b4-l8192-hq32-hkv32-d64-bf16-paged16": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b4-l8192-hq32-hkv8-d64-fp16-dense": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "tma"
+    },
+    "num_splits": null
+  },
+  "prefill-b4-l8192-hq32-hkv8-d64-fp16-paged16": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b4-l8192-hq32-hkv8-d64-bf16-dense": {
+    "config": {
+      "block_m": 64,
+      "block_n": 128,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b4-l8192-hq32-hkv8-d64-bf16-paged16": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b4-l8192-hq32-hkv1-d64-fp16-dense": {
+    "config": {
+      "block_m": 64,
+      "block_n": 128,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b4-l8192-hq32-hkv1-d64-fp16-paged16": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b4-l8192-hq32-hkv1-d64-bf16-dense": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b4-l8192-hq32-hkv1-d64-bf16-paged16": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b4-l8192-hq32-hkv32-d128-fp16-dense": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b4-l8192-hq32-hkv32-d128-fp16-paged16": {
+    "config": null,
+    "num_splits": null
+  },
+  "prefill-b4-l8192-hq32-hkv32-d128-bf16-dense": {
+    "config": null,
+    "num_splits": null
+  },
+  "prefill-b4-l8192-hq32-hkv32-d128-bf16-paged16": {
+    "config": {
+      "block_m": 32,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b4-l8192-hq32-hkv8-d128-fp16-dense": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b4-l8192-hq32-hkv8-d128-fp16-paged16": {
+    "config": {
+      "block_m": 32,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b4-l8192-hq32-hkv8-d128-bf16-dense": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b4-l8192-hq32-hkv8-d128-bf16-paged16": {
+    "config": {
+      "block_m": 32,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b4-l8192-hq32-hkv1-d128-fp16-dense": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b4-l8192-hq32-hkv1-d128-fp16-paged16": {
+    "config": null,
+    "num_splits": null
+  },
+  "prefill-b4-l8192-hq32-hkv1-d128-bf16-dense": {
+    "config": {
+      "block_m": 64,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 2,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "prefill-b4-l8192-hq32-hkv1-d128-bf16-paged16": {
+    "config": {
+      "block_m": 32,
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "loader": "pointer"
+    },
+    "num_splits": null
+  },
+  "decode-b1-l512-hq32-hkv32-d64-fp16-dense": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 4
+  },
+  "decode-b1-l512-hq32-hkv32-d64-fp16-paged16": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 4
+  },
+  "decode-b1-l512-hq32-hkv32-d64-bf16-dense": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 4
+  },
+  "decode-b1-l512-hq32-hkv32-d64-bf16-paged16": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 4
+  },
+  "decode-b1-l512-hq32-hkv8-d64-fp16-dense": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 16
+  },
+  "decode-b1-l512-hq32-hkv8-d64-fp16-paged16": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 16
+  },
+  "decode-b1-l512-hq32-hkv8-d64-bf16-dense": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 16
+  },
+  "decode-b1-l512-hq32-hkv8-d64-bf16-paged16": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 16
+  },
+  "decode-b1-l512-hq32-hkv1-d64-fp16-dense": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 16
+  },
+  "decode-b1-l512-hq32-hkv1-d64-fp16-paged16": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 16
+  },
+  "decode-b1-l512-hq32-hkv1-d64-bf16-dense": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 16
+  },
+  "decode-b1-l512-hq32-hkv1-d64-bf16-paged16": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 16
+  },
+  "decode-b1-l512-hq32-hkv32-d128-fp16-dense": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 4
+  },
+  "decode-b1-l512-hq32-hkv32-d128-fp16-paged16": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 4
+  },
+  "decode-b1-l512-hq32-hkv32-d128-bf16-dense": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 4
+  },
+  "decode-b1-l512-hq32-hkv32-d128-bf16-paged16": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 4
+  },
+  "decode-b1-l512-hq32-hkv8-d128-fp16-dense": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 16
+  },
+  "decode-b1-l512-hq32-hkv8-d128-fp16-paged16": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 4
+  },
+  "decode-b1-l512-hq32-hkv8-d128-bf16-dense": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 4
+  },
+  "decode-b1-l512-hq32-hkv8-d128-bf16-paged16": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 4
+  },
+  "decode-b1-l512-hq32-hkv1-d128-fp16-dense": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 16
+  },
+  "decode-b1-l512-hq32-hkv1-d128-fp16-paged16": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 16
+  },
+  "decode-b1-l512-hq32-hkv1-d128-bf16-dense": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 16
+  },
+  "decode-b1-l512-hq32-hkv1-d128-bf16-paged16": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 16
+  },
+  "decode-b1-l8192-hq32-hkv32-d64-fp16-dense": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 16
+  },
+  "decode-b1-l8192-hq32-hkv32-d64-fp16-paged16": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "vector"
+    },
+    "num_splits": 16
+  },
+  "decode-b1-l8192-hq32-hkv32-d64-bf16-dense": {
+    "config": null,
+    "num_splits": null
+  },
+  "decode-b1-l8192-hq32-hkv32-d64-bf16-paged16": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 4
+  },
+  "decode-b1-l8192-hq32-hkv8-d64-fp16-dense": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 16
+  },
+  "decode-b1-l8192-hq32-hkv8-d64-fp16-paged16": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 16
+  },
+  "decode-b1-l8192-hq32-hkv8-d64-bf16-dense": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 16
+  },
+  "decode-b1-l8192-hq32-hkv8-d64-bf16-paged16": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 16
+  },
+  "decode-b1-l8192-hq32-hkv1-d64-fp16-dense": {
+    "config": null,
+    "num_splits": null
+  },
+  "decode-b1-l8192-hq32-hkv1-d64-fp16-paged16": {
+    "config": null,
+    "num_splits": null
+  },
+  "decode-b1-l8192-hq32-hkv1-d64-bf16-dense": {
+    "config": null,
+    "num_splits": null
+  },
+  "decode-b1-l8192-hq32-hkv1-d64-bf16-paged16": {
+    "config": null,
+    "num_splits": null
+  },
+  "decode-b1-l8192-hq32-hkv32-d128-fp16-dense": {
+    "config": null,
+    "num_splits": null
+  },
+  "decode-b1-l8192-hq32-hkv32-d128-fp16-paged16": {
+    "config": null,
+    "num_splits": null
+  },
+  "decode-b1-l8192-hq32-hkv32-d128-bf16-dense": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "vector"
+    },
+    "num_splits": 16
+  },
+  "decode-b1-l8192-hq32-hkv32-d128-bf16-paged16": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 16
+  },
+  "decode-b1-l8192-hq32-hkv8-d128-fp16-dense": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 16
+  },
+  "decode-b1-l8192-hq32-hkv8-d128-fp16-paged16": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 16
+  },
+  "decode-b1-l8192-hq32-hkv8-d128-bf16-dense": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 16
+  },
+  "decode-b1-l8192-hq32-hkv8-d128-bf16-paged16": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 16
+  },
+  "decode-b1-l8192-hq32-hkv1-d128-fp16-dense": {
+    "config": null,
+    "num_splits": null
+  },
+  "decode-b1-l8192-hq32-hkv1-d128-fp16-paged16": {
+    "config": null,
+    "num_splits": null
+  },
+  "decode-b1-l8192-hq32-hkv1-d128-bf16-dense": {
+    "config": null,
+    "num_splits": null
+  },
+  "decode-b1-l8192-hq32-hkv1-d128-bf16-paged16": {
+    "config": null,
+    "num_splits": null
+  },
+  "decode-b1-l32768-hq32-hkv32-d64-fp16-dense": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "vector"
+    },
+    "num_splits": 16
+  },
+  "decode-b1-l32768-hq32-hkv32-d64-fp16-paged16": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "vector"
+    },
+    "num_splits": 4
+  },
+  "decode-b1-l32768-hq32-hkv32-d64-bf16-dense": {
+    "config": null,
+    "num_splits": null
+  },
+  "decode-b1-l32768-hq32-hkv32-d64-bf16-paged16": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 16
+  },
+  "decode-b1-l32768-hq32-hkv8-d64-fp16-dense": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 16
+  },
+  "decode-b1-l32768-hq32-hkv8-d64-fp16-paged16": {
+    "config": null,
+    "num_splits": null
+  },
+  "decode-b1-l32768-hq32-hkv8-d64-bf16-dense": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 16
+  },
+  "decode-b1-l32768-hq32-hkv8-d64-bf16-paged16": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 16
+  },
+  "decode-b1-l32768-hq32-hkv1-d64-fp16-dense": {
+    "config": null,
+    "num_splits": null
+  },
+  "decode-b1-l32768-hq32-hkv1-d64-fp16-paged16": {
+    "config": null,
+    "num_splits": null
+  },
+  "decode-b1-l32768-hq32-hkv1-d64-bf16-dense": {
+    "config": null,
+    "num_splits": null
+  },
+  "decode-b1-l32768-hq32-hkv1-d64-bf16-paged16": {
+    "config": null,
+    "num_splits": null
+  },
+  "decode-b1-l32768-hq32-hkv32-d128-fp16-dense": {
+    "config": null,
+    "num_splits": null
+  },
+  "decode-b1-l32768-hq32-hkv32-d128-fp16-paged16": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 16
+  },
+  "decode-b1-l32768-hq32-hkv32-d128-bf16-dense": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 16
+  },
+  "decode-b1-l32768-hq32-hkv32-d128-bf16-paged16": {
+    "config": null,
+    "num_splits": null
+  },
+  "decode-b1-l32768-hq32-hkv8-d128-fp16-dense": {
+    "config": null,
+    "num_splits": null
+  },
+  "decode-b1-l32768-hq32-hkv8-d128-fp16-paged16": {
+    "config": null,
+    "num_splits": null
+  },
+  "decode-b1-l32768-hq32-hkv8-d128-bf16-dense": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 4
+  },
+  "decode-b1-l32768-hq32-hkv8-d128-bf16-paged16": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 16
+  },
+  "decode-b1-l32768-hq32-hkv1-d128-fp16-dense": {
+    "config": null,
+    "num_splits": null
+  },
+  "decode-b1-l32768-hq32-hkv1-d128-fp16-paged16": {
+    "config": null,
+    "num_splits": null
+  },
+  "decode-b1-l32768-hq32-hkv1-d128-bf16-dense": {
+    "config": null,
+    "num_splits": null
+  },
+  "decode-b1-l32768-hq32-hkv1-d128-bf16-paged16": {
+    "config": null,
+    "num_splits": null
+  },
+  "decode-b4-l2048-hq32-hkv32-d64-fp16-dense": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 4
+  },
+  "decode-b4-l2048-hq32-hkv32-d64-fp16-paged16": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "vector"
+    },
+    "num_splits": 1
+  },
+  "decode-b4-l2048-hq32-hkv32-d64-bf16-dense": {
+    "config": null,
+    "num_splits": null
+  },
+  "decode-b4-l2048-hq32-hkv32-d64-bf16-paged16": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 16
+  },
+  "decode-b4-l2048-hq32-hkv8-d64-fp16-dense": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 4
+  },
+  "decode-b4-l2048-hq32-hkv8-d64-fp16-paged16": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 4
+  },
+  "decode-b4-l2048-hq32-hkv8-d64-bf16-dense": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 4
+  },
+  "decode-b4-l2048-hq32-hkv8-d64-bf16-paged16": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 4
+  },
+  "decode-b4-l2048-hq32-hkv1-d64-fp16-dense": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 16
+  },
+  "decode-b4-l2048-hq32-hkv1-d64-fp16-paged16": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 16
+  },
+  "decode-b4-l2048-hq32-hkv1-d64-bf16-dense": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 16
+  },
+  "decode-b4-l2048-hq32-hkv1-d64-bf16-paged16": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 16
+  },
+  "decode-b4-l2048-hq32-hkv32-d128-fp16-dense": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "vector"
+    },
+    "num_splits": 4
+  },
+  "decode-b4-l2048-hq32-hkv32-d128-fp16-paged16": {
+    "config": null,
+    "num_splits": null
+  },
+  "decode-b4-l2048-hq32-hkv32-d128-bf16-dense": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "vector"
+    },
+    "num_splits": 1
+  },
+  "decode-b4-l2048-hq32-hkv32-d128-bf16-paged16": {
+    "config": null,
+    "num_splits": null
+  },
+  "decode-b4-l2048-hq32-hkv8-d128-fp16-dense": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 4
+  },
+  "decode-b4-l2048-hq32-hkv8-d128-fp16-paged16": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 4
+  },
+  "decode-b4-l2048-hq32-hkv8-d128-bf16-dense": {
+    "config": null,
+    "num_splits": null
+  },
+  "decode-b4-l2048-hq32-hkv8-d128-bf16-paged16": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 4
+  },
+  "decode-b4-l2048-hq32-hkv1-d128-fp16-dense": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 16
+  },
+  "decode-b4-l2048-hq32-hkv1-d128-fp16-paged16": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 16
+  },
+  "decode-b4-l2048-hq32-hkv1-d128-bf16-dense": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 16
+  },
+  "decode-b4-l2048-hq32-hkv1-d128-bf16-paged16": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 16
+  },
+  "decode-b4-l8192-hq32-hkv32-d64-fp16-dense": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "vector"
+    },
+    "num_splits": 16
+  },
+  "decode-b4-l8192-hq32-hkv32-d64-fp16-paged16": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "vector"
+    },
+    "num_splits": 16
+  },
+  "decode-b4-l8192-hq32-hkv32-d64-bf16-dense": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 16
+  },
+  "decode-b4-l8192-hq32-hkv32-d64-bf16-paged16": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "vector"
+    },
+    "num_splits": 4
+  },
+  "decode-b4-l8192-hq32-hkv8-d64-fp16-dense": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 4
+  },
+  "decode-b4-l8192-hq32-hkv8-d64-fp16-paged16": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 4
+  },
+  "decode-b4-l8192-hq32-hkv8-d64-bf16-dense": {
+    "config": null,
+    "num_splits": null
+  },
+  "decode-b4-l8192-hq32-hkv8-d64-bf16-paged16": {
+    "config": null,
+    "num_splits": null
+  },
+  "decode-b4-l8192-hq32-hkv1-d64-fp16-dense": {
+    "config": null,
+    "num_splits": null
+  },
+  "decode-b4-l8192-hq32-hkv1-d64-fp16-paged16": {
+    "config": null,
+    "num_splits": null
+  },
+  "decode-b4-l8192-hq32-hkv1-d64-bf16-dense": {
+    "config": null,
+    "num_splits": null
+  },
+  "decode-b4-l8192-hq32-hkv1-d64-bf16-paged16": {
+    "config": null,
+    "num_splits": null
+  },
+  "decode-b4-l8192-hq32-hkv32-d128-fp16-dense": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "vector"
+    },
+    "num_splits": 4
+  },
+  "decode-b4-l8192-hq32-hkv32-d128-fp16-paged16": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "vector"
+    },
+    "num_splits": 1
+  },
+  "decode-b4-l8192-hq32-hkv32-d128-bf16-dense": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "vector"
+    },
+    "num_splits": 4
+  },
+  "decode-b4-l8192-hq32-hkv32-d128-bf16-paged16": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "vector"
+    },
+    "num_splits": 1
+  },
+  "decode-b4-l8192-hq32-hkv8-d128-fp16-dense": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 4
+  },
+  "decode-b4-l8192-hq32-hkv8-d128-fp16-paged16": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 1
+  },
+  "decode-b4-l8192-hq32-hkv8-d128-bf16-dense": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 1
+  },
+  "decode-b4-l8192-hq32-hkv8-d128-bf16-paged16": {
+    "config": null,
+    "num_splits": null
+  },
+  "decode-b4-l8192-hq32-hkv1-d128-fp16-dense": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 16
+  },
+  "decode-b4-l8192-hq32-hkv1-d128-fp16-paged16": {
+    "config": null,
+    "num_splits": null
+  },
+  "decode-b4-l8192-hq32-hkv1-d128-bf16-dense": {
+    "config": null,
+    "num_splits": null
+  },
+  "decode-b4-l8192-hq32-hkv1-d128-bf16-paged16": {
+    "config": null,
+    "num_splits": null
+  },
+  "decode-b16-l512-hq32-hkv32-d64-fp16-dense": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "vector"
+    },
+    "num_splits": 1
+  },
+  "decode-b16-l512-hq32-hkv32-d64-fp16-paged16": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 1
+  },
+  "decode-b16-l512-hq32-hkv32-d64-bf16-dense": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 4
+  },
+  "decode-b16-l512-hq32-hkv32-d64-bf16-paged16": {
+    "config": null,
+    "num_splits": null
+  },
+  "decode-b16-l512-hq32-hkv8-d64-fp16-dense": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 1
+  },
+  "decode-b16-l512-hq32-hkv8-d64-fp16-paged16": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 1
+  },
+  "decode-b16-l512-hq32-hkv8-d64-bf16-dense": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 1
+  },
+  "decode-b16-l512-hq32-hkv8-d64-bf16-paged16": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 1
+  },
+  "decode-b16-l512-hq32-hkv1-d64-fp16-dense": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 4
+  },
+  "decode-b16-l512-hq32-hkv1-d64-fp16-paged16": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 4
+  },
+  "decode-b16-l512-hq32-hkv1-d64-bf16-dense": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 4
+  },
+  "decode-b16-l512-hq32-hkv1-d64-bf16-paged16": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 4
+  },
+  "decode-b16-l512-hq32-hkv32-d128-fp16-dense": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 4
+  },
+  "decode-b16-l512-hq32-hkv32-d128-fp16-paged16": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 1
+  },
+  "decode-b16-l512-hq32-hkv32-d128-bf16-dense": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 1
+  },
+  "decode-b16-l512-hq32-hkv32-d128-bf16-paged16": {
+    "config": null,
+    "num_splits": null
+  },
+  "decode-b16-l512-hq32-hkv8-d128-fp16-dense": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 1
+  },
+  "decode-b16-l512-hq32-hkv8-d128-fp16-paged16": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 1
+  },
+  "decode-b16-l512-hq32-hkv8-d128-bf16-dense": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 1
+  },
+  "decode-b16-l512-hq32-hkv8-d128-bf16-paged16": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 1
+  },
+  "decode-b16-l512-hq32-hkv1-d128-fp16-dense": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 1
+  },
+  "decode-b16-l512-hq32-hkv1-d128-fp16-paged16": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 1
+  },
+  "decode-b16-l512-hq32-hkv1-d128-bf16-dense": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 1
+  },
+  "decode-b16-l512-hq32-hkv1-d128-bf16-paged16": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 1
+  },
+  "decode-b16-l2048-hq32-hkv32-d64-fp16-dense": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 1
+  },
+  "decode-b16-l2048-hq32-hkv32-d64-fp16-paged16": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "vector"
+    },
+    "num_splits": 1
+  },
+  "decode-b16-l2048-hq32-hkv32-d64-bf16-dense": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 4
+  },
+  "decode-b16-l2048-hq32-hkv32-d64-bf16-paged16": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "vector"
+    },
+    "num_splits": 4
+  },
+  "decode-b16-l2048-hq32-hkv8-d64-fp16-dense": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 1
+  },
+  "decode-b16-l2048-hq32-hkv8-d64-fp16-paged16": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 1
+  },
+  "decode-b16-l2048-hq32-hkv8-d64-bf16-dense": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 1
+  },
+  "decode-b16-l2048-hq32-hkv8-d64-bf16-paged16": {
+    "config": null,
+    "num_splits": null
+  },
+  "decode-b16-l2048-hq32-hkv1-d64-fp16-dense": {
+    "config": null,
+    "num_splits": null
+  },
+  "decode-b16-l2048-hq32-hkv1-d64-fp16-paged16": {
+    "config": null,
+    "num_splits": null
+  },
+  "decode-b16-l2048-hq32-hkv1-d64-bf16-dense": {
+    "config": null,
+    "num_splits": null
+  },
+  "decode-b16-l2048-hq32-hkv1-d64-bf16-paged16": {
+    "config": null,
+    "num_splits": null
+  },
+  "decode-b16-l2048-hq32-hkv32-d128-fp16-dense": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 4
+  },
+  "decode-b16-l2048-hq32-hkv32-d128-fp16-paged16": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "vector"
+    },
+    "num_splits": 1
+  },
+  "decode-b16-l2048-hq32-hkv32-d128-bf16-dense": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 1
+  },
+  "decode-b16-l2048-hq32-hkv32-d128-bf16-paged16": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "vector"
+    },
+    "num_splits": 1
+  },
+  "decode-b16-l2048-hq32-hkv8-d128-fp16-dense": {
+    "config": null,
+    "num_splits": null
+  },
+  "decode-b16-l2048-hq32-hkv8-d128-fp16-paged16": {
+    "config": null,
+    "num_splits": null
+  },
+  "decode-b16-l2048-hq32-hkv8-d128-bf16-dense": {
+    "config": null,
+    "num_splits": null
+  },
+  "decode-b16-l2048-hq32-hkv8-d128-bf16-paged16": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 1
+  },
+  "decode-b16-l2048-hq32-hkv1-d128-fp16-dense": {
+    "config": null,
+    "num_splits": null
+  },
+  "decode-b16-l2048-hq32-hkv1-d128-fp16-paged16": {
+    "config": null,
+    "num_splits": null
+  },
+  "decode-b16-l2048-hq32-hkv1-d128-bf16-dense": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 4
+  },
+  "decode-b16-l2048-hq32-hkv1-d128-bf16-paged16": {
+    "config": {
+      "block_n": 64,
+      "num_warps": 4,
+      "num_stages": 1,
+      "mode": "grouped"
+    },
+    "num_splits": 16
+  }
+}

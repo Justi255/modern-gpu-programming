@@ -1,0 +1,19 @@
+{
+  "samples": 930,
+  "power_watts": {
+    "minimum": 8.03,
+    "maximum": 79.17
+  },
+  "sm_clock_mhz": {
+    "minimum": 487.0,
+    "maximum": 2775.0
+  },
+  "temperature_celsius": {
+    "minimum": 48.0,
+    "maximum": 77.0
+  },
+  "memory_mib": {
+    "minimum": 1851.0,
+    "maximum": 6794.0
+  }
+}

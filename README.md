@@ -27,6 +27,10 @@ python -m http.server --directory _build/html 8000
 
 `gpu` 可选依赖安装 PyTorch/Triton；文档构建不需要 GPU。CI 只验证文档和 CPU 检查，GPU 结果由实际硬件实验生成。
 
+GitHub [Actions](https://github.com/Justi255/modern-gpu-programming/actions/workflows/verify.yml) 成功运行后提供可下载的 `rtx5060-textbook-html` 站点产物。本仓库不默认启用 GitHub Pages。
+
+本次已实测冻结的 312 项注意力用例，所选自定义配置全部通过正确性。离线调优后的 prefill/decode 几何平均加速分别为 **0.920× / 1.130×**，最差为 **0.688× / 0.748×**，因此**尚未达到约定的整体性能目标**。完整数据、114 个超过 5% 的回退项及基线数值失败记录见[结果章](docs/15-results.md)，不能将 decode 的平均收益解读为全面领先。
+
 ## 实验原则
 
 保留教学版本和优化版本，比较完整算子，分别记录编译、GPU 时间和接口时间。SOTA 是需要验证的实验结论。本项目的验收目标是 prefill、decode 相对逐项最快合法基线分别达到 1.10× 几何平均加速，最差单项不低于 0.95×；以结果章节记录的实测状态为准。
