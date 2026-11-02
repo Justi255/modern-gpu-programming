@@ -1,6 +1,6 @@
 """Documentation configuration: deliberately independent of CUDA and PyTorch."""
 
-project = "在 RTX 5060 上学习现代 GPU 编程"
+project = "面向 RTX 5060 的现代 GPU 编程：从 Triton 到 FlashAttention"
 author = "modern-gpu-programming contributors"
 copyright = "2026, modern-gpu-programming contributors"
 release = "0.1.0"

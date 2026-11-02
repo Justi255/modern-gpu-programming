@@ -1,0 +1,588 @@
+{
+  "schema_version": 1,
+  "suite": "basics",
+  "seed": 20261102,
+  "environment": {
+    "schema_version": 1,
+    "timestamp_utc": "2026-11-02T06:42:57.057153+00:00",
+    "python": {
+      "version": "3.13.13",
+      "sys_version": "3.13.13 | packaged by Anaconda, Inc. | (main, Apr 14 2026, 06:19:41) [GCC 14.3.0]",
+      "implementation": "CPython",
+      "compiler": "GCC 14.3.0",
+      "executable": "/home/justi/Workspace/cuda/fa/.venv/bin/python"
+    },
+    "platform": {
+      "system": "Linux",
+      "release": "7.0.0-42-generic",
+      "machine": "x86_64",
+      "description": "Linux-7.0.0-42-generic-x86_64-with-glibc2.43"
+    },
+    "packages": {
+      "modern-gpu-programming-5060": "0.1.0",
+      "numpy": "2.5.0",
+      "torch": "2.12.1",
+      "triton": "3.7.1",
+      "flashinfer-python": null,
+      "flash-attn-4": null,
+      "flash-attn": null
+    },
+    "cuda_build": "13.0",
+    "cuda_available": true,
+    "gpus": [
+      {
+        "index": 0,
+        "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+        "compute_capability": [
+          12,
+          0
+        ],
+        "sm_count": 26,
+        "total_memory_bytes": 8055947264,
+        "l2_cache_bytes": 33554432,
+        "shared_memory_per_block_bytes": 49152,
+        "shared_memory_per_block_optin_bytes": 101376,
+        "shared_memory_per_sm_bytes": 102400,
+        "warp_size": 32,
+        "max_threads_per_block": 1024
+      }
+    ],
+    "gpu_unavailable_reason": null,
+    "nvidia_smi": {
+      "available": true,
+      "devices": [
+        {
+          "index": 0,
+          "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+          "driver_version": "595.99.02",
+          "performance_state": "P2",
+          "power_draw_watts": 16.37,
+          "power_limit_watts": null,
+          "sm_clock_mhz": 2227,
+          "memory_clock_mhz": 11001,
+          "temperature_celsius": 48
+        }
+      ],
+      "error": null
+    },
+    "compiler": {
+      "nvcc": {
+        "available": false,
+        "output": null,
+        "returncode": null,
+        "error": "FileNotFoundError: [Errno 2] No such file or directory: 'nvcc'"
+      },
+      "ptxas": {
+        "available": false,
+        "output": null,
+        "returncode": null,
+        "error": "FileNotFoundError: [Errno 2] No such file or directory: 'ptxas'"
+      },
+      "triton_version": "3.7.1"
+    }
+  },
+  "records": [
+    {
+      "name": "vector_add",
+      "inputs": {
+        "length": 100003,
+        "dtype": "float32"
+      },
+      "provider": {
+        "name": "fa5060/Triton",
+        "version": "0.1.0",
+        "triton_version": "3.7.1"
+      },
+      "reference": {
+        "name": "torch.add float32",
+        "torch_version": "2.12.1"
+      },
+      "correctness": {
+        "passed": true,
+        "rtol": 0,
+        "atol": 0,
+        "max_error": 0.0,
+        "rms_relative_error": 0.0
+      },
+      "max_error": 0.0,
+      "latency_ms": 0.023376000113785267,
+      "timing": {
+        "clock": "CUDA events on the current stream",
+        "mode": "eager",
+        "warmup": 3,
+        "repetitions": 10,
+        "summary": "median",
+        "median_ms": 0.023376000113785267,
+        "samples_ms": [
+          0.0060800001956522465,
+          0.03174399957060814,
+          0.027103999629616737,
+          0.02486399933695793,
+          0.022624000906944275,
+          0.027135999873280525,
+          0.02377600036561489,
+          0.022975999861955643,
+          0.022975999861955643,
+          0.021824000403285027
+        ]
+      },
+      "timing_scope": "public call; output allocation included",
+      "baseline_provider": {
+        "name": "PyTorch",
+        "version": "2.12.1"
+      },
+      "baseline_correctness": {
+        "passed": true,
+        "rtol": 0,
+        "atol": 0,
+        "max_error": 0.0,
+        "rms_relative_error": 0.0
+      },
+      "baseline_latency_ms": 0.007775999838486314,
+      "baseline_timing": {
+        "clock": "CUDA events on the current stream",
+        "mode": "eager",
+        "warmup": 3,
+        "repetitions": 10,
+        "summary": "median",
+        "median_ms": 0.007775999838486314,
+        "samples_ms": [
+          0.009088000282645226,
+          0.008224000222980976,
+          0.0074880002066493034,
+          0.007679999805986881,
+          0.007552000228315592,
+          0.008320000022649765,
+          0.00723200011998415,
+          0.00774399982765317,
+          0.007807999849319458,
+          0.007840000092983246
+        ]
+      }
+    },
+    {
+      "name": "vector_add",
+      "inputs": {
+        "length": 1048576,
+        "dtype": "float32"
+      },
+      "provider": {
+        "name": "fa5060/Triton",
+        "version": "0.1.0",
+        "triton_version": "3.7.1"
+      },
+      "reference": {
+        "name": "torch.add float32",
+        "torch_version": "2.12.1"
+      },
+      "correctness": {
+        "passed": true,
+        "rtol": 0,
+        "atol": 0,
+        "max_error": 0.0,
+        "rms_relative_error": 0.0
+      },
+      "max_error": 0.0,
+      "latency_ms": 0.023888000287115574,
+      "timing": {
+        "clock": "CUDA events on the current stream",
+        "mode": "eager",
+        "warmup": 3,
+        "repetitions": 10,
+        "summary": "median",
+        "median_ms": 0.023888000287115574,
+        "samples_ms": [
+          0.032575998455286026,
+          0.026815999299287796,
+          0.024607999250292778,
+          0.024447999894618988,
+          0.024639999493956566,
+          0.021856000646948814,
+          0.02115200087428093,
+          0.020735999569296837,
+          0.02332800067961216,
+          0.020896000787615776
+        ]
+      },
+      "timing_scope": "public call; output allocation included",
+      "baseline_provider": {
+        "name": "PyTorch",
+        "version": "2.12.1"
+      },
+      "baseline_correctness": {
+        "passed": true,
+        "rtol": 0,
+        "atol": 0,
+        "max_error": 0.0,
+        "rms_relative_error": 0.0
+      },
+      "baseline_latency_ms": 0.010464000049978495,
+      "baseline_timing": {
+        "clock": "CUDA events on the current stream",
+        "mode": "eager",
+        "warmup": 3,
+        "repetitions": 10,
+        "summary": "median",
+        "median_ms": 0.010464000049978495,
+        "samples_ms": [
+          0.010688000358641148,
+          0.010400000028312206,
+          0.010591999627649784,
+          0.010015999898314476,
+          0.010591999627649784,
+          0.010688000358641148,
+          0.010239999741315842,
+          0.010048000141978264,
+          0.010367999784648418,
+          0.010528000071644783
+        ]
+      }
+    },
+    {
+      "name": "row_softmax",
+      "inputs": {
+        "shape": [
+          17,
+          781
+        ],
+        "stride": [
+          1562,
+          1
+        ],
+        "dtype": "float32"
+      },
+      "provider": {
+        "name": "fa5060/Triton",
+        "version": "0.1.0",
+        "triton_version": "3.7.1"
+      },
+      "reference": {
+        "name": "torch.softmax float32",
+        "torch_version": "2.12.1"
+      },
+      "correctness": {
+        "passed": true,
+        "rtol": 2e-05,
+        "atol": 2e-06,
+        "max_error": 1.7881393432617188e-07,
+        "rms_relative_error": 1.0335077149536852e-07
+      },
+      "max_error": 1.7881393432617188e-07,
+      "latency_ms": 0.02044800017029047,
+      "timing": {
+        "clock": "CUDA events on the current stream",
+        "mode": "eager",
+        "warmup": 3,
+        "repetitions": 10,
+        "summary": "median",
+        "median_ms": 0.02044800017029047,
+        "samples_ms": [
+          0.029791999608278275,
+          0.02304000034928322,
+          0.021407999098300934,
+          0.020640000700950623,
+          0.020255999639630318,
+          0.0197759997099638,
+          0.021568000316619873,
+          0.019680000841617584,
+          0.018303999677300453,
+          0.01897599920630455
+        ]
+      },
+      "timing_scope": "public call; output allocation included",
+      "baseline_provider": {
+        "name": "PyTorch",
+        "version": "2.12.1"
+      },
+      "baseline_correctness": {
+        "passed": true,
+        "rtol": 2e-05,
+        "atol": 2e-06,
+        "max_error": 0.0,
+        "rms_relative_error": 0.0
+      },
+      "baseline_latency_ms": 0.01208000024780631,
+      "baseline_timing": {
+        "clock": "CUDA events on the current stream",
+        "mode": "eager",
+        "warmup": 3,
+        "repetitions": 10,
+        "summary": "median",
+        "median_ms": 0.01208000024780631,
+        "samples_ms": [
+          0.012640000320971012,
+          0.012128000147640705,
+          0.011935999616980553,
+          0.011935999616980553,
+          0.031007999554276466,
+          0.012223999947309494,
+          0.011839999817311764,
+          0.012191999703645706,
+          0.012032000347971916,
+          0.01158399973064661
+        ]
+      }
+    },
+    {
+      "name": "row_softmax",
+      "inputs": {
+        "shape": [
+          128,
+          1024
+        ],
+        "stride": [
+          2048,
+          1
+        ],
+        "dtype": "float32"
+      },
+      "provider": {
+        "name": "fa5060/Triton",
+        "version": "0.1.0",
+        "triton_version": "3.7.1"
+      },
+      "reference": {
+        "name": "torch.softmax float32",
+        "torch_version": "2.12.1"
+      },
+      "correctness": {
+        "passed": true,
+        "rtol": 2e-05,
+        "atol": 2e-06,
+        "max_error": 2.384185791015625e-07,
+        "rms_relative_error": 1.2837359847546345e-07
+      },
+      "max_error": 2.384185791015625e-07,
+      "latency_ms": 0.019696000032126904,
+      "timing": {
+        "clock": "CUDA events on the current stream",
+        "mode": "eager",
+        "warmup": 3,
+        "repetitions": 10,
+        "summary": "median",
+        "median_ms": 0.019696000032126904,
+        "samples_ms": [
+          0.02768000029027462,
+          0.02208000048995018,
+          0.020959999412298203,
+          0.020320000126957893,
+          0.01958400011062622,
+          0.018719999119639397,
+          0.018112000077962875,
+          0.018015999346971512,
+          0.019807999953627586,
+          0.018303999677300453
+        ]
+      },
+      "timing_scope": "public call; output allocation included",
+      "baseline_provider": {
+        "name": "PyTorch",
+        "version": "2.12.1"
+      },
+      "baseline_correctness": {
+        "passed": true,
+        "rtol": 2e-05,
+        "atol": 2e-06,
+        "max_error": 0.0,
+        "rms_relative_error": 0.0
+      },
+      "baseline_latency_ms": 0.012383999768644571,
+      "baseline_timing": {
+        "clock": "CUDA events on the current stream",
+        "mode": "eager",
+        "warmup": 3,
+        "repetitions": 10,
+        "summary": "median",
+        "median_ms": 0.012383999768644571,
+        "samples_ms": [
+          0.013279999606311321,
+          0.012191999703645706,
+          0.012543999589979649,
+          0.012543999589979649,
+          0.012415999546647072,
+          0.01235199999064207,
+          0.01119999960064888,
+          0.016896000131964684,
+          0.01228800043463707,
+          0.011807999573647976
+        ]
+      }
+    },
+    {
+      "name": "transpose",
+      "inputs": {
+        "shape": [
+          37,
+          53
+        ],
+        "stride": [
+          106,
+          1
+        ],
+        "dtype": "float32"
+      },
+      "provider": {
+        "name": "fa5060/Triton",
+        "version": "0.1.0",
+        "triton_version": "3.7.1"
+      },
+      "reference": {
+        "name": "torch.Tensor.T.contiguous",
+        "torch_version": "2.12.1"
+      },
+      "correctness": {
+        "passed": true,
+        "rtol": 0,
+        "atol": 0,
+        "max_error": 0.0,
+        "rms_relative_error": 0.0
+      },
+      "max_error": 0.0,
+      "latency_ms": 0.019920000806450844,
+      "timing": {
+        "clock": "CUDA events on the current stream",
+        "mode": "eager",
+        "warmup": 3,
+        "repetitions": 10,
+        "summary": "median",
+        "median_ms": 0.019920000806450844,
+        "samples_ms": [
+          0.030208000913262367,
+          0.024064000695943832,
+          0.02236800082027912,
+          0.020160000771284103,
+          0.01945599913597107,
+          0.018400000408291817,
+          0.018624000251293182,
+          0.02160000056028366,
+          0.019680000841617584,
+          0.018880000337958336
+        ]
+      },
+      "timing_scope": "public call; output allocation included",
+      "baseline_provider": {
+        "name": "PyTorch",
+        "version": "2.12.1"
+      },
+      "baseline_correctness": {
+        "passed": true,
+        "rtol": 0,
+        "atol": 0,
+        "max_error": 0.0,
+        "rms_relative_error": 0.0
+      },
+      "baseline_latency_ms": 0.009727999567985535,
+      "baseline_timing": {
+        "clock": "CUDA events on the current stream",
+        "mode": "eager",
+        "warmup": 3,
+        "repetitions": 10,
+        "summary": "median",
+        "median_ms": 0.009727999567985535,
+        "samples_ms": [
+          0.010463999584317207,
+          0.010111999697983265,
+          0.009312000125646591,
+          0.009727999567985535,
+          0.009472000412642956,
+          0.009727999567985535,
+          0.01033599954098463,
+          0.009535999968647957,
+          0.010111999697983265,
+          0.009664000011980534
+        ]
+      }
+    },
+    {
+      "name": "transpose",
+      "inputs": {
+        "shape": [
+          1024,
+          1024
+        ],
+        "stride": [
+          2048,
+          1
+        ],
+        "dtype": "float32"
+      },
+      "provider": {
+        "name": "fa5060/Triton",
+        "version": "0.1.0",
+        "triton_version": "3.7.1"
+      },
+      "reference": {
+        "name": "torch.Tensor.T.contiguous",
+        "torch_version": "2.12.1"
+      },
+      "correctness": {
+        "passed": true,
+        "rtol": 0,
+        "atol": 0,
+        "max_error": 0.0,
+        "rms_relative_error": 0.0
+      },
+      "max_error": 0.0,
+      "latency_ms": 0.02084799949079752,
+      "timing": {
+        "clock": "CUDA events on the current stream",
+        "mode": "eager",
+        "warmup": 3,
+        "repetitions": 10,
+        "summary": "median",
+        "median_ms": 0.02084799949079752,
+        "samples_ms": [
+          0.030047999694943428,
+          0.024320000782608986,
+          0.02160000056028366,
+          0.020927999168634415,
+          0.020320000126957893,
+          0.019999999552965164,
+          0.01945599913597107,
+          0.020767999812960625,
+          0.020959999412298203,
+          0.019648000597953796
+        ]
+      },
+      "timing_scope": "public call; output allocation included",
+      "baseline_provider": {
+        "name": "PyTorch",
+        "version": "2.12.1"
+      },
+      "baseline_correctness": {
+        "passed": true,
+        "rtol": 0,
+        "atol": 0,
+        "max_error": 0.0,
+        "rms_relative_error": 0.0
+      },
+      "baseline_latency_ms": 0.038784001022577286,
+      "baseline_timing": {
+        "clock": "CUDA events on the current stream",
+        "mode": "eager",
+        "warmup": 3,
+        "repetitions": 10,
+        "summary": "median",
+        "median_ms": 0.038784001022577286,
+        "samples_ms": [
+          0.039423998445272446,
+          0.038816001266241074,
+          0.03903999924659729,
+          0.0382080003619194,
+          0.0387520007789135,
+          0.038495998829603195,
+          0.0390079990029335,
+          0.038336001336574554,
+          0.038816001266241074,
+          0.038176000118255615
+        ]
+      }
+    }
+  ],
+  "notes": [
+    "Numerical checks precede all timing; latency_ms is a median of 10 CUDA-event samples.",
+    "Teaching experiments are not an exhaustive benchmark or SOTA claim.",
+    "FP32 numerical references are separate from same-dtype PyTorch timing baselines.",
+    "Attention has a numerical reference only; no native paged performance baseline is claimed."
+  ]
+}
