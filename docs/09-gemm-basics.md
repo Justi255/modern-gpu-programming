@@ -227,7 +227,16 @@ python -m fa5060.experiments gemm --backend triton --output results/local/triton
 ::::{tab-item} TileLang
 :sync: tilelang
 
-本章的 TileLang 对应实验由 `--backend tilelang` 生成；读者结果保存在 `results/local/tilelang/`，本次发布证据位于 `results/tilelang/`。当前发布的实际状态和可下载证据见{doc}`15-results`；没有对应文件或成功记录时，保留“待测”，不引用历史 Triton 时间。
+{download}`gemm.json <../results/tilelang/gemm.json>` 的 `tiled` 以 32×64×32、4 warps、1 stage 运行，包含真正的三维尾部：A=[65,97]、B=[97,79]。
+
+| dtype | 最大绝对误差 | RMS 相对误差 | TileLang / 同 dtype PyTorch μs |
+|---|---:|---:|---:|
+| FP16 | 0.0155983 | 2.091×10⁻⁴ | 17.968 / 12.608 |
+| BF16 | 0.107021 | 1.611×10⁻³ | 23.856 / 19.536 |
+
+两组均通过独立 FP32 matmul 参考检查（FP16 `rtol=atol=0.02`，BF16 为 0.05）。网格为 3×2 个输出 tile，K 循环 4 轮，最后一轮只有 1 个有效 K 元素。这同时考验加载补零和 M/N 存储保护；它没有证明所有 stride 与数值范围均已覆盖，也不能从小矩阵时间推断 Tensor Core 峰值吞吐。
+
+计时为同环境 eager CUDA events，预热 3 次、采样 10 次取中位数；公开调用包含输出分配，并可能计入主机提交间隙。PyTorch 为同 dtype 的逐记录对照，不与历史 Triton 图内时间相除。这些是教学测量，完整性能状态见{doc}`15-results`。
 
 ::::
 

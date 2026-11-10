@@ -172,7 +172,18 @@ python -m fa5060.experiments gemm --backend triton --output results/local/triton
 ::::{tab-item} TileLang
 :sync: tilelang
 
-本章的 TileLang 对应实验由 `--backend tilelang` 生成；读者结果保存在 `results/local/tilelang/`，本次发布证据位于 `results/tilelang/`。当前发布的实际状态和可下载证据见{doc}`15-results`；没有对应文件或成功记录时，保留“待测”，不引用历史 Triton 时间。
+{download}`gemm.json <../results/tilelang/gemm.json>` 中 512³、32×64×32、4 warps 的实测并不支持“增加 stages 必然更快”：
+
+| dtype / 变体 | stages | TileLang μs | 该记录的同 dtype PyTorch μs |
+|---|---:|---:|---:|
+| FP16 / tiled | 1 | 55.968 | 28.672 |
+| FP16 / pipelined | 3 | 40.368 | 26.480 |
+| BF16 / tiled | 1 | 29.328 | 21.552 |
+| BF16 / pipelined | 3 | 34.848 | 25.888 |
+
+FP16 的流水线时间较低，BF16 则相反；两种变体的最大误差在 FP16/BF16 下分别同为 0.03125/0.249649，均通过 FP32 参考检查。小形状 (M,N,K)=(65,79,97) 的 FP16 tiled/pipelined 还分别为 17.968/55.488 μs。短 K、提交开销、频率及生成代码都可能影响结果，当前样本不能单独确诊流水是否成功重叠。独立 K=1024 导出中 tiled/pipelined 的 REG 为 120/78，且均有 `mma.sync`，资源减少本身也不是性能证明。
+
+计时为同环境 eager CUDA events，预热 3 次、采样 10 次取中位数；公开调用包含输出分配，并可能计入主机提交间隙。PyTorch 为同 dtype 的逐记录对照，不与历史 Triton 图内时间相除。这些是教学测量，完整性能状态见{doc}`15-results`。
 
 ::::
 

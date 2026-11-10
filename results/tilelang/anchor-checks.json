@@ -1,0 +1,22 @@
+{
+  "original_heading_anchors_preserved": 160,
+  "missing": [],
+  "python_snippets_parsed": 41,
+  "paired_tab_sets_per_chapter": {
+    "01-environment.html": 7,
+    "02-execution.html": 7,
+    "03-performance.html": 2,
+    "04-memory-layout.html": 6,
+    "05-tensor-cores.html": 7,
+    "06-async.html": 9,
+    "07-triton.html": 17,
+    "08-triton-layouts.html": 18,
+    "09-gemm-basics.html": 8,
+    "10-gemm-pipeline.html": 5,
+    "11-gemm-advanced.html": 5,
+    "12-attention.html": 4,
+    "13-prefill.html": 12,
+    "14-decode.html": 11,
+    "15-results.html": 5
+  }
+}

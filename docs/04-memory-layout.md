@@ -202,7 +202,16 @@ TileLang 主线先让编译器为 `T.Parallel`、fragment 和 `T.gemm` 推导布
 ::::{tab-item} TileLang
 :sync: tilelang
 
-本章的 TileLang 对应实验由 `--backend tilelang` 生成；读者结果保存在 `results/local/tilelang/`，本次发布证据位于 `results/tilelang/`。当前发布的实际状态和可下载证据见{doc}`15-results`；没有对应文件或成功记录时，保留“待测”，不引用历史 Triton 时间。
+{download}`basics.json <../results/tilelang/basics.json>` 使用 FP32、32×32 shared tile、128 threads/CTA，得到：
+
+| 输入 shape；stride | TileLang μs | 同环境 PyTorch `.T.contiguous()` μs | 最大误差 |
+|---|---:|---:|---:|
+| 37×53；(106,1) | 22.848 | 14.176 | 0 |
+| 1024×1024；(2048,1) | 73.840 | 49.360 | 0 |
+
+非方阵同时覆盖两个方向的尾部，行 stride 为逻辑宽度的两倍，实际验证了寻址与连续转置输出。大矩阵里该实现比本次 PyTorch 对照慢；仅有 shared staging 和正确结果不能证明全局访问已最优合并，也不能据此诊断 bank conflict。
+
+计时为同环境 eager CUDA events，预热 3 次、采样 10 次取中位数；公开调用包含输出分配，并可能计入主机提交间隙。PyTorch 为同 dtype 的逐记录对照，不与历史 Triton 图内时间相除。这些是教学测量，完整性能状态见{doc}`15-results`。
 
 ::::
 

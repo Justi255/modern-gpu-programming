@@ -215,7 +215,16 @@ PTX 的架构和指令要求见 [NVIDIA PTX ISA](https://docs.nvidia.com/cuda/pa
 ::::{tab-item} TileLang
 :sync: tilelang
 
-本章的 TileLang 对应实验由 `--backend tilelang` 生成；读者结果保存在 `results/local/tilelang/`，本次发布证据位于 `results/tilelang/`。当前发布的实际状态和可下载证据见{doc}`15-results`；没有对应文件或成功记录时，保留“待测”，不引用历史 Triton 时间。
+{download}`gemm.json <../results/tilelang/gemm.json>` 的 `tiled` 默认配置为 32×64×32、4 warps、串行 K 循环。512³ 结果与独立 FP32 matmul 参考比较，FP32 累加后存回输入 dtype：
+
+| 输入/输出 dtype | 最大绝对误差 | RMS 相对误差 | TileLang / 同 dtype PyTorch μs |
+|---|---:|---:|---:|
+| FP16 | 0.03125 | 2.068×10⁻⁴ | 55.968 / 28.672 |
+| BF16 | 0.249649 | 1.654×10⁻³ | 29.328 / 21.552 |
+
+两者分别通过 `rtol=atol=0.02/0.05`；最大绝对误差大于 atol 并不矛盾，检查还包含相对容差。另一个 512×1024 乘 1024×512 的{download}`真实 PTX <../results/tilelang/compiler/gemm_tiled/main/kernel.ptx>`含 `mma.sync`，未出现 `tcgen05`。这确认该导出配置使用 warp MMA，却不能替代上述数值检查；Tensor Core 路径也没有让本次公开调用快于 PyTorch。
+
+计时为同环境 eager CUDA events，预热 3 次、采样 10 次取中位数；公开调用包含输出分配，并可能计入主机提交间隙。PyTorch 为同 dtype 的逐记录对照，不与历史 Triton 图内时间相除。这些是教学测量，完整性能状态见{doc}`15-results`。
 
 ::::
 

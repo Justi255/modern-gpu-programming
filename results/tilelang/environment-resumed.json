@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "timestamp_utc": "2026-11-08T05:31:03.615272+00:00",
+  "python": {
+    "version": "3.13.13",
+    "sys_version": "3.13.13 | packaged by Anaconda, Inc. | (main, Apr 14 2026, 06:19:41) [GCC 14.3.0]",
+    "implementation": "CPython",
+    "compiler": "GCC 14.3.0",
+    "executable": "/home/justi/Workspace/cuda/fa/.venv-tilelang/bin/python"
+  },
+  "platform": {
+    "system": "Linux",
+    "release": "7.0.0-42-generic",
+    "machine": "x86_64",
+    "description": "Linux-7.0.0-42-generic-x86_64-with-glibc2.43"
+  },
+  "packages": {
+    "modern-gpu-programming-5060": "0.1.0",
+    "numpy": "2.5.0",
+    "torch": "2.12.1",
+    "triton": "3.7.1",
+    "tilelang": "0.1.15",
+    "apache-tvm-ffi": "0.1.12",
+    "flashinfer-python": "0.7.2.post1",
+    "flash-attn-4": "4.0.0b37",
+    "flash-attn": null
+  },
+  "cuda_build": "13.0",
+  "cuda_available": true,
+  "gpus": [
+    {
+      "index": 0,
+      "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+      "compute_capability": [
+        12,
+        0
+      ],
+      "sm_count": 26,
+      "total_memory_bytes": 8055947264,
+      "l2_cache_bytes": 33554432,
+      "shared_memory_per_block_bytes": 49152,
+      "shared_memory_per_block_optin_bytes": 101376,
+      "shared_memory_per_sm_bytes": 102400,
+      "warp_size": 32,
+      "max_threads_per_block": 1024
+    }
+  ],
+  "gpu_unavailable_reason": null,
+  "nvidia_smi": {
+    "available": true,
+    "devices": [
+      {
+        "index": 0,
+        "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+        "driver_version": "595.99.02",
+        "performance_state": "P4",
+        "power_draw_watts": 12.31,
+        "power_limit_watts": null,
+        "sm_clock_mhz": 547,
+        "memory_clock_mhz": 9001,
+        "temperature_celsius": 43
+      }
+    ],
+    "error": null
+  },
+  "compiler": {
+    "nvcc": {
+      "available": true,
+      "output": "nvcc: NVIDIA (R) Cuda compiler driver\nCopyright (c) 2005-2025 NVIDIA Corporation\nBuilt on Tue_Dec_16_07:23:41_PM_PST_2025\nCuda compilation tools, release 13.1, V13.1.115\nBuild cuda_13.1.r13.1/compiler.37061995_0",
+      "returncode": 0,
+      "error": null
+    },
+    "ptxas": {
+      "available": true,
+      "output": "ptxas: NVIDIA (R) Ptx optimizing assembler\nCopyright (c) 2005-2025 NVIDIA Corporation\nBuilt on Tue_Dec_16_07:22:11_PM_PST_2025\nCuda compilation tools, release 13.1, V13.1.115\nBuild cuda_13.1.r13.1/compiler.37061995_0",
+      "returncode": 0,
+      "error": null
+    },
+    "triton_version": "3.7.1",
+    "tilelang_version": "0.1.15",
+    "apache_tvm_ffi_version": "0.1.12",
+    "sources": {
+      "triton": null,
+      "tilelang": null,
+      "apache-tvm-ffi": null
+    }
+  }
+}

@@ -1,0 +1,1289 @@
+{
+  "schema_version": 1,
+  "status": "complete",
+  "created_utc": "2026-11-08T05:27:58.062379+00:00",
+  "purpose": "compiler evidence; selected public operations launch once, without numerical or timing claims",
+  "target": {
+    "kind": "cuda",
+    "arch": "sm_120",
+    "compute_capability": [
+      12,
+      0
+    ]
+  },
+  "device": {
+    "index": 0,
+    "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+    "sm_count": 26,
+    "total_memory_bytes": 8055947264
+  },
+  "packages": {
+    "tilelang": "0.1.15",
+    "apache-tvm-ffi": "0.1.12",
+    "torch": "2.12.1",
+    "triton": "3.7.1",
+    "numpy": "2.5.0"
+  },
+  "python": "3.13.13 | packaged by Anaconda, Inc. | (main, Apr 14 2026, 06:19:41) [GCC 14.3.0]",
+  "platform": "Linux-7.0.0-42-generic-x86_64-with-glibc2.43",
+  "torch_cuda_build": "13.0",
+  "source_sha256": {
+    "scripts/export_tilelang.py": "82e900f08d59e75ff1b5f393f701d130dc6e8ec3bfbbb1f5065e0c523a9bbd88",
+    "pyproject.toml": "48c14bc7e1b17f050ad1d68f77f8cd687c9f8949d2462a6b8121a876866d0a52",
+    "src/fa5060/tilelang/__init__.py": "35f081a2cc70c29a8ba689bb4fde4a70a674d8d930604b382ab360507a1f2a4a",
+    "src/fa5060/tilelang/fundamentals.py": "0d6a97788365a5765fe0fe186bdaffd9c21733b390e64bd65556bfd9d1a5eddd",
+    "src/fa5060/tilelang/attention.py": "24713e15f2ab93c09fd471ea0ae0338e585e9da40f8a654e589b9e796b1c617b",
+    "src/fa5060/tilelang/_contracts.py": "6599c97581a622266e871a4542d8a4c1610694eb3fa9a480fc2dbb9c95b80d24",
+    "src/fa5060/_workspace.py": "afac44fb2ee4a30b41ca801cca17ac78cb3ed6bfee16ef214699d6b1436ae883",
+    "src/fa5060/probe.py": "c766bb1adc56913d46dce32dad62ab8792c8ad389faeb7f999409f595da5cb89"
+  },
+  "environment": {
+    "schema_version": 1,
+    "timestamp_utc": "2026-11-08T05:27:58.070059+00:00",
+    "python": {
+      "version": "3.13.13",
+      "sys_version": "3.13.13 | packaged by Anaconda, Inc. | (main, Apr 14 2026, 06:19:41) [GCC 14.3.0]",
+      "implementation": "CPython",
+      "compiler": "GCC 14.3.0",
+      "executable": "/home/justi/Workspace/cuda/fa/.venv-tilelang/bin/python"
+    },
+    "platform": {
+      "system": "Linux",
+      "release": "7.0.0-42-generic",
+      "machine": "x86_64",
+      "description": "Linux-7.0.0-42-generic-x86_64-with-glibc2.43"
+    },
+    "packages": {
+      "modern-gpu-programming-5060": "0.1.0",
+      "numpy": "2.5.0",
+      "torch": "2.12.1",
+      "triton": "3.7.1",
+      "tilelang": "0.1.15",
+      "apache-tvm-ffi": "0.1.12",
+      "flashinfer-python": "0.7.2.post1",
+      "flash-attn-4": "4.0.0b37",
+      "flash-attn": null
+    },
+    "cuda_build": "13.0",
+    "cuda_available": true,
+    "gpus": [
+      {
+        "index": 0,
+        "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+        "compute_capability": [
+          12,
+          0
+        ],
+        "sm_count": 26,
+        "total_memory_bytes": 8055947264,
+        "l2_cache_bytes": 33554432,
+        "shared_memory_per_block_bytes": 49152,
+        "shared_memory_per_block_optin_bytes": 101376,
+        "shared_memory_per_sm_bytes": 102400,
+        "warp_size": 32,
+        "max_threads_per_block": 1024
+      }
+    ],
+    "gpu_unavailable_reason": null,
+    "nvidia_smi": {
+      "available": true,
+      "devices": [
+        {
+          "index": 0,
+          "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+          "driver_version": "595.99.02",
+          "performance_state": "P5",
+          "power_draw_watts": 12.47,
+          "power_limit_watts": null,
+          "sm_clock_mhz": 862,
+          "memory_clock_mhz": 810,
+          "temperature_celsius": 42
+        }
+      ],
+      "error": null
+    },
+    "compiler": {
+      "nvcc": {
+        "available": true,
+        "output": "nvcc: NVIDIA (R) Cuda compiler driver\nCopyright (c) 2005-2025 NVIDIA Corporation\nBuilt on Tue_Dec_16_07:23:41_PM_PST_2025\nCuda compilation tools, release 13.1, V13.1.115\nBuild cuda_13.1.r13.1/compiler.37061995_0",
+        "returncode": 0,
+        "error": null
+      },
+      "ptxas": {
+        "available": true,
+        "output": "ptxas: NVIDIA (R) Ptx optimizing assembler\nCopyright (c) 2005-2025 NVIDIA Corporation\nBuilt on Tue_Dec_16_07:22:11_PM_PST_2025\nCuda compilation tools, release 13.1, V13.1.115\nBuild cuda_13.1.r13.1/compiler.37061995_0",
+        "returncode": 0,
+        "error": null
+      },
+      "triton_version": "3.7.1",
+      "tilelang_version": "0.1.15",
+      "apache_tvm_ffi_version": "0.1.12",
+      "sources": {
+        "triton": null,
+        "tilelang": null,
+        "apache-tvm-ffi": null
+      }
+    }
+  },
+  "reference_tilelang_source_commit": "a35f8ddf45eba16c21211ec8822d56ce5363036f",
+  "reference_commit_note": "Reference attribution, not an assertion of the installed wheel's VCS commit; installed provenance is recorded by the environment probe.",
+  "private_interfaces": [
+    "project fundamentals._compile/attention._compile hooks and factory cache_clear",
+    "TileLang 0.1.15 JITKernel._get_ptx, compile_flags/pass_configs",
+    "tilelang.contrib.nvcc.default_compile_options/compile_cuda"
+  ],
+  "tools": {
+    "nvcc": {
+      "path": "/usr/local/cuda-13.1/bin/nvcc",
+      "version": "nvcc: NVIDIA (R) Cuda compiler driver\nCopyright (c) 2005-2025 NVIDIA Corporation\nBuilt on Tue_Dec_16_07:23:41_PM_PST_2025\nCuda compilation tools, release 13.1, V13.1.115\nBuild cuda_13.1.r13.1/compiler.37061995_0\n"
+    },
+    "ptxas": {
+      "path": "/usr/local/cuda-13.1/bin/ptxas",
+      "version": "ptxas: NVIDIA (R) Ptx optimizing assembler\nCopyright (c) 2005-2025 NVIDIA Corporation\nBuilt on Tue_Dec_16_07:22:11_PM_PST_2025\nCuda compilation tools, release 13.1, V13.1.115\nBuild cuda_13.1.r13.1/compiler.37061995_0\n"
+    },
+    "cuobjdump": {
+      "path": "/usr/local/cuda-13.1/bin/cuobjdump",
+      "version": "cuobjdump: NVIDIA (R) fat binary listing tool\nCopyright (c) 2005-2025 NVIDIA Corporation\nBuilt on Tue_Dec_16_07:23:41_PM_PST_2025\nCuda compilation tools, release 13.1, V13.1.115\nBuild cuda_13.1.r13.1/compiler.37061995_0\n"
+    }
+  },
+  "seed": 20261105,
+  "dtype": "fp16",
+  "requested_cases": [
+    "gemm_tiled",
+    "gemm_pipelined",
+    "gemm_persistent",
+    "prefill_pointer",
+    "prefill_tma",
+    "decode_vector_split",
+    "decode_grouped_split"
+  ],
+  "binary_policy": "Only text/JSON are published; resource CUBINs are temporary and deleted.",
+  "cases": [
+    {
+      "public_api": "fa5060.tilelang.matmul",
+      "variant": "tiled",
+      "config": {
+        "tile_m": 32,
+        "tile_n": 64,
+        "tile_k": 32,
+        "num_warps": 4,
+        "num_stages": 1
+      },
+      "inputs": {
+        "a": {
+          "shape": [
+            512,
+            1024
+          ],
+          "stride": [
+            1024,
+            1
+          ],
+          "dtype": "torch.float16",
+          "device": "cuda:0"
+        },
+        "b": {
+          "shape": [
+            1024,
+            512
+          ],
+          "stride": [
+            512,
+            1
+          ],
+          "dtype": "torch.float16",
+          "device": "cuda:0"
+        }
+      },
+      "output": {
+        "shape": [
+          512,
+          512
+        ],
+        "stride": [
+          512,
+          1
+        ],
+        "dtype": "torch.float16",
+        "device": "cuda:0"
+      },
+      "expected_compilations": 1,
+      "name": "gemm_tiled",
+      "launch_completed": true,
+      "correctness_validated": false,
+      "kernels": [
+        {
+          "module": "fa5060.tilelang.fundamentals",
+          "factory": "_matmul_tiled_kernel",
+          "compile_keywords": {},
+          "target": "{\"kind\":\"cuda\",\"tag\":\"\",\"keys\":[\"cuda\",\"gpu\"],\"host\":{\"kind\":\"c\",\"tag\":\"\",\"keys\":[\"cpu\"]},\"max_num_threads\":1024,\"thread_warp_size\":32,\"arch\":\"sm_120\"}",
+          "execution_backend": "tvm_ffi",
+          "pass_configs": {
+            "tl.disable_warp_specialized": true
+          },
+          "compile_flags": null,
+          "nvcc_options": [
+            "-std=c++20",
+            "-I/home/justi/Workspace/cuda/fa/.venv-tilelang/lib/python3.13/site-packages/tilelang/3rdparty/../src",
+            "-I/home/justi/Workspace/cuda/fa/.venv-tilelang/lib/python3.13/site-packages/tilelang/3rdparty/cutlass/include",
+            "-I/usr/local/cuda-13.1/include"
+          ],
+          "artifacts": {
+            "cuda": {
+              "path": "kernel.cu",
+              "sha256": "43afb2ed1366008376a03b8bef0cc9e64f230560c0a0965fd26ebf950a312b8d",
+              "bytes": 4290
+            },
+            "original_tir": {
+              "path": "original_tir.py",
+              "sha256": "abe17422a2586e5c75723cb53cd975ccc672f4bf143cea5838ec6b5e04c7f201",
+              "bytes": 1807
+            },
+            "ptx": {
+              "path": "kernel.ptx",
+              "sha256": "cca599e6853cd8936b98c3abcb3e0559e3df97a1ab32aa1c2468a88f41334f5d",
+              "bytes": 23568
+            },
+            "resources": {
+              "path": "cuobjdump-resources.txt",
+              "sha256": "ba5f9ffcf3a966d77069c0cf3cdebfa9f2d468a654de1f9cb46e06269791f03a",
+              "bytes": 161
+            }
+          },
+          "resource_provenance": "cuobjdump on a temporary CUBIN recompiled from this generated CUDA; not extracted from the loaded FFI module",
+          "temporary_cubin_sha256": "c74310903f64069aadf03b4d526a3ff8ef81c7c78600bbe0107014c3cda1c5d3",
+          "temporary_cubin_retained": false,
+          "resource_command": [
+            "/usr/local/cuda-13.1/bin/cuobjdump",
+            "--dump-resource-usage",
+            "/tmp/fa5060-tilelang-export-ya9uveya/kernel.cubin"
+          ],
+          "jit_kernel_source_sha256": "671464da2e699ec78a6d648ac7a2d79f72c0782bcd27ae47353cf2b7c6ac96e1",
+          "cuda_resource_fields": "No n_regs/n_spills getattr values are treated as measured CUDA resources.",
+          "ptx_observations": {
+            "mma_sync_present": true,
+            "tma_load_present": false,
+            "tcgen05_present": false
+          },
+          "role": "main",
+          "compile_order": 0,
+          "directory": "gemm_tiled/main"
+        }
+      ]
+    },
+    {
+      "public_api": "fa5060.tilelang.matmul",
+      "variant": "pipelined",
+      "config": {
+        "tile_m": 32,
+        "tile_n": 64,
+        "tile_k": 32,
+        "num_warps": 4,
+        "num_stages": 3
+      },
+      "inputs": {
+        "a": {
+          "shape": [
+            512,
+            1024
+          ],
+          "stride": [
+            1024,
+            1
+          ],
+          "dtype": "torch.float16",
+          "device": "cuda:0"
+        },
+        "b": {
+          "shape": [
+            1024,
+            512
+          ],
+          "stride": [
+            512,
+            1
+          ],
+          "dtype": "torch.float16",
+          "device": "cuda:0"
+        }
+      },
+      "output": {
+        "shape": [
+          512,
+          512
+        ],
+        "stride": [
+          512,
+          1
+        ],
+        "dtype": "torch.float16",
+        "device": "cuda:0"
+      },
+      "expected_compilations": 1,
+      "name": "gemm_pipelined",
+      "launch_completed": true,
+      "correctness_validated": false,
+      "kernels": [
+        {
+          "module": "fa5060.tilelang.fundamentals",
+          "factory": "_matmul_pipelined_kernel",
+          "compile_keywords": {},
+          "target": "{\"kind\":\"cuda\",\"tag\":\"\",\"keys\":[\"cuda\",\"gpu\"],\"host\":{\"kind\":\"c\",\"tag\":\"\",\"keys\":[\"cpu\"]},\"max_num_threads\":1024,\"thread_warp_size\":32,\"arch\":\"sm_120\"}",
+          "execution_backend": "tvm_ffi",
+          "pass_configs": {
+            "tl.disable_warp_specialized": true
+          },
+          "compile_flags": null,
+          "nvcc_options": [
+            "-std=c++20",
+            "-I/home/justi/Workspace/cuda/fa/.venv-tilelang/lib/python3.13/site-packages/tilelang/3rdparty/../src",
+            "-I/home/justi/Workspace/cuda/fa/.venv-tilelang/lib/python3.13/site-packages/tilelang/3rdparty/cutlass/include",
+            "-I/usr/local/cuda-13.1/include"
+          ],
+          "artifacts": {
+            "cuda": {
+              "path": "kernel.cu",
+              "sha256": "3b506241a32fb51af23e9cd98dde9166d2511ef1d285b45c5f99022b3f6ad9cf",
+              "bytes": 9399
+            },
+            "original_tir": {
+              "path": "original_tir.py",
+              "sha256": "7c85dfd6ffcaed2425fd9017d5f027e74354ed3013d9ed2daba1e39a27991211",
+              "bytes": 1841
+            },
+            "ptx": {
+              "path": "kernel.ptx",
+              "sha256": "2d958bc43727ab27837a3890572e5227281312faccea427a9a7ae9e53a5aa7c3",
+              "bytes": 43203
+            },
+            "resources": {
+              "path": "cuobjdump-resources.txt",
+              "sha256": "05b418b400ab669db51eb6c30ddf49239502ce9e69d5fa270b240550f35e3ead",
+              "bytes": 160
+            }
+          },
+          "resource_provenance": "cuobjdump on a temporary CUBIN recompiled from this generated CUDA; not extracted from the loaded FFI module",
+          "temporary_cubin_sha256": "d755e583743f6944db58bf5bb19438d7e3e55383a225598c8e107923be3b989b",
+          "temporary_cubin_retained": false,
+          "resource_command": [
+            "/usr/local/cuda-13.1/bin/cuobjdump",
+            "--dump-resource-usage",
+            "/tmp/fa5060-tilelang-export-pmuym_li/kernel.cubin"
+          ],
+          "jit_kernel_source_sha256": "671464da2e699ec78a6d648ac7a2d79f72c0782bcd27ae47353cf2b7c6ac96e1",
+          "cuda_resource_fields": "No n_regs/n_spills getattr values are treated as measured CUDA resources.",
+          "ptx_observations": {
+            "mma_sync_present": true,
+            "tma_load_present": false,
+            "tcgen05_present": false
+          },
+          "role": "main",
+          "compile_order": 0,
+          "directory": "gemm_pipelined/main"
+        }
+      ]
+    },
+    {
+      "public_api": "fa5060.tilelang.matmul",
+      "variant": "persistent",
+      "config": {
+        "tile_m": 32,
+        "tile_n": 64,
+        "tile_k": 32,
+        "num_warps": 4,
+        "num_stages": 3
+      },
+      "inputs": {
+        "a": {
+          "shape": [
+            512,
+            1024
+          ],
+          "stride": [
+            1024,
+            1
+          ],
+          "dtype": "torch.float16",
+          "device": "cuda:0"
+        },
+        "b": {
+          "shape": [
+            1024,
+            512
+          ],
+          "stride": [
+            512,
+            1
+          ],
+          "dtype": "torch.float16",
+          "device": "cuda:0"
+        }
+      },
+      "output": {
+        "shape": [
+          512,
+          512
+        ],
+        "stride": [
+          512,
+          1
+        ],
+        "dtype": "torch.float16",
+        "device": "cuda:0"
+      },
+      "expected_compilations": 1,
+      "name": "gemm_persistent",
+      "launch_completed": true,
+      "correctness_validated": false,
+      "kernels": [
+        {
+          "module": "fa5060.tilelang.fundamentals",
+          "factory": "_matmul_persistent_kernel",
+          "compile_keywords": {},
+          "target": "{\"kind\":\"cuda\",\"tag\":\"\",\"keys\":[\"cuda\",\"gpu\"],\"host\":{\"kind\":\"c\",\"tag\":\"\",\"keys\":[\"cpu\"]},\"max_num_threads\":1024,\"thread_warp_size\":32,\"arch\":\"sm_120\"}",
+          "execution_backend": "tvm_ffi",
+          "pass_configs": {
+            "tl.disable_warp_specialized": true
+          },
+          "compile_flags": null,
+          "nvcc_options": [
+            "-std=c++20",
+            "-I/home/justi/Workspace/cuda/fa/.venv-tilelang/lib/python3.13/site-packages/tilelang/3rdparty/../src",
+            "-I/home/justi/Workspace/cuda/fa/.venv-tilelang/lib/python3.13/site-packages/tilelang/3rdparty/cutlass/include",
+            "-I/usr/local/cuda-13.1/include"
+          ],
+          "artifacts": {
+            "cuda": {
+              "path": "kernel.cu",
+              "sha256": "ed66bbc38f9705f8ecee02b8d499e1ae5b9d6d8550c3836229d9f9f1cb2568d2",
+              "bytes": 9825
+            },
+            "original_tir": {
+              "path": "original_tir.py",
+              "sha256": "9e275dab308f520ec0ef324f28fabf5010b5578a2ee36cad6543d73aaee9f94c",
+              "bytes": 1984
+            },
+            "ptx": {
+              "path": "kernel.ptx",
+              "sha256": "bf2ec38b40809d68c025b5097cc9ef2d3faef912da158c5bc1bc5a7c09b596ba",
+              "bytes": 43208
+            },
+            "resources": {
+              "path": "cuobjdump-resources.txt",
+              "sha256": "5b3c11dde965703b404906deaa9148c63bfefa6c270f9eda0a00f5835bbcefb7",
+              "bytes": 161
+            }
+          },
+          "resource_provenance": "cuobjdump on a temporary CUBIN recompiled from this generated CUDA; not extracted from the loaded FFI module",
+          "temporary_cubin_sha256": "af8274928937f97cda773f49b9fee2d993fbd7a956f9ed12c2b0caa418ca0408",
+          "temporary_cubin_retained": false,
+          "resource_command": [
+            "/usr/local/cuda-13.1/bin/cuobjdump",
+            "--dump-resource-usage",
+            "/tmp/fa5060-tilelang-export-z3hxfepz/kernel.cubin"
+          ],
+          "jit_kernel_source_sha256": "671464da2e699ec78a6d648ac7a2d79f72c0782bcd27ae47353cf2b7c6ac96e1",
+          "cuda_resource_fields": "No n_regs/n_spills getattr values are treated as measured CUDA resources.",
+          "ptx_observations": {
+            "mma_sync_present": true,
+            "tma_load_present": false,
+            "tcgen05_present": false
+          },
+          "role": "main",
+          "compile_order": 0,
+          "directory": "gemm_persistent/main"
+        }
+      ]
+    },
+    {
+      "public_api": "fa5060.tilelang.prefill",
+      "config": {
+        "loader": "pointer",
+        "block_m": 32,
+        "block_n": 64,
+        "num_warps": 4,
+        "num_stages": 2
+      },
+      "causal": "right_aligned",
+      "kv_lens": [
+        193
+      ],
+      "layout": "dense",
+      "inputs": {
+        "q": {
+          "shape": [
+            1,
+            128,
+            8,
+            64
+          ],
+          "stride": [
+            65536,
+            512,
+            64,
+            1
+          ],
+          "dtype": "torch.float16",
+          "device": "cuda:0"
+        },
+        "k": {
+          "shape": [
+            1,
+            256,
+            2,
+            64
+          ],
+          "stride": [
+            32768,
+            128,
+            64,
+            1
+          ],
+          "dtype": "torch.float16",
+          "device": "cuda:0"
+        },
+        "v": {
+          "shape": [
+            1,
+            256,
+            2,
+            64
+          ],
+          "stride": [
+            32768,
+            128,
+            64,
+            1
+          ],
+          "dtype": "torch.float16",
+          "device": "cuda:0"
+        }
+      },
+      "output": {
+        "shape": [
+          1,
+          128,
+          8,
+          64
+        ],
+        "stride": [
+          65536,
+          512,
+          64,
+          1
+        ],
+        "dtype": "torch.float16",
+        "device": "cuda:0"
+      },
+      "expected_compilations": 1,
+      "name": "prefill_pointer",
+      "launch_completed": true,
+      "correctness_validated": false,
+      "kernels": [
+        {
+          "module": "fa5060.tilelang.attention",
+          "factory": "_prefill_kernel",
+          "compile_keywords": {
+            "tma": false
+          },
+          "target": "{\"kind\":\"cuda\",\"tag\":\"\",\"keys\":[\"cuda\",\"gpu\"],\"host\":{\"kind\":\"c\",\"tag\":\"\",\"keys\":[\"cpu\"]},\"max_num_threads\":1024,\"thread_warp_size\":32,\"arch\":\"sm_120\"}",
+          "execution_backend": "tvm_ffi",
+          "pass_configs": {
+            "tl.disable_warp_specialized": true
+          },
+          "compile_flags": null,
+          "nvcc_options": [
+            "-std=c++20",
+            "-I/home/justi/Workspace/cuda/fa/.venv-tilelang/lib/python3.13/site-packages/tilelang/3rdparty/../src",
+            "-I/home/justi/Workspace/cuda/fa/.venv-tilelang/lib/python3.13/site-packages/tilelang/3rdparty/cutlass/include",
+            "-I/usr/local/cuda-13.1/include"
+          ],
+          "artifacts": {
+            "cuda": {
+              "path": "kernel.cu",
+              "sha256": "d3acd16422c19a06e6ad3a9c23a41aae344918646414f75c83c8d00ab127aaea",
+              "bytes": 13656
+            },
+            "original_tir": {
+              "path": "original_tir.py",
+              "sha256": "36d17ddf360c41bf78631c0ec9e4b6be56c965a6e2764fce3e9890f10d6885fb",
+              "bytes": 6342
+            },
+            "ptx": {
+              "path": "kernel.ptx",
+              "sha256": "5b4a899f0585577ffcd5380af8155f1e7c5c3d9575c8846c87060c126a7e35ac",
+              "bytes": 77154
+            },
+            "resources": {
+              "path": "cuobjdump-resources.txt",
+              "sha256": "ce11449ccab43d57c58f150fa9f2e6bf250d6707a78ce5673a727a234bbfb148",
+              "bytes": 160
+            }
+          },
+          "resource_provenance": "cuobjdump on a temporary CUBIN recompiled from this generated CUDA; not extracted from the loaded FFI module",
+          "temporary_cubin_sha256": "5cf5d346b656ce7508eff77f824f0bc1c52fb872084f8212e98c93f265d902e7",
+          "temporary_cubin_retained": false,
+          "resource_command": [
+            "/usr/local/cuda-13.1/bin/cuobjdump",
+            "--dump-resource-usage",
+            "/tmp/fa5060-tilelang-export-w91y7okv/kernel.cubin"
+          ],
+          "jit_kernel_source_sha256": "671464da2e699ec78a6d648ac7a2d79f72c0782bcd27ae47353cf2b7c6ac96e1",
+          "cuda_resource_fields": "No n_regs/n_spills getattr values are treated as measured CUDA resources.",
+          "ptx_observations": {
+            "mma_sync_present": true,
+            "tma_load_present": false,
+            "tcgen05_present": false
+          },
+          "role": "main",
+          "compile_order": 0,
+          "directory": "prefill_pointer/main"
+        }
+      ]
+    },
+    {
+      "public_api": "fa5060.tilelang.prefill",
+      "config": {
+        "loader": "tma",
+        "block_m": 64,
+        "block_n": 64,
+        "num_warps": 4,
+        "num_stages": 2
+      },
+      "causal": "right_aligned",
+      "kv_lens": [
+        193
+      ],
+      "layout": "dense",
+      "inputs": {
+        "q": {
+          "shape": [
+            1,
+            128,
+            8,
+            64
+          ],
+          "stride": [
+            65536,
+            512,
+            64,
+            1
+          ],
+          "dtype": "torch.float16",
+          "device": "cuda:0"
+        },
+        "k": {
+          "shape": [
+            1,
+            256,
+            2,
+            64
+          ],
+          "stride": [
+            32768,
+            128,
+            64,
+            1
+          ],
+          "dtype": "torch.float16",
+          "device": "cuda:0"
+        },
+        "v": {
+          "shape": [
+            1,
+            256,
+            2,
+            64
+          ],
+          "stride": [
+            32768,
+            128,
+            64,
+            1
+          ],
+          "dtype": "torch.float16",
+          "device": "cuda:0"
+        }
+      },
+      "output": {
+        "shape": [
+          1,
+          128,
+          8,
+          64
+        ],
+        "stride": [
+          65536,
+          512,
+          64,
+          1
+        ],
+        "dtype": "torch.float16",
+        "device": "cuda:0"
+      },
+      "expected_compilations": 1,
+      "name": "prefill_tma",
+      "launch_completed": true,
+      "correctness_validated": false,
+      "kernels": [
+        {
+          "module": "fa5060.tilelang.attention",
+          "factory": "_prefill_kernel",
+          "compile_keywords": {
+            "tma": true
+          },
+          "target": "{\"kind\":\"cuda\",\"tag\":\"\",\"keys\":[\"cuda\",\"gpu\"],\"host\":{\"kind\":\"c\",\"tag\":\"\",\"keys\":[\"cpu\"]},\"max_num_threads\":1024,\"thread_warp_size\":32,\"arch\":\"sm_120\"}",
+          "execution_backend": "tvm_ffi",
+          "pass_configs": {
+            "tl.disable_warp_specialized": true,
+            "tirx.use_async_copy": false
+          },
+          "compile_flags": null,
+          "nvcc_options": [
+            "-std=c++20",
+            "-I/home/justi/Workspace/cuda/fa/.venv-tilelang/lib/python3.13/site-packages/tilelang/3rdparty/../src",
+            "-I/home/justi/Workspace/cuda/fa/.venv-tilelang/lib/python3.13/site-packages/tilelang/3rdparty/cutlass/include",
+            "-I/usr/local/cuda-13.1/include"
+          ],
+          "artifacts": {
+            "cuda": {
+              "path": "kernel.cu",
+              "sha256": "1ce074bd5693f807802a641ac028775b78f4aca3741c8afa2519a0417551aa1f",
+              "bytes": 25524
+            },
+            "original_tir": {
+              "path": "original_tir.py",
+              "sha256": "9ebb3a6fe6f1d75d4a3f499afbcff1830522ac00db13479302cf5709601e35f5",
+              "bytes": 6269
+            },
+            "ptx": {
+              "path": "kernel.ptx",
+              "sha256": "cc5f200e8d75d898f1a2896255d651f34672f9af72240276234e23c0256d5baf",
+              "bytes": 277345
+            },
+            "resources": {
+              "path": "cuobjdump-resources.txt",
+              "sha256": "d004d6aa6feaa2d442672901a97d1c0197ec90288c5193ffd4764d256bad02b5",
+              "bytes": 162
+            }
+          },
+          "resource_provenance": "cuobjdump on a temporary CUBIN recompiled from this generated CUDA; not extracted from the loaded FFI module",
+          "temporary_cubin_sha256": "d23ed44364b5a17c3747df8bd3a4d8528d670e2fa5b5b19d7ce6070038352fbf",
+          "temporary_cubin_retained": false,
+          "resource_command": [
+            "/usr/local/cuda-13.1/bin/cuobjdump",
+            "--dump-resource-usage",
+            "/tmp/fa5060-tilelang-export-ib9blzvi/kernel.cubin"
+          ],
+          "jit_kernel_source_sha256": "671464da2e699ec78a6d648ac7a2d79f72c0782bcd27ae47353cf2b7c6ac96e1",
+          "cuda_resource_fields": "No n_regs/n_spills getattr values are treated as measured CUDA resources.",
+          "ptx_observations": {
+            "mma_sync_present": true,
+            "tma_load_present": true,
+            "tcgen05_present": false
+          },
+          "role": "main",
+          "compile_order": 0,
+          "directory": "prefill_tma/main"
+        }
+      ]
+    },
+    {
+      "public_api": "fa5060.tilelang.decode",
+      "config": {
+        "mode": "vector",
+        "loader": "pointer",
+        "block_n": 64,
+        "num_warps": 4,
+        "num_stages": 1
+      },
+      "num_splits": 4,
+      "causal": false,
+      "kv_lens": [
+        1024,
+        193
+      ],
+      "layout": "dense",
+      "inputs": {
+        "q": {
+          "shape": [
+            2,
+            8,
+            64
+          ],
+          "stride": [
+            512,
+            64,
+            1
+          ],
+          "dtype": "torch.float16",
+          "device": "cuda:0"
+        },
+        "k": {
+          "shape": [
+            2,
+            1024,
+            2,
+            64
+          ],
+          "stride": [
+            131072,
+            128,
+            64,
+            1
+          ],
+          "dtype": "torch.float16",
+          "device": "cuda:0"
+        },
+        "v": {
+          "shape": [
+            2,
+            1024,
+            2,
+            64
+          ],
+          "stride": [
+            131072,
+            128,
+            64,
+            1
+          ],
+          "dtype": "torch.float16",
+          "device": "cuda:0"
+        }
+      },
+      "output": {
+        "shape": [
+          2,
+          8,
+          64
+        ],
+        "stride": [
+          512,
+          64,
+          1
+        ],
+        "dtype": "torch.float16",
+        "device": "cuda:0"
+      },
+      "expected_compilations": 2,
+      "workspace": {
+        "partial": {
+          "shape": [
+            2,
+            8,
+            4,
+            64
+          ],
+          "stride": [
+            2048,
+            256,
+            64,
+            1
+          ],
+          "dtype": "torch.float32",
+          "device": "cuda:0"
+        },
+        "maxima": {
+          "shape": [
+            2,
+            8,
+            4
+          ],
+          "stride": [
+            32,
+            4,
+            1
+          ],
+          "dtype": "torch.float32",
+          "device": "cuda:0"
+        },
+        "sums": {
+          "shape": [
+            2,
+            8,
+            4
+          ],
+          "stride": [
+            32,
+            4,
+            1
+          ],
+          "dtype": "torch.float32",
+          "device": "cuda:0"
+        }
+      },
+      "name": "decode_vector_split",
+      "launch_completed": true,
+      "correctness_validated": false,
+      "kernels": [
+        {
+          "module": "fa5060.tilelang.attention",
+          "factory": "_decode_vector_kernel",
+          "compile_keywords": {},
+          "target": "{\"kind\":\"cuda\",\"tag\":\"\",\"keys\":[\"cuda\",\"gpu\"],\"host\":{\"kind\":\"c\",\"tag\":\"\",\"keys\":[\"cpu\"]},\"max_num_threads\":1024,\"thread_warp_size\":32,\"arch\":\"sm_120\"}",
+          "execution_backend": "tvm_ffi",
+          "pass_configs": {
+            "tl.disable_warp_specialized": true
+          },
+          "compile_flags": null,
+          "nvcc_options": [
+            "-std=c++20",
+            "-I/home/justi/Workspace/cuda/fa/.venv-tilelang/lib/python3.13/site-packages/tilelang/3rdparty/../src",
+            "-I/home/justi/Workspace/cuda/fa/.venv-tilelang/lib/python3.13/site-packages/tilelang/3rdparty/cutlass/include",
+            "-I/usr/local/cuda-13.1/include"
+          ],
+          "artifacts": {
+            "cuda": {
+              "path": "kernel.cu",
+              "sha256": "ccc2852ea953118e2d11362260465e78c358b4e1f61c02b1caa783e1f9c07067",
+              "bytes": 6011
+            },
+            "original_tir": {
+              "path": "original_tir.py",
+              "sha256": "847cee0b23524c7588e927770dad8b4296d09170c9235c20df0c576e10b87c58",
+              "bytes": 5064
+            },
+            "ptx": {
+              "path": "kernel.ptx",
+              "sha256": "4500b64a6a869c8c877ee7a143224957093bab934102221eb1450b061ab6b325",
+              "bytes": 239524
+            },
+            "resources": {
+              "path": "cuobjdump-resources.txt",
+              "sha256": "752b5876fc8c05153d900bae63b9665c8692e6a4b283795487711e625ddcf6fa",
+              "bytes": 146
+            }
+          },
+          "resource_provenance": "cuobjdump on a temporary CUBIN recompiled from this generated CUDA; not extracted from the loaded FFI module",
+          "temporary_cubin_sha256": "1debe5e068dc31e0bd0472c9cc4d8577f226f2c8994205491ad1fe4020caecfb",
+          "temporary_cubin_retained": false,
+          "resource_command": [
+            "/usr/local/cuda-13.1/bin/cuobjdump",
+            "--dump-resource-usage",
+            "/tmp/fa5060-tilelang-export-wlq4ypzo/kernel.cubin"
+          ],
+          "jit_kernel_source_sha256": "671464da2e699ec78a6d648ac7a2d79f72c0782bcd27ae47353cf2b7c6ac96e1",
+          "cuda_resource_fields": "No n_regs/n_spills getattr values are treated as measured CUDA resources.",
+          "ptx_observations": {
+            "mma_sync_present": false,
+            "tma_load_present": false,
+            "tcgen05_present": false
+          },
+          "role": "main",
+          "compile_order": 0,
+          "directory": "decode_vector_split/main"
+        },
+        {
+          "module": "fa5060.tilelang.attention",
+          "factory": "_merge_splits",
+          "compile_keywords": {},
+          "target": "{\"kind\":\"cuda\",\"tag\":\"\",\"keys\":[\"cuda\",\"gpu\"],\"host\":{\"kind\":\"c\",\"tag\":\"\",\"keys\":[\"cpu\"]},\"max_num_threads\":1024,\"thread_warp_size\":32,\"arch\":\"sm_120\"}",
+          "execution_backend": "tvm_ffi",
+          "pass_configs": {
+            "tl.disable_warp_specialized": true
+          },
+          "compile_flags": null,
+          "nvcc_options": [
+            "-std=c++20",
+            "-I/home/justi/Workspace/cuda/fa/.venv-tilelang/lib/python3.13/site-packages/tilelang/3rdparty/../src",
+            "-I/home/justi/Workspace/cuda/fa/.venv-tilelang/lib/python3.13/site-packages/tilelang/3rdparty/cutlass/include",
+            "-I/usr/local/cuda-13.1/include"
+          ],
+          "artifacts": {
+            "cuda": {
+              "path": "kernel.cu",
+              "sha256": "ef1b1ff33bc424153de744ab33b4a3c1aa6a345abdbcd54c938b43835e106b5c",
+              "bytes": 3362
+            },
+            "original_tir": {
+              "path": "original_tir.py",
+              "sha256": "58c3ffb6bd7252748c202830354230779aed742eea8140f2ebcf414047119abb",
+              "bytes": 2403
+            },
+            "ptx": {
+              "path": "kernel.ptx",
+              "sha256": "859f7f2d84edf43624e168b7f245be7b7b934bd2117c6ef6a2f8c99472388b7e",
+              "bytes": 20596
+            },
+            "resources": {
+              "path": "cuobjdump-resources.txt",
+              "sha256": "f8e29731a26ab5b45c7d3055c311ed4b908f59b3b9a4539e209e227959e945dd",
+              "bytes": 145
+            }
+          },
+          "resource_provenance": "cuobjdump on a temporary CUBIN recompiled from this generated CUDA; not extracted from the loaded FFI module",
+          "temporary_cubin_sha256": "d999e7e132bd11cea78e5caffe368f74ec16c29c9ddc1d94fd0fb999d4dee29a",
+          "temporary_cubin_retained": false,
+          "resource_command": [
+            "/usr/local/cuda-13.1/bin/cuobjdump",
+            "--dump-resource-usage",
+            "/tmp/fa5060-tilelang-export-xfgn_f9_/kernel.cubin"
+          ],
+          "jit_kernel_source_sha256": "671464da2e699ec78a6d648ac7a2d79f72c0782bcd27ae47353cf2b7c6ac96e1",
+          "cuda_resource_fields": "No n_regs/n_spills getattr values are treated as measured CUDA resources.",
+          "ptx_observations": {
+            "mma_sync_present": false,
+            "tma_load_present": false,
+            "tcgen05_present": false
+          },
+          "role": "merge",
+          "compile_order": 1,
+          "directory": "decode_vector_split/merge"
+        }
+      ]
+    },
+    {
+      "public_api": "fa5060.tilelang.decode",
+      "config": {
+        "mode": "grouped",
+        "loader": "pointer",
+        "block_n": 64,
+        "num_warps": 4,
+        "num_stages": 2
+      },
+      "num_splits": 4,
+      "causal": false,
+      "kv_lens": [
+        1024,
+        193
+      ],
+      "layout": "dense",
+      "inputs": {
+        "q": {
+          "shape": [
+            2,
+            8,
+            64
+          ],
+          "stride": [
+            512,
+            64,
+            1
+          ],
+          "dtype": "torch.float16",
+          "device": "cuda:0"
+        },
+        "k": {
+          "shape": [
+            2,
+            1024,
+            2,
+            64
+          ],
+          "stride": [
+            131072,
+            128,
+            64,
+            1
+          ],
+          "dtype": "torch.float16",
+          "device": "cuda:0"
+        },
+        "v": {
+          "shape": [
+            2,
+            1024,
+            2,
+            64
+          ],
+          "stride": [
+            131072,
+            128,
+            64,
+            1
+          ],
+          "dtype": "torch.float16",
+          "device": "cuda:0"
+        }
+      },
+      "output": {
+        "shape": [
+          2,
+          8,
+          64
+        ],
+        "stride": [
+          512,
+          64,
+          1
+        ],
+        "dtype": "torch.float16",
+        "device": "cuda:0"
+      },
+      "expected_compilations": 2,
+      "workspace": {
+        "partial": {
+          "shape": [
+            2,
+            8,
+            4,
+            64
+          ],
+          "stride": [
+            2048,
+            256,
+            64,
+            1
+          ],
+          "dtype": "torch.float32",
+          "device": "cuda:0"
+        },
+        "maxima": {
+          "shape": [
+            2,
+            8,
+            4
+          ],
+          "stride": [
+            32,
+            4,
+            1
+          ],
+          "dtype": "torch.float32",
+          "device": "cuda:0"
+        },
+        "sums": {
+          "shape": [
+            2,
+            8,
+            4
+          ],
+          "stride": [
+            32,
+            4,
+            1
+          ],
+          "dtype": "torch.float32",
+          "device": "cuda:0"
+        }
+      },
+      "name": "decode_grouped_split",
+      "launch_completed": true,
+      "correctness_validated": false,
+      "kernels": [
+        {
+          "module": "fa5060.tilelang.attention",
+          "factory": "_prefill_kernel",
+          "compile_keywords": {
+            "tma": false
+          },
+          "target": "{\"kind\":\"cuda\",\"tag\":\"\",\"keys\":[\"cuda\",\"gpu\"],\"host\":{\"kind\":\"c\",\"tag\":\"\",\"keys\":[\"cpu\"]},\"max_num_threads\":1024,\"thread_warp_size\":32,\"arch\":\"sm_120\"}",
+          "execution_backend": "tvm_ffi",
+          "pass_configs": {
+            "tl.disable_warp_specialized": true
+          },
+          "compile_flags": null,
+          "nvcc_options": [
+            "-std=c++20",
+            "-I/home/justi/Workspace/cuda/fa/.venv-tilelang/lib/python3.13/site-packages/tilelang/3rdparty/../src",
+            "-I/home/justi/Workspace/cuda/fa/.venv-tilelang/lib/python3.13/site-packages/tilelang/3rdparty/cutlass/include",
+            "-I/usr/local/cuda-13.1/include"
+          ],
+          "artifacts": {
+            "cuda": {
+              "path": "kernel.cu",
+              "sha256": "7fed4b4f778c73485118db930d9b309a985a41a9d6167897eb37bc5da191e121",
+              "bytes": 13032
+            },
+            "original_tir": {
+              "path": "original_tir.py",
+              "sha256": "33f3e6af616cf273d5ebb1c0d0741da6c873eec0b449917343c7508d3e98c39b",
+              "bytes": 6261
+            },
+            "ptx": {
+              "path": "kernel.ptx",
+              "sha256": "b3bdcd858be478cc1d00795d5493438c26615e2d621d6dc51d277317274871e8",
+              "bytes": 65014
+            },
+            "resources": {
+              "path": "cuobjdump-resources.txt",
+              "sha256": "c44f3abafb07bba85e27b0bc0bb06b659dc469b767c15c863c309a8861a8a6d1",
+              "bytes": 160
+            }
+          },
+          "resource_provenance": "cuobjdump on a temporary CUBIN recompiled from this generated CUDA; not extracted from the loaded FFI module",
+          "temporary_cubin_sha256": "f1b6f6d111c0a236351eb5bc722f4cf1e0386092bbf1ae26ae73e23a96112863",
+          "temporary_cubin_retained": false,
+          "resource_command": [
+            "/usr/local/cuda-13.1/bin/cuobjdump",
+            "--dump-resource-usage",
+            "/tmp/fa5060-tilelang-export-yytryxba/kernel.cubin"
+          ],
+          "jit_kernel_source_sha256": "671464da2e699ec78a6d648ac7a2d79f72c0782bcd27ae47353cf2b7c6ac96e1",
+          "cuda_resource_fields": "No n_regs/n_spills getattr values are treated as measured CUDA resources.",
+          "ptx_observations": {
+            "mma_sync_present": true,
+            "tma_load_present": false,
+            "tcgen05_present": false
+          },
+          "role": "main",
+          "compile_order": 0,
+          "directory": "decode_grouped_split/main"
+        },
+        {
+          "module": "fa5060.tilelang.attention",
+          "factory": "_merge_splits",
+          "compile_keywords": {},
+          "target": "{\"kind\":\"cuda\",\"tag\":\"\",\"keys\":[\"cuda\",\"gpu\"],\"host\":{\"kind\":\"c\",\"tag\":\"\",\"keys\":[\"cpu\"]},\"max_num_threads\":1024,\"thread_warp_size\":32,\"arch\":\"sm_120\"}",
+          "execution_backend": "tvm_ffi",
+          "pass_configs": {
+            "tl.disable_warp_specialized": true
+          },
+          "compile_flags": null,
+          "nvcc_options": [
+            "-std=c++20",
+            "-I/home/justi/Workspace/cuda/fa/.venv-tilelang/lib/python3.13/site-packages/tilelang/3rdparty/../src",
+            "-I/home/justi/Workspace/cuda/fa/.venv-tilelang/lib/python3.13/site-packages/tilelang/3rdparty/cutlass/include",
+            "-I/usr/local/cuda-13.1/include"
+          ],
+          "artifacts": {
+            "cuda": {
+              "path": "kernel.cu",
+              "sha256": "ef1b1ff33bc424153de744ab33b4a3c1aa6a345abdbcd54c938b43835e106b5c",
+              "bytes": 3362
+            },
+            "original_tir": {
+              "path": "original_tir.py",
+              "sha256": "58c3ffb6bd7252748c202830354230779aed742eea8140f2ebcf414047119abb",
+              "bytes": 2403
+            },
+            "ptx": {
+              "path": "kernel.ptx",
+              "sha256": "1b337cdf1b50c2951e9ee777dd6e24b8f2afc3effeffc8a4ddd68ac95cd58b76",
+              "bytes": 20606
+            },
+            "resources": {
+              "path": "cuobjdump-resources.txt",
+              "sha256": "f8e29731a26ab5b45c7d3055c311ed4b908f59b3b9a4539e209e227959e945dd",
+              "bytes": 145
+            }
+          },
+          "resource_provenance": "cuobjdump on a temporary CUBIN recompiled from this generated CUDA; not extracted from the loaded FFI module",
+          "temporary_cubin_sha256": "9505e343aaebfe3342db36b6bdefdc83c164d21fad97f4fd439b315a303bea19",
+          "temporary_cubin_retained": false,
+          "resource_command": [
+            "/usr/local/cuda-13.1/bin/cuobjdump",
+            "--dump-resource-usage",
+            "/tmp/fa5060-tilelang-export-03k_8_9f/kernel.cubin"
+          ],
+          "jit_kernel_source_sha256": "671464da2e699ec78a6d648ac7a2d79f72c0782bcd27ae47353cf2b7c6ac96e1",
+          "cuda_resource_fields": "No n_regs/n_spills getattr values are treated as measured CUDA resources.",
+          "ptx_observations": {
+            "mma_sync_present": false,
+            "tma_load_present": false,
+            "tcgen05_present": false
+          },
+          "role": "merge",
+          "compile_order": 1,
+          "directory": "decode_grouped_split/merge"
+        }
+      ]
+    }
+  ],
+  "git_commit": "6e89f7e0f5478c712f957a8b564d5f7aa24c1b3a",
+  "installed_export_source_sha256": {
+    "tilelang.contrib.nvcc": "f4e10b6c9a2ff6410c44d085676d62aaa5c1c160bc1b7e1616cb0023b278b297"
+  },
+  "completed_utc": "2026-11-08T05:28:27.142247+00:00"
+}

@@ -259,7 +259,17 @@ for variant in ("tiled", "pipelined", "persistent"):
 ::::{tab-item} TileLang
 :sync: tilelang
 
-本章的 TileLang 对应实验由 `--backend tilelang` 生成；读者结果保存在 `results/local/tilelang/`，本次发布证据位于 `results/tilelang/`。当前发布的实际状态和可下载证据见{doc}`15-results`；没有对应文件或成功记录时，保留“待测”，不引用历史 Triton 时间。
+{download}`gemm.json <../results/tilelang/gemm.json>` 的 FP16 512³ 测量给出了实际调度对照。三种配置均为 32×64×32、4 warps；`tiled` 为 1 stage，另两种为 3 stages：
+
+| 变体 | TileLang μs | 该记录的同 dtype PyTorch μs |
+|---|---:|---:|
+| tiled | 55.968 | 28.672 |
+| pipelined | 40.368 | 26.480 |
+| persistent | 32.320 | 21.776 |
+
+三者对 FP32 参考的最大误差均为 0.03125，RMS 相对误差均为 2.068×10⁻⁴。流水线与持久化在本次 FP16 样本中时间较低，但各记录的 PyTorch 时间也有变化，不能只凭差值归因于加载计算重叠。独立编译导出的 TMA prefill 确实含 TMA load；它是另一配置的指令证据，不能证明这三项 GEMM 的重叠程度。
+
+计时为同环境 eager CUDA events，预热 3 次、采样 10 次取中位数；公开调用包含输出分配，并可能计入主机提交间隙。PyTorch 为同 dtype 的逐记录对照，不与历史 Triton 图内时间相除。这些是教学测量，完整性能状态见{doc}`15-results`。
 
 ::::
 

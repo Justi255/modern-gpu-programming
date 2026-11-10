@@ -1,0 +1,662 @@
+{
+  "python": "3.13.13",
+  "environment_policy": "Dedicated compiler venv with read-only inherited base Python packages; original Triton venv not modified for GPU dependencies.",
+  "packages": {
+    "accessible-pygments": {
+      "version": "0.0.5",
+      "scope": "venv"
+    },
+    "alabaster": {
+      "version": "1.0.0",
+      "scope": "venv"
+    },
+    "anaconda-anon-usage": {
+      "version": "0.7.6",
+      "scope": "inherited-base"
+    },
+    "anaconda-auth": {
+      "version": "0.14.2",
+      "scope": "inherited-base"
+    },
+    "anaconda-cli-base": {
+      "version": "0.8.2",
+      "scope": "inherited-base"
+    },
+    "annotated-types": {
+      "version": "0.6.0",
+      "scope": "inherited-base"
+    },
+    "anyio": {
+      "version": "4.12.1",
+      "scope": "inherited-base"
+    },
+    "apache-tvm-ffi": {
+      "version": "0.1.12",
+      "scope": "venv"
+    },
+    "archspec": {
+      "version": "0.2.5",
+      "scope": "inherited-base"
+    },
+    "babel": {
+      "version": "2.18.0",
+      "scope": "venv"
+    },
+    "beautifulsoup4": {
+      "version": "4.15.0",
+      "scope": "venv"
+    },
+    "boltons": {
+      "version": "25.0.0",
+      "scope": "inherited-base"
+    },
+    "brotlicffi": {
+      "version": "1.2.0.0",
+      "scope": "inherited-base"
+    },
+    "certifi": {
+      "version": "2026.4.22",
+      "scope": "inherited-base"
+    },
+    "cffi": {
+      "version": "1.17.1",
+      "scope": "inherited-base"
+    },
+    "charset-normalizer": {
+      "version": "3.4.4",
+      "scope": "inherited-base"
+    },
+    "click": {
+      "version": "8.4.2",
+      "scope": "inherited-base"
+    },
+    "cloudpickle": {
+      "version": "3.1.2",
+      "scope": "venv"
+    },
+    "conda": {
+      "version": "26.3.2",
+      "scope": "inherited-base"
+    },
+    "conda-anaconda-telemetry": {
+      "version": "0.3.0",
+      "scope": "inherited-base"
+    },
+    "conda-anaconda-tos": {
+      "version": "0.2.2",
+      "scope": "inherited-base"
+    },
+    "conda-content-trust": {
+      "version": "0.3.1",
+      "scope": "inherited-base"
+    },
+    "conda-libmamba-solver": {
+      "version": "26.4.0",
+      "scope": "inherited-base"
+    },
+    "conda-package-handling": {
+      "version": "2.4.0",
+      "scope": "inherited-base"
+    },
+    "conda-package-streaming": {
+      "version": "0.12.0",
+      "scope": "inherited-base"
+    },
+    "cryptography": {
+      "version": "45.0.7",
+      "scope": "inherited-base"
+    },
+    "cuda-bindings": {
+      "version": "13.3.1",
+      "scope": "inherited-base"
+    },
+    "cuda-core": {
+      "version": "1.0.1",
+      "scope": "inherited-base"
+    },
+    "cuda-pathfinder": {
+      "version": "1.5.5",
+      "scope": "inherited-base"
+    },
+    "cuda-python": {
+      "version": "13.3.1",
+      "scope": "inherited-base"
+    },
+    "cuda-tile": {
+      "version": "1.7.0",
+      "scope": "venv"
+    },
+    "cuda-toolkit": {
+      "version": "13.0.2",
+      "scope": "inherited-base"
+    },
+    "distro": {
+      "version": "1.9.0",
+      "scope": "inherited-base"
+    },
+    "docutils": {
+      "version": "0.21.2",
+      "scope": "venv"
+    },
+    "einops": {
+      "version": "0.8.2",
+      "scope": "venv"
+    },
+    "filelock": {
+      "version": "3.29.4",
+      "scope": "inherited-base"
+    },
+    "flash-attn-4": {
+      "version": "4.0.0b37",
+      "scope": "venv"
+    },
+    "flashinfer-python": {
+      "version": "0.7.2.post1",
+      "scope": "venv"
+    },
+    "frozendict": {
+      "version": "2.4.6",
+      "scope": "inherited-base"
+    },
+    "fsspec": {
+      "version": "2026.6.0",
+      "scope": "inherited-base"
+    },
+    "h11": {
+      "version": "0.16.0",
+      "scope": "inherited-base"
+    },
+    "hf-xet": {
+      "version": "1.5.1",
+      "scope": "inherited-base"
+    },
+    "httpcore": {
+      "version": "1.0.9",
+      "scope": "inherited-base"
+    },
+    "httpx": {
+      "version": "0.28.1",
+      "scope": "inherited-base"
+    },
+    "huggingface-hub": {
+      "version": "1.21.0",
+      "scope": "inherited-base"
+    },
+    "idna": {
+      "version": "3.11",
+      "scope": "inherited-base"
+    },
+    "imagesize": {
+      "version": "2.0.1",
+      "scope": "venv"
+    },
+    "iniconfig": {
+      "version": "2.3.0",
+      "scope": "inherited-base"
+    },
+    "jaraco-classes": {
+      "version": "3.4.0",
+      "scope": "inherited-base"
+    },
+    "jaraco-context": {
+      "version": "6.1.0",
+      "scope": "inherited-base"
+    },
+    "jaraco-functools": {
+      "version": "4.4.0",
+      "scope": "inherited-base"
+    },
+    "jeepney": {
+      "version": "0.7.1",
+      "scope": "inherited-base"
+    },
+    "jieba": {
+      "version": "0.42.1",
+      "scope": "venv"
+    },
+    "jinja2": {
+      "version": "3.1.6",
+      "scope": "inherited-base"
+    },
+    "jsonpatch": {
+      "version": "1.33",
+      "scope": "inherited-base"
+    },
+    "jsonpointer": {
+      "version": "3.1.1",
+      "scope": "inherited-base"
+    },
+    "keyring": {
+      "version": "25.7.0",
+      "scope": "inherited-base"
+    },
+    "libmambapy": {
+      "version": "2.3.2",
+      "scope": "inherited-base"
+    },
+    "markdown-it-py": {
+      "version": "3.0.0",
+      "scope": "venv"
+    },
+    "markupsafe": {
+      "version": "3.0.3",
+      "scope": "inherited-base"
+    },
+    "mdit-py-plugins": {
+      "version": "0.6.1",
+      "scope": "venv"
+    },
+    "mdurl": {
+      "version": "0.1.2",
+      "scope": "inherited-base"
+    },
+    "menuinst": {
+      "version": "2.4.2",
+      "scope": "inherited-base"
+    },
+    "ml-dtypes": {
+      "version": "0.6.0",
+      "scope": "venv"
+    },
+    "modern-gpu-programming-5060": {
+      "version": "0.1.0",
+      "scope": "venv"
+    },
+    "more-itertools": {
+      "version": "11.0.2",
+      "scope": "inherited-base"
+    },
+    "mpmath": {
+      "version": "1.3.0",
+      "scope": "inherited-base"
+    },
+    "msgpack": {
+      "version": "1.1.1",
+      "scope": "inherited-base"
+    },
+    "myst-parser": {
+      "version": "4.0.1",
+      "scope": "venv"
+    },
+    "nccl-extensions": {
+      "version": "0.1.0",
+      "scope": "venv"
+    },
+    "nccl4py": {
+      "version": "0.6.0",
+      "scope": "venv"
+    },
+    "networkx": {
+      "version": "3.6.1",
+      "scope": "inherited-base"
+    },
+    "ninja": {
+      "version": "1.13.2",
+      "scope": "venv"
+    },
+    "numpy": {
+      "version": "2.5.0",
+      "scope": "inherited-base"
+    },
+    "nvidia-cublas": {
+      "version": "13.1.1.3",
+      "scope": "inherited-base"
+    },
+    "nvidia-cuda-cupti": {
+      "version": "13.0.85",
+      "scope": "inherited-base"
+    },
+    "nvidia-cuda-nvrtc": {
+      "version": "13.0.88",
+      "scope": "inherited-base"
+    },
+    "nvidia-cuda-runtime": {
+      "version": "13.0.96",
+      "scope": "inherited-base"
+    },
+    "nvidia-cudnn-cu13": {
+      "version": "9.20.0.48",
+      "scope": "inherited-base"
+    },
+    "nvidia-cudnn-frontend": {
+      "version": "1.32.1",
+      "scope": "venv"
+    },
+    "nvidia-cufft": {
+      "version": "12.0.0.61",
+      "scope": "inherited-base"
+    },
+    "nvidia-cufile": {
+      "version": "1.15.1.6",
+      "scope": "inherited-base"
+    },
+    "nvidia-curand": {
+      "version": "10.4.0.35",
+      "scope": "inherited-base"
+    },
+    "nvidia-cusolver": {
+      "version": "12.0.4.66",
+      "scope": "inherited-base"
+    },
+    "nvidia-cusparse": {
+      "version": "12.6.3.3",
+      "scope": "inherited-base"
+    },
+    "nvidia-cusparselt-cu13": {
+      "version": "0.8.1",
+      "scope": "inherited-base"
+    },
+    "nvidia-cutlass": {
+      "version": "4.2.0.0",
+      "scope": "inherited-base"
+    },
+    "nvidia-cutlass-dsl": {
+      "version": "4.8.1",
+      "scope": "venv"
+    },
+    "nvidia-cutlass-dsl-libs-base": {
+      "version": "4.8.1",
+      "scope": "venv"
+    },
+    "nvidia-cutlass-dsl-libs-core": {
+      "version": "4.8.1",
+      "scope": "venv"
+    },
+    "nvidia-cutlass-dsl-libs-cu12": {
+      "version": "4.8.1",
+      "scope": "venv"
+    },
+    "nvidia-cutlass-dsl-libs-cu13": {
+      "version": "4.8.1",
+      "scope": "venv"
+    },
+    "nvidia-ml-py": {
+      "version": "13.615.71",
+      "scope": "venv"
+    },
+    "nvidia-nccl-cu13": {
+      "version": "2.29.7",
+      "scope": "inherited-base"
+    },
+    "nvidia-nvjitlink": {
+      "version": "13.0.88",
+      "scope": "inherited-base"
+    },
+    "nvidia-nvshmem-cu13": {
+      "version": "3.4.5",
+      "scope": "inherited-base"
+    },
+    "nvidia-nvtx": {
+      "version": "13.0.85",
+      "scope": "inherited-base"
+    },
+    "packaging": {
+      "version": "26.0",
+      "scope": "inherited-base"
+    },
+    "pip": {
+      "version": "26.0.1",
+      "scope": "venv"
+    },
+    "pkce": {
+      "version": "1.0.3",
+      "scope": "inherited-base"
+    },
+    "platformdirs": {
+      "version": "4.9.4",
+      "scope": "inherited-base"
+    },
+    "pluggy": {
+      "version": "1.6.0",
+      "scope": "inherited-base"
+    },
+    "protobuf": {
+      "version": "7.36.2",
+      "scope": "venv"
+    },
+    "psutil": {
+      "version": "7.2.2",
+      "scope": "venv"
+    },
+    "pybind11": {
+      "version": "3.0.4",
+      "scope": "inherited-base"
+    },
+    "pycosat": {
+      "version": "0.6.6",
+      "scope": "inherited-base"
+    },
+    "pycparser": {
+      "version": "3.0",
+      "scope": "inherited-base"
+    },
+    "pydantic": {
+      "version": "2.13.2",
+      "scope": "inherited-base"
+    },
+    "pydantic-core": {
+      "version": "2.46.2",
+      "scope": "inherited-base"
+    },
+    "pydantic-settings": {
+      "version": "2.12.0",
+      "scope": "inherited-base"
+    },
+    "pydata-sphinx-theme": {
+      "version": "0.20.0",
+      "scope": "venv"
+    },
+    "pydot": {
+      "version": "4.0.1",
+      "scope": "inherited-base"
+    },
+    "pygments": {
+      "version": "2.20.0",
+      "scope": "inherited-base"
+    },
+    "pyjwt": {
+      "version": "2.12.1",
+      "scope": "inherited-base"
+    },
+    "pyparsing": {
+      "version": "3.3.2",
+      "scope": "inherited-base"
+    },
+    "pysocks": {
+      "version": "1.7.1",
+      "scope": "inherited-base"
+    },
+    "pytest": {
+      "version": "9.1.1",
+      "scope": "inherited-base"
+    },
+    "python-dotenv": {
+      "version": "1.2.1",
+      "scope": "inherited-base"
+    },
+    "pyyaml": {
+      "version": "6.0.3",
+      "scope": "inherited-base"
+    },
+    "quack-kernels": {
+      "version": "0.6.5",
+      "scope": "venv"
+    },
+    "readchar": {
+      "version": "4.2.1",
+      "scope": "inherited-base"
+    },
+    "requests": {
+      "version": "2.33.1",
+      "scope": "inherited-base"
+    },
+    "rich": {
+      "version": "14.2.0",
+      "scope": "inherited-base"
+    },
+    "roman-numerals": {
+      "version": "4.1.0",
+      "scope": "venv"
+    },
+    "roman-numerals-py": {
+      "version": "4.1.0",
+      "scope": "venv"
+    },
+    "ruamel-yaml": {
+      "version": "0.18.16",
+      "scope": "inherited-base"
+    },
+    "ruamel-yaml-clib": {
+      "version": "0.2.14",
+      "scope": "inherited-base"
+    },
+    "scipy": {
+      "version": "1.18.0",
+      "scope": "inherited-base"
+    },
+    "secretstorage": {
+      "version": "3.5.0",
+      "scope": "inherited-base"
+    },
+    "semver": {
+      "version": "3.0.4",
+      "scope": "inherited-base"
+    },
+    "setuptools": {
+      "version": "81.0.0",
+      "scope": "inherited-base"
+    },
+    "shellingham": {
+      "version": "1.5.4",
+      "scope": "inherited-base"
+    },
+    "six": {
+      "version": "1.17.0",
+      "scope": "inherited-base"
+    },
+    "snowballstemmer": {
+      "version": "3.1.1",
+      "scope": "venv"
+    },
+    "soupsieve": {
+      "version": "4.0",
+      "scope": "venv"
+    },
+    "sphinx": {
+      "version": "8.2.3",
+      "scope": "venv"
+    },
+    "sphinx-book-theme": {
+      "version": "1.4.0",
+      "scope": "venv"
+    },
+    "sphinx-copybutton": {
+      "version": "0.5.2",
+      "scope": "venv"
+    },
+    "sphinx-design": {
+      "version": "0.7.0",
+      "scope": "venv"
+    },
+    "sphinxcontrib-applehelp": {
+      "version": "2.0.0",
+      "scope": "venv"
+    },
+    "sphinxcontrib-devhelp": {
+      "version": "2.0.0",
+      "scope": "venv"
+    },
+    "sphinxcontrib-htmlhelp": {
+      "version": "2.1.0",
+      "scope": "venv"
+    },
+    "sphinxcontrib-jsmath": {
+      "version": "2.0.0",
+      "scope": "venv"
+    },
+    "sphinxcontrib-qthelp": {
+      "version": "2.0.0",
+      "scope": "venv"
+    },
+    "sphinxcontrib-serializinghtml": {
+      "version": "2.0.0",
+      "scope": "venv"
+    },
+    "sympy": {
+      "version": "1.14.0",
+      "scope": "inherited-base"
+    },
+    "tabulate": {
+      "version": "0.10.0",
+      "scope": "venv"
+    },
+    "tilelang": {
+      "version": "0.1.15",
+      "scope": "venv"
+    },
+    "tomli": {
+      "version": "2.4.0",
+      "scope": "inherited-base"
+    },
+    "tomlkit": {
+      "version": "0.13.3",
+      "scope": "inherited-base"
+    },
+    "torch": {
+      "version": "2.12.1",
+      "scope": "inherited-base"
+    },
+    "torch-c-dlpack-ext": {
+      "version": "0.1.5",
+      "scope": "venv"
+    },
+    "tqdm": {
+      "version": "4.67.3",
+      "scope": "inherited-base"
+    },
+    "treelib": {
+      "version": "1.8.0",
+      "scope": "inherited-base"
+    },
+    "triton": {
+      "version": "3.7.1",
+      "scope": "inherited-base"
+    },
+    "truststore": {
+      "version": "0.10.1",
+      "scope": "inherited-base"
+    },
+    "typer": {
+      "version": "0.20.0",
+      "scope": "inherited-base"
+    },
+    "typer-slim": {
+      "version": "0.20.0",
+      "scope": "inherited-base"
+    },
+    "typing-extensions": {
+      "version": "4.15.0",
+      "scope": "inherited-base"
+    },
+    "typing-inspection": {
+      "version": "0.4.2",
+      "scope": "inherited-base"
+    },
+    "urllib3": {
+      "version": "2.6.3",
+      "scope": "inherited-base"
+    },
+    "wheel": {
+      "version": "0.46.3",
+      "scope": "inherited-base"
+    },
+    "z3-solver": {
+      "version": "4.15.4.0",
+      "scope": "venv"
+    },
+    "zstandard": {
+      "version": "0.25.0",
+      "scope": "inherited-base"
+    }
+  }
+}

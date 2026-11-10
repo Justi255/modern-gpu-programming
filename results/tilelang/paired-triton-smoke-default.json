@@ -1,0 +1,3323 @@
+{
+  "schema_version": 1,
+  "environment": {
+    "schema_version": 1,
+    "timestamp_utc": "2026-11-05T13:52:50.036972+00:00",
+    "python": {
+      "version": "3.13.13",
+      "sys_version": "3.13.13 | packaged by Anaconda, Inc. | (main, Apr 14 2026, 06:19:41) [GCC 14.3.0]",
+      "implementation": "CPython",
+      "compiler": "GCC 14.3.0",
+      "executable": "/home/justi/Workspace/cuda/fa/.venv-tilelang/bin/python"
+    },
+    "platform": {
+      "system": "Linux",
+      "release": "7.0.0-42-generic",
+      "machine": "x86_64",
+      "description": "Linux-7.0.0-42-generic-x86_64-with-glibc2.43"
+    },
+    "packages": {
+      "modern-gpu-programming-5060": "0.1.0",
+      "numpy": "2.5.0",
+      "torch": "2.12.1",
+      "triton": "3.7.1",
+      "tilelang": "0.1.15",
+      "apache-tvm-ffi": "0.1.12",
+      "flashinfer-python": "0.7.2.post1",
+      "flash-attn-4": "4.0.0b37",
+      "flash-attn": null
+    },
+    "cuda_build": "13.0",
+    "cuda_available": true,
+    "gpus": [
+      {
+        "index": 0,
+        "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+        "compute_capability": [
+          12,
+          0
+        ],
+        "sm_count": 26,
+        "total_memory_bytes": 8055947264,
+        "l2_cache_bytes": 33554432,
+        "shared_memory_per_block_bytes": 49152,
+        "shared_memory_per_block_optin_bytes": 101376,
+        "shared_memory_per_sm_bytes": 102400,
+        "warp_size": 32,
+        "max_threads_per_block": 1024
+      }
+    ],
+    "gpu_unavailable_reason": null,
+    "nvidia_smi": {
+      "available": true,
+      "devices": [
+        {
+          "index": 0,
+          "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+          "driver_version": "595.99.02",
+          "performance_state": "P4",
+          "power_draw_watts": 11.94,
+          "power_limit_watts": null,
+          "sm_clock_mhz": 735,
+          "memory_clock_mhz": 9001,
+          "temperature_celsius": 46
+        }
+      ],
+      "error": null
+    },
+    "compiler": {
+      "nvcc": {
+        "available": true,
+        "output": "nvcc: NVIDIA (R) Cuda compiler driver\nCopyright (c) 2005-2025 NVIDIA Corporation\nBuilt on Tue_Dec_16_07:23:41_PM_PST_2025\nCuda compilation tools, release 13.1, V13.1.115\nBuild cuda_13.1.r13.1/compiler.37061995_0",
+        "returncode": 0,
+        "error": null
+      },
+      "ptxas": {
+        "available": true,
+        "output": "ptxas: NVIDIA (R) Ptx optimizing assembler\nCopyright (c) 2005-2025 NVIDIA Corporation\nBuilt on Tue_Dec_16_07:22:11_PM_PST_2025\nCuda compilation tools, release 13.1, V13.1.115\nBuild cuda_13.1.r13.1/compiler.37061995_0",
+        "returncode": 0,
+        "error": null
+      },
+      "triton_version": "3.7.1",
+      "tilelang_version": "0.1.15",
+      "apache_tvm_ffi_version": "0.1.12",
+      "sources": {
+        "triton": null,
+        "tilelang": null,
+        "apache-tvm-ffi": null
+      }
+    }
+  },
+  "backend": "triton",
+  "backend_packages": {
+    "triton": "3.7.1"
+  },
+  "configuration_mode": "public_default",
+  "suite": "smoke",
+  "rounds": 5,
+  "tune": false,
+  "seed": 20261102,
+  "timing": {
+    "gpu_us_p50": "median of per-round CUDA-event single repeated-operator graph replay / batch count",
+    "eager_us_p50": "median of per-round public eager API CUDA-event means",
+    "eager_wall_us_p50": "median of per-round synchronized public eager API wall means",
+    "round_target_ms": 10,
+    "warmup_calls": 3,
+    "graph_batch_cap": 2048,
+    "short_operator_min_graph_batch": 128,
+    "graph_boundary": "complete operator including all decode splits and merge; planning outside",
+    "eager_boundary": "public operator including output/workspace allocation where API permits",
+    "startup": "provider preparation, first calls including JIT, and warmup saved separately; excluded from latency samples"
+  },
+  "cases": [
+    {
+      "id": "prefill-b1-l512-hq32-hkv32-d64-fp16-dense",
+      "phase": "prefill",
+      "batch": 1,
+      "kv_len": 512,
+      "query_len": 512,
+      "head_dim": 64,
+      "heads_q": 32,
+      "heads_kv": 32,
+      "dtype": "fp16",
+      "layout": "dense",
+      "page_size": 16,
+      "causal": true,
+      "shape": {
+        "q": [
+          1,
+          512,
+          32,
+          64
+        ],
+        "k": [
+          1,
+          512,
+          32,
+          64
+        ],
+        "v": [
+          1,
+          512,
+          32,
+          64
+        ],
+        "kv_lens": [
+          512
+        ],
+        "block_table": null,
+        "heads_q": 32,
+        "heads_kv": 32,
+        "head_dim": 64,
+        "batch": 1,
+        "query_len": 512,
+        "kv_len": 512
+      },
+      "backend": "triton",
+      "seed": 20261102,
+      "providers": {
+        "flashinfer_fmha_v2": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 0.00244140625,
+          "max_relative_error_atol_floor": 0.232696533203125,
+          "atol": 0.003,
+          "rtol": 0.003,
+          "normalized_rms_error": 0.0006761880446739589,
+          "normalized_rms_tolerance": 0.02,
+          "gpu_us_p50": 69.54099982976913,
+          "warmup_wall_ms": 2.797827,
+          "warmup_calls_per_api": 3,
+          "eager_us_p50": 74.27675861957644,
+          "eager_wall_us_p50": 75.86907438016529,
+          "gpu_us_rounds": [
+            67.9745003581047,
+            69.28875297307968,
+            69.54099982976913,
+            69.86875087022781,
+            69.71024721860886
+          ],
+          "eager_us_rounds": [
+            71.86274095015092,
+            74.27675861957644,
+            75.97143787983035,
+            72.59715687144886,
+            81.14538902093557
+          ],
+          "eager_wall_us_rounds": [
+            71.95347933884297,
+            75.86907438016529,
+            76.05365289256198,
+            74.42398347107438,
+            81.25377685950413
+          ],
+          "graph_replays_per_round": 1,
+          "graph_operator_calls_per_replay": 128,
+          "eager_calls_per_round": 121,
+          "graph_timing": "single replay of repeated complete-operator capture, divided by call count",
+          "startup": {
+            "first_call_scope": "synchronized wall time; includes JIT on cache miss; excluded from steady-state samples",
+            "prepare_wall_ms": 898.431755,
+            "graph_first_call_wall_ms": 257.346394,
+            "eager_first_call_wall_ms": 0.203479
+          },
+          "metadata": {
+            "backend": "fmha_v2",
+            "workspace_bytes": 134217728,
+            "planning_timed": false,
+            "input_copies": true,
+            "gqa_expansion": false,
+            "preallocated_output": true,
+            "native_paged": false,
+            "kv_layout": "NHD",
+            "api": "flashinfer.BatchPrefillWithRaggedKVCacheWrapper.run",
+            "input_layout": "CONTIGUOUS_Q_KV",
+            "packing_timed": true,
+            "packing": "public FlashInfer run() internally torch.stack((k,v), dim=1)",
+            "constructor_signature": "(float_workspace_buffer: torch.Tensor, kv_layout: str = 'NHD', use_cuda_graph: bool = False, qo_indptr_buf: Optional[torch.Tensor] = None, kv_indptr_buf: Optional[torch.Tensor] = None, custom_mask_buf: Optional[torch.Tensor] = None, mask_indptr_buf: Optional[torch.Tensor] = None, backend: str = 'auto', jit_args: Optional[List[Any]] = None, jit_kwargs: Optional[Dict[str, Any]] = None, variant_owns_mask: bool = False) -> None",
+            "run_signature": "(q: torch.Tensor, k: torch.Tensor, v: torch.Tensor, *args, q_scale: Optional[float] = None, k_scale: Optional[float] = None, v_scale: Optional[float] = None, o_scale: Optional[float] = None, out: Optional[torch.Tensor] = None, lse: Optional[torch.Tensor] = None, return_lse: bool = False, lse_base: str = 'log2', lse_layout: str = 'NH', enable_pdl: Optional[bool] = None, kv_cache_sf: Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor], NoneType] = None) -> Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]]",
+            "resolved_backend": "fmha_v2",
+            "decode_entry": null
+          }
+        },
+        "torch_cudnn": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 0.0009765625,
+          "max_relative_error_atol_floor": 0.0584920234978199,
+          "atol": 0.003,
+          "rtol": 0.003,
+          "normalized_rms_error": 0.0002512803055671708,
+          "normalized_rms_tolerance": 0.02,
+          "gpu_us_p50": 73.90949875116348,
+          "warmup_wall_ms": 0.744411,
+          "warmup_calls_per_api": 3,
+          "eager_us_p50": 80.23023183366894,
+          "eager_wall_us_p50": 80.32021238938053,
+          "gpu_us_rounds": [
+            73.92674684524536,
+            73.90949875116348,
+            73.87199997901917,
+            73.87574762105942,
+            79.111248254776
+          ],
+          "eager_us_rounds": [
+            80.23023183366894,
+            80.3446389932548,
+            82.77805294610758,
+            73.99079651959174,
+            76.41599874580857
+          ],
+          "eager_wall_us_rounds": [
+            80.32021238938053,
+            82.12285840707965,
+            82.86283185840708,
+            75.55061946902654,
+            78.25238938053097
+          ],
+          "graph_replays_per_round": 1,
+          "graph_operator_calls_per_replay": 128,
+          "eager_calls_per_round": 113,
+          "graph_timing": "single replay of repeated complete-operator capture, divided by call count",
+          "startup": {
+            "first_call_scope": "synchronized wall time; includes JIT on cache miss; excluded from steady-state samples",
+            "prepare_wall_ms": 3.605197,
+            "graph_first_call_wall_ms": 90.258871,
+            "eager_first_call_wall_ms": 0.155065
+          },
+          "metadata": {
+            "api": "torch.nn.functional.scaled_dot_product_attention",
+            "forced_backend": "CUDNN_ATTENTION",
+            "q_layout": "BHSD view of BSHD",
+            "kv_layout": "BHSD view of BSHD",
+            "gqa_expansion": false,
+            "input_copies": false,
+            "preallocated_output": false
+          }
+        },
+        "torch_efficient": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 0.0009765625,
+          "max_relative_error_atol_floor": 0.0584920234978199,
+          "atol": 0.003,
+          "rtol": 0.003,
+          "normalized_rms_error": 0.0002512913058983882,
+          "normalized_rms_tolerance": 0.02,
+          "gpu_us_p50": 95.76050192117691,
+          "warmup_wall_ms": 0.756357,
+          "warmup_calls_per_api": 3,
+          "eager_us_p50": 97.91433811187744,
+          "eager_wall_us_p50": 98.02225,
+          "gpu_us_rounds": [
+            95.76050192117691,
+            97.54324704408646,
+            93.1209996342659,
+            93.96824985742569,
+            96.14600241184235
+          ],
+          "eager_us_rounds": [
+            94.12099917729695,
+            97.91433811187744,
+            93.35800011952718,
+            106.73967003822327,
+            99.02333219846089
+          ],
+          "eager_wall_us_rounds": [
+            94.22175,
+            98.02225,
+            93.45344791666668,
+            106.84644791666666,
+            100.84165625000001
+          ],
+          "graph_replays_per_round": 1,
+          "graph_operator_calls_per_replay": 128,
+          "eager_calls_per_round": 96,
+          "graph_timing": "single replay of repeated complete-operator capture, divided by call count",
+          "startup": {
+            "first_call_scope": "synchronized wall time; includes JIT on cache miss; excluded from steady-state samples",
+            "prepare_wall_ms": 0.029737,
+            "graph_first_call_wall_ms": 4.427166,
+            "eager_first_call_wall_ms": 0.131135
+          },
+          "metadata": {
+            "api": "torch.nn.functional.scaled_dot_product_attention",
+            "forced_backend": "EFFICIENT_ATTENTION",
+            "q_layout": "BHSD view of BSHD",
+            "kv_layout": "BHSD view of BSHD",
+            "gqa_expansion": false,
+            "input_copies": false,
+            "preallocated_output": false
+          }
+        },
+        "ours": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 0.0009765625,
+          "max_relative_error_atol_floor": 0.0584920234978199,
+          "atol": 0.003,
+          "rtol": 0.003,
+          "normalized_rms_error": 0.0002512869562066581,
+          "normalized_rms_tolerance": 0.02,
+          "gpu_us_p50": 58.73934612717739,
+          "warmup_wall_ms": 0.549962,
+          "warmup_calls_per_api": 3,
+          "eager_us_p50": 58.39521057751714,
+          "eager_wall_us_p50": 59.183843537414965,
+          "gpu_us_rounds": [
+            58.382882628329966,
+            63.444836195125134,
+            58.47050977307697,
+            62.540281650631925,
+            58.73934612717739
+          ],
+          "eager_us_rounds": [
+            59.53784864775989,
+            58.39521057751714,
+            59.12098268262383,
+            54.729578446368784,
+            54.95989403757108
+          ],
+          "eager_wall_us_rounds": [
+            60.98091156462585,
+            59.183843537414965,
+            59.189231292517,
+            56.606591836734694,
+            57.001455782312924
+          ],
+          "graph_replays_per_round": 1,
+          "graph_operator_calls_per_replay": 172,
+          "eager_calls_per_round": 147,
+          "graph_timing": "single replay of repeated complete-operator capture, divided by call count",
+          "startup": {
+            "first_call_scope": "synchronized wall time; includes JIT on cache miss; excluded from steady-state samples",
+            "prepare_wall_ms": 3.781748,
+            "graph_first_call_wall_ms": 597.260843,
+            "eager_first_call_wall_ms": 0.18261
+          },
+          "metadata": {
+            "api": "fa5060.attention.prefill",
+            "backend": "triton",
+            "package_versions": {
+              "triton": "3.7.1"
+            },
+            "preallocated_output": true,
+            "preallocated_workspace": false,
+            "config": null,
+            "num_splits": null,
+            "native_paged": false,
+            "eager_allocates_output": true,
+            "eager_allocates_workspace": false,
+            "graph_boundary": "complete operator including all decode splits and merge"
+          },
+          "selected_config": {
+            "config": null,
+            "num_splits": null
+          },
+          "configuration_mode": "public_default"
+        },
+        "fa4": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 0.0009765625,
+          "max_relative_error_atol_floor": 0.0584920234978199,
+          "atol": 0.003,
+          "rtol": 0.003,
+          "normalized_rms_error": 0.00025274971639628065,
+          "normalized_rms_tolerance": 0.02,
+          "gpu_us_p50": 53.92229913951394,
+          "warmup_wall_ms": 0.661892,
+          "warmup_calls_per_api": 3,
+          "eager_us_p50": 57.656595529603564,
+          "eager_wall_us_p50": 58.17203305785124,
+          "gpu_us_rounds": [
+            53.84412068806723,
+            53.92229913951394,
+            54.16929507683851,
+            54.286562754008585,
+            53.86232615944868
+          ],
+          "eager_us_rounds": [
+            56.17851068165677,
+            60.65190133969646,
+            58.07894320527384,
+            57.656595529603564,
+            54.47405034845526
+          ],
+          "eager_wall_us_rounds": [
+            56.26919834710744,
+            63.301206611570244,
+            58.17203305785124,
+            59.15819008264462,
+            54.56519834710744
+          ],
+          "graph_replays_per_round": 1,
+          "graph_operator_calls_per_replay": 167,
+          "eager_calls_per_round": 121,
+          "graph_timing": "single replay of repeated complete-operator capture, divided by call count",
+          "startup": {
+            "first_call_scope": "synchronized wall time; includes JIT on cache miss; excluded from steady-state samples",
+            "prepare_wall_ms": 701.243001,
+            "graph_first_call_wall_ms": 2038.506443,
+            "eager_first_call_wall_ms": 0.227132
+          },
+          "metadata": {
+            "api": "flash_attn.cute.interface.flash_attn_func",
+            "signature": "(q: torch.Tensor, k: torch.Tensor, v: torch.Tensor, qv: Optional[torch.Tensor] = None, gather_kv_indices: Optional[torch.Tensor] = None, softmax_scale: Optional[float] = None, causal: bool = False, window_size: Tuple[Optional[int], Optional[int]] = (None, None), learnable_sink: Optional[torch.Tensor] = None, softcap: float = 0.0, num_splits: int = 1, pack_gqa: Optional[bool] = None, deterministic: bool = False, score_mod: Optional[Callable] = None, score_mod_bwd: Optional[Callable] = None, mask_mod: Optional[Callable] = None, aux_tensors: Optional[list] = None, aux_scalars: Optional[tuple] = None, block_sparse_tensors: Optional[flash_attn.cute.block_sparsity.BlockSparseTensorsTorch] = None, block_sparse_tensors_bwd: Optional[flash_attn.cute.block_sparsity.BlockSparseTensorsTorch] = None, return_lse: bool = False, gather_bwd_recompute_p: bool = False, gather_bwd_token_chunk: Optional[int] = None)",
+            "q_layout": "BSHD",
+            "kv_layout": "BSHD",
+            "input_copies": false,
+            "gqa_expansion": false,
+            "preallocated_output": false
+          }
+        },
+        "flashinfer_fa2": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 0.001953125,
+          "max_relative_error_atol_floor": 0.0584920234978199,
+          "atol": 0.003,
+          "rtol": 0.003,
+          "normalized_rms_error": 0.000245870486371591,
+          "normalized_rms_tolerance": 0.02,
+          "gpu_us_p50": 78.77349853515625,
+          "warmup_wall_ms": 0.58627,
+          "warmup_calls_per_api": 3,
+          "eager_us_p50": 78.72756611217152,
+          "eager_wall_us_p50": 78.83993636363637,
+          "gpu_us_rounds": [
+            78.65200191736221,
+            78.77349853515625,
+            87.84350007772446,
+            78.51774990558624,
+            84.25799757242203
+          ],
+          "eager_us_rounds": [
+            85.28640053488992,
+            78.72756611217152,
+            78.79970723932439,
+            78.50210883400656,
+            78.51374366066672
+          ],
+          "eager_wall_us_rounds": [
+            88.41602727272728,
+            78.83993636363637,
+            78.9271,
+            78.60580909090909,
+            78.62066363636363
+          ],
+          "graph_replays_per_round": 1,
+          "graph_operator_calls_per_replay": 128,
+          "eager_calls_per_round": 110,
+          "graph_timing": "single replay of repeated complete-operator capture, divided by call count",
+          "startup": {
+            "first_call_scope": "synchronized wall time; includes JIT on cache miss; excluded from steady-state samples",
+            "prepare_wall_ms": 37.24528,
+            "graph_first_call_wall_ms": 5.169906,
+            "eager_first_call_wall_ms": 0.131038
+          },
+          "metadata": {
+            "backend": "fa2",
+            "workspace_bytes": 134217728,
+            "planning_timed": false,
+            "input_copies": false,
+            "gqa_expansion": false,
+            "preallocated_output": true,
+            "native_paged": false,
+            "kv_layout": "NHD",
+            "api": "flashinfer.BatchPrefillWithRaggedKVCacheWrapper.run",
+            "constructor_signature": "(float_workspace_buffer: torch.Tensor, kv_layout: str = 'NHD', use_cuda_graph: bool = False, qo_indptr_buf: Optional[torch.Tensor] = None, kv_indptr_buf: Optional[torch.Tensor] = None, custom_mask_buf: Optional[torch.Tensor] = None, mask_indptr_buf: Optional[torch.Tensor] = None, backend: str = 'auto', jit_args: Optional[List[Any]] = None, jit_kwargs: Optional[Dict[str, Any]] = None, variant_owns_mask: bool = False) -> None",
+            "run_signature": "(q: torch.Tensor, k: torch.Tensor, v: torch.Tensor, *args, q_scale: Optional[float] = None, k_scale: Optional[float] = None, v_scale: Optional[float] = None, o_scale: Optional[float] = None, out: Optional[torch.Tensor] = None, lse: Optional[torch.Tensor] = None, return_lse: bool = False, lse_base: str = 'log2', lse_layout: str = 'NH', enable_pdl: Optional[bool] = None, kv_cache_sf: Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor], NoneType] = None) -> Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]]",
+            "resolved_backend": "fa2"
+          }
+        },
+        "torch_flash": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 0.0009765625,
+          "max_relative_error_atol_floor": 0.0584920234978199,
+          "atol": 0.003,
+          "rtol": 0.003,
+          "normalized_rms_error": 0.00025275710476685274,
+          "normalized_rms_tolerance": 0.02,
+          "gpu_us_p50": 55.90552375430153,
+          "warmup_wall_ms": 0.759053,
+          "warmup_calls_per_api": 3,
+          "eager_us_p50": 56.17555644777086,
+          "eager_wall_us_p50": 56.26340972222222,
+          "gpu_us_rounds": [
+            53.188187735421316,
+            55.90552375430153,
+            53.02704515911284,
+            59.16456949143183,
+            57.86266781034924
+          ],
+          "eager_us_rounds": [
+            53.74688903490702,
+            56.17555644777086,
+            53.3133347829183,
+            62.99755308363173,
+            57.015558083852135
+          ],
+          "eager_wall_us_rounds": [
+            53.8310625,
+            56.26340972222222,
+            53.392430555555556,
+            63.087208333333336,
+            57.08090972222222
+          ],
+          "graph_replays_per_round": 1,
+          "graph_operator_calls_per_replay": 168,
+          "eager_calls_per_round": 144,
+          "graph_timing": "single replay of repeated complete-operator capture, divided by call count",
+          "startup": {
+            "first_call_scope": "synchronized wall time; includes JIT on cache miss; excluded from steady-state samples",
+            "prepare_wall_ms": 0.069914,
+            "graph_first_call_wall_ms": 5.56503,
+            "eager_first_call_wall_ms": 0.14224
+          },
+          "metadata": {
+            "api": "torch.nn.functional.scaled_dot_product_attention",
+            "forced_backend": "FLASH_ATTENTION",
+            "q_layout": "BHSD view of BSHD",
+            "kv_layout": "BHSD view of BSHD",
+            "gqa_expansion": false,
+            "input_copies": false,
+            "preallocated_output": false
+          }
+        }
+      },
+      "provider_execution_order": [
+        "flashinfer_fmha_v2",
+        "torch_cudnn",
+        "torch_efficient",
+        "ours",
+        "fa4",
+        "flashinfer_fa2",
+        "torch_flash"
+      ],
+      "reference": {
+        "api": "fa5060.reference.attention_reference",
+        "algorithm": "blockwise fp32; no full Sq*Sk scores",
+        "tf32": false
+      },
+      "fastest_baseline": "fa4",
+      "speedup_vs_fastest": 0.9179928394634493,
+      "mandatory_baseline_groups": {
+        "torch_forced_sdpa": [
+          "torch_flash",
+          "torch_cudnn",
+          "torch_efficient"
+        ],
+        "fa4_native": [
+          "fa4"
+        ],
+        "flashinfer_native": [
+          "flashinfer_fa2",
+          "flashinfer_fmha_v2"
+        ]
+      },
+      "baseline_coverage": {
+        "torch_forced_sdpa": true,
+        "fa4_native": true,
+        "flashinfer_native": true
+      },
+      "mandatory_baselines_covered": true,
+      "correctness_passed": true,
+      "incorrect_providers": [],
+      "missing_provider_records": [],
+      "errored_providers": [],
+      "invalid_provider_records": []
+    },
+    {
+      "id": "prefill-b1-l512-hq32-hkv1-d64-fp16-paged16",
+      "phase": "prefill",
+      "batch": 1,
+      "kv_len": 512,
+      "query_len": 512,
+      "head_dim": 64,
+      "heads_q": 32,
+      "heads_kv": 1,
+      "dtype": "fp16",
+      "layout": "paged",
+      "page_size": 16,
+      "causal": true,
+      "shape": {
+        "q": [
+          1,
+          512,
+          32,
+          64
+        ],
+        "k": [
+          32,
+          16,
+          1,
+          64
+        ],
+        "v": [
+          32,
+          16,
+          1,
+          64
+        ],
+        "kv_lens": [
+          512
+        ],
+        "block_table": [
+          1,
+          32
+        ],
+        "heads_q": 32,
+        "heads_kv": 1,
+        "head_dim": 64,
+        "batch": 1,
+        "query_len": 512,
+        "kv_len": 512
+      },
+      "backend": "triton",
+      "seed": 20261102,
+      "providers": {
+        "flashinfer_fa2": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 0.001953125,
+          "max_relative_error_atol_floor": 0.06866455078125,
+          "atol": 0.003,
+          "rtol": 0.003,
+          "normalized_rms_error": 0.00024514853470550496,
+          "normalized_rms_tolerance": 0.02,
+          "gpu_us_p50": 80.20699769258499,
+          "warmup_wall_ms": 0.796434,
+          "warmup_calls_per_api": 3,
+          "eager_us_p50": 84.15157753124572,
+          "eager_wall_us_p50": 84.34780701754386,
+          "gpu_us_rounds": [
+            81.02049678564072,
+            85.06175130605698,
+            80.19550144672394,
+            80.20699769258499,
+            77.74575054645538
+          ],
+          "eager_us_rounds": [
+            82.48870414600037,
+            83.81445366039611,
+            84.15157753124572,
+            88.25431790268212,
+            87.0885598032098
+          ],
+          "eager_wall_us_rounds": [
+            84.34780701754386,
+            83.91092105263158,
+            84.26757894736843,
+            91.28827192982456,
+            89.01373684210527
+          ],
+          "graph_replays_per_round": 1,
+          "graph_operator_calls_per_replay": 128,
+          "eager_calls_per_round": 114,
+          "graph_timing": "single replay of repeated complete-operator capture, divided by call count",
+          "startup": {
+            "first_call_scope": "synchronized wall time; includes JIT on cache miss; excluded from steady-state samples",
+            "prepare_wall_ms": 3.766905,
+            "graph_first_call_wall_ms": 0.779043,
+            "eager_first_call_wall_ms": 0.161143
+          },
+          "metadata": {
+            "backend": "fa2",
+            "workspace_bytes": 134217728,
+            "planning_timed": false,
+            "input_copies": false,
+            "gqa_expansion": false,
+            "preallocated_output": true,
+            "native_paged": true,
+            "kv_layout": "NHD",
+            "api": "flashinfer.BatchPrefillWithPagedKVCacheWrapper.run",
+            "constructor_signature": "(float_workspace_buffer: torch.Tensor, kv_layout: str = 'NHD', use_cuda_graph: bool = False, qo_indptr_buf: Optional[torch.Tensor] = None, paged_kv_indptr_buf: Optional[torch.Tensor] = None, paged_kv_indices_buf: Optional[torch.Tensor] = None, paged_kv_last_page_len_buf: Optional[torch.Tensor] = None, custom_mask_buf: Optional[torch.Tensor] = None, mask_indptr_buf: Optional[torch.Tensor] = None, backend: str = 'auto', jit_args: Optional[List[Any]] = None, jit_kwargs: Optional[Dict[str, Any]] = None, variant_owns_mask: bool = False) -> None",
+            "run_signature": "(q: torch.Tensor, paged_kv_cache: Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]], *args, q_scale: Union[float, torch.Tensor, NoneType] = None, k_scale: Union[float, torch.Tensor, NoneType] = None, v_scale: Union[float, torch.Tensor, NoneType] = None, out: Optional[torch.Tensor] = None, lse: Optional[torch.Tensor] = None, return_lse: bool = False, lse_base: str = 'log2', lse_layout: str = 'NH', enable_pdl: Optional[bool] = None, window_left: Optional[int] = None, sinks: Optional[torch.Tensor] = None, kv_cache_sf: Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor], NoneType] = None, skip_softmax_threshold_scale_factor: Optional[float] = None, use_fp16_softmax: Optional[bool] = None, uses_spcompress: Optional[bool] = None) -> Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]]",
+            "resolved_backend": "fa2"
+          }
+        },
+        "torch_efficient": {
+          "status": "unsupported",
+          "validated": false,
+          "stage": "prepare",
+          "reason": "UnsupportedProvider: forced Torch SDPA has no native paged-KV public API",
+          "gpu_us_p50": null,
+          "eager_us_p50": null,
+          "metadata": {},
+          "startup": {
+            "first_call_scope": "synchronized wall time; includes JIT on cache miss; excluded from steady-state samples"
+          }
+        },
+        "torch_cudnn": {
+          "status": "unsupported",
+          "validated": false,
+          "stage": "prepare",
+          "reason": "UnsupportedProvider: forced Torch SDPA has no native paged-KV public API",
+          "gpu_us_p50": null,
+          "eager_us_p50": null,
+          "metadata": {},
+          "startup": {
+            "first_call_scope": "synchronized wall time; includes JIT on cache miss; excluded from steady-state samples"
+          }
+        },
+        "ours": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 0.001953125,
+          "max_relative_error_atol_floor": 0.06866455078125,
+          "atol": 0.003,
+          "rtol": 0.003,
+          "normalized_rms_error": 0.0002516853598658776,
+          "normalized_rms_tolerance": 0.02,
+          "gpu_us_p50": 59.068759282430015,
+          "warmup_wall_ms": 0.796029,
+          "warmup_calls_per_api": 3,
+          "eager_us_p50": 59.39701421936946,
+          "eager_wall_us_p50": 59.479126865671645,
+          "gpu_us_rounds": [
+            58.35409391494024,
+            64.29409413110642,
+            58.89066628047398,
+            66.13961855570476,
+            59.068759282430015
+          ],
+          "eager_us_rounds": [
+            59.39701421936946,
+            57.99713419444525,
+            61.200241544353425,
+            58.24501478849952,
+            63.08441731467176
+          ],
+          "eager_wall_us_rounds": [
+            59.479126865671645,
+            58.08055223880597,
+            61.27348507462687,
+            59.25998507462686,
+            64.21464179104478
+          ],
+          "graph_replays_per_round": 1,
+          "graph_operator_calls_per_replay": 168,
+          "eager_calls_per_round": 134,
+          "graph_timing": "single replay of repeated complete-operator capture, divided by call count",
+          "startup": {
+            "first_call_scope": "synchronized wall time; includes JIT on cache miss; excluded from steady-state samples",
+            "prepare_wall_ms": 0.752968,
+            "graph_first_call_wall_ms": 175.441357,
+            "eager_first_call_wall_ms": 0.2276
+          },
+          "metadata": {
+            "api": "fa5060.attention.prefill",
+            "backend": "triton",
+            "package_versions": {
+              "triton": "3.7.1"
+            },
+            "preallocated_output": true,
+            "preallocated_workspace": false,
+            "config": null,
+            "num_splits": null,
+            "native_paged": true,
+            "eager_allocates_output": true,
+            "eager_allocates_workspace": false,
+            "graph_boundary": "complete operator including all decode splits and merge"
+          },
+          "selected_config": {
+            "config": null,
+            "num_splits": null
+          },
+          "configuration_mode": "public_default"
+        },
+        "fa4": {
+          "status": "unsupported",
+          "validated": false,
+          "stage": "prepare",
+          "reason": "UnsupportedProvider: FA4 flash_attn_func adapter has no verified native page-table API",
+          "gpu_us_p50": null,
+          "eager_us_p50": null,
+          "metadata": {},
+          "startup": {
+            "first_call_scope": "synchronized wall time; includes JIT on cache miss; excluded from steady-state samples"
+          }
+        },
+        "torch_flash": {
+          "status": "unsupported",
+          "validated": false,
+          "stage": "prepare",
+          "reason": "UnsupportedProvider: forced Torch SDPA has no native paged-KV public API",
+          "gpu_us_p50": null,
+          "eager_us_p50": null,
+          "metadata": {},
+          "startup": {
+            "first_call_scope": "synchronized wall time; includes JIT on cache miss; excluded from steady-state samples"
+          }
+        },
+        "flashinfer_fmha_v2": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 0.00244140625,
+          "max_relative_error_atol_floor": 0.2892414629459381,
+          "atol": 0.003,
+          "rtol": 0.003,
+          "normalized_rms_error": 0.0006852655312179434,
+          "normalized_rms_tolerance": 0.02,
+          "gpu_us_p50": 83.44925194978714,
+          "warmup_wall_ms": 0.619436,
+          "warmup_calls_per_api": 3,
+          "eager_us_p50": 87.40755833617044,
+          "eager_wall_us_p50": 87.85653211009173,
+          "gpu_us_rounds": [
+            80.49049973487854,
+            85.51075309515,
+            85.64800024032593,
+            83.44925194978714,
+            80.4317519068718
+          ],
+          "eager_us_rounds": [
+            87.40755833617044,
+            87.00712011494768,
+            88.4010244946961,
+            84.87926273170962,
+            95.88961645003853
+          ],
+          "eager_wall_us_rounds": [
+            87.52139449541285,
+            87.20755963302751,
+            88.50564220183486,
+            87.85653211009173,
+            95.98502752293578
+          ],
+          "graph_replays_per_round": 1,
+          "graph_operator_calls_per_replay": 128,
+          "eager_calls_per_round": 109,
+          "graph_timing": "single replay of repeated complete-operator capture, divided by call count",
+          "startup": {
+            "first_call_scope": "synchronized wall time; includes JIT on cache miss; excluded from steady-state samples",
+            "prepare_wall_ms": 1.213965,
+            "graph_first_call_wall_ms": 261.419598,
+            "eager_first_call_wall_ms": 0.135423
+          },
+          "metadata": {
+            "backend": "fmha_v2",
+            "workspace_bytes": 134217728,
+            "planning_timed": false,
+            "input_copies": false,
+            "gqa_expansion": false,
+            "preallocated_output": true,
+            "native_paged": true,
+            "kv_layout": "NHD",
+            "block_table_format": "[B,2,M] native K/V block offsets; static preprocessing",
+            "api": "flashinfer.prefill.trtllm_fmha_v2_prefill",
+            "signature": "(qkv: Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor], Tuple[torch.Tensor, torch.Tensor, torch.Tensor]], input_layout: str, workspace_buffer: torch.Tensor, seq_lens: torch.Tensor, max_q_len: int, max_kv_len: int, bmm1_scale: float, bmm2_scale: float, batch_size: int, cum_seq_lens_q: torch.Tensor, cum_seq_lens_kv: torch.Tensor, block_tables: Optional[torch.Tensor] = None, out: Optional[torch.Tensor] = None, out_dtype: Union[str, torch.dtype, NoneType] = None, sinks: Optional[List[torch.Tensor]] = None, pos_encoding_mode: str = None, logits_soft_cap_scale: Optional[float] = None, mask_mode: str = 'causal', window_left: int = -1, chunked_attention_size: int = 0, save_softmax_stats: bool = False, skip_softmax_threshold_scale_factor: float = 0) -> Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]]",
+            "input_layout": "Q_PAGED_KV_NHD",
+            "decode_entry": null
+          }
+        }
+      },
+      "provider_execution_order": [
+        "flashinfer_fa2",
+        "torch_efficient",
+        "torch_cudnn",
+        "ours",
+        "fa4",
+        "torch_flash",
+        "flashinfer_fmha_v2"
+      ],
+      "reference": {
+        "api": "fa5060.reference.attention_reference",
+        "algorithm": "blockwise fp32; no full Sq*Sk scores",
+        "tf32": false
+      },
+      "fastest_baseline": "flashinfer_fa2",
+      "speedup_vs_fastest": 1.3578581752341383,
+      "mandatory_baseline_groups": {
+        "flashinfer_native": [
+          "flashinfer_fa2",
+          "flashinfer_fmha_v2"
+        ]
+      },
+      "baseline_coverage": {
+        "flashinfer_native": true
+      },
+      "mandatory_baselines_covered": true,
+      "correctness_passed": true,
+      "incorrect_providers": [],
+      "missing_provider_records": [],
+      "errored_providers": [],
+      "invalid_provider_records": []
+    },
+    {
+      "id": "prefill-b1-l512-hq32-hkv8-d128-bf16-dense",
+      "phase": "prefill",
+      "batch": 1,
+      "kv_len": 512,
+      "query_len": 512,
+      "head_dim": 128,
+      "heads_q": 32,
+      "heads_kv": 8,
+      "dtype": "bf16",
+      "layout": "dense",
+      "page_size": 16,
+      "causal": true,
+      "shape": {
+        "q": [
+          1,
+          512,
+          32,
+          128
+        ],
+        "k": [
+          1,
+          512,
+          8,
+          128
+        ],
+        "v": [
+          1,
+          512,
+          8,
+          128
+        ],
+        "kv_lens": [
+          512
+        ],
+        "block_table": null,
+        "heads_q": 32,
+        "heads_kv": 8,
+        "head_dim": 128,
+        "batch": 1,
+        "query_len": 512,
+        "kv_len": 512
+      },
+      "backend": "triton",
+      "seed": 20261102,
+      "providers": {
+        "torch_flash": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 0.015625,
+          "max_relative_error_atol_floor": 0.0946044921875,
+          "atol": 0.02,
+          "rtol": 0.02,
+          "normalized_rms_error": 0.0020137250886069916,
+          "normalized_rms_tolerance": 0.05,
+          "gpu_us_p50": 123.48539884700331,
+          "warmup_wall_ms": 0.924912,
+          "warmup_calls_per_api": 3,
+          "eager_us_p50": 116.19004970643579,
+          "eager_wall_us_p50": 116.29834146341463,
+          "gpu_us_rounds": [
+            113.1114405254985,
+            123.48539884700331,
+            111.43367235050646,
+            124.81860227363055,
+            123.70344649913699
+          ],
+          "eager_us_rounds": [
+            114.75980572584199,
+            115.27922095322027,
+            116.19004970643579,
+            124.99355688327697,
+            124.21657980942145
+          ],
+          "eager_wall_us_rounds": [
+            114.89723170731708,
+            115.42741463414634,
+            116.29834146341463,
+            125.12549999999999,
+            126.25649999999999
+          ],
+          "graph_replays_per_round": 1,
+          "graph_operator_calls_per_replay": 86,
+          "eager_calls_per_round": 82,
+          "graph_timing": "single replay of repeated complete-operator capture, divided by call count",
+          "startup": {
+            "first_call_scope": "synchronized wall time; includes JIT on cache miss; excluded from steady-state samples",
+            "prepare_wall_ms": 0.030164,
+            "graph_first_call_wall_ms": 2.651051,
+            "eager_first_call_wall_ms": 0.168193
+          },
+          "metadata": {
+            "api": "torch.nn.functional.scaled_dot_product_attention",
+            "forced_backend": "FLASH_ATTENTION",
+            "q_layout": "BHSD view of BSHD",
+            "kv_layout": "BHSD view of BSHD",
+            "gqa_expansion": false,
+            "input_copies": false,
+            "preallocated_output": false
+          }
+        },
+        "ours": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 0.015625,
+          "max_relative_error_atol_floor": 0.0946044921875,
+          "atol": 0.02,
+          "rtol": 0.02,
+          "normalized_rms_error": 0.0020165739851729183,
+          "normalized_rms_tolerance": 0.05,
+          "gpu_us_p50": 114.44056311319041,
+          "warmup_wall_ms": 0.932239,
+          "warmup_calls_per_api": 3,
+          "eager_us_p50": 113.42399548261594,
+          "eager_wall_us_p50": 117.29820512820513,
+          "gpu_us_rounds": [
+            110.89562260827353,
+            107.53935436869777,
+            118.40818094652752,
+            114.44056311319041,
+            121.53487981751908
+          ],
+          "eager_us_rounds": [
+            116.027893164219,
+            113.42399548261594,
+            121.20369153145032,
+            108.61744024814703,
+            113.2955917945275
+          ],
+          "eager_wall_us_rounds": [
+            120.61264102564103,
+            113.56980769230769,
+            123.58998717948718,
+            108.75032051282051,
+            117.29820512820513
+          ],
+          "graph_replays_per_round": 1,
+          "graph_operator_calls_per_replay": 86,
+          "eager_calls_per_round": 78,
+          "graph_timing": "single replay of repeated complete-operator capture, divided by call count",
+          "startup": {
+            "first_call_scope": "synchronized wall time; includes JIT on cache miss; excluded from steady-state samples",
+            "prepare_wall_ms": 0.370345,
+            "graph_first_call_wall_ms": 200.472729,
+            "eager_first_call_wall_ms": 0.265695
+          },
+          "metadata": {
+            "api": "fa5060.attention.prefill",
+            "backend": "triton",
+            "package_versions": {
+              "triton": "3.7.1"
+            },
+            "preallocated_output": true,
+            "preallocated_workspace": false,
+            "config": null,
+            "num_splits": null,
+            "native_paged": false,
+            "eager_allocates_output": true,
+            "eager_allocates_workspace": false,
+            "graph_boundary": "complete operator including all decode splits and merge"
+          },
+          "selected_config": {
+            "config": null,
+            "num_splits": null
+          },
+          "configuration_mode": "public_default"
+        },
+        "torch_efficient": {
+          "status": "unsupported",
+          "validated": false,
+          "stage": "prepare",
+          "reason": "UnsupportedProvider: Torch can_use_efficient_attention rejected the exact strided/GQA inputs; backend=EFFICIENT_ATTENTION, case=prefill-b1-l512-hq32-hkv8-d128-bf16-dense",
+          "gpu_us_p50": null,
+          "eager_us_p50": null,
+          "metadata": {},
+          "startup": {
+            "first_call_scope": "synchronized wall time; includes JIT on cache miss; excluded from steady-state samples"
+          }
+        },
+        "fa4": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 0.015625,
+          "max_relative_error_atol_floor": 0.0946044921875,
+          "atol": 0.02,
+          "rtol": 0.02,
+          "normalized_rms_error": 0.0020137051658771954,
+          "normalized_rms_tolerance": 0.05,
+          "gpu_us_p50": 106.60834934400475,
+          "warmup_wall_ms": 0.886182,
+          "warmup_calls_per_api": 3,
+          "eager_us_p50": 103.43220295050206,
+          "eager_wall_us_p50": 103.55573076923076,
+          "gpu_us_rounds": [
+            106.60834934400475,
+            110.49321423406187,
+            102.60799656743589,
+            115.21599603735882,
+            102.59721590125042
+          ],
+          "eager_us_rounds": [
+            116.76758986253004,
+            103.1659444173177,
+            103.43220295050206,
+            103.3624624594664,
+            103.51015971257137
+          ],
+          "eager_wall_us_rounds": [
+            118.80974358974359,
+            103.30678205128206,
+            103.55573076923076,
+            103.5187435897436,
+            103.64907692307692
+          ],
+          "graph_replays_per_round": 1,
+          "graph_operator_calls_per_replay": 92,
+          "eager_calls_per_round": 78,
+          "graph_timing": "single replay of repeated complete-operator capture, divided by call count",
+          "startup": {
+            "first_call_scope": "synchronized wall time; includes JIT on cache miss; excluded from steady-state samples",
+            "prepare_wall_ms": 0.127821,
+            "graph_first_call_wall_ms": 1600.603669,
+            "eager_first_call_wall_ms": 0.253835
+          },
+          "metadata": {
+            "api": "flash_attn.cute.interface.flash_attn_func",
+            "signature": "(q: torch.Tensor, k: torch.Tensor, v: torch.Tensor, qv: Optional[torch.Tensor] = None, gather_kv_indices: Optional[torch.Tensor] = None, softmax_scale: Optional[float] = None, causal: bool = False, window_size: Tuple[Optional[int], Optional[int]] = (None, None), learnable_sink: Optional[torch.Tensor] = None, softcap: float = 0.0, num_splits: int = 1, pack_gqa: Optional[bool] = None, deterministic: bool = False, score_mod: Optional[Callable] = None, score_mod_bwd: Optional[Callable] = None, mask_mod: Optional[Callable] = None, aux_tensors: Optional[list] = None, aux_scalars: Optional[tuple] = None, block_sparse_tensors: Optional[flash_attn.cute.block_sparsity.BlockSparseTensorsTorch] = None, block_sparse_tensors_bwd: Optional[flash_attn.cute.block_sparsity.BlockSparseTensorsTorch] = None, return_lse: bool = False, gather_bwd_recompute_p: bool = False, gather_bwd_token_chunk: Optional[int] = None)",
+            "q_layout": "BSHD",
+            "kv_layout": "BSHD",
+            "input_copies": false,
+            "gqa_expansion": false,
+            "preallocated_output": false
+          }
+        },
+        "flashinfer_fa2": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 0.015625,
+          "max_relative_error_atol_floor": 0.0946044921875,
+          "atol": 0.02,
+          "rtol": 0.02,
+          "normalized_rms_error": 0.0019508654331803774,
+          "normalized_rms_tolerance": 0.05,
+          "gpu_us_p50": 118.91980048937675,
+          "warmup_wall_ms": 0.800681,
+          "warmup_calls_per_api": 3,
+          "eager_us_p50": 127.61936689677991,
+          "eager_wall_us_p50": 127.79322368421053,
+          "gpu_us_rounds": [
+            118.47672095665565,
+            121.41169034517728,
+            118.91980048937675,
+            120.98092299241286,
+            118.02994899260692
+          ],
+          "eager_us_rounds": [
+            118.4139000742059,
+            131.2084197998047,
+            119.0315798709267,
+            127.61936689677991,
+            128.44125848067435
+          ],
+          "eager_wall_us_rounds": [
+            118.5592894736842,
+            131.36093421052632,
+            119.16084210526316,
+            127.79322368421053,
+            128.5905394736842
+          ],
+          "graph_replays_per_round": 1,
+          "graph_operator_calls_per_replay": 78,
+          "eager_calls_per_round": 76,
+          "graph_timing": "single replay of repeated complete-operator capture, divided by call count",
+          "startup": {
+            "first_call_scope": "synchronized wall time; includes JIT on cache miss; excluded from steady-state samples",
+            "prepare_wall_ms": 25.789445,
+            "graph_first_call_wall_ms": 2.054369,
+            "eager_first_call_wall_ms": 0.171311
+          },
+          "metadata": {
+            "backend": "fa2",
+            "workspace_bytes": 134217728,
+            "planning_timed": false,
+            "input_copies": false,
+            "gqa_expansion": false,
+            "preallocated_output": true,
+            "native_paged": false,
+            "kv_layout": "NHD",
+            "api": "flashinfer.BatchPrefillWithRaggedKVCacheWrapper.run",
+            "constructor_signature": "(float_workspace_buffer: torch.Tensor, kv_layout: str = 'NHD', use_cuda_graph: bool = False, qo_indptr_buf: Optional[torch.Tensor] = None, kv_indptr_buf: Optional[torch.Tensor] = None, custom_mask_buf: Optional[torch.Tensor] = None, mask_indptr_buf: Optional[torch.Tensor] = None, backend: str = 'auto', jit_args: Optional[List[Any]] = None, jit_kwargs: Optional[Dict[str, Any]] = None, variant_owns_mask: bool = False) -> None",
+            "run_signature": "(q: torch.Tensor, k: torch.Tensor, v: torch.Tensor, *args, q_scale: Optional[float] = None, k_scale: Optional[float] = None, v_scale: Optional[float] = None, o_scale: Optional[float] = None, out: Optional[torch.Tensor] = None, lse: Optional[torch.Tensor] = None, return_lse: bool = False, lse_base: str = 'log2', lse_layout: str = 'NH', enable_pdl: Optional[bool] = None, kv_cache_sf: Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor], NoneType] = None) -> Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]]",
+            "resolved_backend": "fa2"
+          }
+        },
+        "flashinfer_fmha_v2": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 0.015625,
+          "max_relative_error_atol_floor": 0.0946044921875,
+          "atol": 0.02,
+          "rtol": 0.02,
+          "normalized_rms_error": 0.0020165972900072506,
+          "normalized_rms_tolerance": 0.05,
+          "gpu_us_p50": 116.76246737256463,
+          "warmup_wall_ms": 0.981103,
+          "warmup_calls_per_api": 3,
+          "eager_us_p50": 120.68430582682292,
+          "eager_wall_us_p50": 122.85615384615386,
+          "gpu_us_rounds": [
+            114.55011956485701,
+            116.42192322530865,
+            116.76246737256463,
+            116.97777406668958,
+            127.15575135784384
+          ],
+          "eager_us_rounds": [
+            120.68430582682292,
+            120.57887590848483,
+            132.51199477758163,
+            117.26112854786409,
+            120.81436010507437
+          ],
+          "eager_wall_us_rounds": [
+            120.82907692307693,
+            122.85615384615386,
+            137.8510512820513,
+            119.3647564102564,
+            124.28388461538462
+          ],
+          "graph_replays_per_round": 1,
+          "graph_operator_calls_per_replay": 81,
+          "eager_calls_per_round": 78,
+          "graph_timing": "single replay of repeated complete-operator capture, divided by call count",
+          "startup": {
+            "first_call_scope": "synchronized wall time; includes JIT on cache miss; excluded from steady-state samples",
+            "prepare_wall_ms": 0.460777,
+            "graph_first_call_wall_ms": 266.319914,
+            "eager_first_call_wall_ms": 0.264249
+          },
+          "metadata": {
+            "backend": "fmha_v2",
+            "workspace_bytes": 134217728,
+            "planning_timed": false,
+            "input_copies": true,
+            "gqa_expansion": false,
+            "preallocated_output": true,
+            "native_paged": false,
+            "kv_layout": "NHD",
+            "api": "flashinfer.BatchPrefillWithRaggedKVCacheWrapper.run",
+            "input_layout": "CONTIGUOUS_Q_KV",
+            "packing_timed": true,
+            "packing": "public FlashInfer run() internally torch.stack((k,v), dim=1)",
+            "constructor_signature": "(float_workspace_buffer: torch.Tensor, kv_layout: str = 'NHD', use_cuda_graph: bool = False, qo_indptr_buf: Optional[torch.Tensor] = None, kv_indptr_buf: Optional[torch.Tensor] = None, custom_mask_buf: Optional[torch.Tensor] = None, mask_indptr_buf: Optional[torch.Tensor] = None, backend: str = 'auto', jit_args: Optional[List[Any]] = None, jit_kwargs: Optional[Dict[str, Any]] = None, variant_owns_mask: bool = False) -> None",
+            "run_signature": "(q: torch.Tensor, k: torch.Tensor, v: torch.Tensor, *args, q_scale: Optional[float] = None, k_scale: Optional[float] = None, v_scale: Optional[float] = None, o_scale: Optional[float] = None, out: Optional[torch.Tensor] = None, lse: Optional[torch.Tensor] = None, return_lse: bool = False, lse_base: str = 'log2', lse_layout: str = 'NH', enable_pdl: Optional[bool] = None, kv_cache_sf: Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor], NoneType] = None) -> Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]]",
+            "resolved_backend": "fmha_v2",
+            "decode_entry": null
+          }
+        },
+        "torch_cudnn": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 0.015625,
+          "max_relative_error_atol_floor": 0.0946044921875,
+          "atol": 0.02,
+          "rtol": 0.02,
+          "normalized_rms_error": 0.0020166075045950816,
+          "normalized_rms_tolerance": 0.05,
+          "gpu_us_p50": 109.54753742661588,
+          "warmup_wall_ms": 0.933632,
+          "warmup_calls_per_api": 3,
+          "eager_us_p50": 113.11605241563585,
+          "eager_wall_us_p50": 116.4713950617284,
+          "gpu_us_rounds": [
+            109.54753742661588,
+            109.39460576966752,
+            114.9756298508755,
+            109.33060978734215,
+            119.02957738831986
+          ],
+          "eager_us_rounds": [
+            119.75031723210842,
+            112.76878545313706,
+            117.19388137629002,
+            109.68494415283203,
+            113.11605241563585
+          ],
+          "eager_wall_us_rounds": [
+            119.91444444444444,
+            116.04986419753087,
+            120.27872839506172,
+            109.82149382716048,
+            116.4713950617284
+          ],
+          "graph_replays_per_round": 1,
+          "graph_operator_calls_per_replay": 86,
+          "eager_calls_per_round": 81,
+          "graph_timing": "single replay of repeated complete-operator capture, divided by call count",
+          "startup": {
+            "first_call_scope": "synchronized wall time; includes JIT on cache miss; excluded from steady-state samples",
+            "prepare_wall_ms": 0.043601,
+            "graph_first_call_wall_ms": 19.577154,
+            "eager_first_call_wall_ms": 0.195399
+          },
+          "metadata": {
+            "api": "torch.nn.functional.scaled_dot_product_attention",
+            "forced_backend": "CUDNN_ATTENTION",
+            "q_layout": "BHSD view of BSHD",
+            "kv_layout": "BHSD view of BSHD",
+            "gqa_expansion": false,
+            "input_copies": false,
+            "preallocated_output": false
+          }
+        }
+      },
+      "provider_execution_order": [
+        "torch_flash",
+        "ours",
+        "torch_efficient",
+        "fa4",
+        "flashinfer_fa2",
+        "flashinfer_fmha_v2",
+        "torch_cudnn"
+      ],
+      "reference": {
+        "api": "fa5060.reference.attention_reference",
+        "algorithm": "blockwise fp32; no full Sq*Sk scores",
+        "tf32": false
+      },
+      "fastest_baseline": "fa4",
+      "speedup_vs_fastest": 0.9315608595752976,
+      "mandatory_baseline_groups": {
+        "torch_forced_sdpa": [
+          "torch_flash",
+          "torch_cudnn",
+          "torch_efficient"
+        ],
+        "fa4_native": [
+          "fa4"
+        ],
+        "flashinfer_native": [
+          "flashinfer_fa2",
+          "flashinfer_fmha_v2"
+        ]
+      },
+      "baseline_coverage": {
+        "torch_forced_sdpa": true,
+        "fa4_native": true,
+        "flashinfer_native": true
+      },
+      "mandatory_baselines_covered": true,
+      "correctness_passed": true,
+      "incorrect_providers": [],
+      "missing_provider_records": [],
+      "errored_providers": [],
+      "invalid_provider_records": []
+    },
+    {
+      "id": "prefill-b1-l512-hq32-hkv1-d128-bf16-paged16",
+      "phase": "prefill",
+      "batch": 1,
+      "kv_len": 512,
+      "query_len": 512,
+      "head_dim": 128,
+      "heads_q": 32,
+      "heads_kv": 1,
+      "dtype": "bf16",
+      "layout": "paged",
+      "page_size": 16,
+      "causal": true,
+      "shape": {
+        "q": [
+          1,
+          512,
+          32,
+          128
+        ],
+        "k": [
+          32,
+          16,
+          1,
+          128
+        ],
+        "v": [
+          32,
+          16,
+          1,
+          128
+        ],
+        "kv_lens": [
+          512
+        ],
+        "block_table": [
+          1,
+          32
+        ],
+        "heads_q": 32,
+        "heads_kv": 1,
+        "head_dim": 128,
+        "batch": 1,
+        "query_len": 512,
+        "kv_len": 512
+      },
+      "backend": "triton",
+      "seed": 20261102,
+      "providers": {
+        "torch_flash": {
+          "status": "unsupported",
+          "validated": false,
+          "stage": "prepare",
+          "reason": "UnsupportedProvider: forced Torch SDPA has no native paged-KV public API",
+          "gpu_us_p50": null,
+          "eager_us_p50": null,
+          "metadata": {},
+          "startup": {
+            "first_call_scope": "synchronized wall time; includes JIT on cache miss; excluded from steady-state samples"
+          }
+        },
+        "ours": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 0.0078125,
+          "max_relative_error_atol_floor": 0.107574462890625,
+          "atol": 0.02,
+          "rtol": 0.02,
+          "normalized_rms_error": 0.0020400213431179827,
+          "normalized_rms_tolerance": 0.05,
+          "gpu_us_p50": 125.4922528810139,
+          "warmup_wall_ms": 3.015947,
+          "warmup_calls_per_api": 3,
+          "eager_us_p50": 133.6048444112142,
+          "eager_wall_us_p50": 133.81027272727272,
+          "gpu_us_rounds": [
+            116.75503887707674,
+            125.4922528810139,
+            134.9573618249048,
+            125.43068656438514,
+            137.3950378804267
+          ],
+          "eager_us_rounds": [
+            125.75902360858339,
+            126.01648677479137,
+            136.9333267211914,
+            133.6048444112142,
+            134.83830654259884
+          ],
+          "eager_wall_us_rounds": [
+            125.94287878787878,
+            129.72545454545454,
+            144.51368181818182,
+            133.81027272727272,
+            138.89501515151514
+          ],
+          "graph_replays_per_round": 1,
+          "graph_operator_calls_per_replay": 79,
+          "eager_calls_per_round": 66,
+          "graph_timing": "single replay of repeated complete-operator capture, divided by call count",
+          "startup": {
+            "first_call_scope": "synchronized wall time; includes JIT on cache miss; excluded from steady-state samples",
+            "prepare_wall_ms": 0.296815,
+            "graph_first_call_wall_ms": 212.004962,
+            "eager_first_call_wall_ms": 0.281036
+          },
+          "metadata": {
+            "api": "fa5060.attention.prefill",
+            "backend": "triton",
+            "package_versions": {
+              "triton": "3.7.1"
+            },
+            "preallocated_output": true,
+            "preallocated_workspace": false,
+            "config": null,
+            "num_splits": null,
+            "native_paged": true,
+            "eager_allocates_output": true,
+            "eager_allocates_workspace": false,
+            "graph_boundary": "complete operator including all decode splits and merge"
+          },
+          "selected_config": {
+            "config": null,
+            "num_splits": null
+          },
+          "configuration_mode": "public_default"
+        },
+        "torch_cudnn": {
+          "status": "unsupported",
+          "validated": false,
+          "stage": "prepare",
+          "reason": "UnsupportedProvider: forced Torch SDPA has no native paged-KV public API",
+          "gpu_us_p50": null,
+          "eager_us_p50": null,
+          "metadata": {},
+          "startup": {
+            "first_call_scope": "synchronized wall time; includes JIT on cache miss; excluded from steady-state samples"
+          }
+        },
+        "fa4": {
+          "status": "unsupported",
+          "validated": false,
+          "stage": "prepare",
+          "reason": "UnsupportedProvider: FA4 flash_attn_func adapter has no verified native page-table API",
+          "gpu_us_p50": null,
+          "eager_us_p50": null,
+          "metadata": {},
+          "startup": {
+            "first_call_scope": "synchronized wall time; includes JIT on cache miss; excluded from steady-state samples"
+          }
+        },
+        "flashinfer_fmha_v2": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 0.0078125,
+          "max_relative_error_atol_floor": 0.107574462890625,
+          "atol": 0.02,
+          "rtol": 0.02,
+          "normalized_rms_error": 0.002040015605505459,
+          "normalized_rms_tolerance": 0.05,
+          "gpu_us_p50": 127.53209835145532,
+          "warmup_wall_ms": 0.891494,
+          "warmup_calls_per_api": 3,
+          "eager_us_p50": 124.56533236381335,
+          "eager_wall_us_p50": 127.46171794871793,
+          "gpu_us_rounds": [
+            121.58243830611066,
+            127.21326874523628,
+            132.76331599165755,
+            134.7711260725812,
+            127.53209835145532
+          ],
+          "eager_us_rounds": [
+            122.75855969160031,
+            117.07774186745668,
+            131.6545682075696,
+            127.90974592551207,
+            124.56533236381335
+          ],
+          "eager_wall_us_rounds": [
+            124.95476923076923,
+            117.23465384615385,
+            134.38710256410255,
+            130.72765384615383,
+            127.46171794871793
+          ],
+          "graph_replays_per_round": 1,
+          "graph_operator_calls_per_replay": 82,
+          "eager_calls_per_round": 78,
+          "graph_timing": "single replay of repeated complete-operator capture, divided by call count",
+          "startup": {
+            "first_call_scope": "synchronized wall time; includes JIT on cache miss; excluded from steady-state samples",
+            "prepare_wall_ms": 0.441702,
+            "graph_first_call_wall_ms": 259.266648,
+            "eager_first_call_wall_ms": 0.197666
+          },
+          "metadata": {
+            "backend": "fmha_v2",
+            "workspace_bytes": 134217728,
+            "planning_timed": false,
+            "input_copies": false,
+            "gqa_expansion": false,
+            "preallocated_output": true,
+            "native_paged": true,
+            "kv_layout": "NHD",
+            "block_table_format": "[B,2,M] native K/V block offsets; static preprocessing",
+            "api": "flashinfer.prefill.trtllm_fmha_v2_prefill",
+            "signature": "(qkv: Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor], Tuple[torch.Tensor, torch.Tensor, torch.Tensor]], input_layout: str, workspace_buffer: torch.Tensor, seq_lens: torch.Tensor, max_q_len: int, max_kv_len: int, bmm1_scale: float, bmm2_scale: float, batch_size: int, cum_seq_lens_q: torch.Tensor, cum_seq_lens_kv: torch.Tensor, block_tables: Optional[torch.Tensor] = None, out: Optional[torch.Tensor] = None, out_dtype: Union[str, torch.dtype, NoneType] = None, sinks: Optional[List[torch.Tensor]] = None, pos_encoding_mode: str = None, logits_soft_cap_scale: Optional[float] = None, mask_mode: str = 'causal', window_left: int = -1, chunked_attention_size: int = 0, save_softmax_stats: bool = False, skip_softmax_threshold_scale_factor: float = 0) -> Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]]",
+            "input_layout": "Q_PAGED_KV_NHD",
+            "decode_entry": null
+          }
+        },
+        "torch_efficient": {
+          "status": "unsupported",
+          "validated": false,
+          "stage": "prepare",
+          "reason": "UnsupportedProvider: forced Torch SDPA has no native paged-KV public API",
+          "gpu_us_p50": null,
+          "eager_us_p50": null,
+          "metadata": {},
+          "startup": {
+            "first_call_scope": "synchronized wall time; includes JIT on cache miss; excluded from steady-state samples"
+          }
+        },
+        "flashinfer_fa2": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 0.0078125,
+          "max_relative_error_atol_floor": 0.107574462890625,
+          "atol": 0.02,
+          "rtol": 0.02,
+          "normalized_rms_error": 0.0019671619170764034,
+          "normalized_rms_tolerance": 0.05,
+          "gpu_us_p50": 117.57854012882008,
+          "warmup_wall_ms": 0.770936,
+          "warmup_calls_per_api": 3,
+          "eager_us_p50": 124.39085188366118,
+          "eager_wall_us_p50": 124.53555952380951,
+          "gpu_us_rounds": [
+            120.20066205193015,
+            117.18813952277688,
+            122.0370797549977,
+            117.57854012882008,
+            113.21035272934857
+          ],
+          "eager_us_rounds": [
+            135.55961563473656,
+            124.39085188366118,
+            127.34399523053851,
+            116.77637554350353,
+            113.28037579854329
+          ],
+          "eager_wall_us_rounds": [
+            135.68555952380953,
+            124.53555952380951,
+            129.8420476190476,
+            116.90814285714285,
+            113.39603571428572
+          ],
+          "graph_replays_per_round": 1,
+          "graph_operator_calls_per_replay": 85,
+          "eager_calls_per_round": 84,
+          "graph_timing": "single replay of repeated complete-operator capture, divided by call count",
+          "startup": {
+            "first_call_scope": "synchronized wall time; includes JIT on cache miss; excluded from steady-state samples",
+            "prepare_wall_ms": 3.191202,
+            "graph_first_call_wall_ms": 1.057103,
+            "eager_first_call_wall_ms": 0.177347
+          },
+          "metadata": {
+            "backend": "fa2",
+            "workspace_bytes": 134217728,
+            "planning_timed": false,
+            "input_copies": false,
+            "gqa_expansion": false,
+            "preallocated_output": true,
+            "native_paged": true,
+            "kv_layout": "NHD",
+            "api": "flashinfer.BatchPrefillWithPagedKVCacheWrapper.run",
+            "constructor_signature": "(float_workspace_buffer: torch.Tensor, kv_layout: str = 'NHD', use_cuda_graph: bool = False, qo_indptr_buf: Optional[torch.Tensor] = None, paged_kv_indptr_buf: Optional[torch.Tensor] = None, paged_kv_indices_buf: Optional[torch.Tensor] = None, paged_kv_last_page_len_buf: Optional[torch.Tensor] = None, custom_mask_buf: Optional[torch.Tensor] = None, mask_indptr_buf: Optional[torch.Tensor] = None, backend: str = 'auto', jit_args: Optional[List[Any]] = None, jit_kwargs: Optional[Dict[str, Any]] = None, variant_owns_mask: bool = False) -> None",
+            "run_signature": "(q: torch.Tensor, paged_kv_cache: Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]], *args, q_scale: Union[float, torch.Tensor, NoneType] = None, k_scale: Union[float, torch.Tensor, NoneType] = None, v_scale: Union[float, torch.Tensor, NoneType] = None, out: Optional[torch.Tensor] = None, lse: Optional[torch.Tensor] = None, return_lse: bool = False, lse_base: str = 'log2', lse_layout: str = 'NH', enable_pdl: Optional[bool] = None, window_left: Optional[int] = None, sinks: Optional[torch.Tensor] = None, kv_cache_sf: Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor], NoneType] = None, skip_softmax_threshold_scale_factor: Optional[float] = None, use_fp16_softmax: Optional[bool] = None, uses_spcompress: Optional[bool] = None) -> Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]]",
+            "resolved_backend": "fa2"
+          }
+        }
+      },
+      "provider_execution_order": [
+        "torch_flash",
+        "ours",
+        "torch_cudnn",
+        "fa4",
+        "flashinfer_fmha_v2",
+        "torch_efficient",
+        "flashinfer_fa2"
+      ],
+      "reference": {
+        "api": "fa5060.reference.attention_reference",
+        "algorithm": "blockwise fp32; no full Sq*Sk scores",
+        "tf32": false
+      },
+      "fastest_baseline": "flashinfer_fa2",
+      "speedup_vs_fastest": 0.9369386350909068,
+      "mandatory_baseline_groups": {
+        "flashinfer_native": [
+          "flashinfer_fa2",
+          "flashinfer_fmha_v2"
+        ]
+      },
+      "baseline_coverage": {
+        "flashinfer_native": true
+      },
+      "mandatory_baselines_covered": true,
+      "correctness_passed": true,
+      "incorrect_providers": [],
+      "missing_provider_records": [],
+      "errored_providers": [],
+      "invalid_provider_records": []
+    },
+    {
+      "id": "decode-b1-l512-hq32-hkv32-d64-fp16-dense",
+      "phase": "decode",
+      "batch": 1,
+      "kv_len": 512,
+      "query_len": 1,
+      "head_dim": 64,
+      "heads_q": 32,
+      "heads_kv": 32,
+      "dtype": "fp16",
+      "layout": "dense",
+      "page_size": 16,
+      "causal": false,
+      "shape": {
+        "q": [
+          1,
+          32,
+          64
+        ],
+        "k": [
+          1,
+          512,
+          32,
+          64
+        ],
+        "v": [
+          1,
+          512,
+          32,
+          64
+        ],
+        "kv_lens": [
+          512
+        ],
+        "block_table": null,
+        "heads_q": 32,
+        "heads_kv": 32,
+        "head_dim": 64,
+        "batch": 1,
+        "query_len": 1,
+        "kv_len": 512
+      },
+      "backend": "triton",
+      "seed": 20261102,
+      "providers": {
+        "flashinfer_fmha_v2": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 0.00030517578125,
+          "max_relative_error_atol_floor": 0.0546773262321949,
+          "atol": 0.003,
+          "rtol": 0.003,
+          "normalized_rms_error": 0.0009473686238438031,
+          "normalized_rms_tolerance": 0.02,
+          "gpu_us_p50": 22.25982889215997,
+          "warmup_wall_ms": 0.395978,
+          "warmup_calls_per_api": 3,
+          "eager_us_p50": 22.533463268745237,
+          "eager_wall_us_p50": 22.567937282229963,
+          "gpu_us_rounds": [
+            22.256171449701835,
+            23.11038210036907,
+            22.25982889215997,
+            25.33591554519978,
+            22.24485163993024
+          ],
+          "eager_us_rounds": [
+            22.655442201302026,
+            25.892571705143627,
+            22.533463268745237,
+            22.497226967628826,
+            22.521532371069082
+          ],
+          "eager_wall_us_rounds": [
+            22.690735191637632,
+            25.930452961672472,
+            22.567937282229963,
+            22.533602787456445,
+            22.55823693379791
+          ],
+          "graph_replays_per_round": 1,
+          "graph_operator_calls_per_replay": 376,
+          "eager_calls_per_round": 287,
+          "graph_timing": "single replay of repeated complete-operator capture, divided by call count",
+          "startup": {
+            "first_call_scope": "synchronized wall time; includes JIT on cache miss; excluded from steady-state samples",
+            "prepare_wall_ms": 0.376052,
+            "graph_first_call_wall_ms": 0.126379,
+            "eager_first_call_wall_ms": 0.060399
+          },
+          "metadata": {
+            "backend": "fmha_v2",
+            "workspace_bytes": 134217728,
+            "planning_timed": false,
+            "input_copies": true,
+            "gqa_expansion": false,
+            "preallocated_output": true,
+            "native_paged": false,
+            "kv_layout": "NHD",
+            "api": "flashinfer.BatchPrefillWithRaggedKVCacheWrapper.run",
+            "input_layout": "CONTIGUOUS_Q_KV",
+            "packing_timed": true,
+            "packing": "public FlashInfer run() internally torch.stack((k,v), dim=1)",
+            "constructor_signature": "(float_workspace_buffer: torch.Tensor, kv_layout: str = 'NHD', use_cuda_graph: bool = False, qo_indptr_buf: Optional[torch.Tensor] = None, kv_indptr_buf: Optional[torch.Tensor] = None, custom_mask_buf: Optional[torch.Tensor] = None, mask_indptr_buf: Optional[torch.Tensor] = None, backend: str = 'auto', jit_args: Optional[List[Any]] = None, jit_kwargs: Optional[Dict[str, Any]] = None, variant_owns_mask: bool = False) -> None",
+            "run_signature": "(q: torch.Tensor, k: torch.Tensor, v: torch.Tensor, *args, q_scale: Optional[float] = None, k_scale: Optional[float] = None, v_scale: Optional[float] = None, o_scale: Optional[float] = None, out: Optional[torch.Tensor] = None, lse: Optional[torch.Tensor] = None, return_lse: bool = False, lse_base: str = 'log2', lse_layout: str = 'NH', enable_pdl: Optional[bool] = None, kv_cache_sf: Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor], NoneType] = None) -> Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]]",
+            "resolved_backend": "fmha_v2",
+            "decode_entry": "one-query native FMHAv2"
+          }
+        },
+        "torch_cudnn": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 0.000244140625,
+          "max_relative_error_atol_floor": 0.0116030378267169,
+          "atol": 0.003,
+          "rtol": 0.003,
+          "normalized_rms_error": 0.000314019349332474,
+          "normalized_rms_tolerance": 0.02,
+          "gpu_us_p50": 6.045261781607101,
+          "warmup_wall_ms": 0.307943,
+          "warmup_calls_per_api": 3,
+          "eager_us_p50": 15.38539010970319,
+          "eager_wall_us_p50": 15.548288524590165,
+          "gpu_us_rounds": [
+            6.234364011394444,
+            6.035232069480479,
+            6.440788003342662,
+            6.045261781607101,
+            6.031538360747532
+          ],
+          "eager_us_rounds": [
+            15.722806336449795,
+            15.38539010970319,
+            15.066964509057216,
+            15.5152789881972,
+            15.366085240098297
+          ],
+          "eager_wall_us_rounds": [
+            15.75580655737705,
+            15.417288524590164,
+            15.602485245901638,
+            15.548288524590165,
+            15.398826229508197
+          ],
+          "graph_replays_per_round": 1,
+          "graph_operator_calls_per_replay": 1005,
+          "eager_calls_per_round": 305,
+          "graph_timing": "single replay of repeated complete-operator capture, divided by call count",
+          "startup": {
+            "first_call_scope": "synchronized wall time; includes JIT on cache miss; excluded from steady-state samples",
+            "prepare_wall_ms": 0.076158,
+            "graph_first_call_wall_ms": 22.019294,
+            "eager_first_call_wall_ms": 0.083513
+          },
+          "metadata": {
+            "api": "torch.nn.functional.scaled_dot_product_attention",
+            "forced_backend": "CUDNN_ATTENTION",
+            "q_layout": "BHSD view of BSHD",
+            "kv_layout": "BHSD view of BSHD",
+            "gqa_expansion": false,
+            "input_copies": false,
+            "preallocated_output": false
+          }
+        },
+        "fa4": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 0.0001220703125,
+          "max_relative_error_atol_floor": 0.011126200668513775,
+          "atol": 0.003,
+          "rtol": 0.003,
+          "normalized_rms_error": 0.00029512378843720425,
+          "normalized_rms_tolerance": 0.02,
+          "gpu_us_p50": 31.20777688665182,
+          "warmup_wall_ms": 0.546711,
+          "warmup_calls_per_api": 3,
+          "eager_us_p50": 39.06343848841965,
+          "eager_wall_us_p50": 39.12633757961783,
+          "gpu_us_rounds": [
+            32.68445986453618,
+            31.51431633304584,
+            31.20777688665182,
+            28.02033587779583,
+            29.107539453239085
+          ],
+          "eager_us_rounds": [
+            39.99796035183463,
+            39.92336418977968,
+            39.06343848841965,
+            38.980280517772506,
+            39.044686943102796
+          ],
+          "eager_wall_us_rounds": [
+            41.26764331210191,
+            39.995777070063696,
+            39.12633757961783,
+            39.04547133757962,
+            39.104904458598725
+          ],
+          "graph_replays_per_round": 1,
+          "graph_operator_calls_per_replay": 321,
+          "eager_calls_per_round": 157,
+          "graph_timing": "single replay of repeated complete-operator capture, divided by call count",
+          "startup": {
+            "first_call_scope": "synchronized wall time; includes JIT on cache miss; excluded from steady-state samples",
+            "prepare_wall_ms": 0.163867,
+            "graph_first_call_wall_ms": 1062.448405,
+            "eager_first_call_wall_ms": 0.168346
+          },
+          "metadata": {
+            "api": "flash_attn.cute.interface.flash_attn_func",
+            "signature": "(q: torch.Tensor, k: torch.Tensor, v: torch.Tensor, qv: Optional[torch.Tensor] = None, gather_kv_indices: Optional[torch.Tensor] = None, softmax_scale: Optional[float] = None, causal: bool = False, window_size: Tuple[Optional[int], Optional[int]] = (None, None), learnable_sink: Optional[torch.Tensor] = None, softcap: float = 0.0, num_splits: int = 1, pack_gqa: Optional[bool] = None, deterministic: bool = False, score_mod: Optional[Callable] = None, score_mod_bwd: Optional[Callable] = None, mask_mod: Optional[Callable] = None, aux_tensors: Optional[list] = None, aux_scalars: Optional[tuple] = None, block_sparse_tensors: Optional[flash_attn.cute.block_sparsity.BlockSparseTensorsTorch] = None, block_sparse_tensors_bwd: Optional[flash_attn.cute.block_sparsity.BlockSparseTensorsTorch] = None, return_lse: bool = False, gather_bwd_recompute_p: bool = False, gather_bwd_token_chunk: Optional[int] = None)",
+            "q_layout": "BSHD",
+            "kv_layout": "BSHD",
+            "input_copies": false,
+            "gqa_expansion": false,
+            "preallocated_output": false
+          }
+        },
+        "flashinfer_fa2": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 0.0001220703125,
+          "max_relative_error_atol_floor": 0.008900959976017475,
+          "atol": 0.003,
+          "rtol": 0.003,
+          "normalized_rms_error": 0.00027502883756692974,
+          "normalized_rms_tolerance": 0.02,
+          "gpu_us_p50": 9.113811366852815,
+          "warmup_wall_ms": 0.263222,
+          "warmup_calls_per_api": 3,
+          "eager_us_p50": 12.985753503075259,
+          "eager_wall_us_p50": 13.123320855614974,
+          "gpu_us_rounds": [
+            9.113811366852815,
+            9.002731654751987,
+            8.627936481116306,
+            9.52060715804923,
+            10.165033608930347
+          ],
+          "eager_us_rounds": [
+            13.092449004637366,
+            12.985753503075259,
+            13.355807187085484,
+            12.42840608810996,
+            12.704341806829932
+          ],
+          "eager_wall_us_rounds": [
+            13.123320855614974,
+            13.012601604278075,
+            13.381187165775401,
+            12.454082887700535,
+            13.152385026737969
+          ],
+          "graph_replays_per_round": 1,
+          "graph_operator_calls_per_replay": 817,
+          "eager_calls_per_round": 374,
+          "graph_timing": "single replay of repeated complete-operator capture, divided by call count",
+          "startup": {
+            "first_call_scope": "synchronized wall time; includes JIT on cache miss; excluded from steady-state samples",
+            "prepare_wall_ms": 7.755514,
+            "graph_first_call_wall_ms": 0.102451,
+            "eager_first_call_wall_ms": 0.050781
+          },
+          "metadata": {
+            "backend": "fa2",
+            "workspace_bytes": 134217728,
+            "planning_timed": false,
+            "input_copies": false,
+            "gqa_expansion": false,
+            "preallocated_output": true,
+            "native_paged": false,
+            "kv_layout": "NHD",
+            "dense_storage_view": "zero-copy page16 view for native decode wrapper",
+            "api": "flashinfer.BatchDecodeWithPagedKVCacheWrapper.run",
+            "constructor_signature": "(float_workspace_buffer: torch.Tensor, kv_layout: str = 'NHD', use_cuda_graph: bool = False, use_tensor_cores: bool = False, paged_kv_indptr_buffer: Optional[torch.Tensor] = None, paged_kv_indices_buffer: Optional[torch.Tensor] = None, paged_kv_last_page_len_buffer: Optional[torch.Tensor] = None, backend: str = 'auto', jit_args: Optional[List[Any]] = None) -> None",
+            "run_signature": "(q: torch.Tensor, paged_kv_cache: Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]], *args, q_scale: Optional[float] = None, k_scale: Optional[float] = None, v_scale: Optional[float] = None, out: Optional[torch.Tensor] = None, lse: Optional[torch.Tensor] = None, return_lse: bool = False, enable_pdl: Optional[bool] = None, window_left: Optional[int] = None, sinks: Optional[torch.Tensor] = None, q_len_per_req: Optional[int] = None, skip_softmax_threshold_scale_factor: Optional[float] = None, kv_cache_sf: Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor], NoneType] = None) -> Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]]",
+            "resolved_backend": "fa2"
+          }
+        },
+        "torch_flash": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 0.0001220703125,
+          "max_relative_error_atol_floor": 0.011126200668513775,
+          "atol": 0.003,
+          "rtol": 0.003,
+          "normalized_rms_error": 0.00029512378843720425,
+          "normalized_rms_tolerance": 0.02,
+          "gpu_us_p50": 28.645487664972695,
+          "warmup_wall_ms": 0.364087,
+          "warmup_calls_per_api": 3,
+          "eager_us_p50": 29.005857903187668,
+          "eager_wall_us_p50": 29.688984251968506,
+          "gpu_us_rounds": [
+            28.63958661224464,
+            28.645487664972695,
+            29.80370197481322,
+            30.222290927924,
+            27.78956650916041
+          ],
+          "eager_us_rounds": [
+            28.888693006019892,
+            33.04718047615111,
+            29.005857903187668,
+            28.778078049186647,
+            29.651401549812377
+          ],
+          "eager_wall_us_rounds": [
+            28.929881889763777,
+            34.282393700787395,
+            29.82225590551181,
+            28.818732283464566,
+            29.688984251968506
+          ],
+          "graph_replays_per_round": 1,
+          "graph_operator_calls_per_replay": 309,
+          "eager_calls_per_round": 254,
+          "graph_timing": "single replay of repeated complete-operator capture, divided by call count",
+          "startup": {
+            "first_call_scope": "synchronized wall time; includes JIT on cache miss; excluded from steady-state samples",
+            "prepare_wall_ms": 0.052305,
+            "graph_first_call_wall_ms": 3.570227,
+            "eager_first_call_wall_ms": 0.072545
+          },
+          "metadata": {
+            "api": "torch.nn.functional.scaled_dot_product_attention",
+            "forced_backend": "FLASH_ATTENTION",
+            "q_layout": "BHSD view of BSHD",
+            "kv_layout": "BHSD view of BSHD",
+            "gqa_expansion": false,
+            "input_copies": false,
+            "preallocated_output": false
+          }
+        },
+        "torch_efficient": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 0.000244140625,
+          "max_relative_error_atol_floor": 0.013033549301326275,
+          "atol": 0.003,
+          "rtol": 0.003,
+          "normalized_rms_error": 0.00032117276127094515,
+          "normalized_rms_tolerance": 0.02,
+          "gpu_us_p50": 34.562579004755825,
+          "warmup_wall_ms": 0.564234,
+          "warmup_calls_per_api": 3,
+          "eager_us_p50": 35.29208621898281,
+          "eager_wall_us_p50": 35.6836075949367,
+          "gpu_us_rounds": [
+            36.50461623083541,
+            34.55707005092076,
+            34.85386188213642,
+            34.562579004755825,
+            32.769639850099445
+          ],
+          "eager_us_rounds": [
+            33.010227267752214,
+            35.74886000106103,
+            34.957097049503886,
+            37.190211976127785,
+            35.29208621898281
+          ],
+          "eager_wall_us_rounds": [
+            33.057274261603375,
+            35.79299156118144,
+            35.6836075949367,
+            38.70813080168776,
+            35.34418565400844
+          ],
+          "graph_replays_per_round": 1,
+          "graph_operator_calls_per_replay": 273,
+          "eager_calls_per_round": 237,
+          "graph_timing": "single replay of repeated complete-operator capture, divided by call count",
+          "startup": {
+            "first_call_scope": "synchronized wall time; includes JIT on cache miss; excluded from steady-state samples",
+            "prepare_wall_ms": 0.029652,
+            "graph_first_call_wall_ms": 0.12043,
+            "eager_first_call_wall_ms": 0.055172
+          },
+          "metadata": {
+            "api": "torch.nn.functional.scaled_dot_product_attention",
+            "forced_backend": "EFFICIENT_ATTENTION",
+            "q_layout": "BHSD view of BSHD",
+            "kv_layout": "BHSD view of BSHD",
+            "gqa_expansion": false,
+            "input_copies": false,
+            "preallocated_output": false
+          }
+        },
+        "ours": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 1.9073486328125e-06,
+          "max_relative_error_atol_floor": 0.0006357828970067203,
+          "atol": 0.003,
+          "rtol": 0.003,
+          "normalized_rms_error": 8.033159769483978e-07,
+          "normalized_rms_tolerance": 0.02,
+          "gpu_us_p50": 14.536702613134684,
+          "warmup_wall_ms": 0.421274,
+          "warmup_calls_per_api": 3,
+          "eager_us_p50": 16.49355233884325,
+          "eager_wall_us_p50": 16.871917647058822,
+          "gpu_us_rounds": [
+            14.89921114337978,
+            14.295774115061088,
+            14.536702613134684,
+            14.577777033816918,
+            13.292205076707932
+          ],
+          "eager_us_rounds": [
+            16.382619446399165,
+            16.49355233884325,
+            14.498384326112037,
+            16.83526319615981,
+            17.77643876917222
+          ],
+          "eager_wall_us_rounds": [
+            17.165082352941173,
+            16.533450980392157,
+            16.78474117647059,
+            16.871917647058822,
+            17.81374117647059
+          ],
+          "graph_replays_per_round": 1,
+          "graph_operator_calls_per_replay": 603,
+          "eager_calls_per_round": 255,
+          "graph_timing": "single replay of repeated complete-operator capture, divided by call count",
+          "startup": {
+            "first_call_scope": "synchronized wall time; includes JIT on cache miss; excluded from steady-state samples",
+            "prepare_wall_ms": 2.047387,
+            "graph_first_call_wall_ms": 110.220103,
+            "eager_first_call_wall_ms": 0.119134
+          },
+          "metadata": {
+            "api": "fa5060.attention.decode",
+            "backend": "triton",
+            "package_versions": {
+              "triton": "3.7.1"
+            },
+            "preallocated_output": true,
+            "preallocated_workspace": true,
+            "config": null,
+            "num_splits": null,
+            "native_paged": false,
+            "eager_allocates_output": true,
+            "eager_allocates_workspace": true,
+            "graph_boundary": "complete operator including all decode splits and merge"
+          },
+          "selected_config": {
+            "config": null,
+            "num_splits": null
+          },
+          "configuration_mode": "public_default"
+        }
+      },
+      "provider_execution_order": [
+        "flashinfer_fmha_v2",
+        "torch_cudnn",
+        "fa4",
+        "flashinfer_fa2",
+        "torch_flash",
+        "torch_efficient",
+        "ours"
+      ],
+      "reference": {
+        "api": "fa5060.reference.attention_reference",
+        "algorithm": "blockwise fp32; no full Sq*Sk scores",
+        "tf32": false
+      },
+      "fastest_baseline": "torch_cudnn",
+      "speedup_vs_fastest": 0.41586196969764555,
+      "mandatory_baseline_groups": {
+        "torch_forced_sdpa": [
+          "torch_flash",
+          "torch_cudnn",
+          "torch_efficient"
+        ],
+        "fa4_native": [
+          "fa4"
+        ],
+        "flashinfer_native": [
+          "flashinfer_fa2",
+          "flashinfer_fmha_v2"
+        ]
+      },
+      "baseline_coverage": {
+        "torch_forced_sdpa": true,
+        "fa4_native": true,
+        "flashinfer_native": true
+      },
+      "mandatory_baselines_covered": true,
+      "correctness_passed": true,
+      "incorrect_providers": [],
+      "missing_provider_records": [],
+      "errored_providers": [],
+      "invalid_provider_records": []
+    },
+    {
+      "id": "decode-b1-l512-hq32-hkv1-d64-fp16-paged16",
+      "phase": "decode",
+      "batch": 1,
+      "kv_len": 512,
+      "query_len": 1,
+      "head_dim": 64,
+      "heads_q": 32,
+      "heads_kv": 1,
+      "dtype": "fp16",
+      "layout": "paged",
+      "page_size": 16,
+      "causal": false,
+      "shape": {
+        "q": [
+          1,
+          32,
+          64
+        ],
+        "k": [
+          32,
+          16,
+          1,
+          64
+        ],
+        "v": [
+          32,
+          16,
+          1,
+          64
+        ],
+        "kv_lens": [
+          512
+        ],
+        "block_table": [
+          1,
+          32
+        ],
+        "heads_q": 32,
+        "heads_kv": 1,
+        "head_dim": 64,
+        "batch": 1,
+        "query_len": 1,
+        "kv_len": 512
+      },
+      "backend": "triton",
+      "seed": 20261102,
+      "providers": {
+        "torch_flash": {
+          "status": "unsupported",
+          "validated": false,
+          "stage": "prepare",
+          "reason": "UnsupportedProvider: forced Torch SDPA has no native paged-KV public API",
+          "gpu_us_p50": null,
+          "eager_us_p50": null,
+          "metadata": {},
+          "startup": {
+            "first_call_scope": "synchronized wall time; includes JIT on cache miss; excluded from steady-state samples"
+          }
+        },
+        "fa4": {
+          "status": "unsupported",
+          "validated": false,
+          "stage": "prepare",
+          "reason": "UnsupportedProvider: FA4 flash_attn_func adapter has no verified native page-table API",
+          "gpu_us_p50": null,
+          "eager_us_p50": null,
+          "metadata": {},
+          "startup": {
+            "first_call_scope": "synchronized wall time; includes JIT on cache miss; excluded from steady-state samples"
+          }
+        },
+        "torch_cudnn": {
+          "status": "unsupported",
+          "validated": false,
+          "stage": "prepare",
+          "reason": "UnsupportedProvider: forced Torch SDPA has no native paged-KV public API",
+          "gpu_us_p50": null,
+          "eager_us_p50": null,
+          "metadata": {},
+          "startup": {
+            "first_call_scope": "synchronized wall time; includes JIT on cache miss; excluded from steady-state samples"
+          }
+        },
+        "ours": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 6.103515625e-05,
+          "max_relative_error_atol_floor": 0.0009328357991762459,
+          "atol": 0.003,
+          "rtol": 0.003,
+          "normalized_rms_error": 1.671303475765014e-05,
+          "normalized_rms_tolerance": 0.02,
+          "gpu_us_p50": 13.224505110832544,
+          "warmup_wall_ms": 0.421113,
+          "warmup_calls_per_api": 3,
+          "eager_us_p50": 17.14292352849787,
+          "eager_wall_us_p50": 17.54770909090909,
+          "gpu_us_rounds": [
+            13.515428055164426,
+            12.710325741688674,
+            14.055600594048483,
+            13.104106104651162,
+            13.224505110832544
+          ],
+          "eager_us_rounds": [
+            17.14292352849787,
+            16.821876872669566,
+            16.924509568647906,
+            17.583011280406605,
+            17.512727217240766
+          ],
+          "eager_wall_us_rounds": [
+            17.704552727272727,
+            16.858152727272728,
+            17.520025454545454,
+            17.624436363636363,
+            17.54770909090909
+          ],
+          "graph_replays_per_round": 1,
+          "graph_operator_calls_per_replay": 602,
+          "eager_calls_per_round": 275,
+          "graph_timing": "single replay of repeated complete-operator capture, divided by call count",
+          "startup": {
+            "first_call_scope": "synchronized wall time; includes JIT on cache miss; excluded from steady-state samples",
+            "prepare_wall_ms": 0.332259,
+            "graph_first_call_wall_ms": 112.41953,
+            "eager_first_call_wall_ms": 0.114568
+          },
+          "metadata": {
+            "api": "fa5060.attention.decode",
+            "backend": "triton",
+            "package_versions": {
+              "triton": "3.7.1"
+            },
+            "preallocated_output": true,
+            "preallocated_workspace": true,
+            "config": null,
+            "num_splits": null,
+            "native_paged": true,
+            "eager_allocates_output": true,
+            "eager_allocates_workspace": true,
+            "graph_boundary": "complete operator including all decode splits and merge"
+          },
+          "selected_config": {
+            "config": null,
+            "num_splits": null
+          },
+          "configuration_mode": "public_default"
+        },
+        "torch_efficient": {
+          "status": "unsupported",
+          "validated": false,
+          "stage": "prepare",
+          "reason": "UnsupportedProvider: forced Torch SDPA has no native paged-KV public API",
+          "gpu_us_p50": null,
+          "eager_us_p50": null,
+          "metadata": {},
+          "startup": {
+            "first_call_scope": "synchronized wall time; includes JIT on cache miss; excluded from steady-state samples"
+          }
+        },
+        "flashinfer_fmha_v2": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 0.000732421875,
+          "max_relative_error_atol_floor": 0.0909169539809227,
+          "atol": 0.003,
+          "rtol": 0.003,
+          "normalized_rms_error": 0.0009111798004725353,
+          "normalized_rms_tolerance": 0.02,
+          "gpu_us_p50": 22.463518171454194,
+          "warmup_wall_ms": 0.256956,
+          "warmup_calls_per_api": 3,
+          "eager_us_p50": 24.37905398282138,
+          "eager_wall_us_p50": 24.9691,
+          "gpu_us_rounds": [
+            21.26954668131306,
+            22.403779341347853,
+            23.353488001991156,
+            22.463518171454194,
+            24.798311779846497
+          ],
+          "eager_us_rounds": [
+            22.86487203655821,
+            23.00344235969312,
+            24.940219069972184,
+            24.70846176147461,
+            24.37905398282138
+          ],
+          "eager_wall_us_rounds": [
+            22.89562424242424,
+            23.46940909090909,
+            24.9691,
+            25.20170909090909,
+            25.404987878787882
+          ],
+          "graph_replays_per_round": 1,
+          "graph_operator_calls_per_replay": 398,
+          "eager_calls_per_round": 330,
+          "graph_timing": "single replay of repeated complete-operator capture, divided by call count",
+          "startup": {
+            "first_call_scope": "synchronized wall time; includes JIT on cache miss; excluded from steady-state samples",
+            "prepare_wall_ms": 0.494187,
+            "graph_first_call_wall_ms": 0.118177,
+            "eager_first_call_wall_ms": 0.054159
+          },
+          "metadata": {
+            "backend": "fmha_v2",
+            "workspace_bytes": 134217728,
+            "planning_timed": false,
+            "input_copies": false,
+            "gqa_expansion": false,
+            "preallocated_output": true,
+            "native_paged": true,
+            "kv_layout": "NHD",
+            "block_table_format": "[B,2,M] native K/V block offsets; static preprocessing",
+            "api": "flashinfer.prefill.trtllm_fmha_v2_prefill",
+            "signature": "(qkv: Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor], Tuple[torch.Tensor, torch.Tensor, torch.Tensor]], input_layout: str, workspace_buffer: torch.Tensor, seq_lens: torch.Tensor, max_q_len: int, max_kv_len: int, bmm1_scale: float, bmm2_scale: float, batch_size: int, cum_seq_lens_q: torch.Tensor, cum_seq_lens_kv: torch.Tensor, block_tables: Optional[torch.Tensor] = None, out: Optional[torch.Tensor] = None, out_dtype: Union[str, torch.dtype, NoneType] = None, sinks: Optional[List[torch.Tensor]] = None, pos_encoding_mode: str = None, logits_soft_cap_scale: Optional[float] = None, mask_mode: str = 'causal', window_left: int = -1, chunked_attention_size: int = 0, save_softmax_stats: bool = False, skip_softmax_threshold_scale_factor: float = 0) -> Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]]",
+            "input_layout": "Q_PAGED_KV_NHD",
+            "decode_entry": "one-query native FMHAv2"
+          }
+        },
+        "flashinfer_fa2": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 0.000244140625,
+          "max_relative_error_atol_floor": 0.019073486328125,
+          "atol": 0.003,
+          "rtol": 0.003,
+          "normalized_rms_error": 0.0003480238545341705,
+          "normalized_rms_tolerance": 0.02,
+          "gpu_us_p50": 6.2960703780011436,
+          "warmup_wall_ms": 0.257376,
+          "warmup_calls_per_api": 3,
+          "eager_us_p50": 11.90138992510344,
+          "eager_wall_us_p50": 12.346944736842104,
+          "gpu_us_rounds": [
+            6.283832177883241,
+            6.073881009729897,
+            6.2960703780011436,
+            6.509486872975419,
+            6.540300322741997
+          ],
+          "eager_us_rounds": [
+            11.90138992510344,
+            12.196631180612664,
+            11.483368120695415,
+            12.321852382860685,
+            11.703999418961374
+          ],
+          "eager_wall_us_rounds": [
+            12.801005263157894,
+            12.223460526315788,
+            12.434952631578948,
+            12.346944736842104,
+            12.255642105263158
+          ],
+          "graph_replays_per_round": 1,
+          "graph_operator_calls_per_replay": 1025,
+          "eager_calls_per_round": 380,
+          "graph_timing": "single replay of repeated complete-operator capture, divided by call count",
+          "startup": {
+            "first_call_scope": "synchronized wall time; includes JIT on cache miss; excluded from steady-state samples",
+            "prepare_wall_ms": 3.2111,
+            "graph_first_call_wall_ms": 0.105314,
+            "eager_first_call_wall_ms": 0.04657
+          },
+          "metadata": {
+            "backend": "fa2",
+            "workspace_bytes": 134217728,
+            "planning_timed": false,
+            "input_copies": false,
+            "gqa_expansion": false,
+            "preallocated_output": true,
+            "native_paged": true,
+            "kv_layout": "NHD",
+            "api": "flashinfer.BatchDecodeWithPagedKVCacheWrapper.run",
+            "constructor_signature": "(float_workspace_buffer: torch.Tensor, kv_layout: str = 'NHD', use_cuda_graph: bool = False, use_tensor_cores: bool = False, paged_kv_indptr_buffer: Optional[torch.Tensor] = None, paged_kv_indices_buffer: Optional[torch.Tensor] = None, paged_kv_last_page_len_buffer: Optional[torch.Tensor] = None, backend: str = 'auto', jit_args: Optional[List[Any]] = None) -> None",
+            "run_signature": "(q: torch.Tensor, paged_kv_cache: Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]], *args, q_scale: Optional[float] = None, k_scale: Optional[float] = None, v_scale: Optional[float] = None, out: Optional[torch.Tensor] = None, lse: Optional[torch.Tensor] = None, return_lse: bool = False, enable_pdl: Optional[bool] = None, window_left: Optional[int] = None, sinks: Optional[torch.Tensor] = None, q_len_per_req: Optional[int] = None, skip_softmax_threshold_scale_factor: Optional[float] = None, kv_cache_sf: Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor], NoneType] = None) -> Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]]",
+            "resolved_backend": "fa2"
+          }
+        }
+      },
+      "provider_execution_order": [
+        "torch_flash",
+        "fa4",
+        "torch_cudnn",
+        "ours",
+        "torch_efficient",
+        "flashinfer_fmha_v2",
+        "flashinfer_fa2"
+      ],
+      "reference": {
+        "api": "fa5060.reference.attention_reference",
+        "algorithm": "blockwise fp32; no full Sq*Sk scores",
+        "tf32": false
+      },
+      "fastest_baseline": "flashinfer_fa2",
+      "speedup_vs_fastest": 0.47609119019840407,
+      "mandatory_baseline_groups": {
+        "flashinfer_native": [
+          "flashinfer_fa2",
+          "flashinfer_fmha_v2"
+        ]
+      },
+      "baseline_coverage": {
+        "flashinfer_native": true
+      },
+      "mandatory_baselines_covered": true,
+      "correctness_passed": true,
+      "incorrect_providers": [],
+      "missing_provider_records": [],
+      "errored_providers": [],
+      "invalid_provider_records": []
+    },
+    {
+      "id": "decode-b1-l512-hq32-hkv8-d128-bf16-dense",
+      "phase": "decode",
+      "batch": 1,
+      "kv_len": 512,
+      "query_len": 1,
+      "head_dim": 128,
+      "heads_q": 32,
+      "heads_kv": 8,
+      "dtype": "bf16",
+      "layout": "dense",
+      "page_size": 16,
+      "causal": false,
+      "shape": {
+        "q": [
+          1,
+          32,
+          128
+        ],
+        "k": [
+          1,
+          512,
+          8,
+          128
+        ],
+        "v": [
+          1,
+          512,
+          8,
+          128
+        ],
+        "kv_lens": [
+          512
+        ],
+        "block_table": null,
+        "heads_q": 32,
+        "heads_kv": 8,
+        "head_dim": 128,
+        "batch": 1,
+        "query_len": 1,
+        "kv_len": 512
+      },
+      "backend": "triton",
+      "seed": 20261102,
+      "providers": {
+        "torch_cudnn": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 0.0009765625,
+          "max_relative_error_atol_floor": 0.0213623046875,
+          "atol": 0.02,
+          "rtol": 0.02,
+          "normalized_rms_error": 0.002214654026434233,
+          "normalized_rms_tolerance": 0.05,
+          "gpu_us_p50": 7.50296316702989,
+          "warmup_wall_ms": 0.352947,
+          "warmup_calls_per_api": 3,
+          "eager_us_p50": 15.184111065334744,
+          "eager_wall_us_p50": 15.22947222222222,
+          "gpu_us_rounds": [
+            7.312898244507627,
+            7.523282815261742,
+            8.133045283043616,
+            7.028492686557976,
+            7.50296316702989
+          ],
+          "eager_us_rounds": [
+            15.746333532863193,
+            15.20088811715444,
+            14.671555823749966,
+            15.184111065334744,
+            15.079443653424581
+          ],
+          "eager_wall_us_rounds": [
+            15.784288194444445,
+            15.235378472222221,
+            15.22947222222222,
+            15.217229166666666,
+            15.110781249999999
+          ],
+          "graph_replays_per_round": 1,
+          "graph_operator_calls_per_replay": 926,
+          "eager_calls_per_round": 288,
+          "graph_timing": "single replay of repeated complete-operator capture, divided by call count",
+          "startup": {
+            "first_call_scope": "synchronized wall time; includes JIT on cache miss; excluded from steady-state samples",
+            "prepare_wall_ms": 0.031584,
+            "graph_first_call_wall_ms": 19.967928,
+            "eager_first_call_wall_ms": 0.085276
+          },
+          "metadata": {
+            "api": "torch.nn.functional.scaled_dot_product_attention",
+            "forced_backend": "CUDNN_ATTENTION",
+            "q_layout": "BHSD view of BSHD",
+            "kv_layout": "BHSD view of BSHD",
+            "gqa_expansion": false,
+            "input_copies": false,
+            "preallocated_output": false
+          }
+        },
+        "flashinfer_fmha_v2": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 0.0009765625,
+          "max_relative_error_atol_floor": 0.0213623046875,
+          "atol": 0.02,
+          "rtol": 0.02,
+          "normalized_rms_error": 0.0022115816065243353,
+          "normalized_rms_tolerance": 0.05,
+          "gpu_us_p50": 37.082687947759986,
+          "warmup_wall_ms": 0.407278,
+          "warmup_calls_per_api": 3,
+          "eager_us_p50": 39.452552795410156,
+          "eager_wall_us_p50": 39.50096923076923,
+          "gpu_us_rounds": [
+            37.05679628364278,
+            37.082687947759986,
+            37.0795024381139,
+            39.6101583583721,
+            39.18844832424306
+          ],
+          "eager_us_rounds": [
+            37.58030671339769,
+            43.046892606295074,
+            39.452552795410156,
+            39.93665744096805,
+            39.34309788239308
+          ],
+          "eager_wall_us_rounds": [
+            37.63345128205128,
+            43.09785641025641,
+            39.50096923076923,
+            40.76878974358974,
+            39.39033846153846
+          ],
+          "graph_replays_per_round": 1,
+          "graph_operator_calls_per_replay": 241,
+          "eager_calls_per_round": 195,
+          "graph_timing": "single replay of repeated complete-operator capture, divided by call count",
+          "startup": {
+            "first_call_scope": "synchronized wall time; includes JIT on cache miss; excluded from steady-state samples",
+            "prepare_wall_ms": 3.179539,
+            "graph_first_call_wall_ms": 0.15594,
+            "eager_first_call_wall_ms": 0.077196
+          },
+          "metadata": {
+            "backend": "fmha_v2",
+            "workspace_bytes": 134217728,
+            "planning_timed": false,
+            "input_copies": true,
+            "gqa_expansion": false,
+            "preallocated_output": true,
+            "native_paged": false,
+            "kv_layout": "NHD",
+            "api": "flashinfer.BatchPrefillWithRaggedKVCacheWrapper.run",
+            "input_layout": "CONTIGUOUS_Q_KV",
+            "packing_timed": true,
+            "packing": "public FlashInfer run() internally torch.stack((k,v), dim=1)",
+            "constructor_signature": "(float_workspace_buffer: torch.Tensor, kv_layout: str = 'NHD', use_cuda_graph: bool = False, qo_indptr_buf: Optional[torch.Tensor] = None, kv_indptr_buf: Optional[torch.Tensor] = None, custom_mask_buf: Optional[torch.Tensor] = None, mask_indptr_buf: Optional[torch.Tensor] = None, backend: str = 'auto', jit_args: Optional[List[Any]] = None, jit_kwargs: Optional[Dict[str, Any]] = None, variant_owns_mask: bool = False) -> None",
+            "run_signature": "(q: torch.Tensor, k: torch.Tensor, v: torch.Tensor, *args, q_scale: Optional[float] = None, k_scale: Optional[float] = None, v_scale: Optional[float] = None, o_scale: Optional[float] = None, out: Optional[torch.Tensor] = None, lse: Optional[torch.Tensor] = None, return_lse: bool = False, lse_base: str = 'log2', lse_layout: str = 'NH', enable_pdl: Optional[bool] = None, kv_cache_sf: Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor], NoneType] = None) -> Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]]",
+            "resolved_backend": "fmha_v2",
+            "decode_entry": "one-query native FMHAv2"
+          }
+        },
+        "ours": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 9.5367431640625e-07,
+          "max_relative_error_atol_floor": 4.76837158203125e-05,
+          "atol": 0.02,
+          "rtol": 0.02,
+          "normalized_rms_error": 2.0527399323415875e-07,
+          "normalized_rms_tolerance": 0.05,
+          "gpu_us_p50": 22.463321685791016,
+          "warmup_wall_ms": 0.743713,
+          "warmup_calls_per_api": 3,
+          "eager_us_p50": 22.66809508556456,
+          "eager_wall_us_p50": 22.712173228346455,
+          "gpu_us_rounds": [
+            23.442709887469256,
+            22.463321685791016,
+            22.42692059310025,
+            22.480593787299263,
+            22.426751555589142
+          ],
+          "eager_us_rounds": [
+            25.246109549454818,
+            22.65587378674605,
+            22.651212421927866,
+            25.307086509043778,
+            22.66809508556456
+          ],
+          "eager_wall_us_rounds": [
+            25.28936220472441,
+            22.698094488188975,
+            22.689799212598423,
+            26.634870078740157,
+            22.712173228346455
+          ],
+          "graph_replays_per_round": 1,
+          "graph_operator_calls_per_replay": 378,
+          "eager_calls_per_round": 254,
+          "graph_timing": "single replay of repeated complete-operator capture, divided by call count",
+          "startup": {
+            "first_call_scope": "synchronized wall time; includes JIT on cache miss; excluded from steady-state samples",
+            "prepare_wall_ms": 0.554173,
+            "graph_first_call_wall_ms": 133.828171,
+            "eager_first_call_wall_ms": 0.176734
+          },
+          "metadata": {
+            "api": "fa5060.attention.decode",
+            "backend": "triton",
+            "package_versions": {
+              "triton": "3.7.1"
+            },
+            "preallocated_output": true,
+            "preallocated_workspace": true,
+            "config": null,
+            "num_splits": null,
+            "native_paged": false,
+            "eager_allocates_output": true,
+            "eager_allocates_workspace": true,
+            "graph_boundary": "complete operator including all decode splits and merge"
+          },
+          "selected_config": {
+            "config": null,
+            "num_splits": null
+          },
+          "configuration_mode": "public_default"
+        },
+        "flashinfer_fa2": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 0.001953125,
+          "max_relative_error_atol_floor": 0.027624309062957764,
+          "atol": 0.02,
+          "rtol": 0.02,
+          "normalized_rms_error": 0.0028982215572203843,
+          "normalized_rms_tolerance": 0.05,
+          "gpu_us_p50": 8.142665046590416,
+          "warmup_wall_ms": 0.247497,
+          "warmup_calls_per_api": 3,
+          "eager_us_p50": 13.79097051339239,
+          "eager_wall_us_p50": 13.818329758713137,
+          "gpu_us_rounds": [
+            7.667308562900308,
+            8.321741327841597,
+            7.751197307545156,
+            8.142665046590416,
+            8.72176042346885
+          ],
+          "eager_us_rounds": [
+            13.724310468412916,
+            14.358562694477971,
+            13.522702950894352,
+            13.79097051339239,
+            14.051432264394478
+          ],
+          "eager_wall_us_rounds": [
+            13.75241018766756,
+            14.386104557640751,
+            13.551034852546916,
+            13.818329758713137,
+            14.07986327077748
+          ],
+          "graph_replays_per_round": 1,
+          "graph_operator_calls_per_replay": 827,
+          "eager_calls_per_round": 373,
+          "graph_timing": "single replay of repeated complete-operator capture, divided by call count",
+          "startup": {
+            "first_call_scope": "synchronized wall time; includes JIT on cache miss; excluded from steady-state samples",
+            "prepare_wall_ms": 3.715462,
+            "graph_first_call_wall_ms": 0.09899,
+            "eager_first_call_wall_ms": 0.04688
+          },
+          "metadata": {
+            "backend": "fa2",
+            "workspace_bytes": 134217728,
+            "planning_timed": false,
+            "input_copies": false,
+            "gqa_expansion": false,
+            "preallocated_output": true,
+            "native_paged": false,
+            "kv_layout": "NHD",
+            "dense_storage_view": "zero-copy page16 view for native decode wrapper",
+            "api": "flashinfer.BatchDecodeWithPagedKVCacheWrapper.run",
+            "constructor_signature": "(float_workspace_buffer: torch.Tensor, kv_layout: str = 'NHD', use_cuda_graph: bool = False, use_tensor_cores: bool = False, paged_kv_indptr_buffer: Optional[torch.Tensor] = None, paged_kv_indices_buffer: Optional[torch.Tensor] = None, paged_kv_last_page_len_buffer: Optional[torch.Tensor] = None, backend: str = 'auto', jit_args: Optional[List[Any]] = None) -> None",
+            "run_signature": "(q: torch.Tensor, paged_kv_cache: Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]], *args, q_scale: Optional[float] = None, k_scale: Optional[float] = None, v_scale: Optional[float] = None, out: Optional[torch.Tensor] = None, lse: Optional[torch.Tensor] = None, return_lse: bool = False, enable_pdl: Optional[bool] = None, window_left: Optional[int] = None, sinks: Optional[torch.Tensor] = None, q_len_per_req: Optional[int] = None, skip_softmax_threshold_scale_factor: Optional[float] = None, kv_cache_sf: Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor], NoneType] = None) -> Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]]",
+            "resolved_backend": "fa2"
+          }
+        },
+        "torch_efficient": {
+          "status": "unsupported",
+          "validated": false,
+          "stage": "prepare",
+          "reason": "UnsupportedProvider: Torch can_use_efficient_attention rejected the exact strided/GQA inputs; backend=EFFICIENT_ATTENTION, case=decode-b1-l512-hq32-hkv8-d128-bf16-dense",
+          "gpu_us_p50": null,
+          "eager_us_p50": null,
+          "metadata": {},
+          "startup": {
+            "first_call_scope": "synchronized wall time; includes JIT on cache miss; excluded from steady-state samples"
+          }
+        },
+        "torch_flash": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 0.0009765625,
+          "max_relative_error_atol_floor": 0.018310546875,
+          "atol": 0.02,
+          "rtol": 0.02,
+          "normalized_rms_error": 0.0022017635017318104,
+          "normalized_rms_tolerance": 0.05,
+          "gpu_us_p50": 13.015209530266485,
+          "warmup_wall_ms": 0.3485,
+          "warmup_calls_per_api": 3,
+          "eager_us_p50": 19.651932114220315,
+          "eager_wall_us_p50": 19.69821843003413,
+          "gpu_us_rounds": [
+            12.586238196547107,
+            13.54661299355665,
+            13.015209530266485,
+            12.556381960410368,
+            13.6125970326077
+          ],
+          "eager_us_rounds": [
+            19.66274476295445,
+            19.85594518355542,
+            19.651932114220315,
+            19.487125474845183,
+            19.281364545073526
+          ],
+          "eager_wall_us_rounds": [
+            19.69821843003413,
+            19.89368941979522,
+            19.68629351535836,
+            19.52549829351536,
+            19.993754266211603
+          ],
+          "graph_replays_per_round": 1,
+          "graph_operator_calls_per_replay": 597,
+          "eager_calls_per_round": 293,
+          "graph_timing": "single replay of repeated complete-operator capture, divided by call count",
+          "startup": {
+            "first_call_scope": "synchronized wall time; includes JIT on cache miss; excluded from steady-state samples",
+            "prepare_wall_ms": 0.014087,
+            "graph_first_call_wall_ms": 5.202598,
+            "eager_first_call_wall_ms": 0.064953
+          },
+          "metadata": {
+            "api": "torch.nn.functional.scaled_dot_product_attention",
+            "forced_backend": "FLASH_ATTENTION",
+            "q_layout": "BHSD view of BSHD",
+            "kv_layout": "BHSD view of BSHD",
+            "gqa_expansion": false,
+            "input_copies": false,
+            "preallocated_output": false
+          }
+        },
+        "fa4": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 0.0009765625,
+          "max_relative_error_atol_floor": 0.0152587890625,
+          "atol": 0.02,
+          "rtol": 0.02,
+          "normalized_rms_error": 0.0021868674861000247,
+          "normalized_rms_tolerance": 0.05,
+          "gpu_us_p50": 28.772048008294753,
+          "warmup_wall_ms": 0.570938,
+          "warmup_calls_per_api": 3,
+          "eager_us_p50": 39.65653419494629,
+          "eager_wall_us_p50": 39.72548,
+          "gpu_us_rounds": [
+            27.87753093389817,
+            28.46933294225622,
+            30.721481935477552,
+            29.832492639989027,
+            28.772048008294753
+          ],
+          "eager_us_rounds": [
+            40.738773345947266,
+            39.65653419494629,
+            39.495251973470054,
+            39.477761586507164,
+            40.85461298624674
+          ],
+          "eager_wall_us_rounds": [
+            40.807473333333334,
+            39.72548,
+            39.559913333333334,
+            39.54416,
+            40.92614666666666
+          ],
+          "graph_replays_per_round": 1,
+          "graph_operator_calls_per_replay": 324,
+          "eager_calls_per_round": 150,
+          "graph_timing": "single replay of repeated complete-operator capture, divided by call count",
+          "startup": {
+            "first_call_scope": "synchronized wall time; includes JIT on cache miss; excluded from steady-state samples",
+            "prepare_wall_ms": 0.162758,
+            "graph_first_call_wall_ms": 1065.971869,
+            "eager_first_call_wall_ms": 0.1713
+          },
+          "metadata": {
+            "api": "flash_attn.cute.interface.flash_attn_func",
+            "signature": "(q: torch.Tensor, k: torch.Tensor, v: torch.Tensor, qv: Optional[torch.Tensor] = None, gather_kv_indices: Optional[torch.Tensor] = None, softmax_scale: Optional[float] = None, causal: bool = False, window_size: Tuple[Optional[int], Optional[int]] = (None, None), learnable_sink: Optional[torch.Tensor] = None, softcap: float = 0.0, num_splits: int = 1, pack_gqa: Optional[bool] = None, deterministic: bool = False, score_mod: Optional[Callable] = None, score_mod_bwd: Optional[Callable] = None, mask_mod: Optional[Callable] = None, aux_tensors: Optional[list] = None, aux_scalars: Optional[tuple] = None, block_sparse_tensors: Optional[flash_attn.cute.block_sparsity.BlockSparseTensorsTorch] = None, block_sparse_tensors_bwd: Optional[flash_attn.cute.block_sparsity.BlockSparseTensorsTorch] = None, return_lse: bool = False, gather_bwd_recompute_p: bool = False, gather_bwd_token_chunk: Optional[int] = None)",
+            "q_layout": "BSHD",
+            "kv_layout": "BSHD",
+            "input_copies": false,
+            "gqa_expansion": false,
+            "preallocated_output": false
+          }
+        }
+      },
+      "provider_execution_order": [
+        "torch_cudnn",
+        "flashinfer_fmha_v2",
+        "ours",
+        "flashinfer_fa2",
+        "torch_efficient",
+        "torch_flash",
+        "fa4"
+      ],
+      "reference": {
+        "api": "fa5060.reference.attention_reference",
+        "algorithm": "blockwise fp32; no full Sq*Sk scores",
+        "tf32": false
+      },
+      "fastest_baseline": "torch_cudnn",
+      "speedup_vs_fastest": 0.3340095143531611,
+      "mandatory_baseline_groups": {
+        "torch_forced_sdpa": [
+          "torch_flash",
+          "torch_cudnn",
+          "torch_efficient"
+        ],
+        "fa4_native": [
+          "fa4"
+        ],
+        "flashinfer_native": [
+          "flashinfer_fa2",
+          "flashinfer_fmha_v2"
+        ]
+      },
+      "baseline_coverage": {
+        "torch_forced_sdpa": true,
+        "fa4_native": true,
+        "flashinfer_native": true
+      },
+      "mandatory_baselines_covered": true,
+      "correctness_passed": true,
+      "incorrect_providers": [],
+      "missing_provider_records": [],
+      "errored_providers": [],
+      "invalid_provider_records": []
+    },
+    {
+      "id": "decode-b1-l512-hq32-hkv1-d128-bf16-paged16",
+      "phase": "decode",
+      "batch": 1,
+      "kv_len": 512,
+      "query_len": 1,
+      "head_dim": 128,
+      "heads_q": 32,
+      "heads_kv": 1,
+      "dtype": "bf16",
+      "layout": "paged",
+      "page_size": 16,
+      "causal": false,
+      "shape": {
+        "q": [
+          1,
+          32,
+          128
+        ],
+        "k": [
+          32,
+          16,
+          1,
+          128
+        ],
+        "v": [
+          32,
+          16,
+          1,
+          128
+        ],
+        "kv_lens": [
+          512
+        ],
+        "block_table": [
+          1,
+          32
+        ],
+        "heads_q": 32,
+        "heads_kv": 1,
+        "head_dim": 128,
+        "batch": 1,
+        "query_len": 1,
+        "kv_len": 512
+      },
+      "backend": "triton",
+      "seed": 20261102,
+      "providers": {
+        "torch_cudnn": {
+          "status": "unsupported",
+          "validated": false,
+          "stage": "prepare",
+          "reason": "UnsupportedProvider: forced Torch SDPA has no native paged-KV public API",
+          "gpu_us_p50": null,
+          "eager_us_p50": null,
+          "metadata": {},
+          "startup": {
+            "first_call_scope": "synchronized wall time; includes JIT on cache miss; excluded from steady-state samples"
+          }
+        },
+        "torch_efficient": {
+          "status": "unsupported",
+          "validated": false,
+          "stage": "prepare",
+          "reason": "UnsupportedProvider: forced Torch SDPA has no native paged-KV public API",
+          "gpu_us_p50": null,
+          "eager_us_p50": null,
+          "metadata": {},
+          "startup": {
+            "first_call_scope": "synchronized wall time; includes JIT on cache miss; excluded from steady-state samples"
+          }
+        },
+        "flashinfer_fmha_v2": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 0.001953125,
+          "max_relative_error_atol_floor": 0.018310546875,
+          "atol": 0.02,
+          "rtol": 0.02,
+          "normalized_rms_error": 0.002301715037906693,
+          "normalized_rms_tolerance": 0.05,
+          "gpu_us_p50": 39.777423688757274,
+          "warmup_wall_ms": 0.468557,
+          "warmup_calls_per_api": 3,
+          "eager_us_p50": 38.038336404479374,
+          "eager_wall_us_p50": 38.10568316831683,
+          "gpu_us_rounds": [
+            39.777423688757274,
+            39.98769150089156,
+            37.30474309882654,
+            40.641942970183216,
+            39.08456578428446
+          ],
+          "eager_us_rounds": [
+            38.038336404479374,
+            38.77734665823455,
+            38.693862386269146,
+            36.4494252913069,
+            36.471286622604524
+          ],
+          "eager_wall_us_rounds": [
+            38.10568316831683,
+            38.83274752475248,
+            38.740113861386135,
+            36.501905940594064,
+            36.5190198019802
+          ],
+          "graph_replays_per_round": 1,
+          "graph_operator_calls_per_replay": 247,
+          "eager_calls_per_round": 202,
+          "graph_timing": "single replay of repeated complete-operator capture, divided by call count",
+          "startup": {
+            "first_call_scope": "synchronized wall time; includes JIT on cache miss; excluded from steady-state samples",
+            "prepare_wall_ms": 0.571191,
+            "graph_first_call_wall_ms": 0.168535,
+            "eager_first_call_wall_ms": 0.096517
+          },
+          "metadata": {
+            "backend": "fmha_v2",
+            "workspace_bytes": 134217728,
+            "planning_timed": false,
+            "input_copies": false,
+            "gqa_expansion": false,
+            "preallocated_output": true,
+            "native_paged": true,
+            "kv_layout": "NHD",
+            "block_table_format": "[B,2,M] native K/V block offsets; static preprocessing",
+            "api": "flashinfer.prefill.trtllm_fmha_v2_prefill",
+            "signature": "(qkv: Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor], Tuple[torch.Tensor, torch.Tensor, torch.Tensor]], input_layout: str, workspace_buffer: torch.Tensor, seq_lens: torch.Tensor, max_q_len: int, max_kv_len: int, bmm1_scale: float, bmm2_scale: float, batch_size: int, cum_seq_lens_q: torch.Tensor, cum_seq_lens_kv: torch.Tensor, block_tables: Optional[torch.Tensor] = None, out: Optional[torch.Tensor] = None, out_dtype: Union[str, torch.dtype, NoneType] = None, sinks: Optional[List[torch.Tensor]] = None, pos_encoding_mode: str = None, logits_soft_cap_scale: Optional[float] = None, mask_mode: str = 'causal', window_left: int = -1, chunked_attention_size: int = 0, save_softmax_stats: bool = False, skip_softmax_threshold_scale_factor: float = 0) -> Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]]",
+            "input_layout": "Q_PAGED_KV_NHD",
+            "decode_entry": "one-query native FMHAv2"
+          }
+        },
+        "ours": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 3.814697265625e-06,
+          "max_relative_error_atol_floor": 0.00019073486328125,
+          "atol": 0.02,
+          "rtol": 0.02,
+          "normalized_rms_error": 8.491027560498343e-07,
+          "normalized_rms_tolerance": 0.05,
+          "gpu_us_p50": 18.95090076030713,
+          "warmup_wall_ms": 0.632073,
+          "warmup_calls_per_api": 3,
+          "eager_us_p50": 19.255291057538383,
+          "eager_wall_us_p50": 19.320291139240506,
+          "gpu_us_rounds": [
+            18.93944988883502,
+            18.940208082515483,
+            20.51381929225831,
+            18.95090076030713,
+            19.833630295161388
+          ],
+          "eager_us_rounds": [
+            19.495899164223975,
+            19.2447598976425,
+            19.255291057538383,
+            19.22653143918967,
+            20.66146874729591
+          ],
+          "eager_wall_us_rounds": [
+            19.56403164556962,
+            19.320291139240506,
+            19.315930379746835,
+            19.287493670886075,
+            21.6891835443038
+          ],
+          "graph_replays_per_round": 1,
+          "graph_operator_calls_per_replay": 422,
+          "eager_calls_per_round": 158,
+          "graph_timing": "single replay of repeated complete-operator capture, divided by call count",
+          "startup": {
+            "first_call_scope": "synchronized wall time; includes JIT on cache miss; excluded from steady-state samples",
+            "prepare_wall_ms": 0.419184,
+            "graph_first_call_wall_ms": 136.253149,
+            "eager_first_call_wall_ms": 0.179344
+          },
+          "metadata": {
+            "api": "fa5060.attention.decode",
+            "backend": "triton",
+            "package_versions": {
+              "triton": "3.7.1"
+            },
+            "preallocated_output": true,
+            "preallocated_workspace": true,
+            "config": null,
+            "num_splits": null,
+            "native_paged": true,
+            "eager_allocates_output": true,
+            "eager_allocates_workspace": true,
+            "graph_boundary": "complete operator including all decode splits and merge"
+          },
+          "selected_config": {
+            "config": null,
+            "num_splits": null
+          },
+          "configuration_mode": "public_default"
+        },
+        "torch_flash": {
+          "status": "unsupported",
+          "validated": false,
+          "stage": "prepare",
+          "reason": "UnsupportedProvider: forced Torch SDPA has no native paged-KV public API",
+          "gpu_us_p50": null,
+          "eager_us_p50": null,
+          "metadata": {},
+          "startup": {
+            "first_call_scope": "synchronized wall time; includes JIT on cache miss; excluded from steady-state samples"
+          }
+        },
+        "fa4": {
+          "status": "unsupported",
+          "validated": false,
+          "stage": "prepare",
+          "reason": "UnsupportedProvider: FA4 flash_attn_func adapter has no verified native page-table API",
+          "gpu_us_p50": null,
+          "eager_us_p50": null,
+          "metadata": {},
+          "startup": {
+            "first_call_scope": "synchronized wall time; includes JIT on cache miss; excluded from steady-state samples"
+          }
+        },
+        "flashinfer_fa2": {
+          "status": "ok",
+          "validated": true,
+          "max_abs_error": 0.001953125,
+          "max_relative_error_atol_floor": 0.025177001953125,
+          "atol": 0.02,
+          "rtol": 0.02,
+          "normalized_rms_error": 0.0030029116361735136,
+          "normalized_rms_tolerance": 0.05,
+          "gpu_us_p50": 7.9188176563807895,
+          "warmup_wall_ms": 0.242053,
+          "warmup_calls_per_api": 3,
+          "eager_us_p50": 12.860535896062173,
+          "eager_wall_us_p50": 12.945022792022794,
+          "gpu_us_rounds": [
+            7.547861836813941,
+            7.9188176563807895,
+            8.253714133953226,
+            8.526935953224822,
+            7.754285934523408
+          ],
+          "eager_us_rounds": [
+            12.187989009411586,
+            12.916968419001652,
+            12.860535896062173,
+            13.15984019526729,
+            12.667897759679375
+          ],
+          "eager_wall_us_rounds": [
+            13.165837606837606,
+            12.945022792022794,
+            12.89322222222222,
+            13.187774928774928,
+            12.691535612535613
+          ],
+          "graph_replays_per_round": 1,
+          "graph_operator_calls_per_replay": 812,
+          "eager_calls_per_round": 351,
+          "graph_timing": "single replay of repeated complete-operator capture, divided by call count",
+          "startup": {
+            "first_call_scope": "synchronized wall time; includes JIT on cache miss; excluded from steady-state samples",
+            "prepare_wall_ms": 7.379887,
+            "graph_first_call_wall_ms": 0.101855,
+            "eager_first_call_wall_ms": 0.052282
+          },
+          "metadata": {
+            "backend": "fa2",
+            "workspace_bytes": 134217728,
+            "planning_timed": false,
+            "input_copies": false,
+            "gqa_expansion": false,
+            "preallocated_output": true,
+            "native_paged": true,
+            "kv_layout": "NHD",
+            "api": "flashinfer.BatchDecodeWithPagedKVCacheWrapper.run",
+            "constructor_signature": "(float_workspace_buffer: torch.Tensor, kv_layout: str = 'NHD', use_cuda_graph: bool = False, use_tensor_cores: bool = False, paged_kv_indptr_buffer: Optional[torch.Tensor] = None, paged_kv_indices_buffer: Optional[torch.Tensor] = None, paged_kv_last_page_len_buffer: Optional[torch.Tensor] = None, backend: str = 'auto', jit_args: Optional[List[Any]] = None) -> None",
+            "run_signature": "(q: torch.Tensor, paged_kv_cache: Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]], *args, q_scale: Optional[float] = None, k_scale: Optional[float] = None, v_scale: Optional[float] = None, out: Optional[torch.Tensor] = None, lse: Optional[torch.Tensor] = None, return_lse: bool = False, enable_pdl: Optional[bool] = None, window_left: Optional[int] = None, sinks: Optional[torch.Tensor] = None, q_len_per_req: Optional[int] = None, skip_softmax_threshold_scale_factor: Optional[float] = None, kv_cache_sf: Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor], NoneType] = None) -> Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]]",
+            "resolved_backend": "fa2"
+          }
+        }
+      },
+      "provider_execution_order": [
+        "torch_cudnn",
+        "torch_efficient",
+        "flashinfer_fmha_v2",
+        "ours",
+        "torch_flash",
+        "fa4",
+        "flashinfer_fa2"
+      ],
+      "reference": {
+        "api": "fa5060.reference.attention_reference",
+        "algorithm": "blockwise fp32; no full Sq*Sk scores",
+        "tf32": false
+      },
+      "fastest_baseline": "flashinfer_fa2",
+      "speedup_vs_fastest": 0.41785969735891604,
+      "mandatory_baseline_groups": {
+        "flashinfer_native": [
+          "flashinfer_fa2",
+          "flashinfer_fmha_v2"
+        ]
+      },
+      "baseline_coverage": {
+        "flashinfer_native": true
+      },
+      "mandatory_baselines_covered": true,
+      "correctness_passed": true,
+      "incorrect_providers": [],
+      "missing_provider_records": [],
+      "errored_providers": [],
+      "invalid_provider_records": []
+    }
+  ],
+  "summary": {
+    "suite": "smoke",
+    "unexpected_cases": [],
+    "thresholds": {
+      "geometric_mean_speedup": 1.1,
+      "worst_speedup": 0.95
+    },
+    "prefill": {
+      "expected_cases": 4,
+      "completed_cases": 4,
+      "comparable_cases": 4,
+      "missing_cases": [],
+      "duplicate_cases": [],
+      "uncovered_or_incorrect_cases": [],
+      "coverage_complete": true,
+      "geometric_mean_speedup": 1.0213016214337434,
+      "worst_speedup": 0.9179928394634493,
+      "target_met": false
+    },
+    "decode": {
+      "expected_cases": 4,
+      "completed_cases": 4,
+      "comparable_cases": 4,
+      "missing_cases": [],
+      "duplicate_cases": [],
+      "uncovered_or_incorrect_cases": [],
+      "coverage_complete": true,
+      "geometric_mean_speedup": 0.4077154497588784,
+      "worst_speedup": 0.3340095143531611,
+      "target_met": false
+    },
+    "target_met": false
+  }
+}

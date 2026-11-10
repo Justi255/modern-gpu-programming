@@ -351,7 +351,16 @@ python -m fa5060.benchmark --backend triton --suite full --phase decode --rounds
 ::::{tab-item} TileLang
 :sync: tilelang
 
-本章的 TileLang 对应实验由 `--backend tilelang` 生成；读者结果保存在 `results/local/tilelang/`，本次发布证据位于 `results/tilelang/`。当前发布的实际状态和可下载证据见{doc}`15-results`；没有对应文件或成功记录时，保留“待测”，不引用历史 Triton 时间。
+{download}`attention.json <../results/tilelang/attention.json>` 的 decode 使用 Q=[3,4,D]、Hkv=2、KV 有效长度 [79,53,0]、容量 80。默认 auto 在该形状选择 vector，pointer `block_n=64`、4 warps，显式 `num_splits=2`；每次完整调用包含 main 与 merge。
+
+| dtype / D | dense μs | paged μs | 两布局最大误差 |
+|---|---:|---:|---:|
+| FP16 / 64 | 129.984 | 132.832 | 0.00006103515625 |
+| BF16 / 128 | 117.584 | 120.896 | 0 |
+
+四条记录均通过 blockwise FP32 参考。长度为 0 的 batch 与末 split 的边界均进入实际测试；BF16 本次零误差不能推广到其他输入。计时为 eager CUDA events，预热 3 次、采样 10 次取中位；输出和 FP32 split workspace 已预分配，无缓存更新，但仍可能包含 host 提交间隙。这里没有性能基线，也没有 split=1 的同形状计时，不能由这些数字判断拆分是否获益。
+
+独立编译导出在 B=2、Hq:Hkv=8:2、D=64、容量 1024、split=4 上确认：vector main/merge 为 REG 167/21，grouped main/merge 为 71/21；仅 grouped main 含 `mma.sync`，四个 kernel 均无 `tcgen05`。这些资源来自生成 CUDA 重编译，静态 SHARED 各 1024 B 不含动态共享分配，不能当作两种模式的吞吐或占用率比较。教学 eager 时间不与历史 Triton 图内时间相除，完整性能状态见{doc}`15-results`。
 
 ::::
 

@@ -362,7 +362,16 @@ python -m fa5060.benchmark --backend triton --suite smoke --phase prefill --outp
 ::::{tab-item} TileLang
 :sync: tilelang
 
-本章的 TileLang 对应实验由 `--backend tilelang` 生成；读者结果保存在 `results/local/tilelang/`，本次发布证据位于 `results/tilelang/`。当前发布的实际状态和可下载证据见{doc}`15-results`；没有对应文件或成功记录时，保留“待测”，不引用历史 Triton 时间。
+{download}`attention.json <../results/tilelang/attention.json>` 的 prefill 实测使用 Q=[3,17,4,D]、Hkv=2、有效长度 [79,53,0]、右对齐 causal；公开默认配置为 pointer、32×64、4 warps、2 stages。dense KV=[3,80,2,D]；paged KV=[15,16,2,D]、page=16、块表 [3,5]。
+
+| dtype / D | dense μs | paged μs | 两布局最大误差 |
+|---|---:|---:|---:|
+| FP16 / 64 | 23.856 | 71.376 | 0.00048828125 |
+| BF16 / 128 | 67.040 | 70.624 | 0.00390625 |
+
+四条记录均通过 blockwise FP32 参考。FP16 的 paged 公开调用时间更高，BF16 两布局接近；这仍不足以把差值全部归因于页表访问。计时为 eager CUDA events，预热 3 次、采样 10 次取中位，输出已预分配、不含缓存更新，但可能包含 host 提交间隙；没有 PyTorch/原生分页计时基线，不能算 SOTA 加速比或与历史 Triton 图内时间相除。
+
+另一次编译证据导出用 Q=[1,128,8,64]、KV=[1,256,2,64] 比较 pointer 32×64 与 TMA 64×64：REG 分别为 93/157，TMA PTX 确实含 TMA load，二者均含 `mma.sync`、不含 `tcgen05`。该导出只 launch、不计时也不做数值断言，不能声称 TMA 更快；静态 SHARED=1024/2048 B 也不含动态共享分配。完整性能状态见{doc}`15-results`。
 
 ::::
 

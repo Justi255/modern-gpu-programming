@@ -1,0 +1,14 @@
+2026-11-05 21:49:36  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-05 21:49:37  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+Traceback (most recent call last):
+  File "/home/justi/Workspace/cuda/fa/scripts/export_tilelang.py", line 362, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "/home/justi/Workspace/cuda/fa/scripts/export_tilelang.py", line 358, in main
+    return execute(parser().parse_args(argv))
+  File "/home/justi/Workspace/cuda/fa/scripts/export_tilelang.py", line 336, in execute
+    record = export_kernel(capture, directory, nvcc, cuobjdump)
+  File "/home/justi/Workspace/cuda/fa/scripts/export_tilelang.py", line 219, in export_kernel
+    if kernel.execution_backend != "tvm_ffi" or str(kernel.target.arch) != "sm_120":
+                                                    ^^^^^^^^^^^^^^^^^^
+AttributeError: 'Target' object has no attribute 'arch'

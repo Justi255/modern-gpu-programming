@@ -1,0 +1,675 @@
+{
+  "schema_version": 1,
+  "suite": "basics",
+  "seed": 20261102,
+  "backend": "tilelang",
+  "backend_packages": {
+    "tilelang": "0.1.15",
+    "apache-tvm-ffi": "0.1.12"
+  },
+  "configuration_mode": "public_default",
+  "environment": {
+    "schema_version": 1,
+    "timestamp_utc": "2026-11-05T06:58:11.336234+00:00",
+    "python": {
+      "version": "3.13.13",
+      "sys_version": "3.13.13 | packaged by Anaconda, Inc. | (main, Apr 14 2026, 06:19:41) [GCC 14.3.0]",
+      "implementation": "CPython",
+      "compiler": "GCC 14.3.0",
+      "executable": "/home/justi/Workspace/cuda/fa/.venv-tilelang/bin/python"
+    },
+    "platform": {
+      "system": "Linux",
+      "release": "7.0.0-42-generic",
+      "machine": "x86_64",
+      "description": "Linux-7.0.0-42-generic-x86_64-with-glibc2.43"
+    },
+    "packages": {
+      "modern-gpu-programming-5060": "0.1.0",
+      "numpy": "2.5.0",
+      "torch": "2.12.1",
+      "triton": "3.7.1",
+      "tilelang": "0.1.15",
+      "apache-tvm-ffi": "0.1.12",
+      "flashinfer-python": "0.7.2.post1",
+      "flash-attn-4": "4.0.0b37",
+      "flash-attn": null
+    },
+    "cuda_build": "13.0",
+    "cuda_available": true,
+    "gpus": [
+      {
+        "index": 0,
+        "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+        "compute_capability": [
+          12,
+          0
+        ],
+        "sm_count": 26,
+        "total_memory_bytes": 8055947264,
+        "l2_cache_bytes": 33554432,
+        "shared_memory_per_block_bytes": 49152,
+        "shared_memory_per_block_optin_bytes": 101376,
+        "shared_memory_per_sm_bytes": 102400,
+        "warp_size": 32,
+        "max_threads_per_block": 1024
+      }
+    ],
+    "gpu_unavailable_reason": null,
+    "nvidia_smi": {
+      "available": true,
+      "devices": [
+        {
+          "index": 0,
+          "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+          "driver_version": "595.99.02",
+          "performance_state": "P4",
+          "power_draw_watts": 14.97,
+          "power_limit_watts": null,
+          "sm_clock_mhz": 817,
+          "memory_clock_mhz": 9001,
+          "temperature_celsius": 44
+        }
+      ],
+      "error": null
+    },
+    "compiler": {
+      "nvcc": {
+        "available": true,
+        "output": "nvcc: NVIDIA (R) Cuda compiler driver\nCopyright (c) 2005-2025 NVIDIA Corporation\nBuilt on Tue_Dec_16_07:23:41_PM_PST_2025\nCuda compilation tools, release 13.1, V13.1.115\nBuild cuda_13.1.r13.1/compiler.37061995_0",
+        "returncode": 0,
+        "error": null
+      },
+      "ptxas": {
+        "available": true,
+        "output": "ptxas: NVIDIA (R) Ptx optimizing assembler\nCopyright (c) 2005-2025 NVIDIA Corporation\nBuilt on Tue_Dec_16_07:22:11_PM_PST_2025\nCuda compilation tools, release 13.1, V13.1.115\nBuild cuda_13.1.r13.1/compiler.37061995_0",
+        "returncode": 0,
+        "error": null
+      },
+      "triton_version": "3.7.1",
+      "tilelang_version": "0.1.15",
+      "apache_tvm_ffi_version": "0.1.12",
+      "sources": {
+        "triton": null,
+        "tilelang": null,
+        "apache-tvm-ffi": null
+      }
+    }
+  },
+  "records": [
+    {
+      "name": "vector_add",
+      "inputs": {
+        "length": 100003,
+        "dtype": "float32"
+      },
+      "backend": "tilelang",
+      "startup": {
+        "first_call_wall_ms": 306.299651,
+        "scope": "synchronized wall time including JIT on cache miss; excluded from steady-state samples"
+      },
+      "provider": {
+        "name": "fa5060/TileLang",
+        "backend": "tilelang",
+        "package_versions": {
+          "tilelang": "0.1.15",
+          "apache-tvm-ffi": "0.1.12"
+        },
+        "version": "0.1.0",
+        "triton_version": "3.7.1"
+      },
+      "reference": {
+        "name": "torch.add float32",
+        "torch_version": "2.12.1"
+      },
+      "correctness": {
+        "passed": true,
+        "rtol": 0,
+        "atol": 0,
+        "max_error": 0.0,
+        "rms_relative_error": 0.0
+      },
+      "max_error": 0.0,
+      "latency_ms": 0.017872000113129616,
+      "timing": {
+        "clock": "CUDA events on the current stream",
+        "mode": "eager",
+        "warmup": 3,
+        "repetitions": 10,
+        "warmup_wall_ms": 0.113901,
+        "summary": "median",
+        "median_ms": 0.017872000113129616,
+        "samples_ms": [
+          0.036159999668598175,
+          0.01945599913597107,
+          0.01852799952030182,
+          0.01852799952030182,
+          0.016543999314308167,
+          0.017216000705957413,
+          0.016287999227643013,
+          0.01852799952030182,
+          0.016416000202298164,
+          0.014816000126302242
+        ]
+      },
+      "timing_scope": "public call; output allocation included",
+      "baseline_provider": {
+        "name": "PyTorch",
+        "version": "2.12.1"
+      },
+      "baseline_correctness": {
+        "passed": true,
+        "rtol": 0,
+        "atol": 0,
+        "max_error": 0.0,
+        "rms_relative_error": 0.0
+      },
+      "baseline_latency_ms": 0.008032000157982111,
+      "baseline_timing": {
+        "clock": "CUDA events on the current stream",
+        "mode": "eager",
+        "warmup": 3,
+        "repetitions": 10,
+        "warmup_wall_ms": 0.020053,
+        "summary": "median",
+        "median_ms": 0.008032000157982111,
+        "samples_ms": [
+          0.00854399986565113,
+          0.007935999892652035,
+          0.007391999941319227,
+          0.008063999935984612,
+          0.008128000423312187,
+          0.0080960001796484,
+          0.007455999962985516,
+          0.00800000037997961,
+          0.008383999578654766,
+          0.007807999849319458
+        ]
+      }
+    },
+    {
+      "name": "vector_add",
+      "inputs": {
+        "length": 1048576,
+        "dtype": "float32"
+      },
+      "backend": "tilelang",
+      "startup": {
+        "first_call_wall_ms": 878.94185,
+        "scope": "synchronized wall time including JIT on cache miss; excluded from steady-state samples"
+      },
+      "provider": {
+        "name": "fa5060/TileLang",
+        "backend": "tilelang",
+        "package_versions": {
+          "tilelang": "0.1.15",
+          "apache-tvm-ffi": "0.1.12"
+        },
+        "version": "0.1.0",
+        "triton_version": "3.7.1"
+      },
+      "reference": {
+        "name": "torch.add float32",
+        "torch_version": "2.12.1"
+      },
+      "correctness": {
+        "passed": true,
+        "rtol": 0,
+        "atol": 0,
+        "max_error": 0.0,
+        "rms_relative_error": 0.0
+      },
+      "max_error": 0.0,
+      "latency_ms": 0.05371199920773506,
+      "timing": {
+        "clock": "CUDA events on the current stream",
+        "mode": "eager",
+        "warmup": 3,
+        "repetitions": 10,
+        "warmup_wall_ms": 0.208172,
+        "summary": "median",
+        "median_ms": 0.05371199920773506,
+        "samples_ms": [
+          0.08022399991750717,
+          0.06319999694824219,
+          0.056063998490571976,
+          0.05430399999022484,
+          0.05305600166320801,
+          0.053119998425245285,
+          0.05209600180387497,
+          0.05193600058555603,
+          0.05564799904823303,
+          0.0514880008995533
+        ]
+      },
+      "timing_scope": "public call; output allocation included",
+      "baseline_provider": {
+        "name": "PyTorch",
+        "version": "2.12.1"
+      },
+      "baseline_correctness": {
+        "passed": true,
+        "rtol": 0,
+        "atol": 0,
+        "max_error": 0.0,
+        "rms_relative_error": 0.0
+      },
+      "baseline_latency_ms": 0.025872000493109226,
+      "baseline_timing": {
+        "clock": "CUDA events on the current stream",
+        "mode": "eager",
+        "warmup": 3,
+        "repetitions": 10,
+        "warmup_wall_ms": 0.058629,
+        "summary": "median",
+        "median_ms": 0.025872000493109226,
+        "samples_ms": [
+          0.029023999348282814,
+          0.026335999369621277,
+          0.03407999873161316,
+          0.02550400048494339,
+          0.02595200017094612,
+          0.025696000084280968,
+          0.025280000641942024,
+          0.02518399991095066,
+          0.02579200081527233,
+          0.02611199952661991
+        ]
+      }
+    },
+    {
+      "name": "row_softmax",
+      "inputs": {
+        "shape": [
+          17,
+          781
+        ],
+        "stride": [
+          1562,
+          1
+        ],
+        "dtype": "float32"
+      },
+      "backend": "tilelang",
+      "startup": {
+        "first_call_wall_ms": 953.030257,
+        "scope": "synchronized wall time including JIT on cache miss; excluded from steady-state samples"
+      },
+      "provider": {
+        "name": "fa5060/TileLang",
+        "backend": "tilelang",
+        "package_versions": {
+          "tilelang": "0.1.15",
+          "apache-tvm-ffi": "0.1.12"
+        },
+        "version": "0.1.0",
+        "triton_version": "3.7.1"
+      },
+      "reference": {
+        "name": "torch.softmax float32",
+        "torch_version": "2.12.1"
+      },
+      "correctness": {
+        "passed": true,
+        "rtol": 2e-05,
+        "atol": 2e-06,
+        "max_error": 1.7881393432617188e-07,
+        "rms_relative_error": 1.0047856791101668e-07
+      },
+      "max_error": 1.7881393432617188e-07,
+      "latency_ms": 0.020368000492453575,
+      "timing": {
+        "clock": "CUDA events on the current stream",
+        "mode": "eager",
+        "warmup": 3,
+        "repetitions": 10,
+        "warmup_wall_ms": 0.123021,
+        "summary": "median",
+        "median_ms": 0.020368000492453575,
+        "samples_ms": [
+          0.027327999472618103,
+          0.022784000262618065,
+          0.020800000056624413,
+          0.020800000056624413,
+          0.020608000457286835,
+          0.019680000841617584,
+          0.01958400011062622,
+          0.02006400004029274,
+          0.020128000527620316,
+          0.019551999866962433
+        ]
+      },
+      "timing_scope": "public call; output allocation included",
+      "baseline_provider": {
+        "name": "PyTorch",
+        "version": "2.12.1"
+      },
+      "baseline_correctness": {
+        "passed": true,
+        "rtol": 2e-05,
+        "atol": 2e-06,
+        "max_error": 0.0,
+        "rms_relative_error": 0.0
+      },
+      "baseline_latency_ms": 0.015904000028967857,
+      "baseline_timing": {
+        "clock": "CUDA events on the current stream",
+        "mode": "eager",
+        "warmup": 3,
+        "repetitions": 10,
+        "warmup_wall_ms": 0.044638,
+        "summary": "median",
+        "median_ms": 0.015904000028967857,
+        "samples_ms": [
+          0.017184000462293625,
+          0.016448000445961952,
+          0.015904000028967857,
+          0.015647999942302704,
+          0.015807999297976494,
+          0.015807999297976494,
+          0.015776000916957855,
+          0.015904000028967857,
+          0.016063999384641647,
+          0.015904000028967857
+        ]
+      }
+    },
+    {
+      "name": "row_softmax",
+      "inputs": {
+        "shape": [
+          128,
+          1024
+        ],
+        "stride": [
+          2048,
+          1
+        ],
+        "dtype": "float32"
+      },
+      "backend": "tilelang",
+      "startup": {
+        "first_call_wall_ms": 959.348429,
+        "scope": "synchronized wall time including JIT on cache miss; excluded from steady-state samples"
+      },
+      "provider": {
+        "name": "fa5060/TileLang",
+        "backend": "tilelang",
+        "package_versions": {
+          "tilelang": "0.1.15",
+          "apache-tvm-ffi": "0.1.12"
+        },
+        "version": "0.1.0",
+        "triton_version": "3.7.1"
+      },
+      "reference": {
+        "name": "torch.softmax float32",
+        "torch_version": "2.12.1"
+      },
+      "correctness": {
+        "passed": true,
+        "rtol": 2e-05,
+        "atol": 2e-06,
+        "max_error": 2.980232238769531e-07,
+        "rms_relative_error": 1.4371736617443325e-07
+      },
+      "max_error": 2.980232238769531e-07,
+      "latency_ms": 0.049936000257730484,
+      "timing": {
+        "clock": "CUDA events on the current stream",
+        "mode": "eager",
+        "warmup": 3,
+        "repetitions": 10,
+        "warmup_wall_ms": 0.19028,
+        "summary": "median",
+        "median_ms": 0.049936000257730484,
+        "samples_ms": [
+          0.06335999816656113,
+          0.053568001836538315,
+          0.05104000121355057,
+          0.049536000937223434,
+          0.04809600114822388,
+          0.05657599866390228,
+          0.048576001077890396,
+          0.048128001391887665,
+          0.050335999578237534,
+          0.04758400097489357
+        ]
+      },
+      "timing_scope": "public call; output allocation included",
+      "baseline_provider": {
+        "name": "PyTorch",
+        "version": "2.12.1"
+      },
+      "baseline_correctness": {
+        "passed": true,
+        "rtol": 2e-05,
+        "atol": 2e-06,
+        "max_error": 0.0,
+        "rms_relative_error": 0.0
+      },
+      "baseline_latency_ms": 0.03611199930310249,
+      "baseline_timing": {
+        "clock": "CUDA events on the current stream",
+        "mode": "eager",
+        "warmup": 3,
+        "repetitions": 10,
+        "warmup_wall_ms": 0.309292,
+        "summary": "median",
+        "median_ms": 0.03611199930310249,
+        "samples_ms": [
+          0.039872001856565475,
+          0.01692800037562847,
+          0.017184000462293625,
+          0.03577600046992302,
+          0.035999998450279236,
+          0.03651199862360954,
+          0.04572800174355507,
+          0.18272000551223755,
+          0.009535999968647957,
+          0.03622400015592575
+        ]
+      }
+    },
+    {
+      "name": "transpose",
+      "inputs": {
+        "shape": [
+          37,
+          53
+        ],
+        "stride": [
+          106,
+          1
+        ],
+        "dtype": "float32"
+      },
+      "backend": "tilelang",
+      "startup": {
+        "first_call_wall_ms": 898.417783,
+        "scope": "synchronized wall time including JIT on cache miss; excluded from steady-state samples"
+      },
+      "provider": {
+        "name": "fa5060/TileLang",
+        "backend": "tilelang",
+        "package_versions": {
+          "tilelang": "0.1.15",
+          "apache-tvm-ffi": "0.1.12"
+        },
+        "version": "0.1.0",
+        "triton_version": "3.7.1"
+      },
+      "reference": {
+        "name": "torch.Tensor.T.contiguous",
+        "torch_version": "2.12.1"
+      },
+      "correctness": {
+        "passed": true,
+        "rtol": 0,
+        "atol": 0,
+        "max_error": 0.0,
+        "rms_relative_error": 0.0
+      },
+      "max_error": 0.0,
+      "latency_ms": 0.022847999818623066,
+      "timing": {
+        "clock": "CUDA events on the current stream",
+        "mode": "eager",
+        "warmup": 3,
+        "repetitions": 10,
+        "warmup_wall_ms": 0.1048,
+        "summary": "median",
+        "median_ms": 0.022847999818623066,
+        "samples_ms": [
+          0.031231999397277832,
+          0.025567999109625816,
+          0.023391999304294586,
+          0.022975999861955643,
+          0.02271999977529049,
+          0.024480000138282776,
+          0.022495999932289124,
+          0.022175999358296394,
+          0.02195199951529503,
+          0.021536000072956085
+        ]
+      },
+      "timing_scope": "public call; output allocation included",
+      "baseline_provider": {
+        "name": "PyTorch",
+        "version": "2.12.1"
+      },
+      "baseline_correctness": {
+        "passed": true,
+        "rtol": 0,
+        "atol": 0,
+        "max_error": 0.0,
+        "rms_relative_error": 0.0
+      },
+      "baseline_latency_ms": 0.014175999909639359,
+      "baseline_timing": {
+        "clock": "CUDA events on the current stream",
+        "mode": "eager",
+        "warmup": 3,
+        "repetitions": 10,
+        "warmup_wall_ms": 0.040764,
+        "summary": "median",
+        "median_ms": 0.014175999909639359,
+        "samples_ms": [
+          0.0163199994713068,
+          0.01616000011563301,
+          0.014720000326633453,
+          0.01228800043463707,
+          0.013887999579310417,
+          0.0144640002399683,
+          0.012864000163972378,
+          0.014976000413298607,
+          0.013024000450968742,
+          0.012512000277638435
+        ]
+      }
+    },
+    {
+      "name": "transpose",
+      "inputs": {
+        "shape": [
+          1024,
+          1024
+        ],
+        "stride": [
+          2048,
+          1
+        ],
+        "dtype": "float32"
+      },
+      "backend": "tilelang",
+      "startup": {
+        "first_call_wall_ms": 859.09127,
+        "scope": "synchronized wall time including JIT on cache miss; excluded from steady-state samples"
+      },
+      "provider": {
+        "name": "fa5060/TileLang",
+        "backend": "tilelang",
+        "package_versions": {
+          "tilelang": "0.1.15",
+          "apache-tvm-ffi": "0.1.12"
+        },
+        "version": "0.1.0",
+        "triton_version": "3.7.1"
+      },
+      "reference": {
+        "name": "torch.Tensor.T.contiguous",
+        "torch_version": "2.12.1"
+      },
+      "correctness": {
+        "passed": true,
+        "rtol": 0,
+        "atol": 0,
+        "max_error": 0.0,
+        "rms_relative_error": 0.0
+      },
+      "max_error": 0.0,
+      "latency_ms": 0.07383999973535538,
+      "timing": {
+        "clock": "CUDA events on the current stream",
+        "mode": "eager",
+        "warmup": 3,
+        "repetitions": 10,
+        "warmup_wall_ms": 0.213374,
+        "summary": "median",
+        "median_ms": 0.07383999973535538,
+        "samples_ms": [
+          0.08022399991750717,
+          0.0769599974155426,
+          0.08291199803352356,
+          0.0737600028514862,
+          0.07295999675989151,
+          0.07209599763154984,
+          0.07222399860620499,
+          0.07756800204515457,
+          0.07391999661922455,
+          0.07180800288915634
+        ]
+      },
+      "timing_scope": "public call; output allocation included",
+      "baseline_provider": {
+        "name": "PyTorch",
+        "version": "2.12.1"
+      },
+      "baseline_correctness": {
+        "passed": true,
+        "rtol": 0,
+        "atol": 0,
+        "max_error": 0.0,
+        "rms_relative_error": 0.0
+      },
+      "baseline_latency_ms": 0.0493599995970726,
+      "baseline_timing": {
+        "clock": "CUDA events on the current stream",
+        "mode": "eager",
+        "warmup": 3,
+        "repetitions": 10,
+        "warmup_wall_ms": 0.132579,
+        "summary": "median",
+        "median_ms": 0.0493599995970726,
+        "samples_ms": [
+          0.050464000552892685,
+          0.04992000013589859,
+          0.04972799867391586,
+          0.0490880012512207,
+          0.04934399947524071,
+          0.049375999718904495,
+          0.04838399961590767,
+          0.048767998814582825,
+          0.04931199923157692,
+          0.0496320016682148
+        ]
+      }
+    }
+  ],
+  "notes": [
+    "Numerical checks precede all timing; latency_ms is a median of 10 CUDA-event samples.",
+    "Teaching experiments are not an exhaustive benchmark or SOTA claim.",
+    "FP32 numerical references are separate from same-dtype PyTorch timing baselines.",
+    "Attention has a numerical reference only; no native paged performance baseline is claimed."
+  ]
+}

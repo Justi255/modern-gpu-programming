@@ -187,7 +187,14 @@ Q/K/V 使用 FP16 或 BF16，分数累计、行最大值、分母、输出累计
 ::::{tab-item} TileLang
 :sync: tilelang
 
-本章的 TileLang 对应实验由 `--backend tilelang` 生成；读者结果保存在 `results/local/tilelang/`，本次发布证据位于 `results/tilelang/`。当前发布的实际状态和可下载证据见{doc}`15-results`；没有对应文件或成功记录时，保留“待测”，不引用历史 Triton 时间。
+{download}`attention.json <../results/tilelang/attention.json>` 实际测试 B=3、GQA Hq:Hkv=4:2、有效 KV 长度 **[79,53,0]**。prefill 的 Q=[3,17,4,D]，decode 的 Q=[3,4,D]；dense 容量为 80，paged 使用 page=16、块表 [3,5]。均走 pointer 路径；prefill 为右对齐 causal，decode 非 causal 且显式 split=2。
+
+| dtype / D | prefill dense、paged 最大误差 | decode dense、paged 最大误差 |
+|---|---:|---:|
+| FP16 / 64 | 均为 0.00048828125 | 均为 0.00006103515625 |
+| BF16 / 128 | 均为 0.00390625 | 均为 0 |
+
+全部 8 条记录通过独立 blockwise FP32 参考（FP16 `rtol=atol=0.01`，BF16 为 0.03）。默认 `block_n=64`，长度 79 使末端查询实际跨越两个 KV 块，检验了在线状态的更新。同一逻辑上下文跨 dense/paged 都成立，包含尾部、GQA、空序列和 split 合并；这为在线归一化的实际实现提供了有限输入上的数值证据。BF16 decode 的零误差只是本次输出舍入后与参考相同，不能推广为精确算法。此文件只有数值参考，**没有 PyTorch 或原生分页性能基线**；完整性能状态见{doc}`15-results`。
 
 ::::
 

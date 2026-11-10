@@ -1,0 +1,22 @@
+{
+  "verified_utc": "2026-11-10T03:17:18.316852+00:00",
+  "command": ".venv-docs/bin/python -m pytest -q -m 'not gpu'",
+  "result": {
+    "passed": 99,
+    "skipped": 19,
+    "deselected": 4
+  },
+  "log": "cpu-final.log",
+  "gpu_packages_installed": {
+    "torch": false,
+    "triton": false,
+    "tilelang": false
+  },
+  "sphinx_command": ".venv-docs/bin/python -m sphinx -n -W --keep-going -b html docs _build/html",
+  "sphinx_exit_code": 0,
+  "sphinx_log": "sphinx-final-pre-results.log",
+  "notes": [
+    "Final paired-result content will be rebuilt after measurements.",
+    "CPU skips are not GPU passes; actual GPU tests are recorded separately."
+  ]
+}

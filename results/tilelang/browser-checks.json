@@ -1,0 +1,150 @@
+[
+  {
+    "step": "fresh default TileLang",
+    "pass": true,
+    "state": {
+      "selected": [
+        "tilelang",
+        "tilelang",
+        "tilelang",
+        "tilelang",
+        "tilelang",
+        "tilelang",
+        "tilelang",
+        "tilelang",
+        "tilelang",
+        "tilelang",
+        "tilelang",
+        "tilelang",
+        "tilelang",
+        "tilelang",
+        "tilelang",
+        "tilelang",
+        "tilelang"
+      ],
+      "stored": "tilelang",
+      "labels": 34
+    }
+  },
+  {
+    "step": "same-page sync Triton",
+    "pass": true,
+    "state": {
+      "selected": [
+        "triton",
+        "triton",
+        "triton",
+        "triton",
+        "triton",
+        "triton",
+        "triton",
+        "triton",
+        "triton",
+        "triton",
+        "triton",
+        "triton",
+        "triton",
+        "triton",
+        "triton",
+        "triton",
+        "triton"
+      ],
+      "stored": "triton",
+      "labels": 34
+    }
+  },
+  {
+    "step": "cross-page persisted Triton",
+    "pass": true,
+    "state": {
+      "selected": [
+        "triton",
+        "triton",
+        "triton",
+        "triton",
+        "triton",
+        "triton",
+        "triton",
+        "triton"
+      ],
+      "stored": "triton",
+      "labels": 16
+    }
+  },
+  {
+    "step": "reload persisted Triton",
+    "pass": true,
+    "state": {
+      "selected": [
+        "triton",
+        "triton",
+        "triton",
+        "triton",
+        "triton",
+        "triton",
+        "triton",
+        "triton"
+      ],
+      "stored": "triton",
+      "labels": 16
+    }
+  },
+  {
+    "step": "URL override TileLang",
+    "pass": true,
+    "state": {
+      "selected": [
+        "tilelang",
+        "tilelang",
+        "tilelang",
+        "tilelang",
+        "tilelang",
+        "tilelang",
+        "tilelang",
+        "tilelang",
+        "tilelang",
+        "tilelang",
+        "tilelang",
+        "tilelang"
+      ],
+      "stored": "tilelang",
+      "labels": 24
+    }
+  },
+  {
+    "step": "new page durable preference",
+    "pass": true,
+    "state": {
+      "selected": [
+        "tilelang",
+        "tilelang",
+        "tilelang",
+        "tilelang",
+        "tilelang",
+        "tilelang",
+        "tilelang",
+        "tilelang",
+        "tilelang",
+        "tilelang",
+        "tilelang"
+      ],
+      "stored": "tilelang",
+      "labels": 22
+    }
+  },
+  {
+    "step": "legacy historical anchor reveals Triton",
+    "pass": true,
+    "state": {
+      "selected": [
+        "triton",
+        "triton",
+        "triton",
+        "triton",
+        "triton"
+      ],
+      "stored": "tilelang",
+      "labels": 10
+    }
+  }
+]

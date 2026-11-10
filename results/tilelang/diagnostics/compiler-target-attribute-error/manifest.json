@@ -1,0 +1,226 @@
+{
+  "schema_version": 1,
+  "status": "failed",
+  "created_utc": "2026-11-05T13:49:35.977552+00:00",
+  "purpose": "compiler evidence; selected public operations launch once, without numerical or timing claims",
+  "target": {
+    "kind": "cuda",
+    "arch": "sm_120",
+    "compute_capability": [
+      12,
+      0
+    ]
+  },
+  "device": {
+    "index": 0,
+    "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+    "sm_count": 26,
+    "total_memory_bytes": 8055947264
+  },
+  "packages": {
+    "tilelang": "0.1.15",
+    "apache-tvm-ffi": "0.1.12",
+    "torch": "2.12.1",
+    "triton": "3.7.1",
+    "numpy": "2.5.0"
+  },
+  "python": "3.13.13 | packaged by Anaconda, Inc. | (main, Apr 14 2026, 06:19:41) [GCC 14.3.0]",
+  "platform": "Linux-7.0.0-42-generic-x86_64-with-glibc2.43",
+  "torch_cuda_build": "13.0",
+  "source_sha256": {
+    "scripts/export_tilelang.py": "41a57c892b21e515394e175b97c0c4c92a9932849276b1fac85c8b2b45886ada",
+    "pyproject.toml": "48c14bc7e1b17f050ad1d68f77f8cd687c9f8949d2462a6b8121a876866d0a52",
+    "src/fa5060/tilelang/__init__.py": "35f081a2cc70c29a8ba689bb4fde4a70a674d8d930604b382ab360507a1f2a4a",
+    "src/fa5060/tilelang/fundamentals.py": "0d6a97788365a5765fe0fe186bdaffd9c21733b390e64bd65556bfd9d1a5eddd",
+    "src/fa5060/tilelang/attention.py": "24713e15f2ab93c09fd471ea0ae0338e585e9da40f8a654e589b9e796b1c617b",
+    "src/fa5060/tilelang/_contracts.py": "6599c97581a622266e871a4542d8a4c1610694eb3fa9a480fc2dbb9c95b80d24",
+    "src/fa5060/_workspace.py": "afac44fb2ee4a30b41ca801cca17ac78cb3ed6bfee16ef214699d6b1436ae883",
+    "src/fa5060/probe.py": "c766bb1adc56913d46dce32dad62ab8792c8ad389faeb7f999409f595da5cb89"
+  },
+  "environment": {
+    "schema_version": 1,
+    "timestamp_utc": "2026-11-05T13:49:35.986747+00:00",
+    "python": {
+      "version": "3.13.13",
+      "sys_version": "3.13.13 | packaged by Anaconda, Inc. | (main, Apr 14 2026, 06:19:41) [GCC 14.3.0]",
+      "implementation": "CPython",
+      "compiler": "GCC 14.3.0",
+      "executable": "/home/justi/Workspace/cuda/fa/.venv-tilelang/bin/python"
+    },
+    "platform": {
+      "system": "Linux",
+      "release": "7.0.0-42-generic",
+      "machine": "x86_64",
+      "description": "Linux-7.0.0-42-generic-x86_64-with-glibc2.43"
+    },
+    "packages": {
+      "modern-gpu-programming-5060": "0.1.0",
+      "numpy": "2.5.0",
+      "torch": "2.12.1",
+      "triton": "3.7.1",
+      "tilelang": "0.1.15",
+      "apache-tvm-ffi": "0.1.12",
+      "flashinfer-python": "0.7.2.post1",
+      "flash-attn-4": "4.0.0b37",
+      "flash-attn": null
+    },
+    "cuda_build": "13.0",
+    "cuda_available": true,
+    "gpus": [
+      {
+        "index": 0,
+        "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+        "compute_capability": [
+          12,
+          0
+        ],
+        "sm_count": 26,
+        "total_memory_bytes": 8055947264,
+        "l2_cache_bytes": 33554432,
+        "shared_memory_per_block_bytes": 49152,
+        "shared_memory_per_block_optin_bytes": 101376,
+        "shared_memory_per_sm_bytes": 102400,
+        "warp_size": 32,
+        "max_threads_per_block": 1024
+      }
+    ],
+    "gpu_unavailable_reason": null,
+    "nvidia_smi": {
+      "available": true,
+      "devices": [
+        {
+          "index": 0,
+          "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+          "driver_version": "595.99.02",
+          "performance_state": "P2",
+          "power_draw_watts": 11.85,
+          "power_limit_watts": null,
+          "sm_clock_mhz": 1582,
+          "memory_clock_mhz": 9001,
+          "temperature_celsius": 45
+        }
+      ],
+      "error": null
+    },
+    "compiler": {
+      "nvcc": {
+        "available": true,
+        "output": "nvcc: NVIDIA (R) Cuda compiler driver\nCopyright (c) 2005-2025 NVIDIA Corporation\nBuilt on Tue_Dec_16_07:23:41_PM_PST_2025\nCuda compilation tools, release 13.1, V13.1.115\nBuild cuda_13.1.r13.1/compiler.37061995_0",
+        "returncode": 0,
+        "error": null
+      },
+      "ptxas": {
+        "available": true,
+        "output": "ptxas: NVIDIA (R) Ptx optimizing assembler\nCopyright (c) 2005-2025 NVIDIA Corporation\nBuilt on Tue_Dec_16_07:22:11_PM_PST_2025\nCuda compilation tools, release 13.1, V13.1.115\nBuild cuda_13.1.r13.1/compiler.37061995_0",
+        "returncode": 0,
+        "error": null
+      },
+      "triton_version": "3.7.1",
+      "tilelang_version": "0.1.15",
+      "apache_tvm_ffi_version": "0.1.12",
+      "sources": {
+        "triton": null,
+        "tilelang": null,
+        "apache-tvm-ffi": null
+      }
+    }
+  },
+  "reference_tilelang_source_commit": "a35f8ddf45eba16c21211ec8822d56ce5363036f",
+  "reference_commit_note": "Reference attribution, not an assertion of the installed wheel's VCS commit; installed provenance is recorded by the environment probe.",
+  "private_interfaces": [
+    "project fundamentals._compile/attention._compile hooks and factory cache_clear",
+    "TileLang 0.1.15 JITKernel._get_ptx, compile_flags/pass_configs",
+    "tilelang.contrib.nvcc.default_compile_options/compile_cuda"
+  ],
+  "tools": {
+    "nvcc": {
+      "path": "/usr/local/cuda-13.1/bin/nvcc",
+      "version": "nvcc: NVIDIA (R) Cuda compiler driver\nCopyright (c) 2005-2025 NVIDIA Corporation\nBuilt on Tue_Dec_16_07:23:41_PM_PST_2025\nCuda compilation tools, release 13.1, V13.1.115\nBuild cuda_13.1.r13.1/compiler.37061995_0\n"
+    },
+    "ptxas": {
+      "path": "/usr/local/cuda-13.1/bin/ptxas",
+      "version": "ptxas: NVIDIA (R) Ptx optimizing assembler\nCopyright (c) 2005-2025 NVIDIA Corporation\nBuilt on Tue_Dec_16_07:22:11_PM_PST_2025\nCuda compilation tools, release 13.1, V13.1.115\nBuild cuda_13.1.r13.1/compiler.37061995_0\n"
+    },
+    "cuobjdump": {
+      "path": "/usr/local/cuda-13.1/bin/cuobjdump",
+      "version": "cuobjdump: NVIDIA (R) fat binary listing tool\nCopyright (c) 2005-2025 NVIDIA Corporation\nBuilt on Tue_Dec_16_07:23:41_PM_PST_2025\nCuda compilation tools, release 13.1, V13.1.115\nBuild cuda_13.1.r13.1/compiler.37061995_0\n"
+    }
+  },
+  "seed": 20261105,
+  "dtype": "fp16",
+  "requested_cases": [
+    "gemm_tiled",
+    "gemm_pipelined",
+    "gemm_persistent",
+    "prefill_pointer",
+    "prefill_tma",
+    "decode_vector_split",
+    "decode_grouped_split"
+  ],
+  "binary_policy": "Only text/JSON are published; resource CUBINs are temporary and deleted.",
+  "cases": [
+    {
+      "public_api": "fa5060.tilelang.matmul",
+      "variant": "tiled",
+      "config": {
+        "tile_m": 32,
+        "tile_n": 64,
+        "tile_k": 32,
+        "num_warps": 4,
+        "num_stages": 1
+      },
+      "inputs": {
+        "a": {
+          "shape": [
+            512,
+            1024
+          ],
+          "stride": [
+            1024,
+            1
+          ],
+          "dtype": "torch.float16",
+          "device": "cuda:0"
+        },
+        "b": {
+          "shape": [
+            1024,
+            512
+          ],
+          "stride": [
+            512,
+            1
+          ],
+          "dtype": "torch.float16",
+          "device": "cuda:0"
+        }
+      },
+      "output": {
+        "shape": [
+          512,
+          512
+        ],
+        "stride": [
+          512,
+          1
+        ],
+        "dtype": "torch.float16",
+        "device": "cuda:0"
+      },
+      "expected_compilations": 1,
+      "name": "gemm_tiled",
+      "launch_completed": true,
+      "correctness_validated": false,
+      "kernels": []
+    }
+  ],
+  "git_commit": "6e89f7e0f5478c712f957a8b564d5f7aa24c1b3a",
+  "installed_export_source_sha256": {
+    "tilelang.contrib.nvcc": "f4e10b6c9a2ff6410c44d085676d62aaa5c1c160bc1b7e1616cb0023b278b297"
+  },
+  "failed_case": "gemm_tiled",
+  "error": {
+    "type": "AttributeError",
+    "message": "'Target' object has no attribute 'arch'"
+  }
+}

@@ -205,7 +205,11 @@ occupancy 是活跃 warp 相对硬件上限的比例，不是计算单元利用�
 ::::{tab-item} TileLang
 :sync: tilelang
 
-本章的 TileLang 对应实验由 `--backend tilelang` 生成；读者结果保存在 `results/local/tilelang/`，本次发布证据位于 `results/tilelang/`。当前发布的实际状态和可下载证据见{doc}`15-results`；没有对应文件或成功记录时，保留“待测”，不引用历史 Triton 时间。
+{download}`basics.json <../results/tilelang/basics.json>` 中的 FP32 向量加法使用默认 `block=1024`、128 threads/CTA。长度 100003 需要 98 个 CTA，末 CTA 只有 675 个有效元素；实测与 `torch.add` 逐元素一致，最大误差 **0**，TileLang/PyTorch 中位时间为 **17.872/8.032 μs**。长度 1048576 对应 1024 个 CTA，同样误差为 0，时间为 **53.712/25.872 μs**。
+
+这使尾部保护与网格扩展都有了实际输入证据；时间随规模增长，但不能由这两个公开调用时间反推出 warp 指令延迟或占用率。
+
+计时为同环境 eager CUDA events，预热 3 次、采样 10 次取中位数；公开调用包含输出分配，并可能计入主机提交间隙。PyTorch 为同 dtype 的逐记录对照，不与历史 Triton 图内时间相除。这些是教学测量，完整性能状态见{doc}`15-results`。
 
 ::::
 

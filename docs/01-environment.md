@@ -17,6 +17,10 @@ GPU 编程的第一步不是选一个很大的 tile，而是确认程序实际�
 
 TileLang 的 Python 工厂先根据 shape、dtype、stride 与配置构造 `T.prim_func`，JIT 再把 tile 程序降低为设备代码并构建调用器。首次调用可能包含编译、加载模块与初始化；已有较新的 `nvcc` 也不能证明这一组 TileLang、TVM-FFI 与 SM120 目标可以工作。运行 PyTorch wheel 与编译 TileLang CUDA 代码使用的工具链职责不同，出现错误时分别检查驱动、wheel runtime 和本机 Toolkit。
 
+**本机实验观察。** 2026-11-05 的{download}`环境探针 <../results/tilelang/environment.json>`实际识别到 **RTX 5060 Laptop GPU、SM120（12.0）、26 个 SM**，显存 8,055,947,264 B、L2 32 MiB、warp 32 threads。每 CTA 默认共享内存上限 48 KiB，opt-in 上限 101,376 B，每 SM 为 100 KiB；这些设备限额不能替代单个 kernel 的资源报告。
+
+本次运行采用 Python 3.13.13、PyTorch 2.12.1（CUDA build 13.0）、TileLang 0.1.15、TVM-FFI 0.1.12；驱动 595.99.02，`nvcc`/`ptxas` 为 13.1.115。PyTorch 的构建版本和本地 CUDA 编译工具版本是不同字段。探针瞬时 GPU 时钟为 472 MHz，而 GEMM 实验环境快照为 1777 MHz，说明空闲快照不能代表计时期间频率。各实验 JSON 自带环境，教学结果和完整性能验证状态见{doc}`15-results`。
+
 ::::
 
 ::::{tab-item} Triton

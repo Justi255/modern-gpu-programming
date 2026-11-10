@@ -482,7 +482,16 @@ Triton 的公开语言与教程见 [Triton documentation](https://triton-lang.or
 ::::{tab-item} TileLang
 :sync: tilelang
 
-本章的 TileLang 对应实验由 `--backend tilelang` 生成；读者结果保存在 `results/local/tilelang/`，本次发布证据位于 `results/tilelang/`。当前发布的实际状态和可下载证据见{doc}`15-results`；没有对应文件或成功记录时，保留“待测”，不引用历史 Triton 时间。
+2026-11-08 的{download}`compiler/manifest.json <../results/tilelang/compiler/manifest.json>`已完成 **7 次公开调用、9 个真实 kernel** 的导出，目标均为 `sm_120`：三种 GEMM、pointer/TMA prefill，以及各自包含 main+merge 的 vector/grouped split decode。导出保存原始 TIR、生成 CUDA、PTX 和资源文本；每项均实际 launch，但 manifest 明确 `correctness_validated=false`，这里不把编译导出当作数值测试。
+
+| kernel | REG/thread | 静态 SHARED B | PTX 观察 |
+|---|---:|---:|---|
+| GEMM tiled / pipelined / persistent | 120 / 78 / 112 | 各 1024 | 均有 `mma.sync` |
+| prefill pointer / TMA | 93 / 157 | 1024 / 2048 | 均有 `mma.sync`；仅后者有 TMA load |
+| decode vector main / merge | 167 / 21 | 各 1024 | 无 `mma.sync` |
+| decode grouped main / merge | 71 / 21 | 各 1024 | 仅 main 有 `mma.sync` |
+
+这 9 份 PTX 均未出现 `tcgen05`。资源值来自**按实际生成 CUDA、相同选项重编译的临时 CUBIN**再运行 `cuobjdump`，不是从已加载 FFI 模块直接提取。表中 SHARED 仅为静态分配，**不含 launch 的动态共享内存**；不能用它当总 SMEM，也不能仅凭 REG/SHARED 推断占用率、访存重叠或 Nsight 停顿。导出配置、哈希与限制见{download}`证据说明 <../results/tilelang/compiler/README.md>`；教学数值与完整性能状态见{doc}`15-results`。
 
 ::::
 

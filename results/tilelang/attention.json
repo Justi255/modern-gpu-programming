@@ -1,0 +1,771 @@
+{
+  "schema_version": 1,
+  "suite": "attention",
+  "seed": 20261102,
+  "backend": "tilelang",
+  "backend_packages": {
+    "tilelang": "0.1.15",
+    "apache-tvm-ffi": "0.1.12"
+  },
+  "configuration_mode": "public_default",
+  "environment": {
+    "schema_version": 1,
+    "timestamp_utc": "2026-11-05T13:49:10.812545+00:00",
+    "python": {
+      "version": "3.13.13",
+      "sys_version": "3.13.13 | packaged by Anaconda, Inc. | (main, Apr 14 2026, 06:19:41) [GCC 14.3.0]",
+      "implementation": "CPython",
+      "compiler": "GCC 14.3.0",
+      "executable": "/home/justi/Workspace/cuda/fa/.venv-tilelang/bin/python"
+    },
+    "platform": {
+      "system": "Linux",
+      "release": "7.0.0-42-generic",
+      "machine": "x86_64",
+      "description": "Linux-7.0.0-42-generic-x86_64-with-glibc2.43"
+    },
+    "packages": {
+      "modern-gpu-programming-5060": "0.1.0",
+      "numpy": "2.5.0",
+      "torch": "2.12.1",
+      "triton": "3.7.1",
+      "tilelang": "0.1.15",
+      "apache-tvm-ffi": "0.1.12",
+      "flashinfer-python": "0.7.2.post1",
+      "flash-attn-4": "4.0.0b37",
+      "flash-attn": null
+    },
+    "cuda_build": "13.0",
+    "cuda_available": true,
+    "gpus": [
+      {
+        "index": 0,
+        "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+        "compute_capability": [
+          12,
+          0
+        ],
+        "sm_count": 26,
+        "total_memory_bytes": 8055947264,
+        "l2_cache_bytes": 33554432,
+        "shared_memory_per_block_bytes": 49152,
+        "shared_memory_per_block_optin_bytes": 101376,
+        "shared_memory_per_sm_bytes": 102400,
+        "warp_size": 32,
+        "max_threads_per_block": 1024
+      }
+    ],
+    "gpu_unavailable_reason": null,
+    "nvidia_smi": {
+      "available": true,
+      "devices": [
+        {
+          "index": 0,
+          "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+          "driver_version": "595.99.02",
+          "performance_state": "P2",
+          "power_draw_watts": 13.23,
+          "power_limit_watts": null,
+          "sm_clock_mhz": 1650,
+          "memory_clock_mhz": 11001,
+          "temperature_celsius": 46
+        }
+      ],
+      "error": null
+    },
+    "compiler": {
+      "nvcc": {
+        "available": true,
+        "output": "nvcc: NVIDIA (R) Cuda compiler driver\nCopyright (c) 2005-2025 NVIDIA Corporation\nBuilt on Tue_Dec_16_07:23:41_PM_PST_2025\nCuda compilation tools, release 13.1, V13.1.115\nBuild cuda_13.1.r13.1/compiler.37061995_0",
+        "returncode": 0,
+        "error": null
+      },
+      "ptxas": {
+        "available": true,
+        "output": "ptxas: NVIDIA (R) Ptx optimizing assembler\nCopyright (c) 2005-2025 NVIDIA Corporation\nBuilt on Tue_Dec_16_07:22:11_PM_PST_2025\nCuda compilation tools, release 13.1, V13.1.115\nBuild cuda_13.1.r13.1/compiler.37061995_0",
+        "returncode": 0,
+        "error": null
+      },
+      "triton_version": "3.7.1",
+      "tilelang_version": "0.1.15",
+      "apache_tvm_ffi_version": "0.1.12",
+      "sources": {
+        "triton": null,
+        "tilelang": null,
+        "apache-tvm-ffi": null
+      }
+    }
+  },
+  "records": [
+    {
+      "name": "attention/prefill/dense",
+      "inputs": {
+        "q_shape": [
+          3,
+          17,
+          4,
+          64
+        ],
+        "kv_shape": [
+          3,
+          80,
+          2,
+          64
+        ],
+        "dtype": "float16",
+        "layout": "dense",
+        "kv_lens": [
+          79,
+          53,
+          0
+        ],
+        "page_size": null,
+        "block_table_shape": null,
+        "causal": true,
+        "num_splits": null
+      },
+      "backend": "tilelang",
+      "startup": {
+        "first_call_wall_ms": 2556.230732,
+        "scope": "synchronized wall time including JIT on cache miss; excluded from steady-state samples"
+      },
+      "provider": {
+        "name": "fa5060/TileLang",
+        "backend": "tilelang",
+        "package_versions": {
+          "tilelang": "0.1.15",
+          "apache-tvm-ffi": "0.1.12"
+        },
+        "version": "0.1.0",
+        "triton_version": "3.7.1"
+      },
+      "reference": {
+        "name": "fa5060.reference.attention_reference blockwise fp32",
+        "torch_version": "2.12.1"
+      },
+      "correctness": {
+        "passed": true,
+        "rtol": 0.01,
+        "atol": 0.01,
+        "max_error": 0.00048828125,
+        "rms_relative_error": 0.00027920498095900366
+      },
+      "max_error": 0.00048828125,
+      "latency_ms": 0.023856000043451786,
+      "timing": {
+        "clock": "CUDA events on the current stream",
+        "mode": "eager",
+        "warmup": 3,
+        "repetitions": 10,
+        "warmup_wall_ms": 0.196662,
+        "summary": "median",
+        "median_ms": 0.023856000043451786,
+        "samples_ms": [
+          0.040832001715898514,
+          0.029152000322937965,
+          0.02521600015461445,
+          0.022655999287962914,
+          0.02611199952661991,
+          0.023423999547958374,
+          0.022207999601960182,
+          0.024288000538945198,
+          0.02223999984562397,
+          0.020927999168634415
+        ]
+      },
+      "timing_scope": "eager attention call; preallocated output and decode workspace; no cache update",
+      "baseline_provider": null,
+      "baseline_correctness": null,
+      "baseline_latency_ms": null,
+      "baseline_timing": null
+    },
+    {
+      "name": "attention/decode/dense",
+      "inputs": {
+        "q_shape": [
+          3,
+          4,
+          64
+        ],
+        "kv_shape": [
+          3,
+          80,
+          2,
+          64
+        ],
+        "dtype": "float16",
+        "layout": "dense",
+        "kv_lens": [
+          79,
+          53,
+          0
+        ],
+        "page_size": null,
+        "block_table_shape": null,
+        "causal": false,
+        "num_splits": 2
+      },
+      "backend": "tilelang",
+      "startup": {
+        "first_call_wall_ms": 2861.981246,
+        "scope": "synchronized wall time including JIT on cache miss; excluded from steady-state samples"
+      },
+      "provider": {
+        "name": "fa5060/TileLang",
+        "backend": "tilelang",
+        "package_versions": {
+          "tilelang": "0.1.15",
+          "apache-tvm-ffi": "0.1.12"
+        },
+        "version": "0.1.0",
+        "triton_version": "3.7.1"
+      },
+      "reference": {
+        "name": "fa5060.reference.attention_reference blockwise fp32",
+        "torch_version": "2.12.1"
+      },
+      "correctness": {
+        "passed": true,
+        "rtol": 0.01,
+        "atol": 0.01,
+        "max_error": 6.103515625e-05,
+        "rms_relative_error": 1.2915599523064423e-05
+      },
+      "max_error": 6.103515625e-05,
+      "latency_ms": 0.12998399883508682,
+      "timing": {
+        "clock": "CUDA events on the current stream",
+        "mode": "eager",
+        "warmup": 3,
+        "repetitions": 10,
+        "warmup_wall_ms": 0.520145,
+        "summary": "median",
+        "median_ms": 0.12998399883508682,
+        "samples_ms": [
+          0.15065599977970123,
+          0.138047993183136,
+          0.13120000064373016,
+          0.12876799702644348,
+          0.12691199779510498,
+          0.1356479972600937,
+          0.1287039965391159,
+          0.1287360042333603,
+          0.12851199507713318,
+          0.4282880127429962
+        ]
+      },
+      "timing_scope": "eager attention call; preallocated output and decode workspace; no cache update",
+      "baseline_provider": null,
+      "baseline_correctness": null,
+      "baseline_latency_ms": null,
+      "baseline_timing": null
+    },
+    {
+      "name": "attention/prefill/paged",
+      "inputs": {
+        "q_shape": [
+          3,
+          17,
+          4,
+          64
+        ],
+        "kv_shape": [
+          15,
+          16,
+          2,
+          64
+        ],
+        "dtype": "float16",
+        "layout": "paged",
+        "kv_lens": [
+          79,
+          53,
+          0
+        ],
+        "page_size": 16,
+        "block_table_shape": [
+          3,
+          5
+        ],
+        "causal": true,
+        "num_splits": null
+      },
+      "backend": "tilelang",
+      "startup": {
+        "first_call_wall_ms": 2603.470841,
+        "scope": "synchronized wall time including JIT on cache miss; excluded from steady-state samples"
+      },
+      "provider": {
+        "name": "fa5060/TileLang",
+        "backend": "tilelang",
+        "package_versions": {
+          "tilelang": "0.1.15",
+          "apache-tvm-ffi": "0.1.12"
+        },
+        "version": "0.1.0",
+        "triton_version": "3.7.1"
+      },
+      "reference": {
+        "name": "fa5060.reference.attention_reference blockwise fp32",
+        "torch_version": "2.12.1"
+      },
+      "correctness": {
+        "passed": true,
+        "rtol": 0.01,
+        "atol": 0.01,
+        "max_error": 0.00048828125,
+        "rms_relative_error": 0.00027920498095900366
+      },
+      "max_error": 0.00048828125,
+      "latency_ms": 0.0713759995996952,
+      "timing": {
+        "clock": "CUDA events on the current stream",
+        "mode": "eager",
+        "warmup": 3,
+        "repetitions": 10,
+        "warmup_wall_ms": 0.235355,
+        "summary": "median",
+        "median_ms": 0.0713759995996952,
+        "samples_ms": [
+          0.09196799993515015,
+          0.04831999912858009,
+          0.07513599842786789,
+          0.0727040022611618,
+          0.0713919997215271,
+          0.07135999947786331,
+          0.07887999713420868,
+          0.06812799721956253,
+          0.05135999992489815,
+          0.06985600292682648
+        ]
+      },
+      "timing_scope": "eager attention call; preallocated output and decode workspace; no cache update",
+      "baseline_provider": null,
+      "baseline_correctness": null,
+      "baseline_latency_ms": null,
+      "baseline_timing": null
+    },
+    {
+      "name": "attention/decode/paged",
+      "inputs": {
+        "q_shape": [
+          3,
+          4,
+          64
+        ],
+        "kv_shape": [
+          15,
+          16,
+          2,
+          64
+        ],
+        "dtype": "float16",
+        "layout": "paged",
+        "kv_lens": [
+          79,
+          53,
+          0
+        ],
+        "page_size": 16,
+        "block_table_shape": [
+          3,
+          5
+        ],
+        "causal": false,
+        "num_splits": 2
+      },
+      "backend": "tilelang",
+      "startup": {
+        "first_call_wall_ms": 1918.45949,
+        "scope": "synchronized wall time including JIT on cache miss; excluded from steady-state samples"
+      },
+      "provider": {
+        "name": "fa5060/TileLang",
+        "backend": "tilelang",
+        "package_versions": {
+          "tilelang": "0.1.15",
+          "apache-tvm-ffi": "0.1.12"
+        },
+        "version": "0.1.0",
+        "triton_version": "3.7.1"
+      },
+      "reference": {
+        "name": "fa5060.reference.attention_reference blockwise fp32",
+        "torch_version": "2.12.1"
+      },
+      "correctness": {
+        "passed": true,
+        "rtol": 0.01,
+        "atol": 0.01,
+        "max_error": 6.103515625e-05,
+        "rms_relative_error": 1.2915599523064423e-05
+      },
+      "max_error": 6.103515625e-05,
+      "latency_ms": 0.13283199816942215,
+      "timing": {
+        "clock": "CUDA events on the current stream",
+        "mode": "eager",
+        "warmup": 3,
+        "repetitions": 10,
+        "warmup_wall_ms": 0.501889,
+        "summary": "median",
+        "median_ms": 0.13283199816942215,
+        "samples_ms": [
+          0.1594880074262619,
+          0.13964800536632538,
+          0.13449600338935852,
+          0.13180799782276154,
+          0.1292479932308197,
+          0.1303360015153885,
+          0.1369599997997284,
+          0.13228799402713776,
+          0.13337600231170654,
+          0.11980800330638885
+        ]
+      },
+      "timing_scope": "eager attention call; preallocated output and decode workspace; no cache update",
+      "baseline_provider": null,
+      "baseline_correctness": null,
+      "baseline_latency_ms": null,
+      "baseline_timing": null
+    },
+    {
+      "name": "attention/prefill/dense",
+      "inputs": {
+        "q_shape": [
+          3,
+          17,
+          4,
+          128
+        ],
+        "kv_shape": [
+          3,
+          80,
+          2,
+          128
+        ],
+        "dtype": "bfloat16",
+        "layout": "dense",
+        "kv_lens": [
+          79,
+          53,
+          0
+        ],
+        "page_size": null,
+        "block_table_shape": null,
+        "causal": true,
+        "num_splits": null
+      },
+      "backend": "tilelang",
+      "startup": {
+        "first_call_wall_ms": 4212.005114,
+        "scope": "synchronized wall time including JIT on cache miss; excluded from steady-state samples"
+      },
+      "provider": {
+        "name": "fa5060/TileLang",
+        "backend": "tilelang",
+        "package_versions": {
+          "tilelang": "0.1.15",
+          "apache-tvm-ffi": "0.1.12"
+        },
+        "version": "0.1.0",
+        "triton_version": "3.7.1"
+      },
+      "reference": {
+        "name": "fa5060.reference.attention_reference blockwise fp32",
+        "torch_version": "2.12.1"
+      },
+      "correctness": {
+        "passed": true,
+        "rtol": 0.03,
+        "atol": 0.03,
+        "max_error": 0.00390625,
+        "rms_relative_error": 0.002247555821116987
+      },
+      "max_error": 0.00390625,
+      "latency_ms": 0.06704000011086464,
+      "timing": {
+        "clock": "CUDA events on the current stream",
+        "mode": "eager",
+        "warmup": 3,
+        "repetitions": 10,
+        "warmup_wall_ms": 0.299874,
+        "summary": "median",
+        "median_ms": 0.06704000011086464,
+        "samples_ms": [
+          0.07135999947786331,
+          0.030719999223947525,
+          0.046720001846551895,
+          0.0695360004901886,
+          0.06803199648857117,
+          0.06752000004053116,
+          0.06656000018119812,
+          0.06921599805355072,
+          0.06656000018119812,
+          0.06604799628257751
+        ]
+      },
+      "timing_scope": "eager attention call; preallocated output and decode workspace; no cache update",
+      "baseline_provider": null,
+      "baseline_correctness": null,
+      "baseline_latency_ms": null,
+      "baseline_timing": null
+    },
+    {
+      "name": "attention/decode/dense",
+      "inputs": {
+        "q_shape": [
+          3,
+          4,
+          128
+        ],
+        "kv_shape": [
+          3,
+          80,
+          2,
+          128
+        ],
+        "dtype": "bfloat16",
+        "layout": "dense",
+        "kv_lens": [
+          79,
+          53,
+          0
+        ],
+        "page_size": null,
+        "block_table_shape": null,
+        "causal": false,
+        "num_splits": 2
+      },
+      "backend": "tilelang",
+      "startup": {
+        "first_call_wall_ms": 2744.129311,
+        "scope": "synchronized wall time including JIT on cache miss; excluded from steady-state samples"
+      },
+      "provider": {
+        "name": "fa5060/TileLang",
+        "backend": "tilelang",
+        "package_versions": {
+          "tilelang": "0.1.15",
+          "apache-tvm-ffi": "0.1.12"
+        },
+        "version": "0.1.0",
+        "triton_version": "3.7.1"
+      },
+      "reference": {
+        "name": "fa5060.reference.attention_reference blockwise fp32",
+        "torch_version": "2.12.1"
+      },
+      "correctness": {
+        "passed": true,
+        "rtol": 0.03,
+        "atol": 0.03,
+        "max_error": 0.0,
+        "rms_relative_error": 0.0
+      },
+      "max_error": 0.0,
+      "latency_ms": 0.1175839975476265,
+      "timing": {
+        "clock": "CUDA events on the current stream",
+        "mode": "eager",
+        "warmup": 3,
+        "repetitions": 10,
+        "warmup_wall_ms": 0.514023,
+        "summary": "median",
+        "median_ms": 0.1175839975476265,
+        "samples_ms": [
+          0.1528960019350052,
+          0.15427200496196747,
+          0.13580800592899323,
+          0.1263040006160736,
+          0.11177600175142288,
+          0.11318399757146835,
+          0.1125119999051094,
+          0.11203200370073318,
+          0.12198399752378464,
+          0.11270400136709213
+        ]
+      },
+      "timing_scope": "eager attention call; preallocated output and decode workspace; no cache update",
+      "baseline_provider": null,
+      "baseline_correctness": null,
+      "baseline_latency_ms": null,
+      "baseline_timing": null
+    },
+    {
+      "name": "attention/prefill/paged",
+      "inputs": {
+        "q_shape": [
+          3,
+          17,
+          4,
+          128
+        ],
+        "kv_shape": [
+          15,
+          16,
+          2,
+          128
+        ],
+        "dtype": "bfloat16",
+        "layout": "paged",
+        "kv_lens": [
+          79,
+          53,
+          0
+        ],
+        "page_size": 16,
+        "block_table_shape": [
+          3,
+          5
+        ],
+        "causal": true,
+        "num_splits": null
+      },
+      "backend": "tilelang",
+      "startup": {
+        "first_call_wall_ms": 3632.701014,
+        "scope": "synchronized wall time including JIT on cache miss; excluded from steady-state samples"
+      },
+      "provider": {
+        "name": "fa5060/TileLang",
+        "backend": "tilelang",
+        "package_versions": {
+          "tilelang": "0.1.15",
+          "apache-tvm-ffi": "0.1.12"
+        },
+        "version": "0.1.0",
+        "triton_version": "3.7.1"
+      },
+      "reference": {
+        "name": "fa5060.reference.attention_reference blockwise fp32",
+        "torch_version": "2.12.1"
+      },
+      "correctness": {
+        "passed": true,
+        "rtol": 0.03,
+        "atol": 0.03,
+        "max_error": 0.00390625,
+        "rms_relative_error": 0.002247555821116987
+      },
+      "max_error": 0.00390625,
+      "latency_ms": 0.07062399759888649,
+      "timing": {
+        "clock": "CUDA events on the current stream",
+        "mode": "eager",
+        "warmup": 3,
+        "repetitions": 10,
+        "warmup_wall_ms": 0.290346,
+        "summary": "median",
+        "median_ms": 0.07062399759888649,
+        "samples_ms": [
+          0.08959999680519104,
+          0.08463999629020691,
+          0.07212799787521362,
+          0.03171199932694435,
+          0.03548799827694893,
+          0.07119999825954437,
+          0.07004799693822861,
+          0.07161600142717361,
+          0.06185600161552429,
+          0.061055999249219894
+        ]
+      },
+      "timing_scope": "eager attention call; preallocated output and decode workspace; no cache update",
+      "baseline_provider": null,
+      "baseline_correctness": null,
+      "baseline_latency_ms": null,
+      "baseline_timing": null
+    },
+    {
+      "name": "attention/decode/paged",
+      "inputs": {
+        "q_shape": [
+          3,
+          4,
+          128
+        ],
+        "kv_shape": [
+          15,
+          16,
+          2,
+          128
+        ],
+        "dtype": "bfloat16",
+        "layout": "paged",
+        "kv_lens": [
+          79,
+          53,
+          0
+        ],
+        "page_size": 16,
+        "block_table_shape": [
+          3,
+          5
+        ],
+        "causal": false,
+        "num_splits": 2
+      },
+      "backend": "tilelang",
+      "startup": {
+        "first_call_wall_ms": 1694.034523,
+        "scope": "synchronized wall time including JIT on cache miss; excluded from steady-state samples"
+      },
+      "provider": {
+        "name": "fa5060/TileLang",
+        "backend": "tilelang",
+        "package_versions": {
+          "tilelang": "0.1.15",
+          "apache-tvm-ffi": "0.1.12"
+        },
+        "version": "0.1.0",
+        "triton_version": "3.7.1"
+      },
+      "reference": {
+        "name": "fa5060.reference.attention_reference blockwise fp32",
+        "torch_version": "2.12.1"
+      },
+      "correctness": {
+        "passed": true,
+        "rtol": 0.03,
+        "atol": 0.03,
+        "max_error": 0.0,
+        "rms_relative_error": 0.0
+      },
+      "max_error": 0.0,
+      "latency_ms": 0.12089600041508675,
+      "timing": {
+        "clock": "CUDA events on the current stream",
+        "mode": "eager",
+        "warmup": 3,
+        "repetitions": 10,
+        "warmup_wall_ms": 0.457965,
+        "summary": "median",
+        "median_ms": 0.12089600041508675,
+        "samples_ms": [
+          0.14732800424098969,
+          0.12783999741077423,
+          0.12412799894809723,
+          0.12227199971675873,
+          0.12083200365304947,
+          0.12095999717712402,
+          0.10940799862146378,
+          0.09033600240945816,
+          0.08515200018882751,
+          0.08582399785518646
+        ]
+      },
+      "timing_scope": "eager attention call; preallocated output and decode workspace; no cache update",
+      "baseline_provider": null,
+      "baseline_correctness": null,
+      "baseline_latency_ms": null,
+      "baseline_timing": null
+    }
+  ],
+  "notes": [
+    "Numerical checks precede all timing; latency_ms is a median of 10 CUDA-event samples.",
+    "Teaching experiments are not an exhaustive benchmark or SOTA claim.",
+    "FP32 numerical references are separate from same-dtype PyTorch timing baselines.",
+    "Attention has a numerical reference only; no native paged performance baseline is claimed."
+  ]
+}

@@ -138,7 +138,16 @@ speedup 定义为同一工作负载上的 $t_{\rm baseline}/t_{\rm candidate}$�
 ::::{tab-item} TileLang
 :sync: tilelang
 
-本章的 TileLang 对应实验由 `--backend tilelang` 生成；读者结果保存在 `results/local/tilelang/`，本次发布证据位于 `results/tilelang/`。当前发布的实际状态和可下载证据见{doc}`15-results`；没有对应文件或成功记录时，保留“待测”，不引用历史 Triton 时间。
+{download}`basics.json <../results/tilelang/basics.json>` 的 FP32 加法在两种长度上都通过零容差检查：
+
+| 元素数 | TileLang 中位 μs | 同环境 PyTorch 中位 μs | TileLang 首次调用 ms |
+|---:|---:|---:|---:|
+| 100003 | 17.872 | 8.032 | 306.300 |
+| 1048576 | 53.712 | 25.872 | 878.942 |
+
+首次调用是同步墙钟时间，缓存未命中时包含 JIT，已经排除在稳态样本之外。大向量的 10 个 TileLang 样本仍跨 **51.488–80.224 μs**；这提醒我们中位数只是本次分布的摘要。默认配置为 1024 元素/CTA、128 threads，逻辑数据量的增加与提交、分配和频率状态共同影响公开调用时间，不能把它直接换算成纯内核带宽结论。
+
+计时为同环境 eager CUDA events，预热 3 次、采样 10 次取中位数；公开调用包含输出分配，并可能计入主机提交间隙。PyTorch 为同 dtype 的逐记录对照，不与历史 Triton 图内时间相除。这些是教学测量，完整性能状态见{doc}`15-results`。
 
 ::::
 

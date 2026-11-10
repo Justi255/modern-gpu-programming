@@ -168,7 +168,16 @@ GEMM 的输出块相互独立，而注意力在一个查询块内部还维护在
 ::::{tab-item} TileLang
 :sync: tilelang
 
-本章的 TileLang 对应实验由 `--backend tilelang` 生成；读者结果保存在 `results/local/tilelang/`，本次发布证据位于 `results/tilelang/`。当前发布的实际状态和可下载证据见{doc}`15-results`；没有对应文件或成功记录时，保留“待测”，不引用历史 Triton 时间。
+{download}`gemm.json <../results/tilelang/gemm.json>` 的 persistent 配置为 32×64×32、4 warps、3 stages。512³ 有 128 个输出 tile，26-SM 设备上 host 选择 26 个 CTA，CTA 再遍历余下 tile；这是网格策略，不是实际驻留率测量。
+
+| 512³ dtype | persistent μs | 该记录的同 dtype PyTorch μs | tiled μs |
+|---|---:|---:|---:|
+| FP16 | 32.320 | 21.776 | 55.968 |
+| BF16 | 68.336 | 36.688 | 29.328 |
+
+三种变体均通过 FP32 参考，512³ 的 FP16/BF16 最大误差分别为 0.03125/0.249649。persistent 在本次 FP16 更低、BF16 更高，小形状 FP16 的 persistent 更达 64.336 μs，显示该策略没有普遍收益。逐记录 PyTorch 时间也变化，不能据此确定 CTA 遍历是唯一原因。独立 K=1024 编译导出的 persistent REG=112、静态 SHARED=1024 B；后者不包含动态共享分配，不能据此推导总资源或占用率。
+
+计时为同环境 eager CUDA events，预热 3 次、采样 10 次取中位数；公开调用包含输出分配，并可能计入主机提交间隙。PyTorch 为同 dtype 的逐记录对照，不与历史 Triton 图内时间相除。这些是教学测量，完整性能状态见{doc}`15-results`。
 
 ::::
 

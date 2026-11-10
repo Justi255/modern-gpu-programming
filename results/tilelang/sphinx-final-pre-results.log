@@ -1,0 +1,100 @@
+Running Sphinx v8.2.3
+loading translations [zh_CN]... done
+loading pickled environment... The configuration has changed (9 options: 'html_context', 'html_css_files', 'html_js_files', 'html_permalinks_icon', 'html_sourcelink_suffix', ...)
+done
+myst v4.0.1: MdParserConfig(commonmark_only=False, gfm_only=False, enable_extensions={'colon_fence', 'dollarmath', 'amsmath'}, disable_syntax=[], all_links_external=False, links_external_new_tab=False, url_schemes=('http', 'https', 'mailto', 'ftp'), ref_domains=None, fence_as_directive=set(), number_code_blocks=[], title_to_header=False, heading_anchors=3, heading_slug_func=None, html_meta={}, footnote_sort=True, footnote_transition=True, words_per_minute=200, substitutions={}, linkify_fuzzy_links=True, dmath_allow_labels=True, dmath_allow_space=True, dmath_allow_digits=True, dmath_double_inline=False, update_mathjax=True, mathjax_classes='tex2jax_process|mathjax_process|math|output_area', enable_checkboxes=False, suppress_warnings=[], highlight_code_blocks=True)
+building [mo]: targets for 0 po files that are out of date
+writing output... 
+building [html]: targets for 14 source files that are out of date
+updating environment: 0 added, 14 changed, 0 removed
+reading sources... [  7%] 01-environment
+reading sources... [ 14%] 02-execution
+reading sources... [ 21%] 03-performance
+reading sources... [ 29%] 04-memory-layout
+reading sources... [ 36%] 05-tensor-cores
+reading sources... [ 43%] 06-async
+reading sources... [ 50%] 07-triton
+reading sources... [ 57%] 08-triton-layouts
+reading sources... [ 64%] 09-gemm-basics
+reading sources... [ 71%] 10-gemm-pipeline
+reading sources... [ 79%] 11-gemm-advanced
+reading sources... [ 86%] 12-attention
+reading sources... [ 93%] 13-prefill
+reading sources... [100%] 14-decode
+
+looking for now-outdated files... none found
+pickling environment... done
+checking consistency... done
+preparing documents... Building prefix dict from the default dictionary ...
+Loading model from cache /tmp/jieba.cache
+Loading model cost 0.280 seconds.
+Prefix dict has been built successfully.
+done
+copying assets... 
+copying downloadable files... [  5%] ../../results/full-tuned.json
+copying downloadable files... [ 10%] ../../results/cases.csv
+copying downloadable files... [ 15%] ../../results/regressions.csv
+copying downloadable files... [ 20%] ../../results/providers.csv
+copying downloadable files... [ 25%] ../../results/manifest-full.json
+copying downloadable files... [ 30%] ../../results/selected-configs.json
+copying downloadable files... [ 35%] ../../results/full-telemetry.csv
+copying downloadable files... [ 40%] ../../results/provider-sources.json
+copying downloadable files... [ 45%] ../../results/smoke.json
+copying downloadable files... [ 50%] ../../results/basics.json
+copying downloadable files... [ 55%] ../../results/gemm.json
+copying downloadable files... [ 60%] ../../results/attention.json
+copying downloadable files... [ 65%] ../../results/verification.json
+copying downloadable files... [ 70%] ../../results/tilelang/environment.json
+copying downloadable files... [ 75%] ../../results/tilelang/basics.json
+copying downloadable files... [ 80%] ../../results/tilelang/gemm.json
+copying downloadable files... [ 85%] ../../results/tilelang/compiler/gemm_tiled/main/kernel.ptx
+copying downloadable files... [ 90%] ../../results/tilelang/compiler/manifest.json
+copying downloadable files... [ 95%] ../../results/tilelang/compiler/README.md
+copying downloadable files... [100%] ../../results/tilelang/attention.json
+
+copying static files... 
+Writing evaluated template result to /home/justi/Workspace/cuda/fa/_build/html/_static/basic.css
+Writing evaluated template result to /home/justi/Workspace/cuda/fa/_build/html/_static/documentation_options.js
+Writing evaluated template result to /home/justi/Workspace/cuda/fa/_build/html/_static/language_data.js
+Writing evaluated template result to /home/justi/Workspace/cuda/fa/_build/html/_static/copybutton.js
+copying static files: done
+copying extra files... 
+copying extra files: done
+copying assets: done
+writing output... [  7%] 01-environment
+writing output... [ 13%] 02-execution
+writing output... [ 20%] 03-performance
+writing output... [ 27%] 04-memory-layout
+writing output... [ 33%] 05-tensor-cores
+writing output... [ 40%] 06-async
+writing output... [ 47%] 07-triton
+writing output... [ 53%] 08-triton-layouts
+writing output... [ 60%] 09-gemm-basics
+writing output... [ 67%] 10-gemm-pipeline
+writing output... [ 73%] 11-gemm-advanced
+writing output... [ 80%] 12-attention
+writing output... [ 87%] 13-prefill
+writing output... [ 93%] 14-decode
+writing output... [100%] index
+
+generating indices... genindex done
+writing additional pages... search done
+copying images... [  8%] static/foundations-execution.svg
+copying images... [ 15%] static/foundations-roofline.svg
+copying images... [ 23%] static/foundations-layout.svg
+copying images... [ 31%] static/foundations-mma.svg
+copying images... [ 38%] static/foundations-pipeline.svg
+copying images... [ 46%] static/foundations-ownership.svg
+copying images... [ 54%] static/dual-compiler.svg
+copying images... [ 62%] static/kernels-gemm-tiles.svg
+copying images... [ 69%] static/kernels-pipeline.svg
+copying images... [ 77%] static/kernels-persistent.svg
+copying images... [ 85%] static/kernels-online-softmax.svg
+copying images... [ 92%] static/kernels-paged-kv.svg
+copying images... [100%] static/kernels-split-kv.svg
+
+dumping search index in Chinese (code: zh)... done
+dumping object inventory... done
+build succeeded.
+
+The HTML pages are in _build/html.

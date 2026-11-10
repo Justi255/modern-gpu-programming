@@ -442,7 +442,16 @@ TileLang 在 `T.Parallel(BLOCK_M, BLOCK_N)` 中通过 i/j 给出二维逻辑坐�
 ::::{tab-item} TileLang
 :sync: tilelang
 
-本章的 TileLang 对应实验由 `--backend tilelang` 生成；读者结果保存在 `results/local/tilelang/`，本次发布证据位于 `results/tilelang/`。当前发布的实际状态和可下载证据见{doc}`15-results`；没有对应文件或成功记录时，保留“待测”，不引用历史 Triton 时间。
+{download}`basics.json <../results/tilelang/basics.json>` 的 TileLang `row_softmax` 采用 FP32 fragment、每行一个 CTA。下面两组外层跨步输入都使用宽度 1024 的逻辑 tile 和 128 threads：
+
+| shape；stride | 最大绝对误差 | RMS 相对误差 | TileLang / 同环境 PyTorch μs |
+|---|---:|---:|---:|
+| 17×781；(1562,1) | 1.788×10⁻⁷ | 1.005×10⁻⁷ | 20.368 / 15.904 |
+| 128×1024；(2048,1) | 2.980×10⁻⁷ | 1.437×10⁻⁷ | 49.936 / 36.112 |
+
+两组均通过 `rtol=2e-5, atol=2e-6`。781 列的尾部用负无穷参与 max/exp 归约，其误差说明本次尾部与 stride 处理成立；它没有测试宽于 32768 时的在线两遍路径。128 行 PyTorch 样本跨度为 9.536–182.720 μs，不能把这次中位数当作稳定吞吐上限。
+
+计时为同环境 eager CUDA events，预热 3 次、采样 10 次取中位数；公开调用包含输出分配，并可能计入主机提交间隙。PyTorch 为同 dtype 的逐记录对照，不与历史 Triton 图内时间相除。这些是教学测量，完整性能状态见{doc}`15-results`。
 
 ::::
 
