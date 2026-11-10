@@ -1,7 +1,7 @@
 (gemm-basics)=
 # 9. 从矩阵公式到分块 GEMM
 
-矩阵乘法的困难并不在于写出三个循环，而在于让每次搬来的元素参与足够多的运算，同时为 GPU 提供足够多的独立工作。本章把这两个问题分开：先确定一个 Triton program 负责的输出区域，再沿归约轴累计结果。这里的 GEMM 是教学用计算积木，也为注意力中的两次矩阵乘法建立直觉；它不承诺替代 cuBLAS 的全部功能。
+矩阵乘法的困难并不在于写出三个循环，而在于让每次搬来的元素参与足够多的运算，同时为 GPU 提供足够多的独立工作。本章把这两个问题分开：先确定一个 CTA 负责的输出区域，再沿归约轴累计结果。这里的 GEMM 是教学用计算积木，也为注意力中的两次矩阵乘法建立直觉；它不承诺替代 cuBLAS 的全部功能。
 
 ## 9.1 固定数学约定
 
@@ -17,9 +17,42 @@ $$
 
 ## 9.2 一个 program 拥有一个输出块
 
+:::::{tab-set}
+:sync-group: kernel-backend
+
+::::{tab-item} TileLang
+:sync: tilelang
+
+设输出块为 $B_M\times B_N$、归约步长为 $B_K$。TileLang 的 `T.Kernel` 网格决定当前 CTA 的输出块，`T.Parallel` 给出块内下标。无论网格以二维坐标还是展平编号表示，都要验证映射覆盖整个输出、各块互不重写。逻辑循环不等于为每个元素分别执行一次 host launch。
+
+::::
+
+::::{tab-item} Triton
+:sync: triton
+
 设输出块为 $B_M\times B_N$，归约步长为 $B_K$。二维逻辑网格的坐标 $(p_m,p_n)$ 决定当前块左上角 $(p_mB_M,p_nB_N)$。源码把网格压成一维：若 N 方向有 $T_N$ 个块，则编号 p 对应 $p_m=\lfloor p/T_N\rfloor,p_n=p\bmod T_N$。块内部的行、列索引分别来自 `tl.arange`；它们表示逻辑张量中的元素集合，并不是让 Python 逐个创建线程。
 
+::::
+:::::
+
+
+:::::{tab-set}
+:sync-group: kernel-backend
+
+::::{tab-item} TileLang
+:sync: tilelang
+
+每轮从 A 复制 $B_M\times B_K$ 到 shared，从 B 复制 $B_K\times B_N$ 到 shared，`T.gemm` 更新同一 FP32 fragment。`T.clear` 在 K 循环之前执行一次，归约结束后才写回输出。SM120 路径采用 warp MMA 和寄存器累加；shared 是输入协作缓冲，不是 SM100 TMEM。
+
+::::
+
+::::{tab-item} Triton
+:sync: triton
+
 每轮从 $A$ 读取 $B_M\times B_K$，从 $B$ 读取 $B_K\times B_N$，通过 `tl.dot` 更新同一个 fp32 累加器。循环结束后，把结果转换为输出类型并写回。对 SM120，本书追踪的是 Triton 编译器生成的寄存器、共享内存和 warp 级矩阵指令路径。累加器在程序的寄存器状态中，不需要也不能仿照 SM100 教程显式分配 TMEM。
+
+::::
+:::::
 
 ```{figure} static/kernels-gemm-tiles.svg
 :alt: 输出块在 M N 平面分配，每个块沿 K 轴连续累计
@@ -28,9 +61,43 @@ $$
 空间分块决定谁写输出；归约分块决定何时加载下一段输入。
 ```
 
+:::::{tab-set}
+:sync-group: kernel-backend
+
+::::{tab-item} TileLang
+:sync: tilelang
+
+地址仍按元素 stride 定义：$A_{mk}$ 的偏移为 $m s_{A0}+k$，$B_{kn}$ 的偏移为 $k s_{B0}+n$。TileLang Tensor/buffer 的 strides 保留外层行间隔，最后一维要求连续。不能把外层切片先偷偷 contiguous 后当作原生 stride 支持，也不能把元素偏移重复乘字节数。
+
+::::
+
+::::{tab-item} Triton
+:sync: triton
+
 地址计算值得单独推一次。一般二维 stride 下，$A_{mk}$ 的元素偏移是 $m s_{A0}+k s_{A1}$，$B_{kn}$ 的偏移是 $k s_{B0}+n s_{B1}$。本项目 GEMM 要求最后一维连续，即 $s_{A1}=s_{B1}=1$，外层行 stride 可以不同于逻辑宽度；源码将这两个外层 stride 作为参数传入。不要为了图省事把元素偏移乘成字节偏移：Triton 张量指针加整数时按元素类型前进。
 
+::::
+:::::
+
 以下是直接参与执行的分块内核。所有源码节选都从工程文件读取，构建教材时不会另外维护一份可能过时的实现：
+
+:::::{tab-set}
+:sync-group: kernel-backend
+
+::::{tab-item} TileLang
+:sync: tilelang
+
+```{literalinclude} ../src/fa5060/tilelang/fundamentals.py
+:language: python
+:pyobject: _matmul_tiled_kernel
+:linenos:
+:caption: 单个输出块与串行 K 块循环
+```
+
+::::
+
+::::{tab-item} Triton
+:sync: triton
 
 ```{literalinclude} ../src/fa5060/fundamentals.py
 :language: python
@@ -38,6 +105,27 @@ $$
 :linenos:
 :caption: 单个输出块与串行 K 块循环
 ```
+
+::::
+:::::
+
+:::::{tab-set}
+:sync-group: kernel-backend
+
+::::{tab-item} TileLang
+:sync: tilelang
+
+为满足 thread/MMA 布局，当前 TileLang factory 令物理计算维至少为 32：`compute_m=max(tile_m,32)`、`compute_n=max(tile_n,32)`。较小逻辑 tile 仍按请求的网格步进，只写其中有效子区。资源预算与 padding 运算必须用物理尺寸核对，下面的算术强度公式是逻辑 tile 的简化模型。
+
+::::
+
+::::{tab-item} Triton
+:sync: triton
+
+当前 Triton 变体的 A/B 逻辑 tile 与 `BM/BN/BK` 一致，编译器再选择 thread 分布和 MMA fragment。尾部仍可能产生 padding 运算；有效 FLOP 只按原始 M/N/K 计数，资源使用则读取实际编译结果。
+
+::::
+:::::
 
 ## 9.3 边界是算法的一部分
 
@@ -61,6 +149,30 @@ $$
 
 在仓库根目录完成安装后，下面的例子验证一个带三个尾块的 fp16 GEMM。参考结果使用 fp32 输入相乘后转回输出类型，从而把存储精度和归约精度分开。示例容差服务于该输入分布，不能自动成为所有模型的误差合同。
 
+:::::{tab-set}
+:sync-group: kernel-backend
+
+::::{tab-item} TileLang
+:sync: tilelang
+
+```python
+import torch
+from fa5060.tilelang import matmul
+
+torch.manual_seed(9)
+a = torch.randn((127, 65), device="cuda", dtype=torch.float16)
+b = torch.randn((65, 193), device="cuda", dtype=torch.float16)
+c = matmul(a, b, variant="tiled")
+expected = (a.float() @ b.float()).to(c.dtype)
+torch.testing.assert_close(c, expected, rtol=2e-2, atol=2e-2)
+print(tuple(c.shape))
+```
+
+::::
+
+::::{tab-item} Triton
+:sync: triton
+
 ```python
 import torch
 from fa5060.fundamentals import matmul
@@ -74,11 +186,32 @@ torch.testing.assert_close(c, expected, rtol=2e-2, atol=2e-2)
 print(tuple(c.shape))
 ```
 
+::::
+:::::
+
 运行本项目的 GEMM 实验，统一收集正确性与时间数据：
 
+:::::{tab-set}
+:sync-group: kernel-backend
+
+::::{tab-item} TileLang
+:sync: tilelang
+
 ```bash
-python -m fa5060.experiments gemm --output results/gemm.json
+python -m fa5060.experiments gemm --backend tilelang --output results/local/tilelang/gemm.json
 ```
+
+::::
+
+::::{tab-item} Triton
+:sync: triton
+
+```bash
+python -m fa5060.experiments gemm --backend triton --output results/local/triton/gemm.json
+```
+
+::::
+:::::
 
 第一次调用会触发编译。不要把终端中第一次等待的总时间当作内核延迟。下一章会进一步区分 JIT、预热、稳定执行以及计时边界。
 
@@ -86,10 +219,27 @@ python -m fa5060.experiments gemm --output results/gemm.json
 
 首先，每个有效输出元素恰好被一个 program 写入，不能有写竞争。其次，所有 K 块更新同一个逻辑累加器，循环中不能意外清零。第三，所有越界输入必须在乘加前变成零，而不是在运算后才丢弃输出。最后，输入为低精度并不表示累计也使用低精度：源码和生成代码都应核对累计类型。这四条不变量比某个固定块尺寸更值得记住。
 
-
 ## 本机实验观察
 
+:::::{tab-set}
+:sync-group: kernel-backend
+
+::::{tab-item} TileLang
+:sync: tilelang
+
+本章的 TileLang 对应实验由 `--backend tilelang` 生成；读者结果保存在 `results/local/tilelang/`，本次发布证据位于 `results/tilelang/`。当前发布的实际状态和可下载证据见{doc}`15-results`；没有对应文件或成功记录时，保留“待测”，不引用历史 Triton 时间。
+
+::::
+
+::::{tab-item} Triton
+:sync: triton
+
+**历史 Triton 实验（2026-11-02，原环境）**
+
 本机 `results/gemm.json` 包含 65×97 乘 97×79 的 FP16/BF16 检查，三个版本均通过。FP16 的最大绝对误差约 0.01560，BF16 约 0.10702；相同误差不代表运算路径逐位一致，只说明本次输入没有暴露更大的输出差异。
+
+::::
+:::::
 
 ## 练习
 

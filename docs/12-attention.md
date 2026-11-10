@@ -115,18 +115,91 @@ print(tuple(o.shape))
 
 在目标 GPU 上运行统一 attention 实验：
 
+:::::{tab-set}
+:sync-group: kernel-backend
+
+::::{tab-item} TileLang
+:sync: tilelang
+
 ```bash
-python -m fa5060.experiments attention --output results/attention.json
+python -m fa5060.experiments attention --backend tilelang --output results/local/tilelang/attention.json
 ```
+
+::::
+
+::::{tab-item} Triton
+:sync: triton
+
+```bash
+python -m fa5060.experiments attention --backend triton --output results/local/triton/attention.json
+```
+
+::::
+:::::
+
+### FP32 数值合同与两条执行路线
+
+Q/K/V 使用 FP16 或 BF16，分数累计、行最大值、分母、输出累计和 split scratch 使用 FP32；PV 之前的概率转换是两套实现与全 FP32 参考之间需要审查的舍入来源。MHA 为 $H_q=H_{kv}$，GQA 为 $H_q/H_{kv}>1$，MQA 为 $H_{kv}=1$，映射均为连续分组 $h_{kv}=\lfloor h_q/G\rfloor$。
+
+:::::{tab-set}
+:sync-group: kernel-backend
+
+::::{tab-item} TileLang
+:sync: tilelang
+
+在 TileLang 中先标出 shared Q/K/V 与低精度概率缓冲，再标出 FP32 fragment 的 score、maximum、denominator、accumulator。`T.gemm` 完成两次矩阵乘加，`T.reduce_max/sum` 与 `T.Parallel` 完成稳定更新。空行要在归一化之前显式保护，不能等 NaN 写回后再处理。
+
+::::
+
+::::{tab-item} Triton
+:sync: triton
+
+在 Triton 中先标出 `tl.dot` 的 FP32 accumulator，再标出 `tl.max/sum` 的 FP32 在线统计与 PV 前的概率类型转换。空行需要 safe maximum 和零分母分支；mask 既要约束分数，也要保护实际输入与页表读取。
+
+::::
+:::::
 
 ## 12.6 哪些 FA4 思想可以迁移
 
-在线状态、两次矩阵乘法之间融合 softmax、GQA 映射以及 causal 的块级裁剪，都不依赖 TMEM。FA4 在 SM100 上还使用 TMEM、`tcgen05`、专职角色和条件重缩放等机制；这些有各自的资源与数值分析。本项目先采用清楚的在线归约，并按 SM120 可执行的 Triton 路径组织计算。不能因为算法名字相似，就把一种平台的指令吞吐率和性能结果当作另一种平台的证据。
+:::::{tab-set}
+:sync-group: kernel-backend
 
+::::{tab-item} TileLang
+:sync: tilelang
+
+在线状态、softmax 融合、GQA 与 causal 裁剪都不依赖 TMEM。TileLang 主线在 shared/fragment 范围内组织 QK、归约与 PV，面向 SM120 编译 warp MMA。SM100 的 TMEM、`tcgen05`、专职 warp 与条件重缩放仍需要另外的架构和数值证明，不能由语言名称推断已经移植。
+
+::::
+
+::::{tab-item} Triton
+:sync: triton
+
+在线状态、两次矩阵乘法之间融合 softmax、GQA 映射以及 causal 的块级裁剪，都不依赖 TMEM。FA4 在 SM100 上还使用 TMEM、`tcgen05`、专职角色和条件重缩放等机制；这些有各自的资源与数值分析。本项目先采用清楚的在线归约，并按 SM120 可执行的两种 DSL 路径组织计算。不能因为算法名字相似，就把一种平台的指令吞吐率和性能结果当作另一种平台的证据。
+
+::::
+:::::
 
 ## 本机实验观察
 
+:::::{tab-set}
+:sync-group: kernel-backend
+
+::::{tab-item} TileLang
+:sync: tilelang
+
+本章的 TileLang 对应实验由 `--backend tilelang` 生成；读者结果保存在 `results/local/tilelang/`，本次发布证据位于 `results/tilelang/`。当前发布的实际状态和可下载证据见{doc}`15-results`；没有对应文件或成功记录时，保留“待测”，不引用历史 Triton 时间。
+
+::::
+
+::::{tab-item} Triton
+:sync: triton
+
+**历史 Triton 实验（2026-11-02，原环境）**
+
 本机 `results/attention.json` 使用三条长度 79、53、0 的序列、17 条查询与 GQA 4:2，同时运行稠密和打乱页表的分页版本。两种布局的 prefill 最大绝对误差均为 FP16 0.00048828125、BF16 0.00390625；空序列为零。相同逻辑上下文的两种存储由独立参考核对。
+
+::::
+:::::
 
 ## 练习
 

@@ -1,13 +1,13 @@
 """Documentation configuration: deliberately independent of CUDA and PyTorch."""
 
-project = "面向 RTX 5060 的现代 GPU 编程：从 Triton 到 FlashAttention"
+project = "面向 RTX5060 的现代 GPU编程：Triton与TileLang对照实践"
 author = "modern-gpu-programming contributors"
 copyright = "2026, modern-gpu-programming contributors"
 release = "0.1.0"
 language = "zh_CN"
 root_doc = "index"
 
-extensions = ["myst_parser", "sphinx.ext.mathjax", "sphinx_copybutton"]
+extensions = ["myst_parser", "sphinx.ext.mathjax", "sphinx_copybutton", "sphinx_design"]
 source_suffix = {".md": "markdown"}
 myst_enable_extensions = ["colon_fence", "dollarmath", "amsmath"]
 myst_heading_anchors = 3
@@ -19,8 +19,10 @@ nitpicky = True
 exclude_patterns = ["_build"]
 
 html_theme = "sphinx_book_theme"
-html_title = "RTX 5060 · Triton GPU 编程"
+html_title = "RTX 5060 · Triton 与 TileLang 对照实践"
 html_static_path = ["static"]
+html_js_files = ["kernel-backend.js"]
+html_css_files = ["kernel-backend.css"]
 html_theme_options = {
     "repository_url": "https://github.com/Justi255/modern-gpu-programming",
     "repository_branch": "main",

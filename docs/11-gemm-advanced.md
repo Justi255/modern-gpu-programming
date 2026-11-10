@@ -16,12 +16,33 @@ $$
 
 持久化变体启动一个有界的 program 池。编号为 $p$ 的 program 依次处理 $p,p+P,p+2P,\ldots$，其中 $P$ 是池大小。每处理一个输出块，必须重新初始化累加器、重新计算行列地址，并完整走过 K 循环。持久化减少了 program 调度次数，也使软件可以更直接地控制遍历顺序；它并不自动增加数学并行度。若总块数本来就比池小，仍然无法凭空填满 GPU。
 
+:::::{tab-set}
+:sync-group: kernel-backend
+
+::::{tab-item} TileLang
+:sync: tilelang
+
+```{literalinclude} ../src/fa5060/tilelang/fundamentals.py
+:language: python
+:pyobject: _matmul_persistent_kernel
+:linenos:
+:caption: 固定工作池与跨输出块的静态步进
+```
+
+::::
+
+::::{tab-item} Triton
+:sync: triton
+
 ```{literalinclude} ../src/fa5060/fundamentals.py
 :language: python
 :pyobject: _matmul_persistent_kernel
 :linenos:
 :caption: 固定工作池与跨输出块的静态步进
 ```
+
+::::
+:::::
 
 ```{figure} static/kernels-persistent.svg
 :alt: 普通网格把每个输出块作为独立任务，持久化网格由固定工作池循环获取块
@@ -48,11 +69,51 @@ warp specialization 让不同 warp 或 warpgroup 长期承担不同角色，例�
 
 上游高级 GEMM 在 SM100 上把 TMA、`tcgen05`、TMEM 和专职 warp 连接起来，并进一步使用两个 CTA 协作。本项目的 `persistent` 变体用于学习输出块调度，不能据此宣称实现了同一套 warp specialization 或 cluster 算法。SM120 的 Tensor Core 编程路径与 SM100 不同；看到同属 Blackwell，不能推断 `tcgen05` 与 TMEM 可用。编译器是否支持某个实验特性，也必须用目标设备与生成指令确认。
 
+:::::{tab-set}
+:sync-group: kernel-backend
+
+::::{tab-item} TileLang
+:sync: tilelang
+
+每条跨角色边都应回答“谁产生、谁消费、完成信号是什么、何时允许覆盖”。这个方法适用于 TileLang 的 `T.copy`/`T.gemm` 流水、split-KV 的两阶段全局交接和普通 CUDA 队列。平台不同会改变 barrier 指令，但不会取消依赖图。
+
+::::
+
+::::{tab-item} Triton
+:sync: triton
+
 理解上游方案仍然有价值：每条跨角色边都应回答「谁产生、谁消费、完成信号是什么、何时允许覆盖」。这个四问方法同样适用于 Triton 编译器生成的流水线、后面的 split-KV 两阶段归约，以及普通 CUDA 中的生产消费队列。架构相关的 barrier 操作不可照抄，依赖图的检查方法则可以保留。
+
+::::
+:::::
 
 ## 11.5 运行同一数学问题的不同调度
 
 下面的代码使用较不规则的输出形状，避免只验证内部完整块。每个变体返回相同形状和类型；调度改变不应成为修改数值合同的理由。
+
+:::::{tab-set}
+:sync-group: kernel-backend
+
+::::{tab-item} TileLang
+:sync: tilelang
+
+```python
+import torch
+from fa5060.tilelang import matmul
+
+torch.manual_seed(11)
+a = torch.randn((769, 256), device="cuda", dtype=torch.float16)
+b = torch.randn((256, 513), device="cuda", dtype=torch.float16)
+reference = (a.float() @ b.float()).half()
+for variant in ("tiled", "pipelined", "persistent"):
+    c = matmul(a, b, variant=variant)
+    torch.testing.assert_close(c, reference, rtol=2e-2, atol=2e-2)
+```
+
+::::
+
+::::{tab-item} Triton
+:sync: triton
 
 ```python
 import torch
@@ -67,9 +128,31 @@ for variant in ("tiled", "pipelined", "persistent"):
     torch.testing.assert_close(c, reference, rtol=2e-2, atol=2e-2)
 ```
 
+::::
+:::::
+
+
+:::::{tab-set}
+:sync-group: kernel-backend
+
+::::{tab-item} TileLang
+:sync: tilelang
+
 ```bash
-python -m fa5060.experiments gemm --output results/gemm.json
+python -m fa5060.experiments gemm --backend tilelang --output results/local/tilelang/gemm.json
 ```
+
+::::
+
+::::{tab-item} Triton
+:sync: triton
+
+```bash
+python -m fa5060.experiments gemm --backend triton --output results/local/triton/gemm.json
+```
+
+::::
+:::::
 
 阅读结果时先确认三个变体均通过正确性检查，再比较相同形状的时间。若持久化仅在个别形状改善，应把它解释为一个有条件的调度选择。生产实现经常需要按形状 dispatch，教学变体的价值在于暴露这种条件，而不是制造一个始终获胜的标签。
 
@@ -77,10 +160,27 @@ python -m fa5060.experiments gemm --output results/gemm.json
 
 GEMM 的输出块相互独立，而注意力在一个查询块内部还维护在线 softmax 状态；后者不能简单把不同 K 段的输出相加。两者相同的是：都要在复用、并发和状态容量之间权衡。接下来会先推导如何合并指数归一化状态，再讨论 prefill 与 decode 为什么需要不同的工作划分。
 
-
 ## 本机实验观察
 
+:::::{tab-set}
+:sync-group: kernel-backend
+
+::::{tab-item} TileLang
+:sync: tilelang
+
+本章的 TileLang 对应实验由 `--backend tilelang` 生成；读者结果保存在 `results/local/tilelang/`，本次发布证据位于 `results/tilelang/`。当前发布的实际状态和可下载证据见{doc}`15-results`；没有对应文件或成功记录时，保留“待测”，不引用历史 Triton 时间。
+
+::::
+
+::::{tab-item} Triton
+:sync: triton
+
+**历史 Triton 实验（2026-11-02，原环境）**
+
 本机 512³ 的 persistent 普通提交中位时间为 FP16 38.528 μs、BF16 38.656 μs，均慢于对应流水线版本 30.400 与 29.888 μs，见 `results/gemm.json`。本实现按 SM 数设置静态持久化 grid；在这组规模上，软件循环与有限并发的代价没有被调度复用收益抵消。这个结果是保留教学变体的理由，而不是删掉不利数据的理由。
+
+::::
+:::::
 
 ## 练习
 

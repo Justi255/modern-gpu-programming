@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 420" role="img" aria-labelledby="title desc">
+<title id="title">Triton 与 TileLang 的编译证据链</title>
+<desc id="desc">共同的数学与输入合同分别进入 TileLang 与 Triton，经过各自布局和编译流程，得到 SM120 设备代码，最后接受独立参考与相同计时协议验证。</desc>
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8" fill="#526477"/></marker></defs>
+<rect width="1040" height="420" rx="14" fill="#f8fafc"/>
+<g font-family="Noto Sans CJK SC,Microsoft YaHei,sans-serif" font-size="18" text-anchor="middle" fill="#213449">
+<rect x="30" y="164" width="175" height="90" rx="10" fill="#e4edf7" stroke="#8ba6c2"/>
+<text x="117" y="198">相同数学与合同</text><text x="117" y="229" font-size="15">shape / stride / dtype</text>
+<rect x="270" y="45" width="220" height="94" rx="10" fill="#e0f3f2" stroke="#087f8c"/>
+<text x="380" y="78">TileLang tile 程序</text><text x="380" y="109" font-size="15">Kernel / shared / fragment</text>
+<rect x="540" y="45" width="220" height="94" rx="10" fill="#e0f3f2" stroke="#087f8c"/>
+<text x="650" y="78">布局推导与 lowering</text><text x="650" y="109" font-size="15">tile primitive → CUDA</text>
+<rect x="270" y="276" width="220" height="94" rx="10" fill="#eee8f8" stroke="#6750a4"/>
+<text x="380" y="309">Triton 逻辑 tile</text><text x="380" y="340" font-size="15">program / arange / dot</text>
+<rect x="540" y="276" width="220" height="94" rx="10" fill="#eee8f8" stroke="#6750a4"/>
+<text x="650" y="309">GPU 布局与 lowering</text><text x="650" y="340" font-size="15">TTIR → TTGIR → PTX</text>
+<rect x="820" y="164" width="190" height="90" rx="10" fill="#e4edf7" stroke="#8ba6c2"/>
+<text x="915" y="198">SM120 设备代码</text><text x="915" y="229" font-size="15">warp MMA / 寄存器</text>
+<text x="526" y="205" font-size="17">保存实际产物，检查地址、通信、同步与指令</text>
+<text x="526" y="235" font-size="15">再以独立 FP32 参考、完整算子计时验证</text>
+</g>
+<g fill="none" stroke="#526477" stroke-width="2.2" marker-end="url(#arrow)">
+<path d="M205 188L243 188L243 92L265 92"/><path d="M205 231L243 231L243 323L265 323"/>
+<path d="M490 92H535"/><path d="M490 323H535"/>
+<path d="M760 92L793 92L793 188L815 188"/><path d="M760 323L793 323L793 231L815 231"/>
+</g></svg>

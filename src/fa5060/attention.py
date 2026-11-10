@@ -12,6 +12,7 @@ import math
 import torch
 import triton
 import triton.language as tl
+from ._workspace import check_workspace_disjoint
 
 
 @triton.jit
@@ -374,6 +375,7 @@ def decode(q,k,v,*,kv_lens,block_table=None,scale=None,out=None,workspace=None,n
         for x in (workspace.partial,workspace.maxima,workspace.sums):
             if x.device!=q.device or x.dtype!=torch.float32 or not x.is_contiguous():
                 raise ValueError('workspace must contain contiguous CUDA FP32 tensors')
+        check_workspace_disjoint(workspace, (q,k,v,kv_lens,block_table,output))
         partial,maxima,sums=workspace.partial,workspace.maxima,workspace.sums
     else:
         partial=maxima=sums=output

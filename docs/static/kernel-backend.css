@@ -1,0 +1,18 @@
+/* A persistent visual cue for the selected reading route. */
+.sd-tab-label[data-sync-group="kernel-backend"] {
+  font-weight: 650;
+  padding-inline: 1.05rem;
+}
+.sd-tab-set > input:checked + .sd-tab-label[data-sync-id="tilelang"] {
+  border-color: #087f8c;
+  color: #087f8c;
+}
+.sd-tab-set > input:checked + .sd-tab-label[data-sync-id="triton"] {
+  border-color: #6750a4;
+  color: #6750a4;
+}
+.sd-tab-label[data-sync-group="kernel-backend"]:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+.sd-tab-content > :last-child { margin-bottom: 0.6rem; }

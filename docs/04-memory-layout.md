@@ -46,7 +46,46 @@ warp 内的 lane 同时执行一次内存指令时，硬件尝试把地址合并
 
 对 $A[M,N]$ 产生连续输出 $B[N,M]$，语义为 $B[j,i]=A[i,j]$。简单实现让 lane 沿 A 的列读取，读取很好合并；同样的 lane 沿 B 的行写出，却变成大跨度。改变 lane 对下标的映射可以改善写出，却又破坏读取。
 
+:::::{tab-set}
+:sync-group: kernel-backend
+
+::::{tab-item} TileLang
+:sync: tilelang
+
+TileLang 可以显式分配 `T.alloc_shared` 缓冲区，以 `T.copy` 把全局数据搬入，再经 `T.Parallel` 用交换后的下标写出。共享缓冲的逻辑 shape、物理 swizzle 与 thread 所有权仍是三件事；`T.copy` 和下标转置本身不能证明两端访问都已最优合并。下面先用公开函数验证非方阵与尾部，再到第八章检查真实 factory。
+
+::::
+
+::::{tab-item} Triton
+:sync: triton
+
 一种常见方案是先以连续方式读入 tile，经共享内存或寄存器交换改变所有权，再以另一种连续方式写出。在传统 CUDA 中，程序员显式写共享内存和 barrier；在 Triton 中，编译器可能为从输入布局到输出布局的转换插入通信。逻辑上的 `tl.trans` 是元素坐标变换，是否真的生成共享内存交换，需要看上下文与编译结果。
+
+::::
+:::::
+
+
+:::::{tab-set}
+:sync-group: kernel-backend
+
+::::{tab-item} TileLang
+:sync: tilelang
+
+```python
+import torch
+from fa5060.tilelang import transpose
+
+x = torch.arange(37 * 53, device="cuda", dtype=torch.float32).reshape(37, 53)
+y = transpose(x)
+assert y.shape == (53, 37)
+torch.testing.assert_close(y, x.T)
+assert y.is_contiguous()
+```
+
+::::
+
+::::{tab-item} Triton
+:sync: triton
 
 ```python
 import torch
@@ -59,7 +98,59 @@ torch.testing.assert_close(y, x.T)
 assert y.is_contiguous()
 ```
 
+::::
+:::::
+
 37 和 53 故意不是 tile 的整数倍。这个例子同时检查矩阵转置语义、边界掩码和输出物理布局。只对方阵测试容易漏掉把 M/N 或 stride 写反的问题。
+
+### 对照显式 scope 与推导布局
+
+:::::{tab-set}
+:sync-group: kernel-backend
+
+::::{tab-item} TileLang
+:sync: tilelang
+
+```{literalinclude} ../src/fa5060/tilelang/fundamentals.py
+:language: python
+:pyobject: _transpose_kernel
+:linenos:
+:caption: 读取、所有权交换与转置写回
+```
+
+::::
+
+::::{tab-item} Triton
+:sync: triton
+
+```{literalinclude} ../src/fa5060/fundamentals.py
+:language: python
+:pyobject: _transpose_kernel
+:linenos:
+:caption: 读取、所有权交换与转置写回
+```
+
+::::
+:::::
+
+
+:::::{tab-set}
+:sync-group: kernel-backend
+
+::::{tab-item} TileLang
+:sync: tilelang
+
+这里的 shared 声明把 CTA 协作存储范围写在源码中。请标出 global → shared 与 shared → global 的两个方向，再根据读写下标判断哪个维度连续。自动 swizzle 与同步仍需查看 lowering，不能把逻辑二维数组当成朴素物理行主序。
+
+::::
+
+::::{tab-item} Triton
+:sync: triton
+
+这里没有手写 shared 数组；输入与输出 tile 的逻辑依赖交给编译器。请在第八章查看布局转换与同步，检查是否为交换所有权引入共享存储。Python 源码未声明 shared 不代表最终没有 shared。
+
+::::
+:::::
 
 ## 4.4 共享内存的 bank 模型
 
@@ -85,12 +176,45 @@ $$
 
 以及是否存在复制。归约通常把多个 lane 的值合并；广播可能把同一个标量复制到很多 thread；矩阵乘法则需要符合 MMA fragment 的特殊映射。这些都是逻辑张量算子背后的真实工作。
 
+:::::{tab-set}
+:sync-group: kernel-backend
+
+::::{tab-item} TileLang
+:sync: tilelang
+
+TileLang 主线先让编译器为 `T.Parallel`、fragment 和 `T.gemm` 推导布局，再在{doc}`08-triton-layouts`读生成代码核对所有权。`T.annotate_layout` 适合已经知道生产者、消费者和目标约束后的实验；不能把任意 XOR 重排当作所有 MMA 都接受的布局。
+
+::::
+
+::::{tab-item} Triton
+:sync: triton
+
 本书先使用 Triton 的自动布局，在{doc}`08-triton-layouts`学习如何从编译结果验证所有权转换。不要为了“显式控制”提前加入重排；先确定数据的生产与消费关系，再判断转换代价是否值得。
 
+::::
+:::::
 
 ## 本机实验观察
 
+:::::{tab-set}
+:sync-group: kernel-backend
+
+::::{tab-item} TileLang
+:sync: tilelang
+
+本章的 TileLang 对应实验由 `--backend tilelang` 生成；读者结果保存在 `results/local/tilelang/`，本次发布证据位于 `results/tilelang/`。当前发布的实际状态和可下载证据见{doc}`15-results`；没有对应文件或成功记录时，保留“待测”，不引用历史 Triton 时间。
+
+::::
+
+::::{tab-item} Triton
+:sync: triton
+
+**历史 Triton 实验（2026-11-02，原环境）**
+
 `results/basics.json` 的 1024×1024 转置使用行 stride 2048 的输入。输出与 PyTorch 完全一致；本实现普通提交 event 中位时间 20.848 μs，PyTorch 连续化转置为 38.784 μs。这是一个具体外层跨步布局的观测，不能推广到所有长宽比，也不能证明生成了最优共享内存交换。
+
+::::
+:::::
 
 ## 练习
 

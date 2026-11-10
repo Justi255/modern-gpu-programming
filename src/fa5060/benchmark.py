@@ -6,6 +6,9 @@ PyTorch, Triton, FlashInfer, or FA4. CUDA providers are imported on demand.
 
 import argparse
 from dataclasses import dataclass
+import hashlib
+import importlib
+from importlib import metadata
 import inspect
 import json
 import math
@@ -22,6 +25,7 @@ from .workloads import AttentionCase, AttentionInputs, full_suite, make_inputs, 
 
 
 SCHEMA_VERSION = 1
+BACKENDS = ("triton", "tilelang")
 PROVIDER_NAMES = ("ours", "torch_flash", "torch_cudnn", "torch_efficient", "fa4",
                   "flashinfer_fa2", "flashinfer_fmha_v2")
 
@@ -39,6 +43,58 @@ class Provider:
     graph_call: Callable
     eager_call: Callable
     metadata: dict[str, Any]
+
+
+def _check_backend(backend: str) -> str:
+    if backend not in BACKENDS:
+        raise ValueError(f"backend must be one of {BACKENDS}")
+    return backend
+
+
+def report_backend(report: dict[str, Any]) -> str:
+    """Schema-1 reports predating backend selection used Triton."""
+    return _check_backend(report.get("backend", "triton"))
+
+
+def environment_key(environment):
+    """Observed software/hardware identity, excluding time-varying telemetry.
+
+    Timestamp, power, temperature and clocks remain in each raw observation.
+    Executable paths may differ while the runtime/package versions match.
+    This helper deliberately imports no GPU package.
+    """
+    required = ("python", "platform", "packages", "cuda_build", "cuda_available", "gpus", "compiler", "nvidia_smi")
+    missing = [name for name in required if name not in environment]
+    if missing:
+        raise ValueError(f"missing environment keys: {missing}")
+    python = environment["python"]
+    if not environment["gpus"] or not environment["cuda_available"]:
+        raise ValueError("paired evidence requires observed CUDA devices")
+    if not python.get("version") or not environment["packages"].get("torch"):
+        raise ValueError("paired evidence requires Python and Torch versions")
+    drivers = [{"index": device.get("index"), "driver_version": device.get("driver_version")}
+               for device in environment["nvidia_smi"].get("devices", [])]
+    if not drivers or any(not device["driver_version"] for device in drivers):
+        raise ValueError("paired evidence requires observed driver versions")
+    return {"python": {name: python.get(name) for name in ("version", "implementation", "compiler")},
+            "platform": environment["platform"], "packages": environment["packages"],
+            "cuda_build": environment["cuda_build"], "gpus": environment["gpus"],
+            "compiler": environment["compiler"], "drivers": drivers}
+
+
+def _backend_packages(packages, backend):
+    names = ("triton",) if backend == "triton" else ("tilelang", "apache-tvm-ffi")
+    return {name: packages.get(name) for name in names}
+
+
+def _installed_backend_packages(backend):
+    packages = {}
+    for name in _backend_packages({}, backend):
+        try:
+            packages[name] = metadata.version(name)
+        except metadata.PackageNotFoundError:
+            packages[name] = None
+    return packages
 
 
 def _sdpa_views(case: AttentionCase, inputs: AttentionInputs):
@@ -88,9 +144,12 @@ def _torch_provider(case: AttentionCase, inputs: AttentionInputs, name: str) -> 
 
 
 def _ours_provider(case: AttentionCase, inputs: AttentionInputs,
-                   choice: dict[str, Any] | None = None) -> Provider:
+                   choice: dict[str, Any] | None = None, *, backend: str = "triton") -> Provider:
+    _check_backend(backend)
     import torch
-    from .attention import decode, decode_workspace, prefill
+
+    module = importlib.import_module(".attention" if backend == "triton" else ".tilelang", __package__)
+    decode, decode_workspace, prefill = module.decode, module.decode_workspace, module.prefill
 
     choice = choice or {"config": None, "num_splits": None}
     config, splits = choice["config"], choice["num_splits"]
@@ -115,10 +174,13 @@ def _ours_provider(case: AttentionCase, inputs: AttentionInputs,
             return decode(inputs.q, inputs.k, inputs.v, num_splits=splits, **kwargs)
 
     return Provider(graph_call, eager_call, {
-        "api": f"fa5060.{case.phase}", "preallocated_output": True,
+        "api": f"{module.__name__}.{case.phase}" if hasattr(module, "__name__") else f"fa5060.{backend}.{case.phase}",
+        "backend": backend, "package_versions": _installed_backend_packages(backend),
+        "preallocated_output": True,
         "preallocated_workspace": case.phase == "decode", "config": config,
         "num_splits": splits, "native_paged": case.layout == "paged",
         "eager_allocates_output": True, "eager_allocates_workspace": case.phase == "decode",
+        "graph_boundary": "complete operator including all decode splits and merge",
     })
 
 
@@ -296,9 +358,9 @@ def _flashinfer_provider(case: AttentionCase, inputs: AttentionInputs, backend: 
 
 
 def _provider(case: AttentionCase, inputs: AttentionInputs, name: str,
-              choice: dict[str, Any] | None = None) -> Provider:
+              choice: dict[str, Any] | None = None, *, backend: str = "triton") -> Provider:
     if name == "ours":
-        return _ours_provider(case, inputs, choice)
+        return _ours_provider(case, inputs, choice, backend=backend)
     if name.startswith("torch_"):
         return _torch_provider(case, inputs, name)
     if name == "fa4":
@@ -367,6 +429,8 @@ def _time_provider(provider: Provider, rounds: int, reference, dtype: str) -> di
     """Capture and replay the complete operator; separately time its eager API."""
     import torch
 
+    torch.cuda.synchronize()
+    warmup_start = time.perf_counter_ns()
     stream = torch.cuda.Stream()
     stream.wait_stream(torch.cuda.current_stream())
     with torch.cuda.stream(stream):
@@ -375,6 +439,7 @@ def _time_provider(provider: Provider, rounds: int, reference, dtype: str) -> di
             provider.eager_call()
     torch.cuda.current_stream().wait_stream(stream)
     torch.cuda.synchronize()
+    warmup_wall_ms = (time.perf_counter_ns() - warmup_start) / 1e6
     graph = torch.cuda.CUDAGraph()
     with torch.cuda.graph(graph, stream=stream):
         captured_output = provider.graph_call()
@@ -417,6 +482,7 @@ def _time_provider(provider: Provider, rounds: int, reference, dtype: str) -> di
     # Keep the captured output alive until the final replay has completed.
     del captured_output
     return {"gpu_us_p50": statistics.median(graph_samples),
+            "warmup_wall_ms": warmup_wall_ms, "warmup_calls_per_api": 3,
             "eager_us_p50": statistics.median(eager_samples),
             "eager_wall_us_p50": statistics.median(wall_samples),
             "gpu_us_rounds": graph_samples, "eager_us_rounds": eager_samples,
@@ -438,48 +504,73 @@ def _failure(exc: Exception, stage: str, metadata=None) -> dict[str, Any]:
             "gpu_us_p50": None, "eager_us_p50": None, "metadata": metadata or {}}
 
 
-def _run_provider(case, inputs, reference, name, rounds, choice=None):
+def _first_call(call):
+    """Observe synchronized first-call wall cost, including any cold JIT."""
+    import torch
+
+    torch.cuda.synchronize()
+    start = time.perf_counter_ns()
+    output = call()
+    torch.cuda.synchronize()
+    return output, (time.perf_counter_ns() - start) / 1e6
+
+
+def _run_provider(case, inputs, reference, name, rounds, choice=None, *, backend="triton"):
     provider, stage = None, "prepare"
+    startup = {"first_call_scope": "synchronized wall time; includes JIT on cache miss; excluded from steady-state samples"}
     try:
-        provider = _provider(case, inputs, name, choice)
+        prepare_start = time.perf_counter_ns()
+        provider = _provider(case, inputs, name, choice, backend=backend)
+        startup["prepare_wall_ms"] = (time.perf_counter_ns() - prepare_start) / 1e6
         stage = "correctness"
-        validation = _validate_output(provider.graph_call(), reference, case.dtype)
+        actual, startup["graph_first_call_wall_ms"] = _first_call(provider.graph_call)
+        validation = _validate_output(actual, reference, case.dtype)
+        del actual
         # Allocating public APIs may have a different path: check both paths.
-        _validate_output(provider.eager_call(), reference, case.dtype)
+        actual, startup["eager_first_call_wall_ms"] = _first_call(provider.eager_call)
+        _validate_output(actual, reference, case.dtype)
+        del actual
         stage = "timing"
         times = _time_provider(provider, rounds, reference, case.dtype)
-        return {"status": "ok", **validation, **times, "metadata": provider.metadata}
+        return {"status": "ok", **validation, **times, "startup": startup, "metadata": provider.metadata}
     except Exception as exc:
-        return _failure(exc, stage, provider.metadata if provider else None)
+        return {**_failure(exc, stage, provider.metadata if provider else None), "startup": startup}
 
 
-def _run_ours(case, inputs, reference, rounds, tune):
+def _run_ours(case, inputs, reference, rounds, tune, *, backend="triton"):
     if not tune:
-        return _run_provider(case, inputs, reference, "ours", rounds)
+        result = _run_provider(case, inputs, reference, "ours", rounds, backend=backend)
+        result["selected_config"] = {"config": None, "num_splits": None}
+        result["configuration_mode"] = "public_default"
+        return result
     trials = []
-    for choice in tuning_candidates(case):
-        result = _run_provider(case, inputs, reference, "ours", 1, choice)
+    for choice in tuning_candidates(case, backend=backend):
+        result = _run_provider(case, inputs, reference, "ours", 1, choice, backend=backend)
         trials.append({"choice": choice, **result})
     valid = [trial for trial in trials if _valid_timing(trial)]
     if valid:
         winner = min(valid, key=lambda trial: trial["gpu_us_p50"])
-        result = _run_provider(case, inputs, reference, "ours", rounds, winner["choice"])
+        result = _run_provider(case, inputs, reference, "ours", rounds, winner["choice"], backend=backend)
         result["selected_config"] = winner["choice"]
     else:
         result = _failure(RuntimeError("all disclosed tuning candidates failed"), "tuning")
         result["selected_config"] = None
     result["tuning"] = {
+        "backend": backend,
         "strategy": "offline per-case fixed-grid exploration followed by separate measurement",
         "selection_metric": "minimum validated trial gpu_us_p50", "trial_rounds": 1,
         "candidates": trials,
         "correctness_failures": sum(trial["status"] == "incorrect" for trial in trials),
     }
+    result["configuration_mode"] = "offline_tuned"
     return result
 
 
-def benchmark_case(case: AttentionCase, *, rounds: int = 5, tune: bool = False) -> dict[str, Any]:
+def benchmark_case(case: AttentionCase, *, rounds: int = 5, tune: bool = False,
+                   backend: str = "triton") -> dict[str, Any]:
     """Validate against blockwise fp32 reference before timing any provider."""
-    record = {**case.to_dict(), "seed": 20261102, "providers": {}}
+    _check_backend(backend)
+    record = {**case.to_dict(), "backend": backend, "seed": 20261102, "providers": {}}
     try:
         import torch
         from .reference import attention_reference
@@ -508,7 +599,7 @@ def benchmark_case(case: AttentionCase, *, rounds: int = 5, tune: bool = False) 
                                    "tf32": False}
             for name in names:
                 if name == "ours":
-                    result = _run_ours(case, inputs, reference, rounds, tune)
+                    result = _run_ours(case, inputs, reference, rounds, tune, backend=backend)
                 else:
                     result = _run_provider(case, inputs, reference, name, rounds)
                 record["providers"][name] = result
@@ -640,8 +731,9 @@ def summarize_results(records: list[dict[str, Any]], expected_cases,
     return summary
 
 
-def tuning_candidates(case: AttentionCase) -> tuple[dict[str, Any], ...]:
+def tuning_candidates(case: AttentionCase, *, backend: str = "triton") -> tuple[dict[str, Any], ...]:
     """Small, disclosed offline search; every attempt remains in the result."""
+    _check_backend(backend)
     candidates = [{"config": None, "num_splits": None}]
     if case.phase == "prefill":
         for block_m, block_n, stages in ((32, 64, 1), (64, 64, 2), (32, 128, 2), (64, 128, 2)):
@@ -661,16 +753,92 @@ def tuning_candidates(case: AttentionCase) -> tuple[dict[str, Any], ...]:
     return tuple(candidates)
 
 
+def _same_json(left, right):
+    """Compare serialized contracts without Python's bool/int/float coercion."""
+    return (json.dumps(left, sort_keys=True, allow_nan=False)
+            == json.dumps(right, sort_keys=True, allow_nan=False))
+
+
+def _resume_report(source, output, expected, cases):
+    """Read and validate an immutable checkpoint before touching the new output."""
+    source, output = Path(source), Path(output)
+    if source.resolve() == output.resolve() or output.exists() or output.is_symlink():
+        raise ValueError("resume output must be a different, new path")
+    frozen = full_suite() if expected["suite"] == "full" else smoke_suite()
+    manifests = (frozen, *(tuple(case for case in frozen if case.phase == phase)
+                           for phase in ("prefill", "decode")))
+    if expected["suite"] not in ("full", "smoke") or cases not in manifests:
+        raise ValueError("resume requires the frozen suite order (all cases or one phase)")
+    snapshot = source.read_bytes()
+    try:
+        report = json.loads(snapshot)
+        # Strict serialization also rejects nonfinite JSON constants accepted by json.loads.
+        json.dumps(report, allow_nan=False)
+        for name in ("schema_version", "backend", "backend_packages", "configuration_mode",
+                     "suite", "rounds", "tune", "seed", "timing"):
+            if name not in report or not _same_json(report[name], expected[name]):
+                raise ValueError(f"resume run contract differs: {name}")
+        fresh_key = environment_key(expected["environment"])
+        if not _same_json(environment_key(report["environment"]), fresh_key):
+            raise ValueError("resume software/hardware environment keys differ")
+        # A later interruption may itself be resumed; retain the earlier segment's provenance.
+        if "resume" in report and not _same_json(environment_key(report["resume"]["environment"]), fresh_key):
+            raise ValueError("resume segment software/hardware environment keys differ")
+        records = report["cases"]
+        if not isinstance(records, list):
+            raise ValueError("resume cases must be a list")
+        if len(records) >= len(cases):
+            raise ValueError("resume checkpoint is complete or has excess cases")
+        seen = set()
+        for case, record in zip(cases, records):
+            identity = case.to_dict()
+            if record["id"] in seen:
+                raise ValueError(f"duplicate resume case ID: {record['id']}")
+            seen.add(record["id"])
+            if any(name not in record or not _same_json(record[name], value) for name, value in identity.items()):
+                raise ValueError(f"resume case order/shape differs: {case.case_id}")
+            if (not _same_json(record.get("seed"), expected["seed"])
+                    or record.get("backend") != expected["backend"]):
+                raise ValueError(f"resume case seed/backend differs: {case.case_id}")
+            providers = record["providers"]
+            if (not isinstance(providers, dict) or set(providers) != set(PROVIDER_NAMES)
+                    or any(not isinstance(provider, dict) for provider in providers.values())):
+                raise ValueError(f"incomplete resume provider records: {case.case_id}")
+            if evaluate_case(record)["invalid_provider_records"]:
+                raise ValueError(f"invalid resume provider records: {case.case_id}")
+        if report["summary"] != summarize_results(records, cases, suite=expected["suite"]):
+            raise ValueError("resume summary disagrees with the frozen manifest or completed rows")
+    except (KeyError, TypeError, AttributeError) as exc:
+        raise ValueError("malformed resume checkpoint") from exc
+    provenance = {
+        "source_path": str(source), "source_sha256": hashlib.sha256(snapshot).hexdigest(),
+        "initial_case_count": len(records), "environment": expected["environment"], "segmented": True,
+    }
+    if "resume" in report:
+        provenance["previous"] = report["resume"]
+    report["resume"] = provenance
+    return report
+
+
 def run_benchmark(cases, *, output: str | Path, environment: dict[str, Any],
                   suite: str = "smoke", rounds: int = 5, tune: bool = False,
-                  case_runner: Callable | None = None) -> dict[str, Any]:
-    """Checkpoint the initial manifest and each completed case immediately."""
+                  case_runner: Callable | None = None, backend: str = "triton",
+                  resume_from: str | Path | None = None) -> dict[str, Any]:
+    """Checkpoint each completed case; optionally continue into a new output file."""
+    _check_backend(backend)
     if rounds < 1:
         raise ValueError("rounds must be positive")
     cases = tuple(cases)
     runner = benchmark_case if case_runner is None else case_runner
+    parameters = inspect.signature(runner).parameters
+    accepts_backend = ("backend" in parameters or
+                       any(p.kind == inspect.Parameter.VAR_KEYWORD for p in parameters.values()))
+    if not accepts_backend and backend != "triton":
+        raise ValueError("a custom case_runner must accept backend for a TileLang report")
     report = {
         "schema_version": SCHEMA_VERSION, "environment": environment,
+        "backend": backend, "backend_packages": _backend_packages(environment.get("packages", {}), backend),
+        "configuration_mode": "offline_tuned" if tune else "public_default",
         "suite": suite, "rounds": rounds, "tune": tune, "seed": 20261102,
         "timing": {
             "gpu_us_p50": "median of per-round CUDA-event single repeated-operator graph replay / batch count",
@@ -680,12 +848,28 @@ def run_benchmark(cases, *, output: str | Path, environment: dict[str, Any],
             "graph_batch_cap": 2048, "short_operator_min_graph_batch": 128,
             "graph_boundary": "complete operator including all decode splits and merge; planning outside",
             "eager_boundary": "public operator including output/workspace allocation where API permits",
+            "startup": "provider preparation, first calls including JIT, and warmup saved separately; excluded from latency samples",
         },
         "cases": [], "summary": summarize_results([], cases, suite=suite),
     }
+    if resume_from is not None:
+        report = _resume_report(resume_from, output, report, cases)
+        # Reserve a new destination exclusively; a concurrent creator must not be overwritten.
+        Path(output).parent.mkdir(parents=True, exist_ok=True)
+        try:
+            with Path(output).open("x", encoding="utf-8"):
+                pass
+        except FileExistsError as exc:
+            raise ValueError("resume output must be a new path") from exc
     atomic_write_json(output, report)
-    for case in cases:
-        record = runner(case, rounds=rounds, tune=tune)
+    for case in cases[len(report["cases"]):]:
+        kwargs = {"rounds": rounds, "tune": tune}
+        if accepts_backend:
+            kwargs["backend"] = backend
+        record = runner(case, **kwargs)
+        if record.get("backend", backend) != backend:
+            raise ValueError("case_runner returned a different backend")
+        record["backend"] = backend
         record.update(evaluate_case(record))
         report["cases"].append(record)
         report["summary"] = summarize_results(report["cases"], cases, suite=suite)
@@ -697,7 +881,10 @@ def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--suite", choices=("smoke", "full"), default="smoke")
     parser.add_argument("--phase", choices=("all", "prefill", "decode"), default="all")
+    parser.add_argument("--backend", choices=BACKENDS, default="triton")
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--resume-from", type=Path,
+                        help="continue a compatible checkpoint into a different, new output file")
     parser.add_argument("--rounds", type=int, default=5)
     parser.add_argument("--tune", action="store_true",
                         help="disclosed offline per-case fixed-grid search; keeps failed candidates")
@@ -708,18 +895,18 @@ def main(argv=None) -> int:
 
     cases = full_suite() if args.suite == "full" else smoke_suite()
     cases = tuple(case for case in cases if args.phase == "all" or case.phase == args.phase)
-    completed = 0
+    case_numbers = {case.case_id: index + 1 for index, case in enumerate(cases)}
 
-    def runner(case, *, rounds, tune):
-        nonlocal completed
-        result = benchmark_case(case, rounds=rounds, tune=tune)
-        completed += 1
+    def runner(case, *, rounds, tune, backend):
+        result = benchmark_case(case, rounds=rounds, tune=tune, backend=backend)
         states = ", ".join(f"{name}={provider['status']}" for name, provider in result["providers"].items())
-        print(f"[{completed}/{len(cases)}] {case.case_id}: {states}", file=sys.stderr, flush=True)
+        print(f"[{case_numbers[case.case_id]}/{len(cases)}] {case.case_id}: {states}",
+              file=sys.stderr, flush=True)
         return result
 
     report = run_benchmark(cases, output=args.output, environment=collect_environment(),
-                           suite=args.suite, rounds=args.rounds, tune=args.tune, case_runner=runner)
+                           suite=args.suite, rounds=args.rounds, tune=args.tune, case_runner=runner,
+                           backend=args.backend, resume_from=args.resume_from)
     print(json.dumps({"output": str(args.output), "summary": report["summary"]},
                      ensure_ascii=False, allow_nan=False))
     return 0

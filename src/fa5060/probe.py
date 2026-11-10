@@ -15,6 +15,7 @@ import json
 import math
 from pathlib import Path
 import platform
+import re
 import subprocess
 import sys
 from datetime import datetime, timezone
@@ -29,6 +30,32 @@ def _package_version(distribution):
         return metadata.version(distribution)
     except metadata.PackageNotFoundError:
         return None
+
+
+def _public_compiler_source(distribution):
+    """Read PEP 610 provenance only for exact, known public compiler repos.
+
+    Local paths, credentials, query strings and arbitrary repository URLs
+    never enter the environment record. Wheels usually have no VCS source
+    metadata, which is represented by null rather than an inferred revision.
+    """
+    repositories = {"tilelang": "https://github.com/tile-ai/tilelang",
+                    "apache-tvm-ffi": "https://github.com/apache/tvm-ffi",
+                    "triton": "https://github.com/triton-lang/triton"}
+    repository = repositories.get(distribution)
+    if repository is None:
+        return None
+    try:
+        raw = metadata.distribution(distribution).read_text("direct_url.json")
+        value = json.loads(raw) if raw else {}
+    except (metadata.PackageNotFoundError, OSError, ValueError, TypeError):
+        return None
+    if not isinstance(value, dict) or value.get("url") not in (repository, repository + ".git"):
+        return None
+    vcs = value.get("vcs_info", {})
+    revision = vcs.get("commit_id") if isinstance(vcs, dict) else None
+    return {"url": repository,
+            "commit_id": revision if isinstance(revision, str) and re.fullmatch(r"[0-9a-fA-F]{7,64}", revision) else None}
 
 
 def _command_output(command):
@@ -100,6 +127,7 @@ def collect_environment():
     packages = {
         name: _package_version(name)
         for name in ("modern-gpu-programming-5060", "numpy", "torch", "triton",
+                     "tilelang", "apache-tvm-ffi",
                      "flashinfer-python", "flash-attn-4", "flash-attn")
     }
     record = {
@@ -151,6 +179,10 @@ def collect_environment():
         "nvcc": _command_output(["nvcc", "--version"]),
         "ptxas": _command_output(["ptxas", "--version"]),
         "triton_version": packages["triton"],
+        "tilelang_version": packages["tilelang"],
+        "apache_tvm_ffi_version": packages["apache-tvm-ffi"],
+        "sources": {name: _public_compiler_source(name)
+                    for name in ("triton", "tilelang", "apache-tvm-ffi")},
     }
     return record
 

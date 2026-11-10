@@ -64,19 +64,109 @@ $$
 
 从全局内存到计算 fragment 可以走不同路径。常规 load 把数据带到 thread 寄存器；一些异步 copy 指令支持全局到共享内存传输；TMA 用描述符表达多维张量的地址、stride、box 等信息，由硬件执行搬运。它们对应的对齐、布局、参与范围与同步协议不相同。
 
+:::::{tab-set}
+:sync-group: kernel-backend
+
+::::{tab-item} TileLang
+:sync: tilelang
+
+SM120 支持 TMA，但 `T.copy` 可以降低为常规访存、异步 copy 或描述符传输，取决于区域表达、对齐、目标和 pass 配置。把 `T.Pipelined` 的 stages 增大并不保证出现 TMA。TMA 发起者与消费者可能是不同 thread，仍需要完整的到达、消费与复用依赖。
+
+::::
+
+::::{tab-item} Triton
+:sync: triton
+
 SM120 支持 TMA，但本书不把所有 `tl.load` 或带 `num_stages` 的循环称作 TMA。是否走到描述符/TMA 路径，需要从 Triton API、目标支持和生成 PTX 验证。一个 TMA 传输可以由很少的 thread 发起，而消费数据的可能是多个 warp，因此消费者还需要正确的完成通知。
+
+::::
+:::::
+
+
+:::::{tab-set}
+:sync-group: kernel-backend
+
+::::{tab-item} TileLang
+:sync: tilelang
+
+第十三章对照 `loader="pointer"` 与 `loader="tma"` 的稠密 prefill。TileLang 为 Q/K 指定描述符搬运，V 通过受有效长度保护的 copy 输入 PV；Triton 描述符变体的搬运分工不同。两种 loader 共享右对齐 causal、有效长度与空行语义。是否实际生成 `cp.async.bulk.tensor`、是否保持 warp `mma.sync`，以本次编译产物为准；未收集的证据在结果章标为待验证。
+
+::::
+
+::::{tab-item} Triton
+:sync: triton
 
 第十三章的 `attention_tma.py` 给出实际 TensorDescriptor 版本：它在本机生成 `cp.async.bulk.tensor` 加载和 warp 级 `mma.sync`，并与默认 pointer 版本共享在线 softmax 语义。先学习本章的完成依赖，再运行该章的对照实验，可以把「硬件支持」「编译器确实采用」与「当前形状更快」分成三个可核验的问题。
 
+::::
+:::::
+
 在使用 `mbarrier` 追踪传输的低层路径里，“参与者到达”和“预期字节全部到达”是不同条件。把到达计数设对却没有登记传输字节，或者登记字节与实际传输不一致，都可能造成提前消费或永久等待。本书默认让编译器管理普通流水，不要求读者在第一版 GEMM 中手写 barrier。
+
+:::::{tab-set}
+:sync-group: kernel-backend
+
+::::{tab-item} TileLang
+:sync: tilelang
+
+数据中心 SM100 的 warp specialization、`tcgen05.commit`、TMEM 与 CLC 各有架构前提。TileLang 支持多个目标，并不意味着同一份 SM100 例子能在 SM120 执行。对 RTX 5060 应先保留 warp MMA、寄存器累加的正确基线，再逐项验证目标与 pass。
+
+::::
+
+::::{tab-item} Triton
+:sync: triton
 
 数据中心 SM100 的 warp specialization、`tcgen05.commit`、TMEM 读取和 Cluster Launch Control 有各自的支持范围。本机的 TMA 能力不能推出这些机制也可直接使用。研究低层优化时，应逐项检查 SM120 与当前 Triton 后端的支持，先保存一个无这些机制的正确基线。
 
-## 6.6 在 Triton 中观察流水
+::::
+:::::
+
+<span id="triton"></span>
+
+## 6.6 在两种 DSL 中观察流水
+
+:::::{tab-set}
+:sync-group: kernel-backend
+
+::::{tab-item} TileLang
+:sync: tilelang
+
+TileLang 的 `T.Pipelined(迭代范围, num_stages=...)` 把 K 循环交给软件流水调度，`T.copy` 描述输入搬运，`T.gemm` 消费共享 tile 并更新 fragment。编译器据此安排 stage、等待和同步。逻辑上声明多个 stage 只给出调度机会，具体是否重叠仍需看生成代码与稳态时间。
+
+::::
+
+::::{tab-item} Triton
+:sync: triton
 
 Triton 的 launch `num_stages` 和 `tl.range(..., num_stages=...)` 表达相关的编译配置，但它们不等于运行时创建了相同数量的 Python 对象。编译器根据循环、load、dot 关系选择可流水化的操作；数据依赖太紧或模式不支持时，源码参数与实际重叠可能并不一致。
 
+::::
+:::::
+
 本项目提供三条 GEMM 路线作为对比，实际实现见后续章节：
+
+:::::{tab-set}
+:sync-group: kernel-backend
+
+::::{tab-item} TileLang
+:sync: tilelang
+
+```python
+import torch
+from fa5060.tilelang import matmul
+
+a = torch.randn((512, 1024), device="cuda", dtype=torch.float16)
+b = torch.randn((1024, 512), device="cuda", dtype=torch.float16)
+reference = a.float() @ b.float()
+for variant in ("tiled", "pipelined", "persistent"):
+    c = matmul(a, b, variant=variant)
+    torch.testing.assert_close(c.float(), reference, rtol=2e-2, atol=2e-2)
+```
+
+::::
+
+::::{tab-item} Triton
+:sync: triton
 
 ```python
 import torch
@@ -90,12 +180,98 @@ for variant in ("tiled", "pipelined", "persistent"):
     torch.testing.assert_close(c.float(), reference, rtol=2e-2, atol=2e-2)
 ```
 
-先确认同一 shape 的语义相同，再用 `python -m fa5060.experiments gemm --output results/gemm.json` 测量。只有看到编译资源和稳态时间，才能判断多 stage 是否有效。persistent 表示软件复用 CTA 处理多个输出 tile，不自动代表用了硬件工作窃取或 CLC。
+::::
+:::::
 
+
+:::::{tab-set}
+:sync-group: kernel-backend
+
+::::{tab-item} TileLang
+:sync: tilelang
+
+先确认同一 shape 的语义相同，再用 `python -m fa5060.experiments gemm --backend tilelang --output results/local/tilelang/gemm.json` 测量。只有看到编译资源和稳态时间，才能判断多 stage 是否有效。persistent 表示软件复用 CTA 处理多个输出 tile，不自动代表用了硬件工作窃取或 CLC。
+
+::::
+
+::::{tab-item} Triton
+:sync: triton
+
+先确认同一 shape 的语义相同，再用 `python -m fa5060.experiments gemm --backend triton --output results/local/triton/gemm.json` 测量。只有看到编译资源和稳态时间，才能判断多 stage 是否有效。persistent 表示软件复用 CTA 处理多个输出 tile，不自动代表用了硬件工作窃取或 CLC。
+
+::::
+:::::
+
+### 阅读真正的 pipeline 表达
+
+:::::{tab-set}
+:sync-group: kernel-backend
+
+::::{tab-item} TileLang
+:sync: tilelang
+
+```{literalinclude} ../src/fa5060/tilelang/fundamentals.py
+:language: python
+:pyobject: _matmul_pipelined_kernel
+:linenos:
+:caption: 用相同的依赖图理解两种流水 API
+```
+
+::::
+
+::::{tab-item} Triton
+:sync: triton
+
+```{literalinclude} ../src/fa5060/fundamentals.py
+:language: python
+:pyobject: _matmul_pipelined_kernel
+:linenos:
+:caption: 用相同的依赖图理解两种流水 API
+```
+
+::::
+:::::
+
+
+:::::{tab-set}
+:sync-group: kernel-backend
+
+::::{tab-item} TileLang
+:sync: tilelang
+
+把 `T.copy` 到共享 tile 视为生产者，把 `T.gemm` 视为消费者，沿 `T.Pipelined` 检查同一缓冲的复用距离。stage 参数与物理共享字节数的关系由编译结果确认，第十章给出容量预算和对照方法。
+
+::::
+
+::::{tab-item} Triton
+:sync: triton
+
+把循环中的 load 视为生产者，把 `tl.dot` 视为消费者，沿 `tl.range(..., num_stages=...)` 检查编译器软件流水。stage 参数与物理共享字节数的关系由编译结果确认，第十章给出容量预算和对照方法。
+
+::::
+:::::
 
 ## 本机实验观察
 
+:::::{tab-set}
+:sync-group: kernel-backend
+
+::::{tab-item} TileLang
+:sync: tilelang
+
+本章的 TileLang 对应实验由 `--backend tilelang` 生成；读者结果保存在 `results/local/tilelang/`，本次发布证据位于 `results/tilelang/`。当前发布的实际状态和可下载证据见{doc}`15-results`；没有对应文件或成功记录时，保留“待测”，不引用历史 Triton 时间。
+
+::::
+
+::::{tab-item} Triton
+:sync: triton
+
+**历史 Triton 实验（2026-11-02，原环境）**
+
 本机 FP16 512³ GEMM 的普通提交实验中，基础、流水线和持久化版本分别为 31.760、30.400 和 38.528 μs，数据来自 `results/gemm.json`。流水线的小幅收益与持久化的回退都应保留；这些数字包含接口提交成本，不能仅凭差值证明加载与计算重叠了多少周期。
+
+::::
+:::::
 
 ## 练习
 

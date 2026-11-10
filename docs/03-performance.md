@@ -72,6 +72,35 @@ elapsed = time.perf_counter() - start
 
 GPU events 应放在同一个 stream，并在读取结果前等待。以下是可改用本书算子的最小示例：
 
+:::::{tab-set}
+:sync-group: kernel-backend
+
+::::{tab-item} TileLang
+:sync: tilelang
+
+```python
+import torch
+from fa5060.tilelang import vector_add
+
+x = torch.randn(1 << 20, device="cuda")
+y = torch.randn_like(x)
+for _ in range(10):
+    vector_add(x, y)
+torch.cuda.synchronize()
+start, end = torch.cuda.Event(enable_timing=True), torch.cuda.Event(enable_timing=True)
+start.record()
+for _ in range(100):
+    z = vector_add(x, y)
+end.record()
+end.synchronize()
+print("mean milliseconds:", start.elapsed_time(end) / 100)
+```
+
+::::
+
+::::{tab-item} Triton
+:sync: triton
+
 ```python
 import torch
 from fa5060.fundamentals import vector_add
@@ -90,6 +119,9 @@ end.synchronize()
 print("mean milliseconds:", start.elapsed_time(end) / 100)
 ```
 
+::::
+:::::
+
 这个短例子仍包含输出分配及重复地址带来的缓存效应，不能替代完整基准协议。项目基准负责更明确地控制预热、候选配置与统计，见{doc}`appendix/benchmarking`。小规模输入反复使用同一缓存驻留数据时，有效带宽甚至可能超过外部显存带宽；这并不违反物理规律，而是在提醒你区分逻辑字节与 DRAM 字节。
 
 ## 3.5 用正确统计支持正确结论
@@ -98,10 +130,27 @@ print("mean milliseconds:", start.elapsed_time(end) / 100)
 
 speedup 定义为同一工作负载上的 $t_{\rm baseline}/t_{\rm candidate}$。跨工作负载汇总时，几何平均数适合表达比例，但仍需保留逐项结果；少数大胜不能掩盖关键场景的大幅回退。没有可运行的相同语义原生基线时，结果应写“基线缺失”，不能据此宣称 SOTA。
 
-
 ## 本机实验观察
 
+:::::{tab-set}
+:sync-group: kernel-backend
+
+::::{tab-item} TileLang
+:sync: tilelang
+
+本章的 TileLang 对应实验由 `--backend tilelang` 生成；读者结果保存在 `results/local/tilelang/`，本次发布证据位于 `results/tilelang/`。当前发布的实际状态和可下载证据见{doc}`15-results`；没有对应文件或成功记录时，保留“待测”，不引用历史 Triton 时间。
+
+::::
+
+::::{tab-item} Triton
+:sync: triton
+
+**历史 Triton 实验（2026-11-02，原环境）**
+
 本机基础实验反复使用约 12 MiB 读写量的向量加法输入，设备 L2 为 32 MiB。因此，即使据 `results/basics.json` 算出很高的有效字节率，也不能直接称其为显存带宽。实际外存流量需要缓存控制或 profiler 证据；这正是 roofline 中“字节数”必须先界定层次的原因。
+
+::::
+:::::
 
 ## 练习
 

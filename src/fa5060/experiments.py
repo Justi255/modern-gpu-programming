@@ -12,8 +12,10 @@ import importlib
 from pathlib import Path
 from statistics import median
 import sys
+import time
 
 from .probe import _write_json, collect_environment
+from .benchmark import BACKENDS, _backend_packages, _check_backend
 
 SEED = 20261102
 REPETITIONS = 10
@@ -37,9 +39,12 @@ def _time_cuda(torch, operation, repetitions=REPETITIONS, warmup=WARMUP):
     outputs/workspaces are preallocated explicitly; this scope is saved in
     the record.  This helper does not claim isolated instruction latency.
     """
+    torch.cuda.synchronize()
+    warmup_start = time.perf_counter_ns()
     for _ in range(warmup):
         operation()
     torch.cuda.synchronize()
+    warmup_wall_ms = (time.perf_counter_ns() - warmup_start) / 1e6
     events = [
         (torch.cuda.Event(enable_timing=True), torch.cuda.Event(enable_timing=True))
         for _ in range(repetitions)
@@ -55,6 +60,7 @@ def _time_cuda(torch, operation, repetitions=REPETITIONS, warmup=WARMUP):
     return {
         "clock": "CUDA events on the current stream", "mode": "eager",
         "warmup": warmup, "repetitions": repetitions,
+        "warmup_wall_ms": warmup_wall_ms,
         "summary": "median", "median_ms": float(median(samples)),
         "samples_ms": samples,
     }
@@ -75,8 +81,15 @@ def _check(torch, actual, expected, *, rtol, atol):
 
 
 def _record(torch, environment, *, name, inputs, operation, expected, rtol, atol,
-            reference, baseline=None, timing_scope="public call; output allocation included"):
+            reference, baseline=None, timing_scope="public call; output allocation included",
+            backend="triton"):
+    if expected.is_cuda:
+        torch.cuda.synchronize()
+    first_call_start = time.perf_counter_ns()
     actual = operation()
+    if actual.is_cuda:
+        torch.cuda.synchronize()
+    first_call_wall_ms = (time.perf_counter_ns() - first_call_start) / 1e6
     correctness = _check(torch, actual, expected, rtol=rtol, atol=atol)
     baseline_correctness = None
     if baseline is not None:
@@ -86,8 +99,11 @@ def _record(torch, environment, *, name, inputs, operation, expected, rtol, atol
     baseline_timing = _time_cuda(torch, baseline) if baseline is not None else None
     packages = environment["packages"]
     return {
-        "name": name, "inputs": inputs,
-        "provider": {"name": "fa5060/Triton",
+        "name": name, "inputs": inputs, "backend": backend,
+        "startup": {"first_call_wall_ms": first_call_wall_ms,
+                    "scope": "synchronized wall time including JIT on cache miss; excluded from steady-state samples"},
+        "provider": {"name": f"fa5060/{'Triton' if backend == 'triton' else 'TileLang'}",
+                     "backend": backend, "package_versions": _backend_packages(packages, backend),
                      "version": packages.get("modern-gpu-programming-5060"),
                      "triton_version": packages.get("triton")},
         "reference": {"name": reference, "torch_version": packages.get("torch")},
@@ -102,8 +118,14 @@ def _record(torch, environment, *, name, inputs, operation, expected, rtol, atol
     }
 
 
-def _basics(torch, environment):
-    from .fundamentals import row_softmax, transpose, vector_add
+def _teaching_module(backend):
+    _check_backend(backend)
+    return importlib.import_module(".fundamentals" if backend == "triton" else ".tilelang", __package__)
+
+
+def _basics(torch, environment, backend="triton"):
+    module = _teaching_module(backend)
+    row_softmax, transpose, vector_add = module.row_softmax, module.transpose, module.vector_add
 
     records = []
     for length in (100003, 1 << 20):
@@ -112,7 +134,7 @@ def _basics(torch, environment):
         records.append(_record(
             torch, environment, name="vector_add", inputs={"length": length, "dtype": "float32"},
             operation=lambda: vector_add(x, y), expected=x + y, rtol=0, atol=0,
-            reference="torch.add float32", baseline=lambda: x + y,
+            reference="torch.add float32", baseline=lambda: x + y, backend=backend,
         ))
     for rows, cols in ((17, 781), (128, 1024)):
         # Strided outer rows exercise stride handling as well as the tail mask.
@@ -123,7 +145,7 @@ def _basics(torch, environment):
             inputs={"shape": list(x.shape), "stride": list(x.stride()), "dtype": "float32"},
             operation=lambda: row_softmax(x), expected=torch.softmax(x, dim=-1),
             rtol=2e-5, atol=2e-6, reference="torch.softmax float32",
-            baseline=lambda: torch.softmax(x, dim=-1),
+            baseline=lambda: torch.softmax(x, dim=-1), backend=backend,
         ))
     for rows, cols in ((37, 53), (1024, 1024)):
         x = torch.randn((rows * 2, cols), device="cuda", dtype=torch.float32)[::2]
@@ -131,13 +153,13 @@ def _basics(torch, environment):
             torch, environment, name="transpose",
             inputs={"shape": list(x.shape), "stride": list(x.stride()), "dtype": "float32"},
             operation=lambda: transpose(x), expected=x.T.contiguous(), rtol=0, atol=0,
-            reference="torch.Tensor.T.contiguous", baseline=lambda: x.T.contiguous(),
+            reference="torch.Tensor.T.contiguous", baseline=lambda: x.T.contiguous(), backend=backend,
         ))
     return records
 
 
-def _gemm(torch, environment):
-    from .fundamentals import matmul
+def _gemm(torch, environment, backend="triton"):
+    matmul = _teaching_module(backend).matmul
 
     records = []
     for dtype in (torch.float16, torch.bfloat16):
@@ -153,13 +175,14 @@ def _gemm(torch, environment):
                     operation=lambda variant=variant: matmul(a, b, variant=variant),
                     expected=expected, rtol=tolerance, atol=tolerance,
                     reference="torch.matmul fp32 inputs, float32_matmul_precision=highest",
-                    baseline=lambda: torch.matmul(a, b),
+                    baseline=lambda: torch.matmul(a, b), backend=backend,
                 ))
     return records
 
 
-def _attention(torch, environment):
-    from .attention import decode, decode_workspace, prefill
+def _attention(torch, environment, backend="triton"):
+    module = importlib.import_module(".attention" if backend == "triton" else ".tilelang", __package__)
+    decode, decode_workspace, prefill = module.decode, module.decode_workspace, module.prefill
     from .reference import attention_reference
 
     records = []
@@ -213,14 +236,16 @@ def _attention(torch, environment):
                     operation=operation, expected=expected, rtol=tolerance, atol=tolerance,
                     reference="fa5060.reference.attention_reference blockwise fp32",
                     timing_scope="eager attention call; preallocated output and decode workspace; no cache update",
+                    backend=backend,
                 ))
                 torch.testing.assert_close(k, saved_k, rtol=0, atol=0)
                 torch.testing.assert_close(v, saved_v, rtol=0, atol=0)
     return records
 
 
-def run(suite):
+def run(suite, *, backend="triton"):
     """Run one suite and return only measured, numerically validated records."""
+    _check_backend(backend)
     if suite not in {"basics", "gemm", "attention"}:
         raise ValueError("suite must be basics, gemm, or attention")
     torch = _require_cuda()
@@ -231,11 +256,13 @@ def run(suite):
         torch.set_float32_matmul_precision("highest")
         with torch.no_grad():
             runner = {"basics": _basics, "gemm": _gemm, "attention": _attention}[suite]
-            records = runner(torch, environment)
+            records = runner(torch, environment, backend)
     finally:
         torch.set_float32_matmul_precision(previous_precision)
     return {
-        "schema_version": 1, "suite": suite, "seed": SEED,
+        "schema_version": 1, "suite": suite, "seed": SEED, "backend": backend,
+        "backend_packages": _backend_packages(environment.get("packages", {}), backend),
+        "configuration_mode": "public_default",
         "environment": environment, "records": records,
         "notes": [
             "Numerical checks precede all timing; latency_ms is a median of 10 CUDA-event samples.",
@@ -249,10 +276,11 @@ def run(suite):
 def main(argv=None):
     parser = argparse.ArgumentParser(description="Run verified GPU teaching experiments")
     parser.add_argument("suite", choices=("basics", "gemm", "attention"))
+    parser.add_argument("--backend", choices=BACKENDS, default="triton")
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args(argv)
     try:
-        result = run(args.suite)
+        result = run(args.suite, backend=args.backend)
         _write_json(args.output, result)
     except (ImportError, RuntimeError, ValueError, AssertionError) as exc:
         print(f"Experiment failed: {exc}", file=sys.stderr)

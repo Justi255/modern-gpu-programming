@@ -1,11 +1,19 @@
+from dataclasses import replace
+from importlib import import_module
+
 import pytest
 torch = pytest.importorskip('torch')
 
 GPU = pytest.mark.skipif(not torch.cuda.is_available(), reason='CUDA GPU required')
 
+@pytest.fixture(params=["triton", "tilelang"])
+def api(request):
+    return import_module("fa5060.attention" if request.param == "triton" else "fa5060.tilelang.attention")
 
-def test_cpu_is_rejected_explicitly():
-    from fa5060 import prefill
+
+
+def test_cpu_is_rejected_explicitly(api):
+    prefill = api.prefill
 
     q = torch.zeros(1, 3, 2, 32, dtype=torch.float16)
     with pytest.raises(ValueError, match='CUDA'):
@@ -18,8 +26,8 @@ def test_cpu_is_rejected_explicitly():
 @pytest.mark.parametrize('hkv', [4, 2, 1])
 @pytest.mark.parametrize('causal', [False, True])
 @pytest.mark.parametrize('d', [32, 64, 128])
-def test_prefill_odd_tail_prefix_and_outer_stride(dtype, hkv, causal, d):
-    from fa5060 import prefill
+def test_prefill_odd_tail_prefix_and_outer_stride(api, dtype, hkv, causal, d):
+    prefill = api.prefill
     from fa5060.reference import attention_reference
 
     torch.manual_seed(11)
@@ -39,8 +47,8 @@ def test_prefill_odd_tail_prefix_and_outer_stride(dtype, hkv, causal, d):
 @pytest.mark.parametrize('page', [16, 32, 64])
 @pytest.mark.parametrize('splits', [1, 4])
 @pytest.mark.parametrize('mode', ['vector', 'grouped'])
-def test_decode_paged_tail_and_empty(dtype, page, splits, mode):
-    from fa5060 import decode
+def test_decode_paged_tail_and_empty(api, dtype, page, splits, mode):
+    decode = api.decode
     from fa5060.reference import attention_reference
 
     torch.manual_seed(12)
@@ -57,8 +65,8 @@ def test_decode_paged_tail_and_empty(dtype, page, splits, mode):
 
 @GPU
 @pytest.mark.gpu
-def test_prefill_paged_right_alignment_and_scale():
-    from fa5060 import prefill
+def test_prefill_paged_right_alignment_and_scale(api):
+    prefill = api.prefill
     from fa5060.reference import attention_reference
 
     torch.manual_seed(13)
@@ -74,8 +82,9 @@ def test_prefill_paged_right_alignment_and_scale():
 
 @GPU
 @pytest.mark.gpu
-def test_graph_replay_reads_changed_lengths_and_workspace():
-    from fa5060 import decode, decode_workspace
+def test_graph_replay_reads_changed_lengths_and_workspace(api):
+    decode = api.decode
+    decode_workspace = api.decode_workspace
     from fa5060.reference import attention_reference
 
     torch.manual_seed(14)
@@ -98,8 +107,8 @@ def test_graph_replay_reads_changed_lengths_and_workspace():
 
 @GPU
 @pytest.mark.gpu
-def test_large_logits_and_zero_scale_are_finite():
-    from fa5060 import prefill
+def test_large_logits_and_zero_scale_are_finite(api):
+    prefill = api.prefill
     from fa5060.reference import attention_reference
 
     torch.manual_seed(15)
@@ -110,3 +119,21 @@ def test_large_logits_and_zero_scale_are_finite():
         actual = prefill(q, k, v, scale=scale)
         assert bool(actual.isfinite().all())
         torch.testing.assert_close(actual, attention_reference(q,k,v,scale=scale), atol=3e-3, rtol=3e-3)
+
+
+@GPU
+@pytest.mark.gpu
+def test_decode_rejects_aliased_workspace_before_launch(api):
+    q = torch.randn(1, 2, 64, device='cuda', dtype=torch.float16)
+    k = torch.randn(1, 17, 1, 64, device='cuda', dtype=q.dtype)
+    lens = torch.tensor([17], device='cuda', dtype=torch.int32)
+    scratch = api.decode_workspace(q, k, num_splits=4)
+    scratch = replace(scratch, sums=scratch.maxima)
+    with pytest.raises(ValueError, match='overlap'):
+        api.decode(q, k, k, kv_lens=lens, workspace=scratch, num_splits=4)
+
+    # Half-precision output and FP32 scratch can alias the same allocation.
+    scratch = api.decode_workspace(q, k, num_splits=4)
+    out = scratch.partial.view(torch.float16).flatten()[:q.numel()].view_as(q)
+    with pytest.raises(ValueError, match='overlap'):
+        api.decode(q, k, k, kv_lens=lens, out=out, workspace=scratch, num_splits=4)

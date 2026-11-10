@@ -1,5 +1,8 @@
 tutorial/
 .venv/
+.venv-tilelang/
+.venv-docs/
+.venv-repro/
 .tools/
 .work/
 .superpowers/
@@ -12,6 +15,11 @@ _build/
 build/
 dist/
 .triton/
+.tilelang/
+.tilelang_cache/
+.tvm/
+.cache/tilelang/
+.cache/tvm/
 *.cubin
 *.so
 *.ncu-rep

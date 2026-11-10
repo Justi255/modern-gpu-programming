@@ -34,22 +34,97 @@ $$
 
 在仓库根目录执行以下命令，输出保存到独立文件。探针记录设备与软件环境，教学实验记录分解过程，smoke 先检查路径，full 才用于完整覆盖。第一次全套运行可以不带 `--tune`，以便保留默认实现的基准；带调优的实验应另存文件。
 
+:::::{tab-set}
+:sync-group: kernel-backend
+
+::::{tab-item} TileLang
+:sync: tilelang
+
 ```bash
-python -m fa5060.probe --output results/environment.json
-python -m fa5060.experiments basics --output results/basics.json
-python -m fa5060.experiments gemm --output results/gemm.json
-python -m fa5060.experiments attention --output results/attention.json
-python -m fa5060.benchmark --suite smoke --phase all --output results/smoke.json
-python -m fa5060.benchmark --suite full --phase all --rounds 5 --output results/full.json
-python -m fa5060.benchmark --suite full --phase all --rounds 5 --tune --output results/full-tuned.json
-python scripts/report_results.py --input results/full-tuned.json
+python -m fa5060.probe --output results/local/tilelang/environment.json
+python -m fa5060.experiments basics --backend tilelang --output results/local/tilelang/basics.json
+python -m fa5060.experiments gemm --backend tilelang --output results/local/tilelang/gemm.json
+python -m fa5060.experiments attention --backend tilelang --output results/local/tilelang/attention.json
+python -m fa5060.benchmark --backend tilelang --suite smoke --phase all --output results/local/tilelang/smoke.json
+python -m fa5060.benchmark --backend tilelang --suite full --phase all --rounds 5 --output results/local/tilelang/full.json
+python -m fa5060.benchmark --backend tilelang --suite full --phase all --rounds 5 --tune --output results/local/tilelang/full-tuned.json
+# 双后端对照：见本章 15.7，不用历史报告脚本覆盖旧数据。
 ```
+
+::::
+
+::::{tab-item} Triton
+:sync: triton
+
+```bash
+python -m fa5060.probe --output results/local/triton/environment.json
+python -m fa5060.experiments basics --backend triton --output results/local/triton/basics.json
+python -m fa5060.experiments gemm --backend triton --output results/local/triton/gemm.json
+python -m fa5060.experiments attention --backend triton --output results/local/triton/attention.json
+python -m fa5060.benchmark --backend triton --suite smoke --phase all --output results/local/triton/smoke.json
+python -m fa5060.benchmark --backend triton --suite full --phase all --rounds 5 --output results/local/triton/full.json
+python -m fa5060.benchmark --backend triton --suite full --phase all --rounds 5 --tune --output results/local/triton/full-tuned.json
+# 历史 report_results.py 默认会重写发布章节；读者对照使用 15.7 的 compare_backends.py。
+```
+
+::::
+:::::
 
 运行结果与源码版本应一同归档。一个 JSON 文件应能回答：输入是什么、哪些 provider 尝试执行、为何跳过、正确性是否通过、计时边界是什么、每轮测得什么、聚合如何得到。若只保存最终加速比，就无法判断它来自真正的内核改善、错误的基线选择，还是一次偶然的频率波动。
 
+:::::{tab-set}
+:sync-group: kernel-backend
+
+::::{tab-item} TileLang
+:sync: tilelang
+
+TileLang 结果仍使用统一报告 schema，保存环境、backend、case、provider、配置、每轮时间和覆盖状态。逐 case 选择最快正确兼容基线，prefill/decode 分开统计；后端名是数据来源的一部分，不能把历史 Triton 的 `ours` 时间标成 TileLang。对照脚本必须先确认输入和计时边界相同。
+
+::::
+
+::::{tab-item} Triton
+:sync: triton
+
 正式报告采用 `schema_version` 标识格式，顶层保留 `environment`、`suite`、`rounds`、`cases` 与 `summary`。逐 case 的 `providers` 记录各 provider 状态和时间，`fastest_baseline` 指明参照，`speedup_vs_fastest` 给出比例；phase 汇总保留 `geometric_mean_speedup`、`worst_speedup` 与 `target_met`。这些字段需要连同覆盖状态一起读，单独出现 `target_met` 不能替代必要原生基线的有效性检查。
 
+::::
+:::::
+
 离线选中的配置可以通过同一个公共接口重放。下面以报告中的一条 decode 为例，输入生成与计时区外的参考检查保持一致；这段代码只验证配置复用，不替代五轮基准：
+
+:::::{tab-set}
+:sync-group: kernel-backend
+
+::::{tab-item} TileLang
+:sync: tilelang
+
+```python
+import json
+import torch
+from fa5060.tilelang import decode, decode_workspace
+from fa5060.reference import attention_reference
+from fa5060.workloads import AttentionCase, make_inputs
+
+report = json.load(open("results/tilelang/full-tuned.json"))
+record = next(c for c in report["cases"] if c["phase"] == "decode")
+case = AttentionCase.from_dict(record)
+inputs = make_inputs(case)
+choice = record["providers"]["ours"]["selected_config"]
+workspace = decode_workspace(inputs.q, inputs.k, block_table=inputs.block_table,
+                             config=choice["config"], num_splits=choice["num_splits"])
+actual = decode(inputs.q, inputs.k, inputs.v, kv_lens=inputs.kv_lens,
+                block_table=inputs.block_table, workspace=workspace,
+                config=choice["config"], num_splits=choice["num_splits"])
+expected = attention_reference(inputs.q, inputs.k, inputs.v, causal=False,
+                               kv_lens=inputs.kv_lens, block_table=inputs.block_table)
+tolerance = 0.003 if case.dtype == "fp16" else 0.02
+torch.testing.assert_close(actual, expected, atol=tolerance, rtol=tolerance)
+```
+
+::::
+
+::::{tab-item} Triton
+:sync: triton
 
 ```python
 import json
@@ -74,6 +149,9 @@ tolerance = 0.003 if case.dtype == "fp16" else 0.02
 torch.testing.assert_close(actual, expected, atol=tolerance, rtol=tolerance)
 ```
 
+::::
+:::::
+
 ## 15.4 笔记本 GPU 的实验纪律
 
 笔记本功耗与热状态会随时间变化。同一张 GPU 在电池、外接电源、不同风扇模式和长时间负载后，可能给出不同的持续频率。实验不需要假装这些变化不存在；需要做的是记录条件、预热、重复测量，并交替比较候选与基线，降低时间顺序造成的偏差。
@@ -91,6 +169,21 @@ CUDA event 测量流上的 GPU 工作，主机墙钟测量一次 API 调用的�
 ## 15.6 本仓库的实测记录
 
 本节由 `scripts/report_results.py` 从完整结果文件生成，收录设备信息、覆盖状态、逐 case 数据来源以及两个 phase 的判据结论。脚本会重新计算汇总并检查冻结项数，避免手工抄表改变比较集合。
+
+:::::{tab-set}
+:sync-group: kernel-backend
+
+::::{tab-item} TileLang
+:sync: tilelang
+
+TileLang 的本次数据与同环境 Triton 对照在 15.7 节单独发布。这里的 312 项结果来自 2026-11-02 的历史 Triton 发布，不能作为 TileLang 结果；切换到 Triton 标签可查完整历史。
+
+::::
+
+::::{tab-item} Triton
+:sync: triton
+
+**历史 Triton 发布：2026-11-02。以下生成区块及原始文件保持原样。**
 
 <!-- GENERATED_RESULTS_START: root integrates actual probe/benchmark evidence here. -->
 
@@ -166,6 +259,58 @@ CUDA event 测量流上的 GPU 工作，主机墙钟测量一次 API 调用的�
 完整测试与文档构建命令及结果另见 {download}`验证记录 <../results/verification.json>`。CPU CI 不把跳过 GPU 测试视作 GPU 通过；真正的设备验证在本机执行。
 
 <!-- GENERATED_RESULTS_END -->
+
+::::
+:::::
+
+## 15.7 TileLang 与 Triton 的同环境对照
+
+<!-- TILELANG_RESULTS_START -->
+
+本节接受 `results/tilelang/` 中的新实验记录。历史 `results/full-tuned.json` 固定为 2026-11-02 Triton 记录；新版比较应在同一 Python 环境、相同工作负载与计时协议下重新运行两端，不能直接把新 TileLang 时间与旧热状态的数据相除。本次采集环境的基础包继承关系见{doc}`appendix/install`；以下读者命令使用干净 `.venv-repro`，写入 `results/local/`。两端均只运行真实 device 实现，不以 PyTorch 计算回退掩盖失败。
+
+:::::{tab-set}
+:sync-group: kernel-backend
+
+::::{tab-item} TileLang
+:sync: tilelang
+
+```bash
+source .venv-repro/bin/activate
+python -m fa5060.probe --output results/local/tilelang/environment.json
+python -m fa5060.experiments basics --backend tilelang --output results/local/tilelang/basics.json
+python -m fa5060.experiments gemm --backend tilelang --output results/local/tilelang/gemm.json
+python -m fa5060.experiments attention --backend tilelang --output results/local/tilelang/attention.json
+python -m fa5060.benchmark --backend tilelang --suite smoke --phase all --output results/local/tilelang/smoke.json
+python -m fa5060.benchmark --backend tilelang --suite full --phase all --rounds 5 --tune --output results/local/tilelang/full-tuned.json
+```
+
+::::
+
+::::{tab-item} Triton
+:sync: triton
+
+```bash
+# 为双后端比较，使用与 TileLang 相同的 .venv-repro 环境。
+source .venv-repro/bin/activate
+python -m fa5060.benchmark --backend triton --suite full --phase all --rounds 5 --tune --output results/local/triton/full-tuned.json
+```
+
+::::
+:::::
+
+生成对照时不改写任一原始报告：
+
+```bash
+.venv-repro/bin/python scripts/compare_backends.py --triton results/local/triton/full-tuned.json --tilelang results/local/tilelang/full-tuned.json --output-dir results/local/comparison
+```
+
+编译失败、数值不合格、OOM、provider 缺失和未完成 case 必须留在覆盖统计中。只有相同 case 均通过、完整计时包含 split 与 merge、原生分页条件满足时，才能报告可比较的后端比例。`1.10×/0.95×` 判据仍分别作用于每个后端与最快正确兼容基线，TileLang 战胜 Triton 不等于达到该目标。
+
+```{include} ../results/tilelang/comparison.md
+```
+
+<!-- TILELANG_RESULTS_END -->
 
 ## 练习
 

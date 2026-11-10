@@ -13,7 +13,42 @@ Q/K/V 和输出的最后一维必须连续，外层地址使用各自的实际 s
 
 GQA 的存储优势来自较少的 KV 头，不等于多个查询头在每一级缓存中都只会读取一次 KV。本项目的查询头调度、L2 行为与输入形状共同决定跨头复用。报告中应区分「逻辑 KV 容量减少」与「测得的外存字节减少」，不要把前者直接当作后者。
 
+:::::{tab-set}
+:sync-group: kernel-backend
+
+::::{tab-item} TileLang
+:sync: tilelang
+
+下面是 TileLang 的在线 prefill factory：`T.Kernel` 给出查询块、头和批次的所有权，显式 shared buffer 供两次 `T.gemm` 使用，fragment 保存 FP32 分数、最大值、分母和输出累计。概率在 PV 前转换为 Q 的低精度类型，长期统计与累计保持 FP32；换底使用 `exp2` 时最大值也必须处于同一指数域。
+
+::::
+
+::::{tab-item} Triton
+:sync: triton
+
 下面是 pointer 路径的完整在线主循环。二维 launch 的第一个轴负责查询块，第二个轴把批次与查询头压平。`maximum` 保存已经乘过 $\log_2e$ 的分数最大值，因此校正因子与概率使用 `exp2`。`denominator`、`maximum` 和 `accumulator` 是 fp32；为使用第二次矩阵乘法，概率在 `tl.dot` 前转成 Q 的低精度类型。这与全 fp32 参考有合理舍入差异，不能由「fp32 accumulator」推断整条计算链都使用 fp32。
+
+::::
+:::::
+
+
+:::::{tab-set}
+:sync-group: kernel-backend
+
+::::{tab-item} TileLang
+:sync: tilelang
+
+```{literalinclude} ../src/fa5060/tilelang/attention.py
+:language: python
+:pyobject: _prefill_kernel
+:linenos:
+:caption: 真实 prefill 内核：查询分块、在线 softmax 与原生分页加载
+```
+
+::::
+
+::::{tab-item} Triton
+:sync: triton
 
 ```{literalinclude} ../src/fa5060/attention.py
 :language: python
@@ -22,9 +57,63 @@ GQA 的存储优势来自较少的 KV 头，不等于多个查询头在每一级
 :caption: 真实 prefill 内核：查询分块、在线 softmax 与原生分页加载
 ```
 
+::::
+:::::
+
+:::::{tab-set}
+:sync-group: kernel-backend
+
+::::{tab-item} TileLang
+:sync: tilelang
+
+TileLang 公共包装验证形状、dtype、设备和 stride，按相同 `config` 语义选择块尺寸、thread 数、stages 与 loader。`num_warps` 映射到每 CTA 的 thread 数。默认 pointer 路径原生支持 dense/paged；`loader="tma"` 仅用于满足对齐与连续性约束的 dense 输入。当前 TileLang TMA 变体为 Q/K 指定描述符搬运，V 仍使用带有效长度保护的 copy，避免 `0 * NaN` 污染 PV；它与 Triton 变体的搬运分工不同。生成哪种指令必须通过本机产物确认，不能只看 `T.copy`。
+
+::::
+
+::::{tab-item} Triton
+:sync: triton
+
 公共包装负责检查元数据的形状、类型、设备与布局，并把真实 stride 传入内核。`config` 可以设置 `block_m`、`block_n`、`num_warps`、`num_stages` 与 `loader`；其中 stages 是编译器流水调度参数。默认使用 `loader='pointer'`。连续稠密 BSHD 输入还可以显式选择 `loader='tma'`：该版本使用真实 TensorDescriptor 加载，生成 `cp.async.bulk.tensor` 与 `mma.sync`，仍以寄存器保存 fp32 累计。它不使用 SM100 的 `tcgen05` 或 TMEM。
 
+::::
+:::::
+
+:::::{tab-set}
+:sync-group: kernel-backend
+
+::::{tab-item} TileLang
+:sync: tilelang
+
+TileLang 的 dense TMA 选择同样要求 D64/128、连续 BSHD、16 字节基地址和行距对齐，并拒绝 paged 组合。Q/K 的 TMA 分配边界保护不能代替有效长度、batch 和右对齐 causal 掩码；V 在加载前将无效位置置零，未使用槽位中的 NaN 也不能参与实际矩阵乘法。支持条件以公开包装与本次 GPU 验证记录为准。
+
+::::
+
+::::{tab-item} Triton
+:sync: triton
+
 TMA 版本要求 D=64/128、输入连续、基地址与行距符合 16 字节对齐；分页输入会明确报错。描述符把 batch 与序列展平，边界块还必须显式屏蔽跨 batch 和有效长度之外的数据。否则，描述符的分配边界零填充不能代替逻辑序列的掩码，未使用的 KV 槽位中若存在 NaN，仍可能污染乘法。
+
+::::
+:::::
+
+
+:::::{tab-set}
+:sync-group: kernel-backend
+
+::::{tab-item} TileLang
+:sync: tilelang
+
+```{literalinclude} ../src/fa5060/tilelang/attention.py
+:language: python
+:pyobject: _prefill_kernel
+:linenos:
+:caption: TileLang prefill 工厂：loader 的 lowering 与在线统计
+```
+
+::::
+
+::::{tab-item} Triton
+:sync: triton
 
 ```{literalinclude} ../src/fa5060/attention_tma.py
 :language: python
@@ -33,7 +122,44 @@ TMA 版本要求 D=64/128、输入连续、基地址与行距符合 16 字节对
 :caption: TensorDescriptor 搬运与在线 softmax：保持相同的右对齐语义
 ```
 
+::::
+:::::
+
+:::::{tab-set}
+:sync-group: kernel-backend
+
+::::{tab-item} TileLang
+:sync: tilelang
+
+TileLang 通过 `config={"loader": "tma", "block_m": 64, "block_n": 64, "num_stages": 2}` 选择符合条件的 dense 路径。先验证 FP16/BF16、变长、NaN 填充的无效槽、空 KV、GQA 与 Graph，再导出代码检查传输指令；未完成的项目在结果章保留明确状态，不用安装成功代替运行证据。
+
+::::
+
+::::{tab-item} Triton
+:sync: triton
+
 用 `prefill(q, k, v, config={"loader": "tma", "block_m": 64, "block_n": 64, "num_stages": 2})` 选择该路径。运行 `pytest -q tests/test_attention_tma.py` 可核对 FP16/BF16、非对齐长度、空 KV、GQA 和 CUDA Graph 等边界；性能要另行测量，正确性或指令证据不能证明 TMA 一定快于 pointer。
+
+::::
+:::::
+
+:::::{tab-set}
+:sync-group: kernel-backend
+
+::::{tab-item} TileLang
+:sync: tilelang
+
+```{literalinclude} ../src/fa5060/tilelang/attention.py
+:language: python
+:pyobject: prefill
+:linenos:
+:caption: 公共 prefill 包装：校验、资源预检与 launch
+```
+
+::::
+
+::::{tab-item} Triton
+:sync: triton
 
 ```{literalinclude} ../src/fa5060/attention.py
 :language: python
@@ -42,11 +168,41 @@ TMA 版本要求 D=64/128、输入连续、基地址与行距符合 16 字节对
 :caption: 公共 prefill 包装：校验、资源预检与 launch
 ```
 
+::::
+:::::
+
 ## 13.2 稠密容量与有效长度
 
 稠密 K/V 使用 `[B, capacity, Hkv, D]`。不提供 `kv_lens` 时，有效长度等于容量；提供时，第 $b$ 条序列只读前 $L_b$ 个 token。causal 的偏移使用 $L_b-S_q$，而不是 `capacity-Sq`。容量只是存储分配，不能改变模型的可见上下文。
 
 下面的例子同时覆盖 GQA、变长、查询数多于有效长度，以及只读的 KV 语义。它使用本项目的独立 fp32 参考核对输出：
+
+:::::{tab-set}
+:sync-group: kernel-backend
+
+::::{tab-item} TileLang
+:sync: tilelang
+
+```python
+import torch
+from fa5060.tilelang import prefill
+from fa5060.reference import attention_reference
+
+torch.manual_seed(13)
+q = torch.randn((2, 5, 4, 64), device="cuda", dtype=torch.float16)
+k = torch.randn((2, 9, 2, 64), device="cuda", dtype=torch.float16)
+v = torch.randn_like(k)
+lengths = torch.tensor([9, 3], device="cuda", dtype=torch.int32)
+actual = prefill(q, k, v, kv_lens=lengths)
+expected = attention_reference(q, k, v, causal=True, kv_lens=lengths)
+torch.testing.assert_close(actual, expected, rtol=2e-2, atol=2e-2)
+torch.testing.assert_close(actual[1, :2], torch.zeros_like(actual[1, :2]))
+```
+
+::::
+
+::::{tab-item} Triton
+:sync: triton
 
 ```python
 import torch
@@ -63,6 +219,9 @@ expected = attention_reference(q, k, v, causal=True, kv_lens=lengths)
 torch.testing.assert_close(actual, expected, rtol=2e-2, atol=2e-2)
 torch.testing.assert_close(actual[1, :2], torch.zeros_like(actual[1, :2]))
 ```
+
+::::
+:::::
 
 在输出为空的查询行中，结果仍为定义明确的零。调用者若传入 `out`，需要提供匹配的形状、类型、设备与可接受布局，且不能让输出覆盖仍会被读取的 Q/K/V。显式输出可把分配移出稳定计时区，但不会自动消除 JIT 编译或首次使用的开销。
 
@@ -89,6 +248,35 @@ $$
 
 下面用四个物理页承载两条序列，并刻意改变页顺序。待测内核直接读取页表与物理缓存，没有预先 gather 成稠密 KV。独立参考会在自身内部 gather 逻辑 KV 后执行 fp32 公式，这条校验路径不进入性能比较。
 
+:::::{tab-set}
+:sync-group: kernel-backend
+
+::::{tab-item} TileLang
+:sync: tilelang
+
+```python
+import torch
+from fa5060.tilelang import prefill
+from fa5060.reference import attention_reference
+
+torch.manual_seed(130)
+q = torch.randn((2, 7, 8, 64), device="cuda", dtype=torch.float16)
+k = torch.randn((4, 16, 2, 64), device="cuda", dtype=torch.float16)
+v = torch.randn_like(k)
+table = torch.tensor([[2, 0], [3, 1]], device="cuda", dtype=torch.int32)
+lengths = torch.tensor([27, 18], device="cuda", dtype=torch.int32)
+out = torch.empty_like(q)
+prefill(q, k, v, block_table=table, kv_lens=lengths, out=out)
+ref = attention_reference(q, k, v, causal=True,
+                          block_table=table, kv_lens=lengths)
+torch.testing.assert_close(out, ref, rtol=2e-2, atol=2e-2)
+```
+
+::::
+
+::::{tab-item} Triton
+:sync: triton
+
 ```python
 import torch
 from fa5060 import prefill
@@ -107,13 +295,32 @@ ref = attention_reference(q, k, v, causal=True,
 torch.testing.assert_close(out, ref, rtol=2e-2, atol=2e-2)
 ```
 
+::::
+:::::
+
 ## 13.4 causal 的块级裁剪
 
 对查询块中最大的绝对查询位置 $a_{\max}$，所有 $j>a_{\max}$ 的 KV 块均不可见，可以跳过。对完全落在所有查询可见前缀内的块，可以不逐元素检查 causal 三角边界；只有交界块需要精确掩码。这个优化必须先保证右对齐偏移正确，且不同批次的有效长度独立处理。
 
 把「跳过整块」与「把无效分数设为负无穷」混为一谈，会遗漏一个重要差别：前者减少加载和矩阵乘法，后者通常仍支付计算代价。性能报告若使用因果注意力，应说明有用 FLOP 的计算约定；直接套非因果 $4S_qLD$ 会高估有效吞吐。延迟始终是最直接、最少依赖计数约定的比较指标。
 
+:::::{tab-set}
+:sync-group: kernel-backend
+
+::::{tab-item} TileLang
+:sync: tilelang
+
+TileLang 的循环边界先由有效长度与查询块最大绝对位置裁剪，之后仍逐查询行检查精确 causal 条件。读取源码时分别找“跳过未来整块”与“边界块的元素掩码”，并验证 $L_b<S_q$ 时不会因负停止位置而读取任何无效页。是否还为完全可见前缀分出无 causal mask 循环，以当前 factory 为准。
+
+::::
+
+::::{tab-item} Triton
+:sync: triton
+
 当前 pointer 实现设置 `stop=min(length, (block+1)*BM+length-SQ)`，并把负值截为零，从而跳过查询块完全不可见的未来 KV 块；循环内仍对各行应用精确 causal 条件。它没有另外分出完全可见前缀的无 causal mask 循环。阅读其他变体时，同样应区分这两项优化，而不是仅凭函数名包含 causal 就认定都已实现。
+
+::::
+:::::
 
 ## 13.5 先确认语义，再谈调优
 
@@ -121,15 +328,48 @@ torch.testing.assert_close(out, ref, rtol=2e-2, atol=2e-2)
 
 运行本项目统一实验与 smoke 基准：
 
+:::::{tab-set}
+:sync-group: kernel-backend
+
+::::{tab-item} TileLang
+:sync: tilelang
+
 ```bash
-python -m fa5060.experiments attention --output results/attention.json
-python -m fa5060.benchmark --suite smoke --phase prefill --output results/prefill-smoke.json
+python -m fa5060.experiments attention --backend tilelang --output results/local/tilelang/attention.json
+python -m fa5060.benchmark --backend tilelang --suite smoke --phase prefill --output results/local/tilelang/prefill-smoke.json
 ```
+
+::::
+
+::::{tab-item} Triton
+:sync: triton
+
+```bash
+python -m fa5060.experiments attention --backend triton --output results/local/triton/attention.json
+python -m fa5060.benchmark --backend triton --suite smoke --phase prefill --output results/local/triton/prefill-smoke.json
+```
+
+::::
+:::::
 
 分页性能比较只接受能原生读取同样页表语义的基线。若先把页缓存重排成稠密张量，该步骤既改变工作流，也可能把显著成本移出计时边界；它可以帮助语义调试，却不能作为原生分页 kernel 的公平性能对手。
 
-
 ## 本机实验观察
+
+:::::{tab-set}
+:sync-group: kernel-backend
+
+::::{tab-item} TileLang
+:sync: tilelang
+
+本章的 TileLang 对应实验由 `--backend tilelang` 生成；读者结果保存在 `results/local/tilelang/`，本次发布证据位于 `results/tilelang/`。当前发布的实际状态和可下载证据见{doc}`15-results`；没有对应文件或成功记录时，保留“待测”，不引用历史 Triton 时间。
+
+::::
+
+::::{tab-item} Triton
+:sync: triton
+
+**历史 Triton 实验（2026-11-02，原环境）**
 
 教学实验 `results/attention.json` 保留了 Q=[3,17,4,D]、有效 KV 长度 [79,53,0] 的 pointer 路径。稠密与分页都通过，FP16/BF16 最大误差分别为 0.00048828125 和 0.00390625。TMA 的独立 GPU 测试还检查了无效缓存中填 NaN 的情形；完整基准中的配置与延迟见结果章。
 
@@ -145,6 +385,9 @@ python -m fa5060.benchmark --suite smoke --phase prefill --output results/prefil
 | TMA，64×64 | 2 | 59.527 |
 
 本项选择了 pointer 64×64；TMA 有真实指令与正确性证据，却没有在本项胜出。增加 N 块也没有单调改善延迟。原始候选记录位于 `results/full-tuned.json` 的首个 case，应结合资源与更多轮次继续研究，不能由一轮差值断言具体停顿原因。
+
+::::
+:::::
 
 ## 练习
 

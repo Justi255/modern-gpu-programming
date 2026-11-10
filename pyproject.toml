@@ -5,14 +5,15 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "modern-gpu-programming-5060"
 version = "0.1.0"
-description = "A Chinese SM120/Triton textbook with executable GPU experiments"
+description = "A Chinese SM120 textbook with paired Triton and TileLang GPU experiments"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = ["numpy>=1.24"]
 
 [project.optional-dependencies]
 gpu = ["torch>=2.6", "triton>=3.3"]
-docs = ["sphinx>=7,<9", "myst-parser>=4,<5", "sphinx-book-theme>=1.1,<2", "sphinx-copybutton>=0.5,<1", "jieba>=0.42,<1"]
+docs = ["sphinx>=7,<9", "myst-parser>=4,<5", "sphinx-book-theme>=1.1,<2", "sphinx-copybutton>=0.5,<1", "sphinx-design>=0.6,<1", "jieba>=0.42,<1"]
+tilelang = ["torch==2.12.1", "triton==3.7.1", "tilelang==0.1.15", "apache-tvm-ffi==0.1.12"]
 test = ["pytest>=8,<10"]
 baselines = ["flashinfer-python==0.7.2.post1", "flash-attn-4[cu13]==4.0.0b37"]
 

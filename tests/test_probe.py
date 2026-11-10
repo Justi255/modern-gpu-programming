@@ -156,3 +156,29 @@ def test_nonfinite_numerical_result_is_rejected(monkeypatch):
     experiments = importlib.import_module("fa5060.experiments")
     with pytest.raises(AssertionError, match="NaN or Inf"):
         experiments._check(torch, torch.tensor([float("nan")]), torch.tensor([0.0]), rtol=0, atol=0)
+
+
+def test_probe_records_tilelang_versions_without_importing_compiler(probe, monkeypatch):
+    monkeypatch.setattr(probe, "_load_torch", lambda: (_ for _ in ()).throw(ImportError("absent")))
+    monkeypatch.setattr(probe, "_command_output", _no_commands)
+    versions = {"tilelang": "0.1.7", "apache-tvm-ffi": "0.1.4"}
+    monkeypatch.setattr(probe, "_package_version", versions.get)
+    result = probe.collect_environment()
+    assert result["packages"]["tilelang"] == "0.1.7"
+    assert result["packages"]["apache-tvm-ffi"] == "0.1.4"
+    assert result["compiler"]["tilelang_version"] == "0.1.7"
+
+
+@pytest.mark.parametrize("url,revision,expected", [
+    ("https://github.com/tile-ai/tilelang.git", "a" * 40,
+     {"url": "https://github.com/tile-ai/tilelang", "commit_id": "a" * 40}),
+    ("https://token@github.com/tile-ai/tilelang.git", "a" * 40, None),
+    ("https://github.com/tile-ai/tilelang.git?token=secret", "a" * 40, None),
+    ("file:///private/source", "a" * 40, None),
+    ("https://private.example/project", "a" * 40, None),
+])
+def test_compiler_source_only_records_known_public_repository(probe, monkeypatch, url, revision, expected):
+    distribution = SimpleNamespace(read_text=lambda name: json.dumps(
+        {"url": url, "vcs_info": {"commit_id": revision}}))
+    monkeypatch.setattr(probe.metadata, "distribution", lambda name: distribution)
+    assert probe._public_compiler_source("tilelang") == expected

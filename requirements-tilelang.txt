@@ -1,0 +1,5 @@
+# Reproduce on Linux x86_64 / Python 3.13 with CUDA Toolkit13.1.
+# Select torch2.12.1 CUDA13.0 wheel first (installation appendix).
+-c results/tilelang/packages-constraints.txt
+-e .[tilelang,baselines,docs,test]
+nvidia-cutlass-dsl[cu13]==4.8.1
