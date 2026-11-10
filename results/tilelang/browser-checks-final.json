@@ -1,0 +1,57 @@
+{
+  "verified_utc": "2026-11-10T04:28:28.565034+00:00",
+  "browser": "Codex in-app browser via cua_repl",
+  "url": "http://127.0.0.1:8765/index.html",
+  "checks": [
+    {
+      "step": "TileLang route displayed",
+      "pass": true
+    },
+    {
+      "step": "TileLang copy button success feedback",
+      "pass": true
+    },
+    {
+      "step": "Same-page Triton sync across 17 sets",
+      "pass": true
+    },
+    {
+      "step": "Triton copy button success feedback",
+      "pass": true
+    },
+    {
+      "step": "Cross-page Triton memory",
+      "pass": true
+    },
+    {
+      "step": "Reload preserves Triton",
+      "pass": true
+    },
+    {
+      "step": "URL override selects TileLang on results page",
+      "pass": true
+    },
+    {
+      "step": "Final results and 557-test evidence rendered",
+      "pass": true
+    },
+    {
+      "step": "Common historical section anchor remains visible",
+      "pass": true
+    },
+    {
+      "step": "Anchor reveal preserves durable TileLang choice on next page",
+      "pass": true
+    },
+    {
+      "step": "Deep historical anchor reveals Triton table",
+      "pass": true
+    }
+  ],
+  "source_observation": "Chapter 07 literalincludes displayed actual TileLang and Triton vector kernels; strict build resolves real source references.",
+  "notes": [
+    "The common section #id4 is outside backend panels and remains visible without changing route. Historical #id7 reveals the Triton table and does not overwrite durable TileLang preference.",
+    "Both copy buttons visibly reported 复制成功!. Clipboard text round-trip is unverified: Browser Use virtual clipboard has no data to paste."
+  ],
+  "clipboard_readback_verified": false
+}

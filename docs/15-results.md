@@ -269,6 +269,8 @@ TileLang 的本次数据与同环境 Triton 对照在 15.7 节单独发布。这
 
 本节接受 `results/tilelang/` 中的新实验记录。历史 `results/full-tuned.json` 固定为 2026-11-02 Triton 记录；新版比较应在同一 Python 环境、相同工作负载与计时协议下重新运行两端，不能直接把新 TileLang 时间与旧热状态的数据相除。本次采集环境的基础包继承关系见{doc}`appendix/install`；以下读者命令使用干净 `.venv-repro`，写入 `results/local/`。两端均只运行真实 device 实现，不以 PyTorch 计算回退掩盖失败。
 
+本次发布区分三种证据：逐章教学实验用于理解实现，编译导出用于核对指令与资源，全量注意力基准用于判断性能目标。编译成功、某个 shape 更快或教学实验通过，都不能替代最后一项判定。
+
 :::::{tab-set}
 :sync-group: kernel-backend
 
@@ -309,6 +311,114 @@ python -m fa5060.benchmark --backend triton --suite full --phase all --rounds 5 
 
 ```{include} ../results/tilelang/comparison.md
 ```
+
+### 本次性能判定
+
+**两套冻结的 312 项测量均已结束，本版没有达到约定的整体性能目标。** 两种后端各自的 312 个最终输出全部通过检查；每次运行的 7 个 provider 都有状态记录，必要基线组覆盖完整。两次运行在相同的 4 个 prefill case 上均出现 `flashinfer_fmha_v2` 数值失败，所以 prefill 的完整发布合同仍不合格。
+
+上方生成表的“正确性完整”使用包含外部 provider 的保守发布合同；“否”不表示自有算子的输出失败。下表把自有输出与外部比较资格分开。所有加速比都以各自运行中最快的正确、兼容原生外部基线为分子，越大越快。
+
+| 后端 | Phase | 自有输出通过 | 外部比较合格项 | 合格项几何平均加速 | 合格项最差加速 | 合格项中低于 0.95× | 达标 |
+|---|---|---:|---:|---:|---:|---:|---|
+| TileLang | prefill | 144/144 | 140/144 | 0.739× | 0.518× | 129 | 否 |
+| TileLang | decode | 168/168 | 168/168 | 0.980× | 0.478× | 88 | 否 |
+| Triton | prefill | 144/144 | 140/144 | 0.939× | 0.644× | 81 | 否 |
+| Triton | decode | 168/168 | 168/168 | 1.132× | 0.769× | 21 | 否 |
+
+prefill 的几何平均只描述 140 项合格子集，不能据此给完整 144 项结论。原始报告的 `summary` 另外保留全部有可用最快基线的逐项比值，其 prefill 描述性平均为 TileLang 0.739434×、Triton 0.936489×；配对生成器的合格子集口径与此不同。Triton decode 虽超过 1.10× 平均门槛，最差项仍低于 0.95×，因此也未达标。
+
+两次运行的 provider 状态计数相同，每份报告各为：
+
+| Provider | 正确并计时 | 明确不支持 | 数值失败 | 执行错误 |
+|---|---:|---:|---:|---:|
+| ours | 312 | 0 | 0 | 0 |
+| flashinfer_fa2 | 312 | 0 | 0 | 0 |
+| flashinfer_fmha_v2 | 308 | 0 | 4 | 0 |
+| fa4 | 156 | 156 | 0 | 0 |
+| torch_flash | 156 | 156 | 0 | 0 |
+| torch_cudnn | 156 | 156 | 0 | 0 |
+| torch_efficient | 52 | 260 | 0 | 0 |
+
+FA4 使用 `flash_attn.cute.interface.flash_attn_func`；FlashInfer 分别固定 `fa2` 与 `fmha_v2`，记录 `resolved_backend` 及实际 wrapper；Torch SDPA 强制选择对应后端，不自动落到 math 路径。没有原生分页公开接口的 provider 在分页 case 上记为 `unsupported`，不以 gather 后的稠密算子代替。包版本、API 签名、复制与 packing 是否计时均在原始报告的 `environment` / `metadata` 中。
+
+四个数值失败 case 如下，均为 `flashinfer_fmha_v2`，失败者不参与最快基线选择。没有放宽 FP16 0.003 / BF16 0.02 和 RMS 合同；误差原文保留在 JSON。
+
+- `prefill-b1-l512-hq32-hkv32-d128-fp16-dense`
+- `prefill-b1-l8192-hq32-hkv32-d128-fp16-dense`
+- `prefill-b4-l2048-hq32-hkv32-d128-fp16-dense`
+- `prefill-b4-l2048-hq32-hkv1-d128-fp16-paged16`
+
+### 回退与下一步可检验的优化
+
+下面各选一个最差 case，完整排序、选择配置与全部五轮数据见下载文件：
+
+| 后端 / Phase | Case ID | 本实现 μs | 最快外部基线 | 基线 μs | 加速 |
+|---|---|---:|---|---:|---:|
+| TileLang / prefill | `prefill-b1-l8192-hq32-hkv32-d128-fp16-paged16` | 36468.449 | flashinfer_fmha_v2 | 18889.441 | 0.518× |
+| TileLang / decode | `decode-b1-l8192-hq32-hkv8-d128-bf16-paged16` | 72.580 | flashinfer_fa2 | 34.676 | 0.478× |
+| Triton / prefill | `prefill-b1-l8192-hq32-hkv8-d128-bf16-paged16` | 28086.048 | flashinfer_fa2 | 18101.120 | 0.644× |
+| Triton / decode | `decode-b16-l512-hq32-hkv1-d64-fp16-dense` | 7.933 | torch_cudnn | 6.103 | 0.769× |
+
+长上下文分页 prefill 是两种实现共同的回退区域。当前调度按查询头独立扫描 KV；GQA/MQA 的跨查询头 KV 复用、逻辑页寻址与较小 tile 的循环开销，都是需要测量的候选原因。可以固定上述 case，分别只改变 query-head 分组、`block_n` 或页访问方式，再检查实际字节流量、指令数量与延迟；目前没有 profiler 证据把全部回退归因于其中某一项。
+
+decode 需要同时权衡并行度、KV 复用与合并开销。编译证据中 vector / grouped main 的 REG/thread 为 167 / 71，但输入与配置有限，不能据此直接推断所有 shape 的占用率。可固定同一输入和路径，单独扫描 split 数，保留 main 与 merge 的分解观察，同时仍以二者完整总时间判胜。对于短上下文和较大 batch，增加 split 可能使额外 launch 和合并成本超过收益。
+
+本机没有 Nsight Compute/Systems 的采集记录。这里给出源码与编译证据支持的假设以及下一步实验，不把它们写成已经证明的带宽、占用率或同步瓶颈。默认接口的回退还必须单独解决，不能只引用离线调优的最好配置。
+
+### 遥测与比较范围
+
+以下是进程运行期间每秒采样的整体范围，包括 JIT、验证与空闲；不是单个 kernel 的功耗，也没有将缺失时间插值补齐。原始时间为本机 Asia/Shanghai（UTC+08:00）。
+
+| 采集段 | 有效采样行 | 温度 °C | SM 时钟 MHz | 功耗 W | 最大采样空档 s |
+|---|---:|---:|---:|---:|---:|
+| TileLang 原 286 项 | 5019 | 28–68 | 450–2835 | 8.79–80.18 | 41949.637 |
+| TileLang 续测 26 项 | 355 | 40–53 | 180–2812 | 8.76–60.27 | 1.006 |
+| Triton 312 项 | 958 | 31–73 | 1447–2790 | 11.36–85.94 | 2608.897 |
+
+原 TileLang 遥测有 8 个超过 5 秒的空档及末尾 1 行截断；Triton 也有 1 个超过 5 秒的空档。旧任务经历挂起与重启，这些数据不构成连续、锁频、温度一致的受控比较。功率上限字段全部为 `[N/A]`，没有据此填写 TGP；也未验证设备独占。表中后端间比例是这次记录的观测结果，软件与硬件键一致不消除热状态及采样空档的限制。
+
+{download}`汇总与来源哈希 <../results/tilelang/release-analysis.json>` 由保存的 JSON/CSV 在 CPU 上聚合，保留状态计数、合格子集、回退项、遥测范围与空档。原始 CSV 为 {download}`TileLang 原段 <../results/tilelang/full-tuned-telemetry.csv>`、{download}`TileLang 续测 <../results/tilelang/full-completed-telemetry.csv>`、{download}`Triton 全量 <../results/tilelang/paired-triton-telemetry.csv>`。
+
+### 原始记录与分段续测
+
+TileLang 全量记录由两段组成：2026-11-05 至 11-06 的 286 项检查点，以及主机重启后 2026-11-10 续测的 26 项。`full-completed.json` 保存原始 286 行并追加剩余 case；`resume` 字段记录检查点 SHA256、续测环境和分段标志。原文件 `full-tuned.json` 未改写，SHA256 为 `ae2804258ff15b209833ce4bf80d9597f24793508a73c4ff5e2f9d70674355ff`。
+
+续测会核对冻结清单的精确前缀、形状、seed、计时配置、已有结果和软硬件键，并要求新的输出路径。对应内核源码哈希在两段之间保持一致；benchmark harness 增加的续测代码另外记录在 `resumed-source-snapshot.json`。这保证已有记录的来源可审查，不代表两段在相同温度、频率或电源状态下运行。
+
+自己的 full 调优任务中断后，可用下面的形式续测；输入应是自己未完成的检查点，输出必须是新文件。完整复现实验仍应从头测量全部 case，不能继承本仓库的历史计时来代表新设备。
+
+```bash
+python -m fa5060.benchmark --backend tilelang --suite full --phase all --rounds 5 --tune --resume-from results/local/tilelang/full-tuned.json --output results/local/tilelang/full-completed.json
+```
+
+`validation-run.json` 留有被中断任务的原始 `running` 状态；最终调度状态记录在 `completion-run.json`，不把历史中断改成正常结束。所有 provider 的原始轮次、配置、错误原因及实际 API 都保留在 JSON 中。
+
+### 默认接口与离线调优
+
+全量 `--tune` 为每个 case 遍历公开的固定候选网格，再独立测量胜出配置的五轮延迟。此结果表示带离线配置选择的实现；`prefill(...)`、`decode(...)` 的普通调用不会自动加载这份逐项调优表。
+
+另有 8 项 `public_default` 冒烟对照：TileLang / Triton 的几何平均延迟比为 prefill **1.193**、decode **11.033**；TileLang 对最快外部基线的加速分别为 **0.817×**、**0.037×**。小集合只说明这些默认调用上的行为，不能外推到 312 项全量集合，也不能把调优结果写成默认接口的速度。
+
+TileLang 全量调优的 1,968 个候选中，1,824 个通过数值与计时检查，144 个 prefill 候选因超过 SM120 共享内存预算被主机配置检查拒绝；拒绝原因保留为 `error`，没有作为可选胜出配置。这与已运行内核的数值错误分开记录。
+
+### 计时边界与编译证据
+
+`gpu_us_p50` 是五轮 CUDA Graph 完整算子的每次调用时间中位数。decode 包含全部 split 和稳定 merge；预先分配输出与工作区，规划和缓存更新在图外。`eager_us_p50` 保存公开接口的 event 时间，`eager_wall_us_p50` 保存同步端到端时间，按各 API 的行为包含输出与工作区分配。两者均不应与图内延迟混用。
+
+准备、首次调用、预热分别存于 `startup` 与 `warmup_wall_ms`。首次调用可能命中编译缓存，或同时包含 JIT、模块加载与执行，因此它不是编译器本身的纯编译时间。逐章教学实验使用普通 eager event，也不与全量图内数据直接相除。
+
+{download}`编译 manifest <../results/tilelang/compiler/manifest.json>` 保存 9 个 kernel 的真实生成 CUDA、PTX 和资源来源。矩阵路径观察到 warp `mma.sync`，选定 TMA prefill 观察到 TMA load，没有观察到 `tcgen05`。资源来自按同一源码与选项重新编译的临时 CUBIN；静态 `SHARED` 不含动态共享分配。它们可用于提出寄存器和共享内存假设，不能独立证明占用率或某个性能瓶颈。
+
+可以直接核对 {download}`TMA prefill CUDA <../results/tilelang/compiler/prefill_tma/main/kernel.cu>`、{download}`对应 PTX <../results/tilelang/compiler/prefill_tma/main/kernel.ptx>` 和 {download}`vector decode 资源报告 <../results/tilelang/compiler/decode_vector_split/main/cuobjdump-resources.txt>`；完整文本位于仓库 `results/tilelang/compiler/`。
+
+### 下载与复核
+
+- {download}`TileLang 全量原始结果 <../results/tilelang/full-completed.json>`、{download}`原始 286 项检查点 <../results/tilelang/full-tuned.json>`。
+- {download}`同环境 Triton 全量原始结果 <../results/tilelang/paired-triton.json>`。
+- {download}`逐项对照 CSV <../results/tilelang/comparison.csv>`、{download}`逐项对照 JSON <../results/tilelang/comparison.json>`。
+- {download}`冻结 312 项清单 <../results/tilelang/manifest-full.json>`、{download}`最终执行状态 <../results/tilelang/completion-run.json>`。
+- {download}`默认接口冒烟对照 <../results/tilelang/default-smoke-comparison/comparison.json>`。
+- {download}`最终本机 GPU+CPU 测试日志 <../results/tilelang/pytest-final.log>`（557 项通过）、{download}`纯 CPU 文档环境日志 <../results/tilelang/cpu-final.log>`（99 项通过；跳过另计）。
 
 <!-- TILELANG_RESULTS_END -->
 

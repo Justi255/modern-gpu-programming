@@ -1,0 +1,109 @@
+{
+  "started_utc": "2026-11-05T13:48:42.290120+00:00",
+  "tasks": [
+    {
+      "name": "pytest-all",
+      "argv": [
+        ".venv-tilelang/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "--tb=short"
+      ],
+      "started_utc": "2026-11-05T13:48:42.290133+00:00",
+      "status": "passed",
+      "finished_utc": "2026-11-05T13:48:53.919729+00:00",
+      "exit_code": 0
+    },
+    {
+      "name": "gemm",
+      "argv": [
+        ".venv-tilelang/bin/python",
+        "-m",
+        "fa5060.experiments",
+        "gemm",
+        "--backend",
+        "tilelang",
+        "--output",
+        "results/tilelang/gemm.json"
+      ],
+      "started_utc": "2026-11-05T13:48:53.920184+00:00",
+      "status": "passed",
+      "finished_utc": "2026-11-05T13:49:09.990213+00:00",
+      "exit_code": 0
+    },
+    {
+      "name": "attention",
+      "argv": [
+        ".venv-tilelang/bin/python",
+        "-m",
+        "fa5060.experiments",
+        "attention",
+        "--backend",
+        "tilelang",
+        "--output",
+        "results/tilelang/attention.json"
+      ],
+      "started_utc": "2026-11-05T13:49:09.990650+00:00",
+      "status": "passed",
+      "finished_utc": "2026-11-05T13:49:34.640504+00:00",
+      "exit_code": 0
+    },
+    {
+      "name": "compiler",
+      "argv": [
+        ".venv-tilelang/bin/python",
+        "scripts/export_tilelang.py",
+        "--output-dir",
+        "results/tilelang/compiler"
+      ],
+      "started_utc": "2026-11-05T13:49:34.641132+00:00",
+      "status": "failed",
+      "finished_utc": "2026-11-05T13:49:37.747969+00:00",
+      "exit_code": 1
+    },
+    {
+      "name": "paired-triton-smoke-default",
+      "argv": [
+        ".venv-tilelang/bin/python",
+        "-m",
+        "fa5060.benchmark",
+        "--backend",
+        "triton",
+        "--suite",
+        "smoke",
+        "--phase",
+        "all",
+        "--rounds",
+        "5",
+        "--output",
+        "results/tilelang/paired-triton-smoke-default.json"
+      ],
+      "started_utc": "2026-11-05T13:52:49.983322+00:00",
+      "status": "passed",
+      "finished_utc": "2026-11-05T13:53:07.032739+00:00",
+      "exit_code": 0
+    },
+    {
+      "name": "full-tuned",
+      "argv": [
+        ".venv-tilelang/bin/python",
+        "-m",
+        "fa5060.benchmark",
+        "--backend",
+        "tilelang",
+        "--suite",
+        "full",
+        "--phase",
+        "all",
+        "--rounds",
+        "5",
+        "--tune",
+        "--output",
+        "results/tilelang/full-tuned.json"
+      ],
+      "started_utc": "2026-11-05T13:53:07.033067+00:00",
+      "status": "running"
+    }
+  ]
+}

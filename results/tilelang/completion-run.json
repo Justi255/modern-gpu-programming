@@ -1,0 +1,73 @@
+{
+  "started_utc": "2026-11-10T03:06:35.276461+00:00",
+  "previous_run": "validation-run.json",
+  "previous_run_observed_interrupted": true,
+  "tasks": [
+    {
+      "name": "full-completed",
+      "argv": [
+        ".venv-tilelang/bin/python",
+        "-m",
+        "fa5060.benchmark",
+        "--backend",
+        "tilelang",
+        "--suite",
+        "full",
+        "--phase",
+        "all",
+        "--rounds",
+        "5",
+        "--tune",
+        "--resume-from",
+        "results/tilelang/full-tuned.json",
+        "--output",
+        "results/tilelang/full-completed.json"
+      ],
+      "started_utc": "2026-11-10T03:06:35.276532+00:00",
+      "status": "passed",
+      "finished_utc": "2026-11-10T03:12:30.705102+00:00",
+      "exit_code": 0
+    },
+    {
+      "name": "paired-triton",
+      "argv": [
+        ".venv-tilelang/bin/python",
+        "-m",
+        "fa5060.benchmark",
+        "--backend",
+        "triton",
+        "--suite",
+        "full",
+        "--phase",
+        "all",
+        "--rounds",
+        "5",
+        "--tune",
+        "--output",
+        "results/tilelang/paired-triton.json"
+      ],
+      "started_utc": "2026-11-10T03:12:30.705577+00:00",
+      "status": "passed",
+      "finished_utc": "2026-11-10T04:11:57.827080+00:00",
+      "exit_code": 0
+    },
+    {
+      "name": "comparison",
+      "argv": [
+        ".venv-tilelang/bin/python",
+        "scripts/compare_backends.py",
+        "--triton",
+        "results/tilelang/paired-triton.json",
+        "--tilelang",
+        "results/tilelang/full-completed.json",
+        "--output-dir",
+        "results/tilelang"
+      ],
+      "started_utc": "2026-11-10T04:11:57.827535+00:00",
+      "status": "passed",
+      "finished_utc": "2026-11-10T04:11:57.967075+00:00",
+      "exit_code": 0
+    }
+  ],
+  "finished_utc": "2026-11-10T04:11:57.967323+00:00"
+}

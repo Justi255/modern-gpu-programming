@@ -1,0 +1,91 @@
+{
+  "verified_utc": "2026-11-10T04:28:28.576252+00:00",
+  "gpu_and_cpu_tests": {
+    "passed": 557,
+    "skipped": 0,
+    "cuda_preflight": true,
+    "device": "NVIDIA GeForce RTX 5060 Laptop GPU",
+    "log": "pytest-final.log"
+  },
+  "cpu_documentation_environment": {
+    "passed": 99,
+    "skipped": 19,
+    "deselected": 4,
+    "gpu_packages_installed": false,
+    "log": "cpu-final.log"
+  },
+  "sandbox_diagnostic": {
+    "passed": 183,
+    "skipped": 374,
+    "counts_as_gpu_verification": false,
+    "log": "pytest-final-sandbox.log"
+  },
+  "strict_sphinx": {
+    "exit_code": 0,
+    "source_pages": 20,
+    "command": ".venv-docs/bin/python -m sphinx -E -a -n -W --keep-going -b html docs _build/html",
+    "log": "sphinx-final.log"
+  },
+  "python_markdown_snippets_parsed": 41,
+  "historical_results_block_unchanged": true,
+  "compiler_export": {
+    "status": "complete",
+    "kernels": 9,
+    "numeric_or_performance_validation": false
+  },
+  "paired_benchmark": {
+    "cases_per_backend": 312,
+    "configuration_mode": "offline_tuned",
+    "rounds": 5,
+    "all_tasks_exit_zero": true,
+    "performance_target_met": false,
+    "qualification_note": "Each backend own outputs312/312 validated; external prefill qualification140/144 due four baseline numerical failures. Decode168/168 qualified."
+  },
+  "cpu_report_regeneration_identical": [
+    "comparison.json",
+    "comparison.csv",
+    "comparison.md"
+  ],
+  "pip_check_exit_code": 0,
+  "browser": {
+    "checks_passed": 11,
+    "evidence": "browser-checks-final.json",
+    "clipboard_readback_verified": false
+  },
+  "evidence_sha256": {
+    "pytest-final.log": "19bf897bea2be57ad741475336200a0aa246c7e810f93b26b1ea3bf65cba260b",
+    "pytest-final-sandbox.log": "ef25497b351eeeb4ce4e4e8f250eac174c246a9fb3520351abcddeb1743bc418",
+    "cpu-final.log": "944a32424e15d91537ab082f07bd60e0701baa674d7261a056b8f3ed411ed09e",
+    "sphinx-final.log": "8686e475959be7ce6fe16a7a226179984085ed6b9de693f05f28344008478a20",
+    "pip-check.log": "208285b9672d9fb6b14e89b7f9814bd5d3d5ff3fbc182bb7a0e95a9ac0eb7c93",
+    "comparison.json": "161361a8612690cda8f1add2aa3950bcf6ab9159e905b2be579f0ad2b099cddb",
+    "full-completed.json": "3cb5d96d12dd75d10652de6055fb2174b4617fb06b3213dd37051a54c4eeb858",
+    "paired-triton.json": "c62a18fabd069b9a2eb191d3c9a388570ac5db09aa57f2e9456fb87bad786c4b",
+    "browser-checks-final.json": "21a072c7ebfc98079a4da3458a42362ca156c05d6f488e66777dc612cf8c9e48"
+  },
+  "source_sha256": {
+    "pyproject.toml": "48c14bc7e1b17f050ad1d68f77f8cd687c9f8949d2462a6b8121a876866d0a52",
+    "scripts/compare_backends.py": "7915ccab1d5eb624063a9658dd68f81e2307dc85e23f6e38ab7f948cbf6fc2ac",
+    "scripts/export_tilelang.py": "82e900f08d59e75ff1b5f393f701d130dc6e8ec3bfbbb1f5065e0c523a9bbd88",
+    "scripts/report_results.py": "4b4aadc3d14510f8a552969bac420338f9660a6613e5e00acc7f535187966187",
+    "src/fa5060/__init__.py": "e009aee507c220fbb22bf82d7885d21a3bd58d1c3d9000132361bca615c3470f",
+    "src/fa5060/_workspace.py": "afac44fb2ee4a30b41ca801cca17ac78cb3ed6bfee16ef214699d6b1436ae883",
+    "src/fa5060/attention.py": "cab5e8a31657601824dba4766f97eea82c4b0ab8a9ce1cd86a9f8ffbe0ed1d97",
+    "src/fa5060/attention_tma.py": "b8f68a2b97574b89b7dcdb327bf22048d5443546c579b41f7b02f88771232715",
+    "src/fa5060/benchmark.py": "d9c8e24871c10ffffb6ae55a42c323f743fd22efa115e469a8ec40241fa025e0",
+    "src/fa5060/experiments.py": "93363510166806fd2a1539922b071d2744ff96804e622b83d0bbbefc6c926a00",
+    "src/fa5060/fundamentals.py": "1a760e87d02f6959b13e92c337e4c4ce686ffb5e45ce8dbecab42663268a7ced",
+    "src/fa5060/probe.py": "c766bb1adc56913d46dce32dad62ab8792c8ad389faeb7f999409f595da5cb89",
+    "src/fa5060/reference.py": "747ff84da8c952776bc2b7a176e177ddd0106a4effc05d186377ace802088da4",
+    "src/fa5060/tilelang/__init__.py": "35f081a2cc70c29a8ba689bb4fde4a70a674d8d930604b382ab360507a1f2a4a",
+    "src/fa5060/tilelang/_contracts.py": "6599c97581a622266e871a4542d8a4c1610694eb3fa9a480fc2dbb9c95b80d24",
+    "src/fa5060/tilelang/attention.py": "24713e15f2ab93c09fd471ea0ae0338e585e9da40f8a654e589b9e796b1c617b",
+    "src/fa5060/tilelang/fundamentals.py": "0d6a97788365a5765fe0fe186bdaffd9c21733b390e64bd65556bfd9d1a5eddd",
+    "src/fa5060/workloads.py": "978681c26528370aa57fe9de55765f148367f9d15f17566573348f8336e74f1c"
+  },
+  "limitations": [
+    "Copied clipboard contents could not be independently read or pasted through Browser Use; both UI success states were observed.",
+    "No fixed clocks or verified exclusive access; segmented runs and telemetry gaps are documented in the book.",
+    "First-call synchronized wall timing is recorded separately; it is not isolated compiler-only latency."
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "verified_utc": "2026-11-10T04:27:41.126764+00:00",
+  "original_git_commit": "6e89f7e0f5478c712f957a8b564d5f7aa24c1b3a",
+  "original_source_pages": 20,
+  "original_heading_anchors_preserved": 160,
+  "missing": [],
+  "method": "Strict CPU Sphinx build of original Git snapshot; every original heading anchor must remain an HTML id in current build."
+}

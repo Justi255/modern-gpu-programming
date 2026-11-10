@@ -4,6 +4,8 @@
 
 [完整教材](docs/index.md)的每个后端相关例子、命令与解释都提供 **TileLang / Triton 同步标签**，默认 TileLang，跨页和刷新保留选择。公共数学与硬件模型共享；旧章节 URL 和锚点保留。
 
+GitHub 中的 Markdown 是教材源文件，同步选项卡在构建后的 HTML 中生效。可以按下面的命令本地阅读，或从 [Actions](https://github.com/Justi255/modern-gpu-programming/actions/workflows/verify.yml) 的成功运行下载 `rtx5060-textbook-html`。
+
 - [安装与环境](docs/appendix/install.md)
 - [15 章学习路线](docs/index.md#学习路线)
 - [结果、覆盖状态与性能判据](docs/15-results.md)
@@ -20,6 +22,8 @@ python -m sphinx -n -W --keep-going -b html docs _build/html
 python -m http.server --directory _build/html 8000
 ```
 
+保持服务运行，打开 [http://localhost:8000](http://localhost:8000)。下载的站点产物解压后也可用 `python -m http.server --directory 解压目录 8000` 阅读，无需安装 GPU 编译器。
+
 GPU 工具链安装见附录。推荐在全新 `.venv-repro` 中按 `requirements-tilelang.txt` 安装，两种后端使用同一环境；版本为 TileLang 0.1.15、TVM-FFI 0.1.12、PyTorch 2.12.1、Triton 3.7.1，CUDA Toolkit 13.1。本次实际 `.venv-tilelang` 使用 `--system-site-packages` 只读继承 conda 的 Torch/Triton/NumPy，编译器及新基线安装在 venv 内；完整版本与来源范围见 [环境记录](results/tilelang/README.md)。进入推荐环境后分别运行：
 
 ```bash
@@ -33,7 +37,9 @@ GPU 工具链安装见附录。推荐在全新 `.venv-repro` 中按 `requirement
 
 网页默认 TileLang；CLI 为兼容旧脚本仍默认 Triton，新示例显式指定 `--backend`。两端都执行独立的 device 内核，PyTorch 仅用于分配、独立参考和验证。FP16/BF16 注意力使用 FP32 统计、scratch 与累加，decode 显式工作区支持预热后的 CUDA Graph 调用。SM120 使用 warp MMA 和寄存器累计，不照搬 SM100 的 TMEM/`tcgen05`。
 
-`results/full-tuned.json` 是 **2026-11-02 的历史 Triton 312 项记录**：prefill/decode 几何平均加速 0.920×/1.130×，最差 0.688×/0.748×，未达到整体目标。TileLang 与同环境 Triton 的新记录位于 `results/tilelang/`，实际完成状态以[结果章](docs/15-results.md)为准；未执行或失败的项目不会被写成成功。验收仍要求每个 phase 相对逐项最快正确兼容基线达到 1.10× 几何平均且最差至少 0.95×，原生分页基线与完整 split/merge 计时不可省略。
+新发布的两后端各 **312 项测量已完成**，自有算子输出全部通过检查。相对逐项最快正确兼容外部基线，TileLang 的 prefill/decode 几何平均加速为 **0.739×/0.980×**，Triton 为 **0.939×/1.132×**；prefill 只统计 140/144 项合格子集，另 4 项外部基线数值失败完整保留。**两端均未达到约定性能目标**：每个 phase 仍须同时满足平均至少 1.10×、最差至少 0.95× 及完整数值合同。最差项、全部配置、原始轮次、分段续测和遥测限制见[结果章](docs/15-results.md)及[实验记录](results/tilelang/README.md)。
+
+最终本机 GPU+CPU 测试为 **557 项通过**，不含 GPU 依赖的文档环境为 **99 项通过**；GPU 跳过情况单独记录。[编译证据](results/tilelang/compiler/README.md)包含 9 个 kernel 的生成 CUDA/PTX 与资源报告。`results/full-tuned.json` 继续保存 **2026-11-02 历史 Triton** 记录，不用于新版后端间比值。
 
 [Actions](https://github.com/Justi255/modern-gpu-programming/actions/workflows/verify.yml) 构建完整双后端 HTML 并保留 `rtx5060-textbook-html` 产物。CPU CI 不代表设备验证；本仓库不默认启用 GitHub Pages。
 
