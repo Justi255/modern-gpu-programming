@@ -398,6 +398,75 @@ python -m fa5060.benchmark --backend triton --suite smoke --phase prefill --outp
 ::::
 :::::
 
+## 13.6 优化实验：让 Q/P 留在寄存器
+
+2026-11-11 的优化批次保留本章原来的 shared-P 工厂，并新增独立候选，
+便于观察每一步是否有收益。它们没有改变输入、精度阈值或在线 softmax 公式。
+先统一 QK 和 PV 的 warp 行划分，再把 P 留在 fragment，接着尝试 Q fragment、
+KV 双缓冲和完整因果 tile 的免掩码分支。
+
+对于查询块起点 $m_0$，右对齐 causal 的第一行边界为 $m_0+L_b-S_q$。
+若 KV tile 满足 $n_0+B_N\le L_b$ 且
+$n_0+B_N\le m_0+L_b-S_q+1$，整个 tile 对所有查询行可见。
+这时只缩放 QK 结果；只有对角和尾块才做逐元素掩码。不能因为最后一行
+可见就省去整个查询块的掩码，也不能省略无效 V 的零填充。
+
+:::::{tab-set}
+:sync-group: kernel-backend
+
+::::{tab-item} TileLang
+:sync: tilelang
+
+`_prefill_qasync.py` 使用 SM120 的 warp MMA：Q/P 在 fragment，K/V 在
+两槽 shared 缓冲。先发起下一块的 `cp.async`，再算当前块；每轮开头的
+wait 和 CTA barrier 同时保证数据可见及旧槽读者已经结束。页表仍在设备端读取。
+`GemmWarpPolicy.FullRow` 要求行 tile 能容纳 warp 划分，不兼容配置回退原工厂。
+
+```{literalinclude} ../src/fa5060/tilelang/_prefill_qasync.py
+:language: python
+:start-at:                 T.clear(scores)
+:end-at:                 T.reduce_max(scores, updated, dim=1, batch=2)
+:caption: src/fa5060/tilelang/_prefill_qasync.py：完整 tile 与对角 tile
+:linenos:
+```
+
+公共接口通过显式选项选择优化策略，便于与原教学版本复现对照：
+
+```python
+from fa5060.tilelang import prefill
+
+reference = prefill(q, k, v, kv_lens=lengths, block_table=table)
+optimized = prefill(q, k, v, kv_lens=lengths, block_table=table,
+                    config={"implementation": "optimized"})
+```
+
+优化策略默认 M=64，D128 使用 N=32，其余 D 使用 N=64。stages=1 选择
+Q/P register 指针版本，stages≥2 选择显式双缓冲版本；TMA、未对齐地址及
+不兼容布局有明确回退。它不是运行时读取数据后自动搜索的 autotuner。
+
+::::
+
+::::{tab-item} Triton
+:sync: triton
+
+原 Triton 工厂已把 Q 和 P 保存在逻辑张量中，由编译器完成寄存器与 shared
+的布局转换。下面保留原实现供对照；本批次的 TileLang 优化结果不能标成
+Triton 的性能结果。
+
+```{literalinclude} ../src/fa5060/attention.py
+:language: python
+:start-at:     for start in tl.range(0, stop, BN, num_stages=STAGES):
+:end-at:         maximum = new_maximum
+:caption: src/fa5060/attention.py：原 Triton 在线 softmax 循环
+:linenos:
+```
+
+::::
+:::::
+
+代表形状的交替测量见第 15 章，完整原始记录位于
+`results/optimization-2026-11-11/`。一次局部胜出不代表整个 prefill 达标。
+
 ## 练习
 
 1. 对 page=16、有效长度 35，列出逻辑 token 15、16、34 的页号与页内位置。再用一个非单调块表写出物理页号。

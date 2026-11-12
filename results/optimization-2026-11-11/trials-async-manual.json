@@ -1,0 +1,64 @@
+{
+  "prefill": [
+    {
+      "variant": "reference",
+      "config": {
+        "block_m": 64,
+        "block_n": 64,
+        "num_warps": 4,
+        "num_stages": 2
+      },
+      "num_splits": null
+    },
+    {
+      "variant": "register",
+      "config": {
+        "block_m": 64,
+        "block_n": 32,
+        "num_warps": 4,
+        "num_stages": 1
+      },
+      "num_splits": null
+    },
+    {
+      "variant": "register",
+      "config": {
+        "block_m": 64,
+        "block_n": 64,
+        "num_warps": 4,
+        "num_stages": 1
+      },
+      "num_splits": null
+    },
+    {
+      "variant": "async",
+      "config": {
+        "block_m": 64,
+        "block_n": 32,
+        "num_warps": 4,
+        "num_stages": 2
+      },
+      "num_splits": null
+    },
+    {
+      "variant": "async",
+      "config": {
+        "block_m": 64,
+        "block_n": 64,
+        "num_warps": 4,
+        "num_stages": 2
+      },
+      "num_splits": null
+    },
+    {
+      "variant": "async",
+      "config": {
+        "block_m": 128,
+        "block_n": 32,
+        "num_warps": 4,
+        "num_stages": 2
+      },
+      "num_splits": null
+    }
+  ]
+}

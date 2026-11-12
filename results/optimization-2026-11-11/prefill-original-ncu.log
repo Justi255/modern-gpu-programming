@@ -1,0 +1,4 @@
+==PROF== Connected to process 128777 (/home/justi/miniconda3/bin/python3.13)
+==PROF== Profiling "kernel_kernel": 0%....50%....100% - 15 passes
+==PROF== Disconnected from process 128777
+==PROF== Report: /home/justi/Workspace/cuda/fa/results/optimization-2026-11-11/prefill-original.ncu-rep

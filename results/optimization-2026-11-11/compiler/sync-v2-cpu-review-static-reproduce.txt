@@ -1,0 +1,49 @@
+from collections import Counter
+from pathlib import Path
+import json, re, hashlib
+out={}
+# Literal generated BN32 store address: i*32 + (tid%32//4)*4 + tid//32.
+writers=[]
+for tid in range(128):
+ if tid%4==0:
+  for i in range(2): writers.append(i*32+(tid%32//4)*4+tid//32)
+assert Counter(writers)==Counter(range(64))
+out['bn32_shared_slot_ownership']={'writes':len(writers),'unique':len(set(writers)),'exact_range':[min(writers),max(writers)],'each_address_written_once':True,'slot1_float_offset':64,'source':'sync-v2-cpu-review-target-seg-bn32.cu:159-164,215-220'}
+# For every finite-domain tile admitted by the causal full-tile branch, all
+# element masks are true. This is a host arithmetic check, not a GPU test.
+count=0
+for sq in (1,17,63,64,65,129):
+ for length in (0,1,16,31,32,33,63,64,65,128,191,208):
+  for bm in (16,32,64,128):
+   for bn in (32,64,128,256):
+    for bx in range((sq+bm-1)//bm):
+     stop=max(0,min(length,(bx+1)*bm+length-sq))
+     for start in range(0,stop,bn):
+      fast=start+bn<=stop and start+bn<=bx*bm+length-sq+1
+      if fast:
+       assert all(start+j<stop and start+j<=bx*bm+i+length-sq for i in range(bm) for j in range(bn))
+       count+=1
+out['causal_full_tile_guard']={'admitted_tiles_checked':count,'every_original_element_predicate_true':True}
+# Monotone bit transform including infinities and the two signed zeros.
+import struct, math, random
+vals=[-math.inf,-3.4e38,-1.,-0.,0.,1.,3.4e38,math.inf]
+random.seed(6111)
+for _ in range(10000):
+ x=struct.unpack('f',struct.pack('I',random.getrandbits(32)))[0]
+ if not math.isnan(x): vals.append(x)
+def key(x):
+ b=struct.unpack('I',struct.pack('f',x))[0]
+ return b^0xffffffff if b&0x80000000 else b^0x80000000
+ranked=sorted(vals,key=key)
+assert all(a<=b for a,b in zip(ranked,ranked[1:]))
+for x in vals:
+ k=key(x); bits=k^0x80000000 if k&0x80000000 else k^0xffffffff
+ assert struct.pack('I',bits)==struct.pack('f',x)
+out['ordered_uint32_transform']={'non_nan_values_checked':len(vals),'numeric_order_preserved':True,'bitwise_roundtrip_preserved':True,'nan_semantics_validated':False}
+# CPU metadata example: even strides do not prove an aligned base pointer.
+import torch
+x=torch.empty(16*8*128+1,dtype=torch.float16)[1:].reshape(1,16,8,128)
+out['base_offset_alignment_example']={'device':'cpu','storage_offset':x.storage_offset(),'strides':list(x.stride()),'last_dimension_contiguous':x.stride(-1)==1,'outer_strides_even':all(s%2==0 for s in x.stride()[:-1]),'base_pointer_mod4':x.data_ptr()%4,'base_pointer_mod16':x.data_ptr()%16,'gpu_execution_performed':False}
+path=Path('/home/justi/Workspace/cuda/fa/results/optimization-2026-11-11/compiler/sync-v2-cpu-review-static-checks.json')
+with path.open('x') as fp: json.dump(out,fp,indent=2)
+print(json.dumps(out,indent=2))

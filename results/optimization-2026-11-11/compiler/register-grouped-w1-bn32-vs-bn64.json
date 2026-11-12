@@ -1,0 +1,75 @@
+{
+  "purpose": "CPU-only CUDA lowering and nvcc/cuobjdump resource inspection; no GPU execution",
+  "target": "sm_120",
+  "candidate": "fa5060.tilelang._prefill_register._prefill_kernel",
+  "candidate_source_sha256": "e8f22018445335e3796a1e2b71db497f867373fb7a1c86176ea259eb036f46c4",
+  "shape": {
+    "batch": 1,
+    "sq": 1,
+    "hq": 32,
+    "hkv": 8,
+    "d": 128,
+    "capacity": 8192,
+    "pages": 512,
+    "page": 16,
+    "dtype": "float16",
+    "bm": 16,
+    "stages": 1,
+    "threads": 32,
+    "splits": 32,
+    "grouped": true
+  },
+  "nvcc_options": [
+    "-std=c++20",
+    "-I/home/justi/Workspace/cuda/fa/.venv-tilelang/lib/python3.13/site-packages/tilelang/3rdparty/../src",
+    "-I/home/justi/Workspace/cuda/fa/.venv-tilelang/lib/python3.13/site-packages/tilelang/3rdparty/cutlass/include",
+    "-I/usr/local/cuda/include",
+    "--ptxas-options=-v"
+  ],
+  "cases": [
+    {
+      "block_n": 32,
+      "cuda": "results/optimization-2026-11-11/compiler/register-grouped-g4-bm16-bn32-d128-w1-s32.cu",
+      "cuda_sha256": "90ab326dae3727e45dbc6c7aa635f21b497afbb4b14667627b4ea5da7d9b4734",
+      "resource_file": "results/optimization-2026-11-11/compiler/register-grouped-g4-bm16-bn32-d128-w1-s32-resources.txt",
+      "dynamic_shared_bytes": 20480,
+      "resource_fields": {
+        "REG": 136,
+        "STACK": 0,
+        "SHARED": 1024,
+        "LOCAL": 0
+      },
+      "total_shared_bytes": 21504,
+      "arrays": {
+        "acc": 64,
+        "scores": 16,
+        "probs": 16,
+        "A_local": 8,
+        "B_local": 16,
+        "B_local_1": 64
+      }
+    },
+    {
+      "block_n": 64,
+      "cuda": "results/optimization-2026-11-11/compiler/register-grouped-g4-bm16-bn64-d128-w1-s32.cu",
+      "cuda_sha256": "c7bab94dd1cf15c50c780a714aeb17b239c0f75a4a6e2e541fcb30aedb65e6a6",
+      "resource_file": "results/optimization-2026-11-11/compiler/register-grouped-g4-bm16-bn64-d128-w1-s32-resources.txt",
+      "dynamic_shared_bytes": 36864,
+      "resource_fields": {
+        "REG": 167,
+        "STACK": 0,
+        "SHARED": 1024,
+        "LOCAL": 0
+      },
+      "total_shared_bytes": 37888,
+      "arrays": {
+        "acc": 64,
+        "scores": 32,
+        "probs": 32,
+        "A_local": 8,
+        "B_local": 32,
+        "B_local_1": 64
+      }
+    }
+  ]
+}

@@ -1,0 +1,1032 @@
+{
+  "purpose": "diagnostic subset; no full-suite performance claim",
+  "variant": "simt",
+  "environment": {
+    "schema_version": 1,
+    "timestamp_utc": "2026-11-11T02:36:00.772274+00:00",
+    "python": {
+      "version": "3.13.13",
+      "sys_version": "3.13.13 | packaged by Anaconda, Inc. | (main, Apr 14 2026, 06:19:41) [GCC 14.3.0]",
+      "implementation": "CPython",
+      "compiler": "GCC 14.3.0",
+      "executable": "/home/justi/Workspace/cuda/fa/.venv-tilelang/bin/python"
+    },
+    "platform": {
+      "system": "Linux",
+      "release": "7.0.0-42-generic",
+      "machine": "x86_64",
+      "description": "Linux-7.0.0-42-generic-x86_64-with-glibc2.43"
+    },
+    "packages": {
+      "modern-gpu-programming-5060": "0.1.0",
+      "numpy": "2.5.0",
+      "torch": "2.12.1",
+      "triton": "3.7.1",
+      "tilelang": "0.1.15",
+      "apache-tvm-ffi": "0.1.12",
+      "flashinfer-python": "0.7.2.post1",
+      "flash-attn-4": "4.0.0b37",
+      "flash-attn": null
+    },
+    "cuda_build": "13.0",
+    "cuda_available": true,
+    "gpus": [
+      {
+        "index": 0,
+        "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+        "compute_capability": [
+          12,
+          0
+        ],
+        "sm_count": 26,
+        "total_memory_bytes": 8055947264,
+        "l2_cache_bytes": 33554432,
+        "shared_memory_per_block_bytes": 49152,
+        "shared_memory_per_block_optin_bytes": 101376,
+        "shared_memory_per_sm_bytes": 102400,
+        "warp_size": 32,
+        "max_threads_per_block": 1024
+      }
+    ],
+    "gpu_unavailable_reason": null,
+    "nvidia_smi": {
+      "available": true,
+      "devices": [
+        {
+          "index": 0,
+          "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+          "driver_version": "595.99.02",
+          "performance_state": "P4",
+          "power_draw_watts": 22.36,
+          "power_limit_watts": null,
+          "sm_clock_mhz": 1455,
+          "memory_clock_mhz": 9001,
+          "temperature_celsius": 50
+        }
+      ],
+      "error": null
+    },
+    "compiler": {
+      "nvcc": {
+        "available": true,
+        "output": "nvcc: NVIDIA (R) Cuda compiler driver\nCopyright (c) 2005-2025 NVIDIA Corporation\nBuilt on Tue_Dec_16_07:23:41_PM_PST_2025\nCuda compilation tools, release 13.1, V13.1.115\nBuild cuda_13.1.r13.1/compiler.37061995_0",
+        "returncode": 0,
+        "error": null
+      },
+      "ptxas": {
+        "available": true,
+        "output": "ptxas: NVIDIA (R) Ptx optimizing assembler\nCopyright (c) 2005-2025 NVIDIA Corporation\nBuilt on Tue_Dec_16_07:22:11_PM_PST_2025\nCuda compilation tools, release 13.1, V13.1.115\nBuild cuda_13.1.r13.1/compiler.37061995_0",
+        "returncode": 0,
+        "error": null
+      },
+      "triton_version": "3.7.1",
+      "tilelang_version": "0.1.15",
+      "apache_tvm_ffi_version": "0.1.12",
+      "sources": {
+        "triton": null,
+        "tilelang": null,
+        "apache-tvm-ffi": null
+      }
+    }
+  },
+  "sources": {
+    "src/fa5060/__init__.py": "e009aee507c220fbb22bf82d7885d21a3bd58d1c3d9000132361bca615c3470f",
+    "src/fa5060/_workspace.py": "afac44fb2ee4a30b41ca801cca17ac78cb3ed6bfee16ef214699d6b1436ae883",
+    "src/fa5060/attention.py": "cab5e8a31657601824dba4766f97eea82c4b0ab8a9ce1cd86a9f8ffbe0ed1d97",
+    "src/fa5060/attention_tma.py": "b8f68a2b97574b89b7dcdb327bf22048d5443546c579b41f7b02f88771232715",
+    "src/fa5060/benchmark.py": "d9c8e24871c10ffffb6ae55a42c323f743fd22efa115e469a8ec40241fa025e0",
+    "src/fa5060/experiments.py": "93363510166806fd2a1539922b071d2744ff96804e622b83d0bbbefc6c926a00",
+    "src/fa5060/fundamentals.py": "1a760e87d02f6959b13e92c337e4c4ce686ffb5e45ce8dbecab42663268a7ced",
+    "src/fa5060/probe.py": "c766bb1adc56913d46dce32dad62ab8792c8ad389faeb7f999409f595da5cb89",
+    "src/fa5060/reference.py": "747ff84da8c952776bc2b7a176e177ddd0106a4effc05d186377ace802088da4",
+    "src/fa5060/tilelang/__init__.py": "35f081a2cc70c29a8ba689bb4fde4a70a674d8d930604b382ab360507a1f2a4a",
+    "src/fa5060/tilelang/_contracts.py": "6599c97581a622266e871a4542d8a4c1610694eb3fa9a480fc2dbb9c95b80d24",
+    "src/fa5060/tilelang/_decode_simt.py": "c9b7ae1a4c083ade8a269a42216d4f3243615dc940c1d4a04fe68517d132beec",
+    "src/fa5060/tilelang/_prefill_mma.py": "aba865ebedfe1c8b8bb28f80ba47a133c8d177f93539e528ccf1f32d7c7b74e0",
+    "src/fa5060/tilelang/_prefill_register.py": "e8f22018445335e3796a1e2b71db497f867373fb7a1c86176ea259eb036f46c4",
+    "src/fa5060/tilelang/attention.py": "24713e15f2ab93c09fd471ea0ae0338e585e9da40f8a654e589b9e796b1c617b",
+    "src/fa5060/tilelang/fundamentals.py": "0d6a97788365a5765fe0fe186bdaffd9c21733b390e64bd65556bfd9d1a5eddd",
+    "src/fa5060/workloads.py": "978681c26528370aa57fe9de55765f148367f9d15f17566573348f8336e74f1c"
+  },
+  "cases": [
+    {
+      "case": {
+        "id": "decode-b1-l512-hq32-hkv32-d64-fp16-dense",
+        "phase": "decode",
+        "batch": 1,
+        "kv_len": 512,
+        "query_len": 1,
+        "head_dim": 64,
+        "heads_q": 32,
+        "heads_kv": 32,
+        "dtype": "fp16",
+        "layout": "dense",
+        "page_size": 16,
+        "causal": false,
+        "shape": {
+          "q": [
+            1,
+            32,
+            64
+          ],
+          "k": [
+            1,
+            512,
+            32,
+            64
+          ],
+          "v": [
+            1,
+            512,
+            32,
+            64
+          ],
+          "kv_lens": [
+            512
+          ],
+          "block_table": null,
+          "heads_q": 32,
+          "heads_kv": 32,
+          "head_dim": 64,
+          "batch": 1,
+          "query_len": 1,
+          "kv_len": 512
+        }
+      },
+      "trials": [
+        {
+          "backend": "triton",
+          "provider": "ours",
+          "choice": null,
+          "validation": {
+            "validated": true,
+            "max_abs_error": 1.9073486328125e-06,
+            "max_relative_error_atol_floor": 0.0006357828970067203,
+            "atol": 0.003,
+            "rtol": 0.003,
+            "normalized_rms_error": 8.033159769483978e-07,
+            "normalized_rms_tolerance": 0.02
+          },
+          "first_call_wall_ms": 321.8600430045626,
+          "status": "ok",
+          "gpu_us_rounds": [
+            13.113999739289284,
+            12.915999628603458,
+            12.949500232934952,
+            13.039999641478062,
+            13.043750077486038,
+            12.912999838590622,
+            13.040999881923199
+          ],
+          "gpu_us_p50": 13.039999641478062,
+          "graph_calls_per_replay": 128,
+          "metadata": {
+            "api": "fa5060.attention.decode",
+            "backend": "triton",
+            "package_versions": {
+              "triton": "3.7.1"
+            },
+            "preallocated_output": true,
+            "preallocated_workspace": true,
+            "config": null,
+            "num_splits": null,
+            "native_paged": false,
+            "eager_allocates_output": true,
+            "eager_allocates_workspace": true,
+            "graph_boundary": "complete operator including all decode splits and merge"
+          },
+          "telemetry": {
+            "available": true,
+            "devices": [
+              {
+                "index": 0,
+                "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                "driver_version": "595.99.02",
+                "performance_state": "P4",
+                "power_draw_watts": 23.66,
+                "power_limit_watts": null,
+                "sm_clock_mhz": 2100,
+                "memory_clock_mhz": 11001,
+                "temperature_celsius": 51
+              }
+            ],
+            "error": null
+          }
+        },
+        {
+          "backend": "tilelang",
+          "provider": "ours",
+          "choice": {
+            "config": {
+              "mode": "vector",
+              "block_n": 32,
+              "num_warps": 8,
+              "num_stages": 1
+            },
+            "num_splits": 1
+          },
+          "validation": {
+            "validated": true,
+            "max_abs_error": 1.9073486328125e-06,
+            "max_relative_error_atol_floor": 0.0006357828970067203,
+            "atol": 0.003,
+            "rtol": 0.003,
+            "normalized_rms_error": 8.029307858560294e-07,
+            "normalized_rms_tolerance": 0.02
+          },
+          "first_call_wall_ms": 1895.2515439959825,
+          "status": "ok",
+          "gpu_us_rounds": [
+            16.45674929022789,
+            16.29449985921383,
+            16.3589995354414,
+            16.355499625205994,
+            16.272250562906265,
+            16.29525050520897,
+            23.73874932527542
+          ],
+          "gpu_us_p50": 16.355499625205994,
+          "graph_calls_per_replay": 128,
+          "metadata": {
+            "api": "fa5060.tilelang.decode",
+            "backend": "tilelang",
+            "package_versions": {
+              "tilelang": "0.1.15",
+              "apache-tvm-ffi": "0.1.12"
+            },
+            "preallocated_output": true,
+            "preallocated_workspace": true,
+            "config": {
+              "mode": "vector",
+              "block_n": 32,
+              "num_warps": 8,
+              "num_stages": 1
+            },
+            "num_splits": 1,
+            "native_paged": false,
+            "eager_allocates_output": true,
+            "eager_allocates_workspace": true,
+            "graph_boundary": "complete operator including all decode splits and merge"
+          },
+          "telemetry": {
+            "available": true,
+            "devices": [
+              {
+                "index": 0,
+                "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                "driver_version": "595.99.02",
+                "performance_state": "P2",
+                "power_draw_watts": 23.64,
+                "power_limit_watts": null,
+                "sm_clock_mhz": 2010,
+                "memory_clock_mhz": 11001,
+                "temperature_celsius": 51
+              }
+            ],
+            "error": null
+          }
+        },
+        {
+          "backend": "tilelang",
+          "provider": "ours",
+          "choice": {
+            "config": {
+              "mode": "grouped",
+              "block_n": 32,
+              "num_warps": 8,
+              "num_stages": 1
+            },
+            "num_splits": 1
+          },
+          "status": "error",
+          "reason": "InternalError: No valid warp partition for T.gemm: M=16, N=32 cannot be evenly covered by 8 warps (policy=Square). Each warp must own a multiple of 16 rows and 8 columns; adjust `threads` or the block tile shape."
+        },
+        {
+          "backend": "tilelang",
+          "provider": "ours",
+          "choice": {
+            "config": {
+              "mode": "vector",
+              "block_n": 32,
+              "num_warps": 8,
+              "num_stages": 1
+            },
+            "num_splits": 4
+          },
+          "validation": {
+            "validated": true,
+            "max_abs_error": 1.52587890625e-05,
+            "max_relative_error_atol_floor": 0.0006357828970067203,
+            "atol": 0.003,
+            "rtol": 0.003,
+            "normalized_rms_error": 4.573150027158925e-06,
+            "normalized_rms_tolerance": 0.02
+          },
+          "first_call_wall_ms": 1536.56849500112,
+          "status": "ok",
+          "gpu_us_rounds": [
+            15.254249796271324,
+            15.008250251412392,
+            15.004750341176987,
+            15.168500132858753,
+            15.14550019055605,
+            15.004250220954418,
+            15.151750296354294
+          ],
+          "gpu_us_p50": 15.14550019055605,
+          "graph_calls_per_replay": 128,
+          "metadata": {
+            "api": "fa5060.tilelang.decode",
+            "backend": "tilelang",
+            "package_versions": {
+              "tilelang": "0.1.15",
+              "apache-tvm-ffi": "0.1.12"
+            },
+            "preallocated_output": true,
+            "preallocated_workspace": true,
+            "config": {
+              "mode": "vector",
+              "block_n": 32,
+              "num_warps": 8,
+              "num_stages": 1
+            },
+            "num_splits": 4,
+            "native_paged": false,
+            "eager_allocates_output": true,
+            "eager_allocates_workspace": true,
+            "graph_boundary": "complete operator including all decode splits and merge"
+          },
+          "telemetry": {
+            "available": true,
+            "devices": [
+              {
+                "index": 0,
+                "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                "driver_version": "595.99.02",
+                "performance_state": "P2",
+                "power_draw_watts": 24.55,
+                "power_limit_watts": null,
+                "sm_clock_mhz": 2055,
+                "memory_clock_mhz": 11001,
+                "temperature_celsius": 55
+              }
+            ],
+            "error": null
+          }
+        },
+        {
+          "backend": "tilelang",
+          "provider": "ours",
+          "choice": {
+            "config": {
+              "mode": "grouped",
+              "block_n": 32,
+              "num_warps": 8,
+              "num_stages": 1
+            },
+            "num_splits": 4
+          },
+          "status": "error",
+          "reason": "InternalError: No valid warp partition for T.gemm: M=16, N=32 cannot be evenly covered by 8 warps (policy=Square). Each warp must own a multiple of 16 rows and 8 columns; adjust `threads` or the block tile shape."
+        },
+        {
+          "backend": "tilelang",
+          "provider": "ours",
+          "choice": {
+            "config": {
+              "mode": "vector",
+              "block_n": 32,
+              "num_warps": 8,
+              "num_stages": 1
+            },
+            "num_splits": 16
+          },
+          "validation": {
+            "validated": true,
+            "max_abs_error": 1.52587890625e-05,
+            "max_relative_error_atol_floor": 0.0006357828970067203,
+            "atol": 0.003,
+            "rtol": 0.003,
+            "normalized_rms_error": 4.573691164307566e-06,
+            "normalized_rms_tolerance": 0.02
+          },
+          "first_call_wall_ms": 1693.1494040036341,
+          "status": "ok",
+          "gpu_us_rounds": [
+            16.19425043463707,
+            16.19499921798706,
+            16.226250678300858,
+            16.225000843405724,
+            16.213249415159225,
+            16.230249777436256,
+            16.231000423431396
+          ],
+          "gpu_us_p50": 16.225000843405724,
+          "graph_calls_per_replay": 128,
+          "metadata": {
+            "api": "fa5060.tilelang.decode",
+            "backend": "tilelang",
+            "package_versions": {
+              "tilelang": "0.1.15",
+              "apache-tvm-ffi": "0.1.12"
+            },
+            "preallocated_output": true,
+            "preallocated_workspace": true,
+            "config": {
+              "mode": "vector",
+              "block_n": 32,
+              "num_warps": 8,
+              "num_stages": 1
+            },
+            "num_splits": 16,
+            "native_paged": false,
+            "eager_allocates_output": true,
+            "eager_allocates_workspace": true,
+            "graph_boundary": "complete operator including all decode splits and merge"
+          },
+          "telemetry": {
+            "available": true,
+            "devices": [
+              {
+                "index": 0,
+                "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                "driver_version": "595.99.02",
+                "performance_state": "P2",
+                "power_draw_watts": 23.44,
+                "power_limit_watts": null,
+                "sm_clock_mhz": 2032,
+                "memory_clock_mhz": 11001,
+                "temperature_celsius": 51
+              }
+            ],
+            "error": null
+          }
+        },
+        {
+          "backend": "tilelang",
+          "provider": "ours",
+          "choice": {
+            "config": {
+              "mode": "grouped",
+              "block_n": 32,
+              "num_warps": 8,
+              "num_stages": 1
+            },
+            "num_splits": 16
+          },
+          "status": "error",
+          "reason": "InternalError: No valid warp partition for T.gemm: M=16, N=32 cannot be evenly covered by 8 warps (policy=Square). Each warp must own a multiple of 16 rows and 8 columns; adjust `threads` or the block tile shape."
+        },
+        {
+          "backend": "tilelang",
+          "provider": "ours",
+          "choice": {
+            "config": {
+              "mode": "vector",
+              "block_n": 32,
+              "num_warps": 8,
+              "num_stages": 1
+            },
+            "num_splits": 32
+          },
+          "validation": {
+            "validated": true,
+            "max_abs_error": 1.52587890625e-05,
+            "max_relative_error_atol_floor": 0.0006357828970067203,
+            "atol": 0.003,
+            "rtol": 0.003,
+            "normalized_rms_error": 4.57372498325355e-06,
+            "normalized_rms_tolerance": 0.02
+          },
+          "first_call_wall_ms": 1723.702918003255,
+          "status": "ok",
+          "gpu_us_rounds": [
+            30.223999172449112,
+            23.804999887943268,
+            26.281999424099922,
+            24.035999551415443,
+            24.532500654459,
+            28.648000210523605,
+            23.675499483942986
+          ],
+          "gpu_us_p50": 24.532500654459,
+          "graph_calls_per_replay": 128,
+          "metadata": {
+            "api": "fa5060.tilelang.decode",
+            "backend": "tilelang",
+            "package_versions": {
+              "tilelang": "0.1.15",
+              "apache-tvm-ffi": "0.1.12"
+            },
+            "preallocated_output": true,
+            "preallocated_workspace": true,
+            "config": {
+              "mode": "vector",
+              "block_n": 32,
+              "num_warps": 8,
+              "num_stages": 1
+            },
+            "num_splits": 32,
+            "native_paged": false,
+            "eager_allocates_output": true,
+            "eager_allocates_workspace": true,
+            "graph_boundary": "complete operator including all decode splits and merge"
+          },
+          "telemetry": {
+            "available": true,
+            "devices": [
+              {
+                "index": 0,
+                "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                "driver_version": "595.99.02",
+                "performance_state": "P2",
+                "power_draw_watts": 26.61,
+                "power_limit_watts": null,
+                "sm_clock_mhz": 2092,
+                "memory_clock_mhz": 11001,
+                "temperature_celsius": 52
+              }
+            ],
+            "error": null
+          }
+        },
+        {
+          "backend": "tilelang",
+          "provider": "ours",
+          "choice": {
+            "config": {
+              "mode": "grouped",
+              "block_n": 32,
+              "num_warps": 8,
+              "num_stages": 1
+            },
+            "num_splits": 32
+          },
+          "status": "error",
+          "reason": "InternalError: No valid warp partition for T.gemm: M=16, N=32 cannot be evenly covered by 8 warps (policy=Square). Each warp must own a multiple of 16 rows and 8 columns; adjust `threads` or the block tile shape."
+        }
+      ]
+    },
+    {
+      "case": {
+        "id": "decode-b1-l8192-hq32-hkv8-d128-fp16-paged16",
+        "phase": "decode",
+        "batch": 1,
+        "kv_len": 8192,
+        "query_len": 1,
+        "head_dim": 128,
+        "heads_q": 32,
+        "heads_kv": 8,
+        "dtype": "fp16",
+        "layout": "paged",
+        "page_size": 16,
+        "causal": false,
+        "shape": {
+          "q": [
+            1,
+            32,
+            128
+          ],
+          "k": [
+            512,
+            16,
+            8,
+            128
+          ],
+          "v": [
+            512,
+            16,
+            8,
+            128
+          ],
+          "kv_lens": [
+            8192
+          ],
+          "block_table": [
+            1,
+            512
+          ],
+          "heads_q": 32,
+          "heads_kv": 8,
+          "head_dim": 128,
+          "batch": 1,
+          "query_len": 1,
+          "kv_len": 8192
+        }
+      },
+      "trials": [
+        {
+          "backend": "triton",
+          "provider": "ours",
+          "choice": null,
+          "validation": {
+            "validated": true,
+            "max_abs_error": 6.103515625e-05,
+            "max_relative_error_atol_floor": 0.0039736428298056126,
+            "atol": 0.003,
+            "rtol": 0.003,
+            "normalized_rms_error": 0.00026881945497029343,
+            "normalized_rms_tolerance": 0.02
+          },
+          "first_call_wall_ms": 8.338449995790143,
+          "status": "ok",
+          "gpu_us_rounds": [
+            57.934001088142395,
+            67.31825321912766,
+            64.80950117111206,
+            70.93799859285355,
+            61.820000410079956,
+            67.99624860286713,
+            64.53599780797958
+          ],
+          "gpu_us_p50": 64.80950117111206,
+          "graph_calls_per_replay": 128,
+          "metadata": {
+            "api": "fa5060.attention.decode",
+            "backend": "triton",
+            "package_versions": {
+              "triton": "3.7.1"
+            },
+            "preallocated_output": true,
+            "preallocated_workspace": true,
+            "config": null,
+            "num_splits": null,
+            "native_paged": true,
+            "eager_allocates_output": true,
+            "eager_allocates_workspace": true,
+            "graph_boundary": "complete operator including all decode splits and merge"
+          },
+          "telemetry": {
+            "available": true,
+            "devices": [
+              {
+                "index": 0,
+                "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                "driver_version": "595.99.02",
+                "performance_state": "P2",
+                "power_draw_watts": 66.57,
+                "power_limit_watts": null,
+                "sm_clock_mhz": 2287,
+                "memory_clock_mhz": 12001,
+                "temperature_celsius": 52
+              }
+            ],
+            "error": null
+          }
+        },
+        {
+          "backend": "tilelang",
+          "provider": "ours",
+          "choice": {
+            "config": {
+              "mode": "vector",
+              "block_n": 32,
+              "num_warps": 8,
+              "num_stages": 1
+            },
+            "num_splits": 1
+          },
+          "validation": {
+            "validated": true,
+            "max_abs_error": 1.52587890625e-05,
+            "max_relative_error_atol_floor": 0.0008873114711605012,
+            "atol": 0.003,
+            "rtol": 0.003,
+            "normalized_rms_error": 2.1544947520148513e-05,
+            "normalized_rms_tolerance": 0.02
+          },
+          "first_call_wall_ms": 1715.1890599998296,
+          "status": "ok",
+          "gpu_us_rounds": [
+            3899.441719055176,
+            3835.429906845093,
+            3819.7202682495117,
+            3861.9470596313477,
+            3919.4374084472656,
+            3977.8378009796143,
+            3990.4959201812744
+          ],
+          "gpu_us_p50": 3899.441719055176,
+          "graph_calls_per_replay": 128,
+          "metadata": {
+            "api": "fa5060.tilelang.decode",
+            "backend": "tilelang",
+            "package_versions": {
+              "tilelang": "0.1.15",
+              "apache-tvm-ffi": "0.1.12"
+            },
+            "preallocated_output": true,
+            "preallocated_workspace": true,
+            "config": {
+              "mode": "vector",
+              "block_n": 32,
+              "num_warps": 8,
+              "num_stages": 1
+            },
+            "num_splits": 1,
+            "native_paged": true,
+            "eager_allocates_output": true,
+            "eager_allocates_workspace": true,
+            "graph_boundary": "complete operator including all decode splits and merge"
+          },
+          "telemetry": {
+            "available": true,
+            "devices": [
+              {
+                "index": 0,
+                "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                "driver_version": "595.99.02",
+                "performance_state": "P0",
+                "power_draw_watts": 53.67,
+                "power_limit_watts": null,
+                "sm_clock_mhz": 2797,
+                "memory_clock_mhz": 12001,
+                "temperature_celsius": 57
+              }
+            ],
+            "error": null
+          }
+        },
+        {
+          "backend": "tilelang",
+          "provider": "ours",
+          "choice": {
+            "config": {
+              "mode": "grouped",
+              "block_n": 32,
+              "num_warps": 8,
+              "num_stages": 1
+            },
+            "num_splits": 1
+          },
+          "status": "error",
+          "reason": "InternalError: No valid warp partition for T.gemm: M=16, N=32 cannot be evenly covered by 8 warps (policy=Square). Each warp must own a multiple of 16 rows and 8 columns; adjust `threads` or the block tile shape."
+        },
+        {
+          "backend": "tilelang",
+          "provider": "ours",
+          "choice": {
+            "config": {
+              "mode": "vector",
+              "block_n": 32,
+              "num_warps": 8,
+              "num_stages": 1
+            },
+            "num_splits": 4
+          },
+          "validation": {
+            "validated": true,
+            "max_abs_error": 1.52587890625e-05,
+            "max_relative_error_atol_floor": 0.0008873114711605012,
+            "atol": 0.003,
+            "rtol": 0.003,
+            "normalized_rms_error": 2.2234585518807356e-05,
+            "normalized_rms_tolerance": 0.02
+          },
+          "first_call_wall_ms": 1644.7773869949742,
+          "status": "ok",
+          "gpu_us_rounds": [
+            1625.4832744598389,
+            1572.9789733886719,
+            1577.848196029663,
+            1563.405990600586,
+            1576.7439603805542,
+            1553.9394617080688,
+            1555.843710899353
+          ],
+          "gpu_us_p50": 1572.9789733886719,
+          "graph_calls_per_replay": 128,
+          "metadata": {
+            "api": "fa5060.tilelang.decode",
+            "backend": "tilelang",
+            "package_versions": {
+              "tilelang": "0.1.15",
+              "apache-tvm-ffi": "0.1.12"
+            },
+            "preallocated_output": true,
+            "preallocated_workspace": true,
+            "config": {
+              "mode": "vector",
+              "block_n": 32,
+              "num_warps": 8,
+              "num_stages": 1
+            },
+            "num_splits": 4,
+            "native_paged": true,
+            "eager_allocates_output": true,
+            "eager_allocates_workspace": true,
+            "graph_boundary": "complete operator including all decode splits and merge"
+          },
+          "telemetry": {
+            "available": true,
+            "devices": [
+              {
+                "index": 0,
+                "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                "driver_version": "595.99.02",
+                "performance_state": "P0",
+                "power_draw_watts": 64.3,
+                "power_limit_watts": null,
+                "sm_clock_mhz": 2790,
+                "memory_clock_mhz": 12001,
+                "temperature_celsius": 59
+              }
+            ],
+            "error": null
+          }
+        },
+        {
+          "backend": "tilelang",
+          "provider": "ours",
+          "choice": {
+            "config": {
+              "mode": "grouped",
+              "block_n": 32,
+              "num_warps": 8,
+              "num_stages": 1
+            },
+            "num_splits": 4
+          },
+          "status": "error",
+          "reason": "InternalError: No valid warp partition for T.gemm: M=16, N=32 cannot be evenly covered by 8 warps (policy=Square). Each warp must own a multiple of 16 rows and 8 columns; adjust `threads` or the block tile shape."
+        },
+        {
+          "backend": "tilelang",
+          "provider": "ours",
+          "choice": {
+            "config": {
+              "mode": "vector",
+              "block_n": 32,
+              "num_warps": 8,
+              "num_stages": 1
+            },
+            "num_splits": 16
+          },
+          "validation": {
+            "validated": true,
+            "max_abs_error": 1.52587890625e-05,
+            "max_relative_error_atol_floor": 0.0008628127980045974,
+            "atol": 0.003,
+            "rtol": 0.003,
+            "normalized_rms_error": 1.911955718956603e-05,
+            "normalized_rms_tolerance": 0.02
+          },
+          "first_call_wall_ms": 1677.8091020023567,
+          "status": "ok",
+          "gpu_us_rounds": [
+            911.8884801864624,
+            948.1480121612549,
+            921.1999773979187,
+            916.833221912384,
+            914.8370027542114,
+            879.5517683029175,
+            942.6504969596863
+          ],
+          "gpu_us_p50": 916.833221912384,
+          "graph_calls_per_replay": 128,
+          "metadata": {
+            "api": "fa5060.tilelang.decode",
+            "backend": "tilelang",
+            "package_versions": {
+              "tilelang": "0.1.15",
+              "apache-tvm-ffi": "0.1.12"
+            },
+            "preallocated_output": true,
+            "preallocated_workspace": true,
+            "config": {
+              "mode": "vector",
+              "block_n": 32,
+              "num_warps": 8,
+              "num_stages": 1
+            },
+            "num_splits": 16,
+            "native_paged": true,
+            "eager_allocates_output": true,
+            "eager_allocates_workspace": true,
+            "graph_boundary": "complete operator including all decode splits and merge"
+          },
+          "telemetry": {
+            "available": true,
+            "devices": [
+              {
+                "index": 0,
+                "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                "driver_version": "595.99.02",
+                "performance_state": "P0",
+                "power_draw_watts": 67.42,
+                "power_limit_watts": null,
+                "sm_clock_mhz": 2775,
+                "memory_clock_mhz": 12001,
+                "temperature_celsius": 60
+              }
+            ],
+            "error": null
+          }
+        },
+        {
+          "backend": "tilelang",
+          "provider": "ours",
+          "choice": {
+            "config": {
+              "mode": "grouped",
+              "block_n": 32,
+              "num_warps": 8,
+              "num_stages": 1
+            },
+            "num_splits": 16
+          },
+          "status": "error",
+          "reason": "InternalError: No valid warp partition for T.gemm: M=16, N=32 cannot be evenly covered by 8 warps (policy=Square). Each warp must own a multiple of 16 rows and 8 columns; adjust `threads` or the block tile shape."
+        },
+        {
+          "backend": "tilelang",
+          "provider": "ours",
+          "choice": {
+            "config": {
+              "mode": "vector",
+              "block_n": 32,
+              "num_warps": 8,
+              "num_stages": 1
+            },
+            "num_splits": 32
+          },
+          "validation": {
+            "validated": true,
+            "max_abs_error": 1.52587890625e-05,
+            "max_relative_error_atol_floor": 0.0008880994864739478,
+            "atol": 0.003,
+            "rtol": 0.003,
+            "normalized_rms_error": 1.932916287664924e-05,
+            "normalized_rms_tolerance": 0.02
+          },
+          "first_call_wall_ms": 1845.4079669972998,
+          "status": "ok",
+          "gpu_us_rounds": [
+            966.1409854888916,
+            942.4497485160828,
+            966.5970206260681,
+            940.7495260238647,
+            1022.7475166320801,
+            1194.4940090179443,
+            1199.9812126159668
+          ],
+          "gpu_us_p50": 966.5970206260681,
+          "graph_calls_per_replay": 128,
+          "metadata": {
+            "api": "fa5060.tilelang.decode",
+            "backend": "tilelang",
+            "package_versions": {
+              "tilelang": "0.1.15",
+              "apache-tvm-ffi": "0.1.12"
+            },
+            "preallocated_output": true,
+            "preallocated_workspace": true,
+            "config": {
+              "mode": "vector",
+              "block_n": 32,
+              "num_warps": 8,
+              "num_stages": 1
+            },
+            "num_splits": 32,
+            "native_paged": true,
+            "eager_allocates_output": true,
+            "eager_allocates_workspace": true,
+            "graph_boundary": "complete operator including all decode splits and merge"
+          },
+          "telemetry": {
+            "available": true,
+            "devices": [
+              {
+                "index": 0,
+                "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                "driver_version": "595.99.02",
+                "performance_state": "P0",
+                "power_draw_watts": 68.74,
+                "power_limit_watts": null,
+                "sm_clock_mhz": 2452,
+                "memory_clock_mhz": 12001,
+                "temperature_celsius": 57
+              }
+            ],
+            "error": null
+          }
+        },
+        {
+          "backend": "tilelang",
+          "provider": "ours",
+          "choice": {
+            "config": {
+              "mode": "grouped",
+              "block_n": 32,
+              "num_warps": 8,
+              "num_stages": 1
+            },
+            "num_splits": 32
+          },
+          "status": "error",
+          "reason": "InternalError: No valid warp partition for T.gemm: M=16, N=32 cannot be evenly covered by 8 warps (policy=Square). Each warp must own a multiple of 16 rows and 8 columns; adjust `threads` or the block tile shape."
+        }
+      ]
+    }
+  ]
+}

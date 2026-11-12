@@ -387,6 +387,77 @@ python -m fa5060.benchmark --backend triton --suite full --phase decode --rounds
 ::::
 :::::
 
+## 14.8 优化实验：归约布局和完整 split 代价
+
+本批次优化保留向量教学工厂，新增 grouped MMA 的显式 KV 双缓冲工厂。
+第一阶段仍输出 FP32 的未归一化分子、最大值与分母；第二阶段仍做稳定合并。
+增加 split 会同时增加 CTA、scratch、合并读流量和调度开销，因此不保证更快。
+
+:::::{tab-set}
+:sync-group: kernel-backend
+
+::::{tab-item} TileLang
+:sync: tilelang
+
+在 M=16、N=32、128 线程的受限布局中，4 个 warp 各负责一个 8 列 score
+tile。先在每个 warp 内归约，再把每行的 4 个 partial 写入 shared，用一个
+CTA barrier 发布，最后读取并合成行统计。最大值和求和使用不同槽，下一轮
+开头的 CTA barrier 保护槽复用。更大的 N 会改变布局，不能直接套用这一推论。
+
+```{literalinclude} ../src/fa5060/tilelang/_decode_pipeline.py
+:language: python
+:start-at:                 if segmented_reduce:
+:end-at:                 elif batched_reduce:
+:caption: src/fa5060/tilelang/_decode_pipeline.py：局部归约与 shared 发布
+:linenos:
+```
+
+其他布局使用 batched reduction。TileLang 0.1.15 的 FP32 packed batched
+归约在跨 warp、warp 内两层规约时存在临时缓冲声明问题，本批次保存了失败
+记录及编译器源码位置。局部绕过方案把 FP32 最大值变换成保序 uint32 key
+做精确 max，并对 sum 禁用 packed `fadd2`；统计值和 split 状态仍是 FP32。
+没有改安装包，也没有降低 softmax 精度。
+
+```python
+from fa5060.tilelang import decode, decode_workspace
+
+config = {"implementation": "optimized"}
+workspace = decode_workspace(q, k, block_table=table, config=config)
+out = decode(q, k, v, kv_lens=lengths, block_table=table,
+             workspace=workspace, config=config)
+```
+
+固定优化策略默认 grouped、N=32；仅依据 shape/stride/地址元数据选择工厂，
+lengths 和页表内容仍由 kernel 读取。split 目标为约 208 个 CTA，受容量、
+32-token 最小分段和 32 个 split 上限限制。它描述总 grid，不能解释为
+每个 SM 同时驻留 8 个 CTA。显式 `num_splits` 仍覆盖默认策略。
+
+双缓冲会增加 shared 占用，超过保守预算时回退单缓冲参考工厂。
+page64/N32、非页对齐 split 和尾块使用精确谓词路径；不读取死页。
+未对齐 storage offset 使用标量 global 访存回退，并在 CUDA Graph 中重放验证。
+
+::::
+
+::::{tab-item} Triton
+:sync: triton
+
+Triton 的 split 协议保持相同的 FP32 三元组，原合并内核如下。
+一次完整算子测量包含第一阶段所有 split 和这个合并 kernel。
+
+```{literalinclude} ../src/fa5060/attention.py
+:language: python
+:pyobject: _merge_splits
+:caption: src/fa5060/attention.py：稳定合并 split 状态
+:linenos:
+```
+
+::::
+:::::
+
+同步的静态证据、生成 CUDA 和资源报告保存在
+`results/optimization-2026-11-11/compiler/`。CPU 编译审查与 GPU racecheck
+只能分别证明其覆盖范围；仍需数值检查和完整性能复测。
+
 ## 练习
 
 1. 构造两段，它们的最大分数相差很大，且局部 value 常数不同。手算正确合并值，再算简单平均，比较两者差异。

@@ -1,0 +1,586 @@
+[136/312] prefill-b4-l8192-hq32-hkv32-d128-bf16-paged16: fa4=unsupported, torch_flash=unsupported, flashinfer_fmha_v2=ok, flashinfer_fa2=ok, torch_efficient=unsupported, ours=ok, torch_cudnn=unsupported
+2026-11-12 09:43:41  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:43:45  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:43:51  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:43:55  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+/home/justi/Workspace/cuda/fa/.venv-tilelang/lib/python3.13/site-packages/nvidia_cutlass_dsl/dsl_packages/cutlass/base_dsl/dsl.py:2300: UserWarning: Argument aux_data (position 17) cannot be converted to a JitArgument for function 'cutlass___call___flash_attncuteflash_fwd_sm120FlashAttentionForwardSm120_object_at__Tensorgmemoi64i64i641_Tensorgmemoi64i64i641_Tensorgmemoi64i64i641_Tensorgmemoi64i64i641_None_008'. Its type `<class 'flash_attn.cute.utils.AuxData'>` is not supported. If the value is known at compile time, annotate it: `aux_data: Constexpr`. Otherwise, implement the `JitArgument` or `DynamicExpression` protocol for type `<class 'flash_attn.cute.utils.AuxData'>`, or register a custom argument adapter.
+  exe_args, func_types, adapted_args = self.generate_mlir_function_types(
+[137/312] prefill-b4-l8192-hq32-hkv8-d128-fp16-dense: torch_flash=ok, ours=ok, flashinfer_fmha_v2=ok, torch_efficient=unsupported, flashinfer_fa2=ok, torch_cudnn=ok, fa4=ok
+2026-11-12 09:44:10  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:44:14  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+[138/312] prefill-b4-l8192-hq32-hkv8-d128-fp16-paged16: torch_flash=unsupported, ours=ok, torch_cudnn=unsupported, flashinfer_fmha_v2=ok, fa4=unsupported, flashinfer_fa2=ok, torch_efficient=unsupported
+2026-11-12 09:44:22  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:44:26  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+/home/justi/Workspace/cuda/fa/.venv-tilelang/lib/python3.13/site-packages/nvidia_cutlass_dsl/dsl_packages/cutlass/base_dsl/dsl.py:2300: UserWarning: Argument aux_data (position 17) cannot be converted to a JitArgument for function 'cutlass___call___flash_attncuteflash_fwd_sm120FlashAttentionForwardSm120_object_at__Tensorgmemoi64i64i641_Tensorgmemoi64i64i641_Tensorgmemoi64i64i641_Tensorgmemoi64i64i641_None_008'. Its type `<class 'flash_attn.cute.utils.AuxData'>` is not supported. If the value is known at compile time, annotate it: `aux_data: Constexpr`. Otherwise, implement the `JitArgument` or `DynamicExpression` protocol for type `<class 'flash_attn.cute.utils.AuxData'>`, or register a custom argument adapter.
+  exe_args, func_types, adapted_args = self.generate_mlir_function_types(
+[139/312] prefill-b4-l8192-hq32-hkv8-d128-bf16-dense: ours=ok, torch_efficient=unsupported, torch_cudnn=ok, flashinfer_fmha_v2=ok, fa4=ok, torch_flash=ok, flashinfer_fa2=ok
+[140/312] prefill-b4-l8192-hq32-hkv8-d128-bf16-paged16: torch_cudnn=unsupported, torch_flash=unsupported, flashinfer_fa2=ok, flashinfer_fmha_v2=ok, ours=ok, fa4=unsupported, torch_efficient=unsupported
+/home/justi/Workspace/cuda/fa/.venv-tilelang/lib/python3.13/site-packages/nvidia_cutlass_dsl/dsl_packages/cutlass/base_dsl/dsl.py:2300: UserWarning: Argument aux_data (position 17) cannot be converted to a JitArgument for function 'cutlass___call___flash_attncuteflash_fwd_sm120FlashAttentionForwardSm120_object_at__Tensorgmemoi64i64i641_Tensorgmemoi64i64i641_Tensorgmemoi64i64i641_Tensorgmemoi64i64i641_None_008'. Its type `<class 'flash_attn.cute.utils.AuxData'>` is not supported. If the value is known at compile time, annotate it: `aux_data: Constexpr`. Otherwise, implement the `JitArgument` or `DynamicExpression` protocol for type `<class 'flash_attn.cute.utils.AuxData'>`, or register a custom argument adapter.
+  exe_args, func_types, adapted_args = self.generate_mlir_function_types(
+[141/312] prefill-b4-l8192-hq32-hkv1-d128-fp16-dense: fa4=ok, flashinfer_fmha_v2=ok, torch_cudnn=ok, torch_efficient=unsupported, ours=ok, flashinfer_fa2=ok, torch_flash=ok
+[142/312] prefill-b4-l8192-hq32-hkv1-d128-fp16-paged16: torch_flash=unsupported, fa4=unsupported, flashinfer_fmha_v2=ok, flashinfer_fa2=ok, torch_cudnn=unsupported, torch_efficient=unsupported, ours=ok
+/home/justi/Workspace/cuda/fa/.venv-tilelang/lib/python3.13/site-packages/nvidia_cutlass_dsl/dsl_packages/cutlass/base_dsl/dsl.py:2300: UserWarning: Argument aux_data (position 17) cannot be converted to a JitArgument for function 'cutlass___call___flash_attncuteflash_fwd_sm120FlashAttentionForwardSm120_object_at__Tensorgmemoi64i64i641_Tensorgmemoi64i64i641_Tensorgmemoi64i64i641_Tensorgmemoi64i64i641_None_008'. Its type `<class 'flash_attn.cute.utils.AuxData'>` is not supported. If the value is known at compile time, annotate it: `aux_data: Constexpr`. Otherwise, implement the `JitArgument` or `DynamicExpression` protocol for type `<class 'flash_attn.cute.utils.AuxData'>`, or register a custom argument adapter.
+  exe_args, func_types, adapted_args = self.generate_mlir_function_types(
+[143/312] prefill-b4-l8192-hq32-hkv1-d128-bf16-dense: flashinfer_fa2=ok, flashinfer_fmha_v2=ok, torch_efficient=unsupported, ours=ok, torch_flash=ok, torch_cudnn=ok, fa4=ok
+[144/312] prefill-b4-l8192-hq32-hkv1-d128-bf16-paged16: torch_efficient=unsupported, flashinfer_fa2=ok, fa4=unsupported, ours=ok, flashinfer_fmha_v2=ok, torch_cudnn=unsupported, torch_flash=unsupported
+/home/justi/Workspace/cuda/fa/.venv-tilelang/lib/python3.13/site-packages/nvidia_cutlass_dsl/dsl_packages/cutlass/base_dsl/dsl.py:2300: UserWarning: Argument aux_data (position 17) cannot be converted to a JitArgument for function 'cutlass___call___flash_attncuteflash_fwd_sm120FlashAttentionForwardSm120_object_at__Tensorgmemoi64i64i641_Tensorgmemoi64i64i641_Tensorgmemoi64i64i641_Tensorgmemoi64i64i641_None_012'. Its type `<class 'flash_attn.cute.utils.AuxData'>` is not supported. If the value is known at compile time, annotate it: `aux_data: Constexpr`. Otherwise, implement the `JitArgument` or `DynamicExpression` protocol for type `<class 'flash_attn.cute.utils.AuxData'>`, or register a custom argument adapter.
+  exe_args, func_types, adapted_args = self.generate_mlir_function_types(
+2026-11-12 09:44:47  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:44:51  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:45:03  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:45:06  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:45:19  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:45:22  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:45:31  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:45:35  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:45:48  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:45:52  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+[145/312] decode-b1-l512-hq32-hkv32-d64-fp16-dense: flashinfer_fmha_v2=ok, torch_cudnn=ok, fa4=ok, flashinfer_fa2=ok, torch_flash=ok, torch_efficient=ok, ours=ok
+[146/312] decode-b1-l512-hq32-hkv32-d64-fp16-paged16: flashinfer_fmha_v2=ok, torch_flash=unsupported, fa4=unsupported, torch_efficient=unsupported, flashinfer_fa2=ok, ours=ok, torch_cudnn=unsupported
+2026-11-12 09:45:59  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:46:01  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:46:02  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:46:02  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:46:02  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:46:05  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:46:05  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:46:08  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:46:08  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:46:08  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+/home/justi/Workspace/cuda/fa/.venv-tilelang/lib/python3.13/site-packages/nvidia_cutlass_dsl/dsl_packages/cutlass/base_dsl/dsl.py:2300: UserWarning: Argument aux_data (position 17) cannot be converted to a JitArgument for function 'cutlass___call___flash_attncuteflash_fwd_sm120FlashAttentionForwardSm120_object_at__Tensorgmemoi64i64i641_Tensorgmemoi64i64i641_Tensorgmemoi64i64i641_Tensorgmemoi64i64i641_None_012'. Its type `<class 'flash_attn.cute.utils.AuxData'>` is not supported. If the value is known at compile time, annotate it: `aux_data: Constexpr`. Otherwise, implement the `JitArgument` or `DynamicExpression` protocol for type `<class 'flash_attn.cute.utils.AuxData'>`, or register a custom argument adapter.
+  exe_args, func_types, adapted_args = self.generate_mlir_function_types(
+[147/312] decode-b1-l512-hq32-hkv32-d64-bf16-dense: torch_flash=ok, ours=ok, flashinfer_fa2=ok, torch_cudnn=ok, flashinfer_fmha_v2=ok, fa4=ok, torch_efficient=ok
+[148/312] decode-b1-l512-hq32-hkv32-d64-bf16-paged16: torch_flash=unsupported, ours=ok, flashinfer_fa2=ok, torch_cudnn=unsupported, torch_efficient=unsupported, fa4=unsupported, flashinfer_fmha_v2=ok
+/home/justi/Workspace/cuda/fa/.venv-tilelang/lib/python3.13/site-packages/nvidia_cutlass_dsl/dsl_packages/cutlass/base_dsl/dsl.py:2300: UserWarning: Argument aux_data (position 17) cannot be converted to a JitArgument for function 'cutlass___call___flash_attncuteflash_fwd_sm120FlashAttentionForwardSm120_object_at__Tensorgmemoi64i64i641_Tensorgmemoi64i64i641_Tensorgmemoi64i64i641_Tensorgmemoi64i64i641_None_012'. Its type `<class 'flash_attn.cute.utils.AuxData'>` is not supported. If the value is known at compile time, annotate it: `aux_data: Constexpr`. Otherwise, implement the `JitArgument` or `DynamicExpression` protocol for type `<class 'flash_attn.cute.utils.AuxData'>`, or register a custom argument adapter.
+  exe_args, func_types, adapted_args = self.generate_mlir_function_types(
+[149/312] decode-b1-l512-hq32-hkv8-d64-fp16-dense: ours=ok, fa4=ok, torch_efficient=unsupported, flashinfer_fmha_v2=ok, torch_cudnn=ok, torch_flash=ok, flashinfer_fa2=ok
+[150/312] decode-b1-l512-hq32-hkv8-d64-fp16-paged16: torch_efficient=unsupported, flashinfer_fa2=ok, torch_cudnn=unsupported, torch_flash=unsupported, ours=ok, flashinfer_fmha_v2=ok, fa4=unsupported
+/home/justi/Workspace/cuda/fa/.venv-tilelang/lib/python3.13/site-packages/nvidia_cutlass_dsl/dsl_packages/cutlass/base_dsl/dsl.py:2300: UserWarning: Argument aux_data (position 17) cannot be converted to a JitArgument for function 'cutlass___call___flash_attncuteflash_fwd_sm120FlashAttentionForwardSm120_object_at__Tensorgmemoi64i64i641_Tensorgmemoi64i64i641_Tensorgmemoi64i64i641_Tensorgmemoi64i64i641_None_012'. Its type `<class 'flash_attn.cute.utils.AuxData'>` is not supported. If the value is known at compile time, annotate it: `aux_data: Constexpr`. Otherwise, implement the `JitArgument` or `DynamicExpression` protocol for type `<class 'flash_attn.cute.utils.AuxData'>`, or register a custom argument adapter.
+  exe_args, func_types, adapted_args = self.generate_mlir_function_types(
+[151/312] decode-b1-l512-hq32-hkv8-d64-bf16-dense: torch_cudnn=ok, torch_flash=ok, flashinfer_fmha_v2=ok, fa4=ok, flashinfer_fa2=ok, torch_efficient=unsupported, ours=ok
+[152/312] decode-b1-l512-hq32-hkv8-d64-bf16-paged16: flashinfer_fa2=ok, torch_cudnn=unsupported, fa4=unsupported, flashinfer_fmha_v2=ok, torch_flash=unsupported, torch_efficient=unsupported, ours=ok
+/home/justi/Workspace/cuda/fa/.venv-tilelang/lib/python3.13/site-packages/nvidia_cutlass_dsl/dsl_packages/cutlass/base_dsl/dsl.py:2300: UserWarning: Argument aux_data (position 17) cannot be converted to a JitArgument for function 'cutlass___call___flash_attncuteflash_fwd_sm120FlashAttentionForwardSm120_object_at__Tensorgmemoi64i64i641_Tensorgmemoi64i64i641_Tensorgmemoi64i64i641_Tensorgmemoi64i64i641_None_012'. Its type `<class 'flash_attn.cute.utils.AuxData'>` is not supported. If the value is known at compile time, annotate it: `aux_data: Constexpr`. Otherwise, implement the `JitArgument` or `DynamicExpression` protocol for type `<class 'flash_attn.cute.utils.AuxData'>`, or register a custom argument adapter.
+  exe_args, func_types, adapted_args = self.generate_mlir_function_types(
+[153/312] decode-b1-l512-hq32-hkv1-d64-fp16-dense: torch_flash=ok, flashinfer_fmha_v2=ok, torch_efficient=unsupported, flashinfer_fa2=ok, ours=ok, fa4=ok, torch_cudnn=ok
+[154/312] decode-b1-l512-hq32-hkv1-d64-fp16-paged16: torch_flash=unsupported, fa4=unsupported, torch_cudnn=unsupported, ours=ok, torch_efficient=unsupported, flashinfer_fmha_v2=ok, flashinfer_fa2=ok
+/home/justi/Workspace/cuda/fa/.venv-tilelang/lib/python3.13/site-packages/nvidia_cutlass_dsl/dsl_packages/cutlass/base_dsl/dsl.py:2300: UserWarning: Argument aux_data (position 17) cannot be converted to a JitArgument for function 'cutlass___call___flash_attncuteflash_fwd_sm120FlashAttentionForwardSm120_object_at__Tensorgmemoi64i64i641_Tensorgmemoi64i64i641_Tensorgmemoi64i64i641_Tensorgmemoi64i64i641_None_012'. Its type `<class 'flash_attn.cute.utils.AuxData'>` is not supported. If the value is known at compile time, annotate it: `aux_data: Constexpr`. Otherwise, implement the `JitArgument` or `DynamicExpression` protocol for type `<class 'flash_attn.cute.utils.AuxData'>`, or register a custom argument adapter.
+  exe_args, func_types, adapted_args = self.generate_mlir_function_types(
+[155/312] decode-b1-l512-hq32-hkv1-d64-bf16-dense: torch_flash=ok, torch_efficient=unsupported, ours=ok, fa4=ok, torch_cudnn=ok, flashinfer_fmha_v2=ok, flashinfer_fa2=ok
+[156/312] decode-b1-l512-hq32-hkv1-d64-bf16-paged16: ours=ok, torch_flash=unsupported, torch_efficient=unsupported, flashinfer_fa2=ok, fa4=unsupported, torch_cudnn=unsupported, flashinfer_fmha_v2=ok
+/home/justi/Workspace/cuda/fa/.venv-tilelang/lib/python3.13/site-packages/nvidia_cutlass_dsl/dsl_packages/cutlass/base_dsl/dsl.py:2300: UserWarning: Argument aux_data (position 17) cannot be converted to a JitArgument for function 'cutlass___call___flash_attncuteflash_fwd_sm120FlashAttentionForwardSm120_object_at__Tensorgmemoi64i64i641_Tensorgmemoi64i64i641_Tensorgmemoi64i64i641_Tensorgmemoi64i64i641_None_008'. Its type `<class 'flash_attn.cute.utils.AuxData'>` is not supported. If the value is known at compile time, annotate it: `aux_data: Constexpr`. Otherwise, implement the `JitArgument` or `DynamicExpression` protocol for type `<class 'flash_attn.cute.utils.AuxData'>`, or register a custom argument adapter.
+  exe_args, func_types, adapted_args = self.generate_mlir_function_types(
+[157/312] decode-b1-l512-hq32-hkv32-d128-fp16-dense: flashinfer_fa2=ok, ours=ok, torch_flash=ok, torch_cudnn=ok, flashinfer_fmha_v2=ok, fa4=ok, torch_efficient=ok
+[158/312] decode-b1-l512-hq32-hkv32-d128-fp16-paged16: flashinfer_fmha_v2=ok, torch_cudnn=unsupported, torch_efficient=unsupported, ours=ok, fa4=unsupported, flashinfer_fa2=ok, torch_flash=unsupported
+/home/justi/Workspace/cuda/fa/.venv-tilelang/lib/python3.13/site-packages/nvidia_cutlass_dsl/dsl_packages/cutlass/base_dsl/dsl.py:2300: UserWarning: Argument aux_data (position 17) cannot be converted to a JitArgument for function 'cutlass___call___flash_attncuteflash_fwd_sm120FlashAttentionForwardSm120_object_at__Tensorgmemoi64i64i641_Tensorgmemoi64i64i641_Tensorgmemoi64i64i641_Tensorgmemoi64i64i641_None_008'. Its type `<class 'flash_attn.cute.utils.AuxData'>` is not supported. If the value is known at compile time, annotate it: `aux_data: Constexpr`. Otherwise, implement the `JitArgument` or `DynamicExpression` protocol for type `<class 'flash_attn.cute.utils.AuxData'>`, or register a custom argument adapter.
+  exe_args, func_types, adapted_args = self.generate_mlir_function_types(
+[159/312] decode-b1-l512-hq32-hkv32-d128-bf16-dense: torch_efficient=ok, fa4=ok, torch_flash=ok, flashinfer_fa2=ok, flashinfer_fmha_v2=ok, ours=ok, torch_cudnn=ok
+[160/312] decode-b1-l512-hq32-hkv32-d128-bf16-paged16: flashinfer_fa2=ok, torch_efficient=unsupported, torch_cudnn=unsupported, fa4=unsupported, flashinfer_fmha_v2=ok, torch_flash=unsupported, ours=ok
+/home/justi/Workspace/cuda/fa/.venv-tilelang/lib/python3.13/site-packages/nvidia_cutlass_dsl/dsl_packages/cutlass/base_dsl/dsl.py:2300: UserWarning: Argument aux_data (position 17) cannot be converted to a JitArgument for function 'cutlass___call___flash_attncuteflash_fwd_sm120FlashAttentionForwardSm120_object_at__Tensorgmemoi64i64i641_Tensorgmemoi64i64i641_Tensorgmemoi64i64i641_Tensorgmemoi64i64i641_None_008'. Its type `<class 'flash_attn.cute.utils.AuxData'>` is not supported. If the value is known at compile time, annotate it: `aux_data: Constexpr`. Otherwise, implement the `JitArgument` or `DynamicExpression` protocol for type `<class 'flash_attn.cute.utils.AuxData'>`, or register a custom argument adapter.
+  exe_args, func_types, adapted_args = self.generate_mlir_function_types(
+[161/312] decode-b1-l512-hq32-hkv8-d128-fp16-dense: fa4=ok, flashinfer_fa2=ok, torch_flash=ok, ours=ok, torch_cudnn=ok, flashinfer_fmha_v2=ok, torch_efficient=unsupported
+[162/312] decode-b1-l512-hq32-hkv8-d128-fp16-paged16: torch_flash=unsupported, torch_efficient=unsupported, flashinfer_fmha_v2=ok, ours=ok, flashinfer_fa2=ok, torch_cudnn=unsupported, fa4=unsupported
+/home/justi/Workspace/cuda/fa/.venv-tilelang/lib/python3.13/site-packages/nvidia_cutlass_dsl/dsl_packages/cutlass/base_dsl/dsl.py:2300: UserWarning: Argument aux_data (position 17) cannot be converted to a JitArgument for function 'cutlass___call___flash_attncuteflash_fwd_sm120FlashAttentionForwardSm120_object_at__Tensorgmemoi64i64i641_Tensorgmemoi64i64i641_Tensorgmemoi64i64i641_Tensorgmemoi64i64i641_None_008'. Its type `<class 'flash_attn.cute.utils.AuxData'>` is not supported. If the value is known at compile time, annotate it: `aux_data: Constexpr`. Otherwise, implement the `JitArgument` or `DynamicExpression` protocol for type `<class 'flash_attn.cute.utils.AuxData'>`, or register a custom argument adapter.
+  exe_args, func_types, adapted_args = self.generate_mlir_function_types(
+[163/312] decode-b1-l512-hq32-hkv8-d128-bf16-dense: torch_cudnn=ok, flashinfer_fmha_v2=ok, ours=ok, flashinfer_fa2=ok, torch_efficient=unsupported, torch_flash=ok, fa4=ok
+[164/312] decode-b1-l512-hq32-hkv8-d128-bf16-paged16: fa4=unsupported, torch_flash=unsupported, torch_cudnn=unsupported, flashinfer_fa2=ok, ours=ok, torch_efficient=unsupported, flashinfer_fmha_v2=ok
+/home/justi/Workspace/cuda/fa/.venv-tilelang/lib/python3.13/site-packages/nvidia_cutlass_dsl/dsl_packages/cutlass/base_dsl/dsl.py:2300: UserWarning: Argument aux_data (position 17) cannot be converted to a JitArgument for function 'cutlass___call___flash_attncuteflash_fwd_sm120FlashAttentionForwardSm120_object_at__Tensorgmemoi64i64i641_Tensorgmemoi64i64i641_Tensorgmemoi64i64i641_Tensorgmemoi64i64i641_None_008'. Its type `<class 'flash_attn.cute.utils.AuxData'>` is not supported. If the value is known at compile time, annotate it: `aux_data: Constexpr`. Otherwise, implement the `JitArgument` or `DynamicExpression` protocol for type `<class 'flash_attn.cute.utils.AuxData'>`, or register a custom argument adapter.
+  exe_args, func_types, adapted_args = self.generate_mlir_function_types(
+[165/312] decode-b1-l512-hq32-hkv1-d128-fp16-dense: fa4=ok, torch_cudnn=ok, torch_flash=ok, flashinfer_fa2=ok, flashinfer_fmha_v2=ok, ours=ok, torch_efficient=unsupported
+[166/312] decode-b1-l512-hq32-hkv1-d128-fp16-paged16: flashinfer_fmha_v2=ok, fa4=unsupported, torch_flash=unsupported, flashinfer_fa2=ok, torch_cudnn=unsupported, torch_efficient=unsupported, ours=ok
+/home/justi/Workspace/cuda/fa/.venv-tilelang/lib/python3.13/site-packages/nvidia_cutlass_dsl/dsl_packages/cutlass/base_dsl/dsl.py:2300: UserWarning: Argument aux_data (position 17) cannot be converted to a JitArgument for function 'cutlass___call___flash_attncuteflash_fwd_sm120FlashAttentionForwardSm120_object_at__Tensorgmemoi64i64i641_Tensorgmemoi64i64i641_Tensorgmemoi64i64i641_Tensorgmemoi64i64i641_None_008'. Its type `<class 'flash_attn.cute.utils.AuxData'>` is not supported. If the value is known at compile time, annotate it: `aux_data: Constexpr`. Otherwise, implement the `JitArgument` or `DynamicExpression` protocol for type `<class 'flash_attn.cute.utils.AuxData'>`, or register a custom argument adapter.
+  exe_args, func_types, adapted_args = self.generate_mlir_function_types(
+[167/312] decode-b1-l512-hq32-hkv1-d128-bf16-dense: ours=ok, torch_efficient=unsupported, torch_cudnn=ok, flashinfer_fmha_v2=ok, fa4=ok, flashinfer_fa2=ok, torch_flash=ok
+[168/312] decode-b1-l512-hq32-hkv1-d128-bf16-paged16: torch_cudnn=unsupported, torch_efficient=unsupported, flashinfer_fmha_v2=ok, ours=ok, torch_flash=unsupported, fa4=unsupported, flashinfer_fa2=ok
+[169/312] decode-b1-l8192-hq32-hkv32-d64-fp16-dense: fa4=ok, ours=ok, torch_cudnn=ok, flashinfer_fmha_v2=ok, torch_flash=ok, flashinfer_fa2=ok, torch_efficient=ok
+[170/312] decode-b1-l8192-hq32-hkv32-d64-fp16-paged16: flashinfer_fmha_v2=ok, torch_efficient=unsupported, torch_cudnn=unsupported, fa4=unsupported, ours=ok, flashinfer_fa2=ok, torch_flash=unsupported
+[171/312] decode-b1-l8192-hq32-hkv32-d64-bf16-dense: flashinfer_fa2=ok, torch_efficient=ok, torch_flash=ok, torch_cudnn=ok, fa4=ok, ours=ok, flashinfer_fmha_v2=ok
+[172/312] decode-b1-l8192-hq32-hkv32-d64-bf16-paged16: flashinfer_fa2=ok, torch_cudnn=unsupported, torch_efficient=unsupported, ours=ok, torch_flash=unsupported, fa4=unsupported, flashinfer_fmha_v2=ok
+[173/312] decode-b1-l8192-hq32-hkv8-d64-fp16-dense: torch_efficient=unsupported, torch_flash=ok, torch_cudnn=ok, flashinfer_fa2=ok, ours=ok, fa4=ok, flashinfer_fmha_v2=ok
+[174/312] decode-b1-l8192-hq32-hkv8-d64-fp16-paged16: flashinfer_fmha_v2=ok, fa4=unsupported, torch_efficient=unsupported, torch_flash=unsupported, torch_cudnn=unsupported, ours=ok, flashinfer_fa2=ok
+[175/312] decode-b1-l8192-hq32-hkv8-d64-bf16-dense: torch_cudnn=ok, torch_efficient=unsupported, ours=ok, flashinfer_fa2=ok, flashinfer_fmha_v2=ok, torch_flash=ok, fa4=ok
+[176/312] decode-b1-l8192-hq32-hkv8-d64-bf16-paged16: flashinfer_fmha_v2=ok, fa4=unsupported, torch_cudnn=unsupported, torch_efficient=unsupported, ours=ok, flashinfer_fa2=ok, torch_flash=unsupported
+2026-11-12 09:46:10  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:46:13  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:46:13  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:46:16  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:46:18  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:46:20  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:46:22  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:46:24  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:46:25  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:46:27  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:46:27  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:46:29  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:46:31  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:46:33  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:46:34  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:46:36  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:46:37  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:46:39  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:46:40  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:46:43  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:46:43  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:46:44  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:46:46  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:46:49  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:46:51  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:46:54  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:46:54  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:46:55  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:46:55  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:46:59  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:47:01  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:47:03  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:47:04  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:47:06  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:47:07  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:47:10  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:47:12  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:47:14  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:47:16  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:47:19  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:47:19  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:47:22  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:47:22  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:47:24  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:47:26  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:47:29  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:47:29  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:47:32  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:47:33  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:47:36  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:47:37  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:47:40  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:47:40  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:47:43  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:47:44  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:47:46  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:47:47  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:47:49  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:47:50  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:47:52  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:47:54  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:47:56  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:47:57  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:47:59  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`[177/312] decode-b1-l8192-hq32-hkv1-d64-fp16-dense: flashinfer_fmha_v2=ok, ours=ok, torch_flash=ok, flashinfer_fa2=ok, torch_efficient=unsupported, torch_cudnn=ok, fa4=ok
+[178/312] decode-b1-l8192-hq32-hkv1-d64-fp16-paged16: flashinfer_fa2=ok, flashinfer_fmha_v2=ok, torch_cudnn=unsupported, fa4=unsupported, ours=ok, torch_efficient=unsupported, torch_flash=unsupported
+[179/312] decode-b1-l8192-hq32-hkv1-d64-bf16-dense: torch_efficient=unsupported, ours=ok, torch_flash=ok, flashinfer_fa2=ok, fa4=ok, flashinfer_fmha_v2=ok, torch_cudnn=ok
+[180/312] decode-b1-l8192-hq32-hkv1-d64-bf16-paged16: flashinfer_fa2=ok, torch_flash=unsupported, flashinfer_fmha_v2=ok, torch_cudnn=unsupported, torch_efficient=unsupported, ours=ok, fa4=unsupported
+[181/312] decode-b1-l8192-hq32-hkv32-d128-fp16-dense: fa4=ok, flashinfer_fmha_v2=ok, flashinfer_fa2=ok, ours=ok, torch_cudnn=ok, torch_flash=ok, torch_efficient=ok
+[182/312] decode-b1-l8192-hq32-hkv32-d128-fp16-paged16: fa4=unsupported, flashinfer_fmha_v2=ok, torch_cudnn=unsupported, torch_efficient=unsupported, ours=ok, flashinfer_fa2=ok, torch_flash=unsupported
+[183/312] decode-b1-l8192-hq32-hkv32-d128-bf16-dense: ours=ok, flashinfer_fa2=ok, torch_cudnn=ok, torch_flash=ok, flashinfer_fmha_v2=ok, fa4=ok, torch_efficient=ok
+[184/312] decode-b1-l8192-hq32-hkv32-d128-bf16-paged16: flashinfer_fa2=ok, flashinfer_fmha_v2=ok, torch_efficient=unsupported, ours=ok, torch_flash=unsupported, torch_cudnn=unsupported, fa4=unsupported
+[185/312] decode-b1-l8192-hq32-hkv8-d128-fp16-dense: flashinfer_fmha_v2=ok, torch_flash=ok, fa4=ok, torch_cudnn=ok, ours=ok, flashinfer_fa2=ok, torch_efficient=unsupported
+[186/312] decode-b1-l8192-hq32-hkv8-d128-fp16-paged16: ours=ok, torch_flash=unsupported, torch_efficient=unsupported, flashinfer_fa2=ok, torch_cudnn=unsupported, flashinfer_fmha_v2=ok, fa4=unsupported
+[187/312] decode-b1-l8192-hq32-hkv8-d128-bf16-dense: torch_cudnn=ok, flashinfer_fa2=ok, fa4=ok, torch_efficient=unsupported, torch_flash=ok, ours=ok, flashinfer_fmha_v2=ok
+[188/312] decode-b1-l8192-hq32-hkv8-d128-bf16-paged16: flashinfer_fa2=ok, flashinfer_fmha_v2=ok, torch_cudnn=unsupported, fa4=unsupported, torch_flash=unsupported, torch_efficient=unsupported, ours=ok
+[189/312] decode-b1-l8192-hq32-hkv1-d128-fp16-dense: torch_efficient=unsupported, torch_flash=ok, flashinfer_fmha_v2=ok, fa4=ok, torch_cudnn=ok, ours=ok, flashinfer_fa2=ok
+[190/312] decode-b1-l8192-hq32-hkv1-d128-fp16-paged16: flashinfer_fmha_v2=ok, torch_flash=unsupported, ours=ok, torch_efficient=unsupported, fa4=unsupported, flashinfer_fa2=ok, torch_cudnn=unsupported
+[191/312] decode-b1-l8192-hq32-hkv1-d128-bf16-dense: torch_flash=ok, torch_cudnn=ok, ours=ok, torch_efficient=unsupported, flashinfer_fa2=ok, fa4=ok, flashinfer_fmha_v2=ok
+[192/312] decode-b1-l8192-hq32-hkv1-d128-bf16-paged16: torch_efficient=unsupported, torch_flash=unsupported, flashinfer_fmha_v2=ok, ours=ok, torch_cudnn=unsupported, fa4=unsupported, flashinfer_fa2=ok
+[193/312] decode-b1-l32768-hq32-hkv32-d64-fp16-dense: fa4=ok, torch_cudnn=ok, torch_flash=ok, torch_efficient=ok, ours=ok, flashinfer_fa2=ok, flashinfer_fmha_v2=ok
+[194/312] decode-b1-l32768-hq32-hkv32-d64-fp16-paged16: ours=ok, torch_efficient=unsupported, flashinfer_fmha_v2=ok, flashinfer_fa2=ok, torch_cudnn=unsupported, fa4=unsupported, torch_flash=unsupported
+[195/312] decode-b1-l32768-hq32-hkv32-d64-bf16-dense: flashinfer_fmha_v2=ok, torch_efficient=ok, torch_cudnn=ok, ours=ok, flashinfer_fa2=ok, torch_flash=ok, fa4=ok
+[196/312] decode-b1-l32768-hq32-hkv32-d64-bf16-paged16: flashinfer_fmha_v2=ok, ours=ok, torch_flash=unsupported, torch_cudnn=unsupported, torch_efficient=unsupported, flashinfer_fa2=ok, fa4=unsupported
+[197/312] decode-b1-l32768-hq32-hkv8-d64-fp16-dense: ours=ok, torch_cudnn=ok, flashinfer_fa2=ok, torch_flash=ok, torch_efficient=unsupported, fa4=ok, flashinfer_fmha_v2=ok
+[198/312] decode-b1-l32768-hq32-hkv8-d64-fp16-paged16: torch_efficient=unsupported, flashinfer_fmha_v2=ok, torch_flash=unsupported, ours=ok, flashinfer_fa2=ok, fa4=unsupported, torch_cudnn=unsupported
+[199/312] decode-b1-l32768-hq32-hkv8-d64-bf16-dense: fa4=ok, ours=ok, flashinfer_fmha_v2=ok, torch_efficient=unsupported, torch_flash=ok, flashinfer_fa2=ok, torch_cudnn=ok
+[200/312] decode-b1-l32768-hq32-hkv8-d64-bf16-paged16: torch_cudnn=unsupported, flashinfer_fmha_v2=ok, fa4=unsupported, torch_efficient=unsupported, ours=ok, flashinfer_fa2=ok, torch_flash=unsupported
+[201/312] decode-b1-l32768-hq32-hkv1-d64-fp16-dense: fa4=ok, torch_flash=ok, flashinfer_fmha_v2=ok, torch_efficient=unsupported, flashinfer_fa2=ok, torch_cudnn=ok, ours=ok
+[202/312] decode-b1-l32768-hq32-hkv1-d64-fp16-paged16: torch_cudnn=unsupported, fa4=unsupported, flashinfer_fa2=ok, flashinfer_fmha_v2=ok, torch_efficient=unsupported, ours=ok, torch_flash=unsupported
+[203/312] decode-b1-l32768-hq32-hkv1-d64-bf16-dense: torch_flash=ok, torch_cudnn=ok, ours=ok, flashinfer_fmha_v2=ok, flashinfer_fa2=ok, fa4=ok, torch_efficient=unsupported
+[204/312] decode-b1-l32768-hq32-hkv1-d64-bf16-paged16: flashinfer_fa2=ok, fa4=unsupported, ours=ok, torch_flash=unsupported, torch_cudnn=unsupported, flashinfer_fmha_v2=ok, torch_efficient=unsupported
+[205/312] decode-b1-l32768-hq32-hkv32-d128-fp16-dense: flashinfer_fmha_v2=ok, torch_efficient=ok, ours=ok, torch_cudnn=ok, flashinfer_fa2=ok, torch_flash=ok, fa4=ok
+[206/312] decode-b1-l32768-hq32-hkv32-d128-fp16-paged16: fa4=unsupported, torch_efficient=unsupported, flashinfer_fmha_v2=ok, torch_flash=unsupported, torch_cudnn=unsupported, ours=ok, flashinfer_fa2=ok
+[207/312] decode-b1-l32768-hq32-hkv32-d128-bf16-dense: flashinfer_fmha_v2=ok, torch_efficient=ok, torch_cudnn=ok, fa4=ok, ours=ok, flashinfer_fa2=ok, torch_flash=ok
+[208/312] decode-b1-l32768-hq32-hkv32-d128-bf16-paged16: torch_flash=unsupported, flashinfer_fa2=ok, torch_cudnn=unsupported, flashinfer_fmha_v2=ok, torch_efficient=unsupported, fa4=unsupported, ours=ok
+[209/312] decode-b1-l32768-hq32-hkv8-d128-fp16-dense: torch_cudnn=ok, fa4=ok, ours=ok, flashinfer_fa2=ok, flashinfer_fmha_v2=ok, torch_flash=ok, torch_efficient=unsupported
+
+2026-11-12 09:48:00  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:48:02  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:48:03  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:48:05  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:48:06  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:48:08  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:48:09  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:48:12  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:48:13  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:48:16  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:48:17  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:48:20  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:48:21  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:48:25  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:48:26  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:48:29  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:48:30  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:48:33  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:48:34  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:48:37  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:48:38  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:48:41  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:48:41  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:48:44  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:48:45  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:48:48  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:48:49  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:48:52  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:48:53  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:48:56  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:48:56  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:48:59  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:49:00  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:49:02  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:49:04  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:49:06  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:49:07  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:49:09  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:49:10  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:49:13  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:49:14  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:49:16  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:49:17  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:49:20  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:49:21  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:49:23  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:49:24  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:49:26  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:49:27  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:49:29  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:49:30  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:49:32  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:49:33  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:49:36  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:49:37  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:49:41  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:49:42  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:49:45  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:49:46  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:49:49  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:49:50  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:49:53  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:49:54  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:49:58  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`[210/312] decode-b1-l32768-hq32-hkv8-d128-fp16-paged16: torch_efficient=unsupported, fa4=unsupported, ours=ok, torch_flash=unsupported, flashinfer_fa2=ok, flashinfer_fmha_v2=ok, torch_cudnn=unsupported
+[211/312] decode-b1-l32768-hq32-hkv8-d128-bf16-dense: flashinfer_fmha_v2=ok, fa4=ok, torch_efficient=unsupported, torch_flash=ok, torch_cudnn=ok, ours=ok, flashinfer_fa2=ok
+[212/312] decode-b1-l32768-hq32-hkv8-d128-bf16-paged16: torch_flash=unsupported, ours=ok, torch_efficient=unsupported, torch_cudnn=unsupported, flashinfer_fa2=ok, flashinfer_fmha_v2=ok, fa4=unsupported
+[213/312] decode-b1-l32768-hq32-hkv1-d128-fp16-dense: torch_cudnn=ok, torch_efficient=unsupported, torch_flash=ok, ours=ok, flashinfer_fa2=ok, flashinfer_fmha_v2=ok, fa4=ok
+[214/312] decode-b1-l32768-hq32-hkv1-d128-fp16-paged16: fa4=unsupported, torch_cudnn=unsupported, ours=ok, flashinfer_fa2=ok, torch_flash=unsupported, flashinfer_fmha_v2=ok, torch_efficient=unsupported
+[215/312] decode-b1-l32768-hq32-hkv1-d128-bf16-dense: flashinfer_fa2=ok, flashinfer_fmha_v2=ok, torch_cudnn=ok, fa4=ok, ours=ok, torch_efficient=unsupported, torch_flash=ok
+[216/312] decode-b1-l32768-hq32-hkv1-d128-bf16-paged16: flashinfer_fa2=ok, torch_efficient=unsupported, flashinfer_fmha_v2=ok, fa4=unsupported, torch_flash=unsupported, torch_cudnn=unsupported, ours=ok
+[217/312] decode-b4-l2048-hq32-hkv32-d64-fp16-dense: torch_efficient=ok, torch_flash=ok, flashinfer_fmha_v2=ok, fa4=ok, torch_cudnn=ok, ours=ok, flashinfer_fa2=ok
+[218/312] decode-b4-l2048-hq32-hkv32-d64-fp16-paged16: flashinfer_fmha_v2=ok, torch_flash=unsupported, ours=ok, torch_efficient=unsupported, fa4=unsupported, flashinfer_fa2=ok, torch_cudnn=unsupported
+[219/312] decode-b4-l2048-hq32-hkv32-d64-bf16-dense: torch_flash=ok, torch_cudnn=ok, ours=ok, torch_efficient=ok, flashinfer_fa2=ok, fa4=ok, flashinfer_fmha_v2=ok
+[220/312] decode-b4-l2048-hq32-hkv32-d64-bf16-paged16: torch_efficient=unsupported, torch_flash=unsupported, flashinfer_fmha_v2=ok, ours=ok, torch_cudnn=unsupported, fa4=unsupported, flashinfer_fa2=ok
+[221/312] decode-b4-l2048-hq32-hkv8-d64-fp16-dense: fa4=ok, torch_efficient=unsupported, flashinfer_fa2=ok, torch_flash=ok, ours=ok, flashinfer_fmha_v2=ok, torch_cudnn=ok
+[222/312] decode-b4-l2048-hq32-hkv8-d64-fp16-paged16: flashinfer_fmha_v2=ok, ours=ok, torch_flash=unsupported, flashinfer_fa2=ok, torch_efficient=unsupported, fa4=unsupported, torch_cudnn=unsupported
+[223/312] decode-b4-l2048-hq32-hkv8-d64-bf16-dense: ours=ok, torch_efficient=unsupported, flashinfer_fmha_v2=ok, torch_flash=ok, flashinfer_fa2=ok, fa4=ok, torch_cudnn=ok
+[224/312] decode-b4-l2048-hq32-hkv8-d64-bf16-paged16: flashinfer_fmha_v2=ok, torch_flash=unsupported, torch_cudnn=unsupported, ours=ok, fa4=unsupported, flashinfer_fa2=ok, torch_efficient=unsupported
+[225/312] decode-b4-l2048-hq32-hkv1-d64-fp16-dense: fa4=ok, torch_flash=ok, flashinfer_fa2=ok, ours=ok, torch_cudnn=ok, torch_efficient=unsupported, flashinfer_fmha_v2=ok
+[226/312] decode-b4-l2048-hq32-hkv1-d64-fp16-paged16: flashinfer_fmha_v2=ok, fa4=unsupported, torch_efficient=unsupported, torch_cudnn=unsupported, torch_flash=unsupported, ours=ok, flashinfer_fa2=ok
+[227/312] decode-b4-l2048-hq32-hkv1-d64-bf16-dense: torch_cudnn=ok, torch_efficient=unsupported, torch_flash=ok, flashinfer_fmha_v2=ok, flashinfer_fa2=ok, ours=ok, fa4=ok
+[228/312] decode-b4-l2048-hq32-hkv1-d64-bf16-paged16: torch_flash=unsupported, fa4=unsupported, flashinfer_fmha_v2=ok, ours=ok, flashinfer_fa2=ok, torch_cudnn=unsupported, torch_efficient=unsupported
+[229/312] decode-b4-l2048-hq32-hkv32-d128-fp16-dense: torch_cudnn=ok, torch_efficient=ok, fa4=ok, torch_flash=ok, flashinfer_fmha_v2=ok, flashinfer_fa2=ok, ours=ok
+[230/312] decode-b4-l2048-hq32-hkv32-d128-fp16-paged16: flashinfer_fmha_v2=ok, torch_cudnn=unsupported, torch_efficient=unsupported, flashinfer_fa2=ok, fa4=unsupported, ours=ok, torch_flash=unsupported
+[231/312] decode-b4-l2048-hq32-hkv32-d128-bf16-dense: torch_efficient=ok, fa4=ok, torch_flash=ok, flashinfer_fmha_v2=ok, flashinfer_fa2=ok, torch_cudnn=ok, ours=ok
+[232/312] decode-b4-l2048-hq32-hkv32-d128-bf16-paged16: flashinfer_fa2=ok, ours=ok, torch_flash=unsupported, fa4=unsupported, torch_efficient=unsupported, flashinfer_fmha_v2=ok, torch_cudnn=unsupported
+[233/312] decode-b4-l2048-hq32-hkv8-d128-fp16-dense: torch_flash=ok, fa4=ok, ours=ok, torch_efficient=unsupported, flashinfer_fa2=ok, torch_cudnn=ok, flashinfer_fmha_v2=ok
+[234/312] decode-b4-l2048-hq32-hkv8-d128-fp16-paged16: fa4=unsupported, torch_flash=unsupported, flashinfer_fmha_v2=ok, ours=ok, torch_efficient=unsupported, flashinfer_fa2=ok, torch_cudnn=unsupported
+[235/312] decode-b4-l2048-hq32-hkv8-d128-bf16-dense: fa4=ok, ours=ok, flashinfer_fa2=ok, flashinfer_fmha_v2=ok, torch_efficient=unsupported, torch_cudnn=ok, torch_flash=ok
+[236/312] decode-b4-l2048-hq32-hkv8-d128-bf16-paged16: flashinfer_fmha_v2=ok, flashinfer_fa2=ok, torch_flash=unsupported, torch_cudnn=unsupported, fa4=unsupported, ours=ok, torch_efficient=unsupported
+[237/312] decode-b4-l2048-hq32-hkv1-d128-fp16-dense: torch_cudnn=ok, ours=ok, flashinfer_fmha_v2=ok, torch_flash=ok, torch_efficient=unsupported, flashinfer_fa2=ok, fa4=ok
+
+2026-11-12 09:49:59  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:50:02  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:50:03  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:50:06  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:50:07  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:50:10  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:50:11  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:50:14  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:50:15  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:50:18  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:50:19  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:50:22  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:50:23  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:50:25  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:50:26  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:50:26  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:50:27  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:50:29  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:50:30  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:50:33  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:50:33  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:50:34  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:50:35  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:50:37  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:50:38  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:50:40  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:50:41  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:50:44  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:50:44  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:50:47  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:50:48  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:50:50  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:50:51  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:50:53  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:50:54  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:50:56  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:50:57  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:50:59  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:51:00  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:51:02  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:51:04  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:51:07  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:51:07  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:51:08  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:51:09  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:51:12  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:51:13  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:51:17  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:51:17  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:51:18  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:51:18  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:51:22  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:51:22  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:51:26  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:51:27  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:51:30  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:51:31  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:51:34  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:51:35  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:51:38  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:51:39  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:51:41  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:51:42  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:51:45  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`[238/312] decode-b4-l2048-hq32-hkv1-d128-fp16-paged16: torch_efficient=unsupported, ours=ok, flashinfer_fmha_v2=ok, flashinfer_fa2=ok, torch_cudnn=unsupported, fa4=unsupported, torch_flash=unsupported
+[239/312] decode-b4-l2048-hq32-hkv1-d128-bf16-dense: flashinfer_fmha_v2=ok, fa4=ok, ours=ok, flashinfer_fa2=ok, torch_flash=ok, torch_efficient=unsupported, torch_cudnn=ok
+[240/312] decode-b4-l2048-hq32-hkv1-d128-bf16-paged16: flashinfer_fa2=ok, flashinfer_fmha_v2=ok, torch_efficient=unsupported, ours=ok, torch_cudnn=unsupported, torch_flash=unsupported, fa4=unsupported
+[241/312] decode-b4-l8192-hq32-hkv32-d64-fp16-dense: torch_efficient=ok, flashinfer_fa2=ok, torch_flash=ok, fa4=ok, torch_cudnn=ok, ours=ok, flashinfer_fmha_v2=ok
+[242/312] decode-b4-l8192-hq32-hkv32-d64-fp16-paged16: flashinfer_fmha_v2=ok, torch_efficient=unsupported, ours=ok, flashinfer_fa2=ok, torch_flash=unsupported, fa4=unsupported, torch_cudnn=unsupported
+[243/312] decode-b4-l8192-hq32-hkv32-d64-bf16-dense: flashinfer_fa2=ok, ours=ok, torch_flash=ok, torch_cudnn=ok, flashinfer_fmha_v2=ok, fa4=ok, torch_efficient=ok
+[244/312] decode-b4-l8192-hq32-hkv32-d64-bf16-paged16: flashinfer_fmha_v2=ok, torch_cudnn=unsupported, torch_efficient=unsupported, ours=ok, fa4=unsupported, flashinfer_fa2=ok, torch_flash=unsupported
+[245/312] decode-b4-l8192-hq32-hkv8-d64-fp16-dense: torch_cudnn=ok, ours=ok, flashinfer_fa2=ok, fa4=ok, torch_flash=ok, flashinfer_fmha_v2=ok, torch_efficient=unsupported
+[246/312] decode-b4-l8192-hq32-hkv8-d64-fp16-paged16: flashinfer_fa2=ok, ours=ok, torch_cudnn=unsupported, fa4=unsupported, torch_flash=unsupported, torch_efficient=unsupported, flashinfer_fmha_v2=ok
+[247/312] decode-b4-l8192-hq32-hkv8-d64-bf16-dense: fa4=ok, flashinfer_fa2=ok, torch_flash=ok, ours=ok, torch_cudnn=ok, flashinfer_fmha_v2=ok, torch_efficient=unsupported
+[248/312] decode-b4-l8192-hq32-hkv8-d64-bf16-paged16: torch_flash=unsupported, torch_efficient=unsupported, flashinfer_fmha_v2=ok, ours=ok, flashinfer_fa2=ok, torch_cudnn=unsupported, fa4=unsupported
+[249/312] decode-b4-l8192-hq32-hkv1-d64-fp16-dense: torch_efficient=unsupported, fa4=ok, flashinfer_fa2=ok, torch_cudnn=ok, ours=ok, torch_flash=ok, flashinfer_fmha_v2=ok
+[250/312] decode-b4-l8192-hq32-hkv1-d64-fp16-paged16: flashinfer_fmha_v2=ok, torch_efficient=unsupported, torch_cudnn=unsupported, ours=ok, flashinfer_fa2=ok, torch_flash=unsupported, fa4=unsupported
+[251/312] decode-b4-l8192-hq32-hkv1-d64-bf16-dense: fa4=ok, torch_cudnn=ok, torch_flash=ok, flashinfer_fa2=ok, flashinfer_fmha_v2=ok, ours=ok, torch_efficient=unsupported
+[252/312] decode-b4-l8192-hq32-hkv1-d64-bf16-paged16: flashinfer_fmha_v2=ok, fa4=unsupported, torch_flash=unsupported, flashinfer_fa2=ok, torch_cudnn=unsupported, torch_efficient=unsupported, ours=ok
+[253/312] decode-b4-l8192-hq32-hkv32-d128-fp16-dense: ours=ok, fa4=ok, flashinfer_fa2=ok, torch_cudnn=ok, flashinfer_fmha_v2=ok, torch_flash=ok, torch_efficient=ok
+[254/312] decode-b4-l8192-hq32-hkv32-d128-fp16-paged16: ours=ok, torch_cudnn=unsupported, fa4=unsupported, flashinfer_fmha_v2=ok, torch_flash=unsupported, torch_efficient=unsupported, flashinfer_fa2=ok
+[255/312] decode-b4-l8192-hq32-hkv32-d128-bf16-dense: torch_flash=ok, flashinfer_fa2=ok, ours=ok, torch_efficient=ok, flashinfer_fmha_v2=ok, torch_cudnn=ok, fa4=ok
+[256/312] decode-b4-l8192-hq32-hkv32-d128-bf16-paged16: fa4=unsupported, torch_cudnn=unsupported, torch_efficient=unsupported, flashinfer_fa2=ok, ours=ok, torch_flash=unsupported, flashinfer_fmha_v2=ok
+[257/312] decode-b4-l8192-hq32-hkv8-d128-fp16-dense: torch_cudnn=ok, flashinfer_fmha_v2=ok, flashinfer_fa2=ok, torch_flash=ok, fa4=ok, ours=ok, torch_efficient=unsupported
+[258/312] decode-b4-l8192-hq32-hkv8-d128-fp16-paged16: torch_efficient=unsupported, flashinfer_fmha_v2=ok, torch_flash=unsupported, ours=ok, flashinfer_fa2=ok, torch_cudnn=unsupported, fa4=unsupported
+[259/312] decode-b4-l8192-hq32-hkv8-d128-bf16-dense: ours=ok, flashinfer_fa2=ok, torch_efficient=unsupported, flashinfer_fmha_v2=ok, torch_cudnn=ok, torch_flash=ok, fa4=ok
+[260/312] decode-b4-l8192-hq32-hkv8-d128-bf16-paged16: torch_cudnn=unsupported, ours=ok, torch_flash=unsupported, flashinfer_fmha_v2=ok, flashinfer_fa2=ok, fa4=unsupported, torch_efficient=unsupported
+[261/312] decode-b4-l8192-hq32-hkv1-d128-fp16-dense: fa4=ok, ours=ok, torch_cudnn=ok, flashinfer_fmha_v2=ok, torch_flash=ok, flashinfer_fa2=ok, torch_efficient=unsupported
+[262/312] decode-b4-l8192-hq32-hkv1-d128-fp16-paged16: flashinfer_fmha_v2=ok, torch_efficient=unsupported, torch_cudnn=unsupported, fa4=unsupported, ours=ok, flashinfer_fa2=ok, torch_flash=unsupported
+[263/312] decode-b4-l8192-hq32-hkv1-d128-bf16-dense: flashinfer_fa2=ok, torch_efficient=unsupported, torch_flash=ok, torch_cudnn=ok, fa4=ok, ours=ok, flashinfer_fmha_v2=ok
+[264/312] decode-b4-l8192-hq32-hkv1-d128-bf16-paged16: flashinfer_fa2=ok, torch_cudnn=unsupported, torch_efficient=unsupported, ours=ok, torch_flash=unsupported, fa4=unsupported, flashinfer_fmha_v2=ok
+[265/312] decode-b16-l512-hq32-hkv32-d64-fp16-dense: torch_cudnn=ok, ours=ok, flashinfer_fmha_v2=ok, torch_flash=ok, torch_efficient=ok, flashinfer_fa2=ok, fa4=ok
+[266/312] decode-b16-l512-hq32-hkv32-d64-fp16-paged16: torch_efficient=unsupported, ours=ok, flashinfer_fmha_v2=ok, flashinfer_fa2=ok, torch_cudnn=unsupported, fa4=unsupported, torch_flash=unsupported
+[267/312] decode-b16-l512-hq32-hkv32-d64-bf16-dense: flashinfer_fmha_v2=ok, fa4=ok, ours=ok, flashinfer_fa2=ok, torch_flash=ok, torch_efficient=ok, torch_cudnn=ok
+[268/312] decode-b16-l512-hq32-hkv32-d64-bf16-paged16: flashinfer_fa2=ok, flashinfer_fmha_v2=ok, torch_efficient=unsupported, ours=ok, torch_cudnn=unsupported, torch_flash=unsupported, fa4=unsupported
+
+2026-11-12 09:51:46  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:51:49  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:51:50  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:51:53  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:51:54  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:51:56  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:51:57  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:52:00  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:52:00  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:52:03  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:52:04  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:52:07  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:52:08  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:52:10  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:52:11  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:52:14  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:52:15  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:52:17  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:52:18  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:52:20  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:52:21  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:52:23  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:52:24  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:52:26  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:52:28  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:52:30  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:52:30  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:52:33  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:52:33  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:52:36  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:52:38  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:52:41  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:52:42  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:52:45  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:52:47  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:52:50  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:52:51  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:52:54  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:52:55  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:52:58  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:52:59  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:53:02  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:53:03  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:53:06  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:53:07  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:53:10  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:53:11  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:53:14  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:53:15  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:53:18  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:53:19  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:53:22  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:53:23  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:53:25  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:53:26  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:53:28  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:53:29  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:53:32  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:53:33  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:53:35  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:53:36  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:53:38  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:53:38  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:53:39  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`[269/312] decode-b16-l512-hq32-hkv8-d64-fp16-dense: flashinfer_fmha_v2=ok, fa4=ok, ours=ok, torch_efficient=unsupported, flashinfer_fa2=ok, torch_cudnn=ok, torch_flash=ok
+[270/312] decode-b16-l512-hq32-hkv8-d64-fp16-paged16: torch_flash=unsupported, flashinfer_fa2=ok, ours=ok, torch_efficient=unsupported, flashinfer_fmha_v2=ok, torch_cudnn=unsupported, fa4=unsupported
+[271/312] decode-b16-l512-hq32-hkv8-d64-bf16-dense: fa4=ok, torch_cudnn=ok, ours=ok, torch_flash=ok, torch_efficient=unsupported, flashinfer_fmha_v2=ok, flashinfer_fa2=ok
+[272/312] decode-b16-l512-hq32-hkv8-d64-bf16-paged16: torch_flash=unsupported, flashinfer_fmha_v2=ok, ours=ok, fa4=unsupported, flashinfer_fa2=ok, torch_efficient=unsupported, torch_cudnn=unsupported
+[273/312] decode-b16-l512-hq32-hkv1-d64-fp16-dense: ours=ok, torch_cudnn=ok, torch_efficient=unsupported, fa4=ok, flashinfer_fmha_v2=ok, torch_flash=ok, flashinfer_fa2=ok
+[274/312] decode-b16-l512-hq32-hkv1-d64-fp16-paged16: flashinfer_fa2=ok, torch_cudnn=unsupported, torch_efficient=unsupported, torch_flash=unsupported, flashinfer_fmha_v2=ok, fa4=unsupported, ours=ok
+[275/312] decode-b16-l512-hq32-hkv1-d64-bf16-dense: torch_efficient=unsupported, flashinfer_fa2=ok, torch_flash=ok, ours=ok, fa4=ok, torch_cudnn=ok, flashinfer_fmha_v2=ok
+[276/312] decode-b16-l512-hq32-hkv1-d64-bf16-paged16: fa4=unsupported, ours=ok, flashinfer_fmha_v2=ok, flashinfer_fa2=ok, torch_efficient=unsupported, torch_cudnn=unsupported, torch_flash=unsupported
+[277/312] decode-b16-l512-hq32-hkv32-d128-fp16-dense: flashinfer_fa2=ok, fa4=ok, torch_cudnn=ok, torch_flash=ok, ours=ok, flashinfer_fmha_v2=ok, torch_efficient=ok
+[278/312] decode-b16-l512-hq32-hkv32-d128-fp16-paged16: torch_cudnn=unsupported, torch_efficient=unsupported, flashinfer_fmha_v2=ok, flashinfer_fa2=ok, ours=ok, fa4=unsupported, torch_flash=unsupported
+[279/312] decode-b16-l512-hq32-hkv32-d128-bf16-dense: flashinfer_fmha_v2=ok, torch_flash=ok, fa4=ok, torch_efficient=ok, flashinfer_fa2=ok, ours=ok, torch_cudnn=ok
+[280/312] decode-b16-l512-hq32-hkv32-d128-bf16-paged16: flashinfer_fmha_v2=ok, torch_flash=unsupported, torch_cudnn=unsupported, torch_efficient=unsupported, ours=ok, flashinfer_fa2=ok, fa4=unsupported
+[281/312] decode-b16-l512-hq32-hkv8-d128-fp16-dense: fa4=ok, flashinfer_fmha_v2=ok, torch_flash=ok, flashinfer_fa2=ok, ours=ok, torch_efficient=unsupported, torch_cudnn=ok
+[282/312] decode-b16-l512-hq32-hkv8-d128-fp16-paged16: flashinfer_fmha_v2=ok, torch_flash=unsupported, torch_efficient=unsupported, ours=ok, flashinfer_fa2=ok, torch_cudnn=unsupported, fa4=unsupported
+[283/312] decode-b16-l512-hq32-hkv8-d128-bf16-dense: torch_efficient=unsupported, flashinfer_fa2=ok, torch_cudnn=ok, torch_flash=ok, ours=ok, flashinfer_fmha_v2=ok, fa4=ok
+[284/312] decode-b16-l512-hq32-hkv8-d128-bf16-paged16: flashinfer_fmha_v2=ok, flashinfer_fa2=ok, ours=ok, torch_efficient=unsupported, torch_cudnn=unsupported, torch_flash=unsupported, fa4=unsupported
+[285/312] decode-b16-l512-hq32-hkv1-d128-fp16-dense: torch_cudnn=ok, flashinfer_fmha_v2=ok, fa4=ok, flashinfer_fa2=ok, torch_efficient=unsupported, ours=ok, torch_flash=ok
+[286/312] decode-b16-l512-hq32-hkv1-d128-fp16-paged16: torch_efficient=unsupported, flashinfer_fmha_v2=ok, torch_flash=unsupported, ours=ok, flashinfer_fa2=ok, torch_cudnn=unsupported, fa4=unsupported
+[287/312] decode-b16-l512-hq32-hkv1-d128-bf16-dense: torch_flash=ok, fa4=ok, torch_cudnn=ok, ours=ok, torch_efficient=unsupported, flashinfer_fmha_v2=ok, flashinfer_fa2=ok
+[288/312] decode-b16-l512-hq32-hkv1-d128-bf16-paged16: flashinfer_fa2=ok, fa4=unsupported, torch_flash=unsupported, ours=ok, torch_cudnn=unsupported, torch_efficient=unsupported, flashinfer_fmha_v2=ok
+[289/312] decode-b16-l2048-hq32-hkv32-d64-fp16-dense: torch_flash=ok, ours=ok, torch_cudnn=ok, fa4=ok, flashinfer_fa2=ok, flashinfer_fmha_v2=ok, torch_efficient=ok
+[290/312] decode-b16-l2048-hq32-hkv32-d64-fp16-paged16: torch_efficient=unsupported, fa4=unsupported, flashinfer_fa2=ok, torch_cudnn=unsupported, ours=ok, flashinfer_fmha_v2=ok, torch_flash=unsupported
+[291/312] decode-b16-l2048-hq32-hkv32-d64-bf16-dense: flashinfer_fmha_v2=ok, fa4=ok, torch_efficient=ok, torch_cudnn=ok, torch_flash=ok, ours=ok, flashinfer_fa2=ok
+[292/312] decode-b16-l2048-hq32-hkv32-d64-bf16-paged16: torch_efficient=unsupported, flashinfer_fa2=ok, torch_flash=unsupported, torch_cudnn=unsupported, fa4=unsupported, flashinfer_fmha_v2=ok, ours=ok
+[293/312] decode-b16-l2048-hq32-hkv8-d64-fp16-dense: torch_efficient=unsupported, flashinfer_fa2=ok, torch_flash=ok, fa4=ok, torch_cudnn=ok, ours=ok, flashinfer_fmha_v2=ok
+[294/312] decode-b16-l2048-hq32-hkv8-d64-fp16-paged16: flashinfer_fmha_v2=ok, torch_efficient=unsupported, ours=ok, flashinfer_fa2=ok, torch_flash=unsupported, fa4=unsupported, torch_cudnn=unsupported
+[295/312] decode-b16-l2048-hq32-hkv8-d64-bf16-dense: flashinfer_fa2=ok, ours=ok, torch_flash=ok, torch_cudnn=ok, flashinfer_fmha_v2=ok, fa4=ok, torch_efficient=unsupported
+[296/312] decode-b16-l2048-hq32-hkv8-d64-bf16-paged16: flashinfer_fmha_v2=ok, torch_cudnn=unsupported, torch_efficient=unsupported, ours=ok, fa4=unsupported, flashinfer_fa2=ok, torch_flash=unsupported
+[297/312] decode-b16-l2048-hq32-hkv1-d64-fp16-dense: ours=ok, flashinfer_fa2=ok, torch_cudnn=ok, flashinfer_fmha_v2=ok, torch_efficient=unsupported, torch_flash=ok, fa4=ok
+
+2026-11-12 09:53:39  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:53:42  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:53:43  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:53:45  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:53:45  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:53:45  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:53:46  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:53:49  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:53:49  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:53:51  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:53:52  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:53:54  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:53:55  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:53:57  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:53:58  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:53:59  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:54:01  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:54:04  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:54:05  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:54:08  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:54:09  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:54:12  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:54:13  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:54:16  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:54:17  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:54:20  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:54:20  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:54:20  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:54:21  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:54:25  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:54:26  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:54:29  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:54:29  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:54:29  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:54:30  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:54:34  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:54:34  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:54:37  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:54:38  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:54:40  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:54:41  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:54:43  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:54:44  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:54:46  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:54:47  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:54:49  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:54:51  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:54:53  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:54:54  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:54:57  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:54:58  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:55:00  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:55:01  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:55:03  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:55:04  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:55:07  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:55:07  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:55:10  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:55:11  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:55:14  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:55:14  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:55:17  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:55:18  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:55:20  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`[298/312] decode-b16-l2048-hq32-hkv1-d64-fp16-paged16: flashinfer_fmha_v2=ok, ours=ok, flashinfer_fa2=ok, torch_flash=unsupported, torch_efficient=unsupported, torch_cudnn=unsupported, fa4=unsupported
+[299/312] decode-b16-l2048-hq32-hkv1-d64-bf16-dense: torch_efficient=unsupported, ours=ok, flashinfer_fmha_v2=ok, torch_flash=ok, fa4=ok, flashinfer_fa2=ok, torch_cudnn=ok
+[300/312] decode-b16-l2048-hq32-hkv1-d64-bf16-paged16: ours=ok, flashinfer_fmha_v2=ok, torch_flash=unsupported, torch_efficient=unsupported, torch_cudnn=unsupported, fa4=unsupported, flashinfer_fa2=ok
+[301/312] decode-b16-l2048-hq32-hkv32-d128-fp16-dense: torch_cudnn=ok, flashinfer_fa2=ok, torch_flash=ok, fa4=ok, ours=ok, flashinfer_fmha_v2=ok, torch_efficient=ok
+[302/312] decode-b16-l2048-hq32-hkv32-d128-fp16-paged16: fa4=unsupported, torch_efficient=unsupported, flashinfer_fmha_v2=ok, ours=ok, flashinfer_fa2=ok, torch_cudnn=unsupported, torch_flash=unsupported
+[303/312] decode-b16-l2048-hq32-hkv32-d128-bf16-dense: torch_efficient=ok, ours=ok, flashinfer_fmha_v2=ok, flashinfer_fa2=ok, torch_cudnn=ok, fa4=ok, torch_flash=ok
+[304/312] decode-b16-l2048-hq32-hkv32-d128-bf16-paged16: torch_efficient=unsupported, flashinfer_fa2=ok, flashinfer_fmha_v2=ok, ours=ok, fa4=unsupported, torch_cudnn=unsupported, torch_flash=unsupported
+[305/312] decode-b16-l2048-hq32-hkv8-d128-fp16-dense: ours=ok, fa4=ok, flashinfer_fa2=ok, torch_cudnn=ok, flashinfer_fmha_v2=ok, torch_flash=ok, torch_efficient=unsupported
+[306/312] decode-b16-l2048-hq32-hkv8-d128-fp16-paged16: ours=ok, torch_cudnn=unsupported, fa4=unsupported, flashinfer_fmha_v2=ok, torch_flash=unsupported, torch_efficient=unsupported, flashinfer_fa2=ok
+[307/312] decode-b16-l2048-hq32-hkv8-d128-bf16-dense: torch_flash=ok, flashinfer_fa2=ok, ours=ok, torch_efficient=unsupported, flashinfer_fmha_v2=ok, torch_cudnn=ok, fa4=ok
+[308/312] decode-b16-l2048-hq32-hkv8-d128-bf16-paged16: fa4=unsupported, torch_cudnn=unsupported, torch_efficient=unsupported, flashinfer_fa2=ok, ours=ok, torch_flash=unsupported, flashinfer_fmha_v2=ok
+[309/312] decode-b16-l2048-hq32-hkv1-d128-fp16-dense: torch_efficient=unsupported, fa4=ok, flashinfer_fmha_v2=ok, flashinfer_fa2=ok, torch_cudnn=ok, torch_flash=ok, ours=ok
+[310/312] decode-b16-l2048-hq32-hkv1-d128-fp16-paged16: torch_flash=unsupported, flashinfer_fmha_v2=ok, flashinfer_fa2=ok, ours=ok, torch_cudnn=unsupported, fa4=unsupported, torch_efficient=unsupported
+[311/312] decode-b16-l2048-hq32-hkv1-d128-bf16-dense: flashinfer_fa2=ok, torch_cudnn=ok, torch_efficient=unsupported, torch_flash=ok, flashinfer_fmha_v2=ok, fa4=ok, ours=ok
+[312/312] decode-b16-l2048-hq32-hkv1-d128-bf16-paged16: torch_cudnn=unsupported, torch_efficient=unsupported, fa4=unsupported, ours=ok, torch_flash=unsupported, flashinfer_fmha_v2=ok, flashinfer_fa2=ok
+
+2026-11-12 09:55:21  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:55:23  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:55:24  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:55:26  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:55:28  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:55:31  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:55:32  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:55:35  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:55:36  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:55:39  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:55:40  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:55:43  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:55:44  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:55:48  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:55:49  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:55:53  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:55:54  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:55:57  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:55:58  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:56:02  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:56:03  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:56:06  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:56:07  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:56:10  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:56:11  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:56:14  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:56:14  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:56:17  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+{"output": "results/optimization-2026-11-11/full-optimized-resumed.json", "summary": {"suite": "full", "unexpected_cases": [], "thresholds": {"geometric_mean_speedup": 1.1, "worst_speedup": 0.95}, "prefill": {"expected_cases": 144, "completed_cases": 144, "comparable_cases": 144, "missing_cases": [], "duplicate_cases": [], "uncovered_or_incorrect_cases": ["prefill-b1-l512-hq32-hkv32-d128-fp16-dense", "prefill-b1-l8192-hq32-hkv32-d128-fp16-dense", "prefill-b4-l2048-hq32-hkv32-d128-fp16-dense", "prefill-b4-l2048-hq32-hkv1-d128-fp16-paged16"], "coverage_complete": false, "geometric_mean_speedup": 1.0739957652822445, "worst_speedup": 0.792248220740707, "target_met": false}, "decode": {"expected_cases": 168, "completed_cases": 168, "comparable_cases": 168, "missing_cases": [], "duplicate_cases": [], "uncovered_or_incorrect_cases": [], "coverage_complete": true, "geometric_mean_speedup": 1.071357098542774, "worst_speedup": 0.5177780309367911, "target_met": false}, "target_met": false}}

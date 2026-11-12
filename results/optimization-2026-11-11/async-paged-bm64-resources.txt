@@ -1,0 +1,6 @@
+
+Resource usage:
+ Common:
+  GLOBAL:9 CONSTANT[4]:72
+ Function kernel_kernel:
+  REG:133 STACK:0 SHARED:1024 LOCAL:0 CONSTANT[0]:944 TEXTURE:0 SURFACE:0 SAMPLER:0

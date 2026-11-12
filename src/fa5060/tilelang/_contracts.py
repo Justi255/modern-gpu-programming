@@ -76,18 +76,20 @@ def _output(q,k,v,out):
 
 def _configuration(config,decode=False):
     result={'block_m':32,'block_n':64,'num_warps':4,'num_stages':2,
-            'loader':'pointer','mode':'auto'}
+            'loader':'pointer','mode':'auto','implementation':'reference'}
     if config:
         if set(config)-set(result):
             raise ValueError(f'unknown attention config keys: {set(config)-set(result)}')
         result.update(config)
     if (result['block_m'] not in (16,32,64,128) or result['block_n'] not in (32,64,128,256) or
-        result['num_warps'] not in (4,8) or result['num_stages'] not in (1,2,3,4)):
+        result['num_warps'] not in (1,2,4,8) or result['num_stages'] not in (1,2,3,4)):
         raise ValueError('invalid tile/warp/pipeline configuration')
     if result['mode'] not in ('auto','vector','grouped'):
         raise ValueError('invalid decode mode')
     if result['loader'] not in ('pointer','tma'):
         raise ValueError('invalid loader')
+    if result['implementation'] not in ('reference', 'optimized'):
+        raise ValueError('invalid implementation')
     if decode and result['loader']!='pointer':
         raise ValueError('decode supports the pointer loader')
     return result
@@ -112,12 +114,15 @@ def _decode_parameters(q,k,block_table,num_splits,config):
     capacity=k.shape[1] if block_table is None else block_table.shape[1]*k.shape[1]
     mode=c['mode']
     if mode=='auto':
-        mode='grouped' if group>=4 and capacity>=1024 else 'vector'
+        mode='grouped' if c['implementation']=='optimized' or (group>=4 and capacity>=1024) else 'vector'
+    if c['implementation']=='optimized' and 'block_n' not in (config or {}):
+        c['block_n']=32
     if num_splits is None:
         blocks=q.shape[0]*(k.shape[2] if mode=='grouped' else q.shape[1])
-        desired=_next_power_of_2(max(1,math.ceil(104/max(1,blocks))))
-        max_splits=2**max(0,int(math.log2(max(1,capacity//256))))
-        num_splits=min(32,desired,max_splits) if capacity>=1024 else 1
+        optimized=c['implementation']=='optimized'
+        desired=_next_power_of_2(max(1,math.ceil((208 if optimized else 104)/max(1,blocks))))
+        max_splits=2**max(0,int(math.log2(max(1,capacity//(32 if optimized else 256)))))
+        num_splits=min(32,desired,max_splits) if optimized or capacity>=1024 else 1
     if not isinstance(num_splits,int) or num_splits<1 or num_splits>64 or num_splits&(num_splits-1):
         raise ValueError('num_splits must be a power of two in [1,64]')
     return c,mode,num_splits

@@ -1,0 +1,18 @@
+2026-11-11 11:21:52  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-11 11:21:54  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-11 11:21:55  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-11 11:21:58  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-11 11:21:58  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-11 11:22:02  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-11 11:22:02  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-11 11:22:06  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-11 11:22:06  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-11 11:22:10  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-11 11:22:10  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-11 11:22:14  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+decode-b1-l8192-hq32-hkv8-d128-fp16-paged16 pipeline_scalar ours 44.11768913269043
+decode-b1-l8192-hq32-hkv8-d128-fp16-paged16 pipeline ours 40.6816266477108
+decode-b1-l8192-hq32-hkv8-d128-fp16-paged16 pipeline_segmented ours 37.721313536167145
+decode-b1-l8192-hq32-hkv8-d128-fp16-paged16 pipeline_segmented ours 48.522189259529114
+decode-b1-l8192-hq32-hkv8-d128-fp16-paged16 pipeline_segmented ours 53.26031148433685
+decode-b1-l8192-hq32-hkv8-d128-fp16-paged16 pipeline_segmented ours 44.60062459111214

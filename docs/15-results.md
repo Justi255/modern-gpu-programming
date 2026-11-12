@@ -422,6 +422,75 @@ TileLang 全量调优的 1,968 个候选中，1,824 个通过数值与计时检�
 
 <!-- TILELANG_RESULTS_END -->
 
+## 15.8 保留失败记录的优化批次
+
+`results/optimization-2026-11-11/` 是独立的新批次，不覆盖 15.7 的发布结果。
+TileLang 候选从 shared-P 改为 Q/P register，加入显式 KV 双缓冲、完整 causal
+tile 免掩码和按 MMA 布局分段归约。每份诊断 JSON 保存当时的源码 SHA，修改后
+另存文件。优化版可通过公共接口的 `config={"implementation": "optimized"}` 重放。
+
+以下是 `interleaved-qasync.json` 和 `interleaved-segmented-qualified.json`
+中的局部实验。每个 case 在同一进程、同一输入上捕获完整算子图，测量9轮，
+相邻轮交换候选顺序。外部基线仍从实际兼容且正确的 provider 中逐项取最快。
+
+| 形状（B1、Hq32/Hkv8） | 优化 GPU μs | 最快合格基线 μs | 加速比 |
+|---|---:|---:|---:|
+| prefill L2048/D128/BF16/page16 | 1125.506 | FlashInfer FA2 1268.866 | 1.127× |
+| prefill L2048/D64/BF16/dense | 558.404 | PyTorch Flash 577.620 | 1.034× |
+| decode L8192/D128/FP16/page16 | 39.172 | FlashInfer FA2 34.933 | 0.892× |
+
+表中第一项达到单项1.10×，第三项仍明显落后；这三个形状不能代替完整套件。
+也不能拿本轮较低的绝对延迟除以上一轮较热设备上的基线时间。
+
+本批次还保存了两类重要的失败：TileLang packed batch reduction 的编译错误，
+以及诊断脚本一度拒绝所有 external 变体。后者的候选内部比较可以用于调参，
+但无法构成 SOTA 对照。目录 README 明确列出这些文件的有效范围。
+原生 FMHAv2 的4项数值失败保留；独立 FP32-acc 构建实验也单独记录，不冒充
+安装版原生后端，不更改原参考、输入或阈值。
+
+新优化通过了本机649项回归；4个选定用例的 racecheck 为0 hazards。这些
+结果分别说明测试覆盖的正确性和共享内存同步情况，不能推出性能达标。
+固定优化策略的完整五轮命令如下，结果中的 `configuration_mode` 为
+`explicit_configuration`，与离线逐 case 调参区分：
+
+```bash
+python -m fa5060.benchmark --backend tilelang --implementation optimized \
+  --suite full --rounds 5 --output results/local/optimized-full.json
+```
+
+### 第一轮固定策略：完整测量
+
+2026-11-12 收齐全部312项。自有输出312/312正确；原生 FMHAv2 的4个
+prefill 数值失败仍使完整比较合同不通过。下表单独列出合格子集，不能将
+140项统计称作144项全通过。
+
+| Phase | 自有输出通过 | 比较合格项 | 合格项几何平均加速 | 最差加速 | 达标 |
+|---|---:|---:|---:|---:|---|
+| prefill | 144/144 | 140/144 | 1.075× | 0.792× | 否 |
+| decode | 168/168 | 168/168 | 1.071× | 0.518× | 否 |
+
+prefill 的最差项是 B4/L8192/Hkv32/D64/FP16/dense：优化版43856.194μs，
+最快 PyTorch Flash 34744.991μs。decode 的最差项是
+B16/L512/Hkv1/D64/BF16/dense：优化版11.789μs，最快 cuDNN 6.104μs。
+后者说明单纯增加 split 数不能保证速度：在短上下文、大 batch、MQA 下，
+必须重新权衡重复初始化、分段归约和合并的成本。
+
+{download}`完整结果 <../results/optimization-2026-11-11/full-optimized-resumed.json>`
+保留全部 provider、原始轮次、接口时间和逐项遥测；
+{download}`汇总与回退项 <../results/optimization-2026-11-11/full-optimized-analysis.json>`
+保存完整合同与合格子集两种口径。全部144项 prefill 的原始比例几何平均为
+1.074×，其中4项仍有外部数值失败，不能据此宣告覆盖完整。
+
+这次运行分为135项检查点与177项续测。原进程停滞后终止，保留原文件并
+用新路径续测；未取得调用栈，因此不将停滞归因于某个内核。
+{download}`源码冻结记录 <../results/optimization-2026-11-11/full-optimized-source-freeze.json>`
+中的22个 Python 源码哈希在运行结束后全部核对一致。分段运行保证来源可追溯，
+不保证不同采集段的热状态相同。
+
+后续实验继续针对这两个回退区域测量更大的 query tile、连续列的 warp
+归约和 FP32 fast math，结果另存，不修改这一轮数据。局部实验不能支持
+全套达标结论。
+
 ## 练习
 
 1. 构造三个加速比，使算术平均大于 1 而几何平均小于 1。解释为什么单看算术平均会误导。

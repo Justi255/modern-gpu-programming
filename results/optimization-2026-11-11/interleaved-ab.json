@@ -1,0 +1,1084 @@
+{
+  "purpose": "Interleaved same-input A/B experiments; this subset cannot establish SOTA.",
+  "full_suite_target_met": false,
+  "environment": {
+    "schema_version": 1,
+    "timestamp_utc": "2026-11-11T03:03:36.629406+00:00",
+    "python": {
+      "version": "3.13.13",
+      "sys_version": "3.13.13 | packaged by Anaconda, Inc. | (main, Apr 14 2026, 06:19:41) [GCC 14.3.0]",
+      "implementation": "CPython",
+      "compiler": "GCC 14.3.0",
+      "executable": "/home/justi/Workspace/cuda/fa/.venv-tilelang/bin/python"
+    },
+    "platform": {
+      "system": "Linux",
+      "release": "7.0.0-42-generic",
+      "machine": "x86_64",
+      "description": "Linux-7.0.0-42-generic-x86_64-with-glibc2.43"
+    },
+    "packages": {
+      "modern-gpu-programming-5060": "0.1.0",
+      "numpy": "2.5.0",
+      "torch": "2.12.1",
+      "triton": "3.7.1",
+      "tilelang": "0.1.15",
+      "apache-tvm-ffi": "0.1.12",
+      "flashinfer-python": "0.7.2.post1",
+      "flash-attn-4": "4.0.0b37",
+      "flash-attn": null
+    },
+    "cuda_build": "13.0",
+    "cuda_available": true,
+    "gpus": [
+      {
+        "index": 0,
+        "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+        "compute_capability": [
+          12,
+          0
+        ],
+        "sm_count": 26,
+        "total_memory_bytes": 8055947264,
+        "l2_cache_bytes": 33554432,
+        "shared_memory_per_block_bytes": 49152,
+        "shared_memory_per_block_optin_bytes": 101376,
+        "shared_memory_per_sm_bytes": 102400,
+        "warp_size": 32,
+        "max_threads_per_block": 1024
+      }
+    ],
+    "gpu_unavailable_reason": null,
+    "nvidia_smi": {
+      "available": true,
+      "devices": [
+        {
+          "index": 0,
+          "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+          "driver_version": "595.99.02",
+          "performance_state": "P8",
+          "power_draw_watts": 5.01,
+          "power_limit_watts": null,
+          "sm_clock_mhz": 300,
+          "memory_clock_mhz": 405,
+          "temperature_celsius": 41
+        }
+      ],
+      "error": null
+    },
+    "compiler": {
+      "nvcc": {
+        "available": true,
+        "output": "nvcc: NVIDIA (R) Cuda compiler driver\nCopyright (c) 2005-2025 NVIDIA Corporation\nBuilt on Tue_Dec_16_07:23:41_PM_PST_2025\nCuda compilation tools, release 13.1, V13.1.115\nBuild cuda_13.1.r13.1/compiler.37061995_0",
+        "returncode": 0,
+        "error": null
+      },
+      "ptxas": {
+        "available": true,
+        "output": "ptxas: NVIDIA (R) Ptx optimizing assembler\nCopyright (c) 2005-2025 NVIDIA Corporation\nBuilt on Tue_Dec_16_07:22:11_PM_PST_2025\nCuda compilation tools, release 13.1, V13.1.115\nBuild cuda_13.1.r13.1/compiler.37061995_0",
+        "returncode": 0,
+        "error": null
+      },
+      "triton_version": "3.7.1",
+      "tilelang_version": "0.1.15",
+      "apache_tvm_ffi_version": "0.1.12",
+      "sources": {
+        "triton": null,
+        "tilelang": null,
+        "apache-tvm-ffi": null
+      }
+    }
+  },
+  "seed": 20261102,
+  "script_sha256": "f99acbfc58df942a9ad46c89d440dc101c6f75bb99a23743398d9f5e56b66fdb",
+  "sources": {
+    "src/fa5060/__init__.py": "e009aee507c220fbb22bf82d7885d21a3bd58d1c3d9000132361bca615c3470f",
+    "src/fa5060/_workspace.py": "afac44fb2ee4a30b41ca801cca17ac78cb3ed6bfee16ef214699d6b1436ae883",
+    "src/fa5060/attention.py": "cab5e8a31657601824dba4766f97eea82c4b0ab8a9ce1cd86a9f8ffbe0ed1d97",
+    "src/fa5060/attention_tma.py": "b8f68a2b97574b89b7dcdb327bf22048d5443546c579b41f7b02f88771232715",
+    "src/fa5060/benchmark.py": "d9c8e24871c10ffffb6ae55a42c323f743fd22efa115e469a8ec40241fa025e0",
+    "src/fa5060/experiments.py": "93363510166806fd2a1539922b071d2744ff96804e622b83d0bbbefc6c926a00",
+    "src/fa5060/fundamentals.py": "1a760e87d02f6959b13e92c337e4c4ce686ffb5e45ce8dbecab42663268a7ced",
+    "src/fa5060/probe.py": "c766bb1adc56913d46dce32dad62ab8792c8ad389faeb7f999409f595da5cb89",
+    "src/fa5060/reference.py": "747ff84da8c952776bc2b7a176e177ddd0106a4effc05d186377ace802088da4",
+    "src/fa5060/tilelang/__init__.py": "35f081a2cc70c29a8ba689bb4fde4a70a674d8d930604b382ab360507a1f2a4a",
+    "src/fa5060/tilelang/_contracts.py": "c2329bba4f36df11f4344ba5e66ea7bd2891524f2ab6443e23886c87072a3360",
+    "src/fa5060/tilelang/_decode_pipeline.py": "88493204f649a46069e7b5f5b1ee07bfe156b1bf302d536d0c02ba9fd4abec5e",
+    "src/fa5060/tilelang/_decode_simt.py": "c9b7ae1a4c083ade8a269a42216d4f3243615dc940c1d4a04fe68517d132beec",
+    "src/fa5060/tilelang/_decode_warp.py": "00f42d0a7eaa557672c4cc02aed310091f92a0761af05440b0f4d07d9ce7868e",
+    "src/fa5060/tilelang/_prefill_async.py": "edba4cb18b1933d4af8c287698bc6bb2c9211753fc6cb8e4ea1ed96c021e0963",
+    "src/fa5060/tilelang/_prefill_mma.py": "aba865ebedfe1c8b8bb28f80ba47a133c8d177f93539e528ccf1f32d7c7b74e0",
+    "src/fa5060/tilelang/_prefill_qregister.py": "da38e96dc0ea72442704e0d4df1a10bc5a167b071731179aa3bc8b9a7c919f06",
+    "src/fa5060/tilelang/_prefill_register.py": "27b75d6fd7664bd7524a7bcf73c96034ae91d58efadec40578cc04ac85ad075e",
+    "src/fa5060/tilelang/attention.py": "0524d46ce3e2a5a83d1c1ca5587115807d99d37cefe5f7e0ad2af5503784eb8d",
+    "src/fa5060/tilelang/fundamentals.py": "0d6a97788365a5765fe0fe186bdaffd9c21733b390e64bd65556bfd9d1a5eddd",
+    "src/fa5060/workloads.py": "978681c26528370aa57fe9de55765f148367f9d15f17566573348f8336e74f1c"
+  },
+  "cases": [
+    {
+      "case": {
+        "id": "decode-b1-l8192-hq32-hkv8-d128-fp16-paged16",
+        "phase": "decode",
+        "batch": 1,
+        "kv_len": 8192,
+        "query_len": 1,
+        "head_dim": 128,
+        "heads_q": 32,
+        "heads_kv": 8,
+        "dtype": "fp16",
+        "layout": "paged",
+        "page_size": 16,
+        "causal": false,
+        "shape": {
+          "q": [
+            1,
+            32,
+            128
+          ],
+          "k": [
+            512,
+            16,
+            8,
+            128
+          ],
+          "v": [
+            512,
+            16,
+            8,
+            128
+          ],
+          "kv_lens": [
+            8192
+          ],
+          "block_table": [
+            1,
+            512
+          ],
+          "heads_q": 32,
+          "heads_kv": 8,
+          "head_dim": 128,
+          "batch": 1,
+          "query_len": 1,
+          "kv_len": 8192
+        }
+      },
+      "trials": [
+        {
+          "variant": "reference",
+          "provider": "ours",
+          "choice": {
+            "config": {
+              "mode": "grouped",
+              "block_n": 64,
+              "num_stages": 1
+            },
+            "num_splits": 16
+          },
+          "validation": {
+            "validated": true,
+            "max_abs_error": 6.103515625e-05,
+            "max_relative_error_atol_floor": 0.0039736428298056126,
+            "atol": 0.003,
+            "rtol": 0.003,
+            "normalized_rms_error": 0.00026882044941010133,
+            "normalized_rms_tolerance": 0.02
+          },
+          "status": "ok",
+          "metadata": {
+            "api": "fa5060.tilelang.decode",
+            "backend": "tilelang",
+            "package_versions": {
+              "tilelang": "0.1.15",
+              "apache-tvm-ffi": "0.1.12"
+            },
+            "preallocated_output": true,
+            "preallocated_workspace": true,
+            "config": {
+              "mode": "grouped",
+              "block_n": 64,
+              "num_stages": 1
+            },
+            "num_splits": 16,
+            "native_paged": true,
+            "eager_allocates_output": true,
+            "eager_allocates_workspace": true,
+            "graph_boundary": "complete operator including all decode splits and merge"
+          },
+          "gpu_us_rounds": [
+            73.81456345319748,
+            79.32575047016144,
+            73.7488716840744,
+            80.2203118801117,
+            74.54793900251389,
+            78.84400337934494,
+            73.96337389945984,
+            79.25912737846375,
+            74.37943667173386
+          ],
+          "graph_calls_per_replay": 512,
+          "gpu_us_p50": 74.54793900251389
+        },
+        {
+          "variant": "pipeline",
+          "provider": "ours",
+          "choice": {
+            "config": {
+              "mode": "grouped",
+              "block_n": 32,
+              "num_stages": 2
+            },
+            "num_splits": 32
+          },
+          "validation": {
+            "validated": true,
+            "max_abs_error": 6.103515625e-05,
+            "max_relative_error_atol_floor": 0.0037854888942092657,
+            "atol": 0.003,
+            "rtol": 0.003,
+            "normalized_rms_error": 0.0002568950963634819,
+            "normalized_rms_tolerance": 0.02
+          },
+          "status": "ok",
+          "metadata": {
+            "api": "fa5060.tilelang.decode",
+            "backend": "tilelang",
+            "package_versions": {
+              "tilelang": "0.1.15",
+              "apache-tvm-ffi": "0.1.12"
+            },
+            "preallocated_output": true,
+            "preallocated_workspace": true,
+            "config": {
+              "mode": "grouped",
+              "block_n": 32,
+              "num_stages": 2
+            },
+            "num_splits": 32,
+            "native_paged": true,
+            "eager_allocates_output": true,
+            "eager_allocates_workspace": true,
+            "graph_boundary": "complete operator including all decode splits and merge"
+          },
+          "gpu_us_rounds": [
+            38.94374892115593,
+            41.66774824261665,
+            38.928814232349396,
+            39.91762548685074,
+            39.10506144165993,
+            40.67668691277504,
+            39.19762372970581,
+            39.94150087237358,
+            38.35875168442726
+          ],
+          "graph_calls_per_replay": 512,
+          "gpu_us_p50": 39.19762372970581
+        },
+        {
+          "variant": "external",
+          "provider": "torch_flash",
+          "choice": null,
+          "status": "error",
+          "reason": "UnsupportedProvider: forced Torch SDPA has no native paged-KV public API"
+        },
+        {
+          "variant": "external",
+          "provider": "torch_cudnn",
+          "choice": null,
+          "status": "error",
+          "reason": "UnsupportedProvider: forced Torch SDPA has no native paged-KV public API"
+        },
+        {
+          "variant": "external",
+          "provider": "torch_efficient",
+          "choice": null,
+          "status": "error",
+          "reason": "UnsupportedProvider: forced Torch SDPA has no native paged-KV public API"
+        },
+        {
+          "variant": "external",
+          "provider": "fa4",
+          "choice": null,
+          "status": "error",
+          "reason": "UnsupportedProvider: FA4 flash_attn_func adapter has no verified native page-table API"
+        },
+        {
+          "variant": "external",
+          "provider": "flashinfer_fa2",
+          "choice": null,
+          "validation": {
+            "validated": true,
+            "max_abs_error": 6.103515625e-05,
+            "max_relative_error_atol_floor": 0.0063578286208212376,
+            "atol": 0.003,
+            "rtol": 0.003,
+            "normalized_rms_error": 0.000362198852460448,
+            "normalized_rms_tolerance": 0.02
+          },
+          "status": "ok",
+          "metadata": {
+            "backend": "fa2",
+            "workspace_bytes": 134217728,
+            "planning_timed": false,
+            "input_copies": false,
+            "gqa_expansion": false,
+            "preallocated_output": true,
+            "native_paged": true,
+            "kv_layout": "NHD",
+            "api": "flashinfer.BatchDecodeWithPagedKVCacheWrapper.run",
+            "constructor_signature": "(float_workspace_buffer: torch.Tensor, kv_layout: str = 'NHD', use_cuda_graph: bool = False, use_tensor_cores: bool = False, paged_kv_indptr_buffer: Optional[torch.Tensor] = None, paged_kv_indices_buffer: Optional[torch.Tensor] = None, paged_kv_last_page_len_buffer: Optional[torch.Tensor] = None, backend: str = 'auto', jit_args: Optional[List[Any]] = None) -> None",
+            "run_signature": "(q: torch.Tensor, paged_kv_cache: Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]], *args, q_scale: Optional[float] = None, k_scale: Optional[float] = None, v_scale: Optional[float] = None, out: Optional[torch.Tensor] = None, lse: Optional[torch.Tensor] = None, return_lse: bool = False, enable_pdl: Optional[bool] = None, window_left: Optional[int] = None, sinks: Optional[torch.Tensor] = None, q_len_per_req: Optional[int] = None, skip_softmax_threshold_scale_factor: Optional[float] = None, kv_cache_sf: Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor], NoneType] = None) -> Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]]",
+            "resolved_backend": "fa2"
+          },
+          "gpu_us_rounds": [
+            34.71731394529343,
+            32.10650011897087,
+            35.31668707728386,
+            32.14450180530548,
+            36.23481094837189,
+            32.02712535858154,
+            34.602001309394836,
+            32.04662352800369,
+            36.8550643324852
+          ],
+          "graph_calls_per_replay": 512,
+          "gpu_us_p50": 34.602001309394836
+        },
+        {
+          "variant": "external",
+          "provider": "flashinfer_fmha_v2",
+          "choice": null,
+          "validation": {
+            "validated": true,
+            "max_abs_error": 0.0009765625,
+            "max_relative_error_atol_floor": 0.06335616111755371,
+            "atol": 0.003,
+            "rtol": 0.003,
+            "normalized_rms_error": 0.0035150015178601487,
+            "normalized_rms_tolerance": 0.02
+          },
+          "status": "ok",
+          "metadata": {
+            "backend": "fmha_v2",
+            "workspace_bytes": 134217728,
+            "planning_timed": false,
+            "input_copies": false,
+            "gqa_expansion": false,
+            "preallocated_output": true,
+            "native_paged": true,
+            "kv_layout": "NHD",
+            "block_table_format": "[B,2,M] native K/V block offsets; static preprocessing",
+            "api": "flashinfer.prefill.trtllm_fmha_v2_prefill",
+            "signature": "(qkv: Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor], Tuple[torch.Tensor, torch.Tensor, torch.Tensor]], input_layout: str, workspace_buffer: torch.Tensor, seq_lens: torch.Tensor, max_q_len: int, max_kv_len: int, bmm1_scale: float, bmm2_scale: float, batch_size: int, cum_seq_lens_q: torch.Tensor, cum_seq_lens_kv: torch.Tensor, block_tables: Optional[torch.Tensor] = None, out: Optional[torch.Tensor] = None, out_dtype: Union[str, torch.dtype, NoneType] = None, sinks: Optional[List[torch.Tensor]] = None, pos_encoding_mode: str = None, logits_soft_cap_scale: Optional[float] = None, mask_mode: str = 'causal', window_left: int = -1, chunked_attention_size: int = 0, save_softmax_stats: bool = False, skip_softmax_threshold_scale_factor: float = 0) -> Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]]",
+            "input_layout": "Q_PAGED_KV_NHD",
+            "decode_entry": "one-query native FMHAv2"
+          },
+          "gpu_us_rounds": [
+            426.4577627182007,
+            422.55374789237976,
+            426.4059364795685,
+            419.46831345558167,
+            428.2657504081726,
+            422.0062494277954,
+            428.2464385032654,
+            422.1386909484863,
+            427.77538299560547
+          ],
+          "graph_calls_per_replay": 512,
+          "gpu_us_p50": 426.4059364795685
+        }
+      ],
+      "telemetry_after": {
+        "available": true,
+        "devices": [
+          {
+            "index": 0,
+            "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+            "driver_version": "595.99.02",
+            "performance_state": "P0",
+            "power_draw_watts": 71.97,
+            "power_limit_watts": null,
+            "sm_clock_mhz": 2647,
+            "memory_clock_mhz": 12001,
+            "temperature_celsius": 53
+          }
+        ],
+        "error": null
+      },
+      "order": "forward in even rounds; reverse in odd rounds; one repeated-operator graph per trial"
+    },
+    {
+      "case": {
+        "id": "prefill-b1-l2048-hq32-hkv8-d128-bf16-paged16",
+        "phase": "prefill",
+        "batch": 1,
+        "kv_len": 2048,
+        "query_len": 2048,
+        "head_dim": 128,
+        "heads_q": 32,
+        "heads_kv": 8,
+        "dtype": "bf16",
+        "layout": "paged",
+        "page_size": 16,
+        "causal": true,
+        "shape": {
+          "q": [
+            1,
+            2048,
+            32,
+            128
+          ],
+          "k": [
+            128,
+            16,
+            8,
+            128
+          ],
+          "v": [
+            128,
+            16,
+            8,
+            128
+          ],
+          "kv_lens": [
+            2048
+          ],
+          "block_table": [
+            1,
+            128
+          ],
+          "heads_q": 32,
+          "heads_kv": 8,
+          "head_dim": 128,
+          "batch": 1,
+          "query_len": 2048,
+          "kv_len": 2048
+        }
+      },
+      "trials": [
+        {
+          "variant": "reference",
+          "provider": "ours",
+          "choice": {
+            "config": {
+              "block_m": 64,
+              "block_n": 64,
+              "num_stages": 2
+            },
+            "num_splits": null
+          },
+          "validation": {
+            "validated": true,
+            "max_abs_error": 0.015625,
+            "max_relative_error_atol_floor": 0.11138916015625,
+            "atol": 0.02,
+            "rtol": 0.02,
+            "normalized_rms_error": 0.0021007840209551877,
+            "normalized_rms_tolerance": 0.05
+          },
+          "status": "ok",
+          "metadata": {
+            "api": "fa5060.tilelang.prefill",
+            "backend": "tilelang",
+            "package_versions": {
+              "tilelang": "0.1.15",
+              "apache-tvm-ffi": "0.1.12"
+            },
+            "preallocated_output": true,
+            "preallocated_workspace": false,
+            "config": {
+              "block_m": 64,
+              "block_n": 64,
+              "num_stages": 2
+            },
+            "num_splits": null,
+            "native_paged": true,
+            "eager_allocates_output": true,
+            "eager_allocates_workspace": false,
+            "graph_boundary": "complete operator including all decode splits and merge"
+          },
+          "gpu_us_rounds": [
+            2517.793893814087,
+            2634.756088256836,
+            2512.3260021209717,
+            2663.1739139556885,
+            2501.513957977295,
+            2581.723928451538,
+            2504.1940212249756,
+            3168.410062789917,
+            2795.773983001709
+          ],
+          "graph_calls_per_replay": 16,
+          "gpu_us_p50": 2581.723928451538
+        },
+        {
+          "variant": "register",
+          "provider": "ours",
+          "choice": {
+            "config": {
+              "block_m": 64,
+              "block_n": 32,
+              "num_stages": 1
+            },
+            "num_splits": null
+          },
+          "validation": {
+            "validated": true,
+            "max_abs_error": 0.015625,
+            "max_relative_error_atol_floor": 0.11138916015625,
+            "atol": 0.02,
+            "rtol": 0.02,
+            "normalized_rms_error": 0.0020873662032170385,
+            "normalized_rms_tolerance": 0.05
+          },
+          "status": "ok",
+          "metadata": {
+            "api": "fa5060.tilelang.prefill",
+            "backend": "tilelang",
+            "package_versions": {
+              "tilelang": "0.1.15",
+              "apache-tvm-ffi": "0.1.12"
+            },
+            "preallocated_output": true,
+            "preallocated_workspace": false,
+            "config": {
+              "block_m": 64,
+              "block_n": 32,
+              "num_stages": 1
+            },
+            "num_splits": null,
+            "native_paged": true,
+            "eager_allocates_output": true,
+            "eager_allocates_workspace": false,
+            "graph_boundary": "complete operator including all decode splits and merge"
+          },
+          "gpu_us_rounds": [
+            1208.2840204238892,
+            1234.0019941329956,
+            1211.7780447006226,
+            1246.0600137710571,
+            1218.1040048599243,
+            1246.217966079712,
+            1204.692006111145,
+            1509.2480182647705,
+            1284.6399545669556
+          ],
+          "graph_calls_per_replay": 16,
+          "gpu_us_p50": 1234.0019941329956
+        },
+        {
+          "variant": "external",
+          "provider": "torch_flash",
+          "choice": null,
+          "status": "error",
+          "reason": "UnsupportedProvider: forced Torch SDPA has no native paged-KV public API"
+        },
+        {
+          "variant": "external",
+          "provider": "torch_cudnn",
+          "choice": null,
+          "status": "error",
+          "reason": "UnsupportedProvider: forced Torch SDPA has no native paged-KV public API"
+        },
+        {
+          "variant": "external",
+          "provider": "torch_efficient",
+          "choice": null,
+          "status": "error",
+          "reason": "UnsupportedProvider: forced Torch SDPA has no native paged-KV public API"
+        },
+        {
+          "variant": "external",
+          "provider": "fa4",
+          "choice": null,
+          "status": "error",
+          "reason": "UnsupportedProvider: FA4 flash_attn_func adapter has no verified native page-table API"
+        },
+        {
+          "variant": "external",
+          "provider": "flashinfer_fa2",
+          "choice": null,
+          "validation": {
+            "validated": true,
+            "max_abs_error": 0.015625,
+            "max_relative_error_atol_floor": 0.11138916015625,
+            "atol": 0.02,
+            "rtol": 0.02,
+            "normalized_rms_error": 0.002051909427061344,
+            "normalized_rms_tolerance": 0.05
+          },
+          "status": "ok",
+          "metadata": {
+            "backend": "fa2",
+            "workspace_bytes": 134217728,
+            "planning_timed": false,
+            "input_copies": false,
+            "gqa_expansion": false,
+            "preallocated_output": true,
+            "native_paged": true,
+            "kv_layout": "NHD",
+            "api": "flashinfer.BatchPrefillWithPagedKVCacheWrapper.run",
+            "constructor_signature": "(float_workspace_buffer: torch.Tensor, kv_layout: str = 'NHD', use_cuda_graph: bool = False, qo_indptr_buf: Optional[torch.Tensor] = None, paged_kv_indptr_buf: Optional[torch.Tensor] = None, paged_kv_indices_buf: Optional[torch.Tensor] = None, paged_kv_last_page_len_buf: Optional[torch.Tensor] = None, custom_mask_buf: Optional[torch.Tensor] = None, mask_indptr_buf: Optional[torch.Tensor] = None, backend: str = 'auto', jit_args: Optional[List[Any]] = None, jit_kwargs: Optional[Dict[str, Any]] = None, variant_owns_mask: bool = False) -> None",
+            "run_signature": "(q: torch.Tensor, paged_kv_cache: Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]], *args, q_scale: Union[float, torch.Tensor, NoneType] = None, k_scale: Union[float, torch.Tensor, NoneType] = None, v_scale: Union[float, torch.Tensor, NoneType] = None, out: Optional[torch.Tensor] = None, lse: Optional[torch.Tensor] = None, return_lse: bool = False, lse_base: str = 'log2', lse_layout: str = 'NH', enable_pdl: Optional[bool] = None, window_left: Optional[int] = None, sinks: Optional[torch.Tensor] = None, kv_cache_sf: Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor], NoneType] = None, skip_softmax_threshold_scale_factor: Optional[float] = None, use_fp16_softmax: Optional[bool] = None, uses_spcompress: Optional[bool] = None) -> Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]]",
+            "resolved_backend": "fa2"
+          },
+          "gpu_us_rounds": [
+            1307.662010192871,
+            1304.2540550231934,
+            1287.9879474639893,
+            1291.9139862060547,
+            1338.0340337753296,
+            1295.3039407730103,
+            1325.7440328598022,
+            1548.2900142669678,
+            1513.1640434265137
+          ],
+          "graph_calls_per_replay": 16,
+          "gpu_us_p50": 1307.662010192871
+        },
+        {
+          "variant": "external",
+          "provider": "flashinfer_fmha_v2",
+          "choice": null,
+          "validation": {
+            "validated": true,
+            "max_abs_error": 0.015625,
+            "max_relative_error_atol_floor": 0.11138916015625,
+            "atol": 0.02,
+            "rtol": 0.02,
+            "normalized_rms_error": 0.002100823030913825,
+            "normalized_rms_tolerance": 0.05
+          },
+          "status": "ok",
+          "metadata": {
+            "backend": "fmha_v2",
+            "workspace_bytes": 134217728,
+            "planning_timed": false,
+            "input_copies": false,
+            "gqa_expansion": false,
+            "preallocated_output": true,
+            "native_paged": true,
+            "kv_layout": "NHD",
+            "block_table_format": "[B,2,M] native K/V block offsets; static preprocessing",
+            "api": "flashinfer.prefill.trtllm_fmha_v2_prefill",
+            "signature": "(qkv: Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor], Tuple[torch.Tensor, torch.Tensor, torch.Tensor]], input_layout: str, workspace_buffer: torch.Tensor, seq_lens: torch.Tensor, max_q_len: int, max_kv_len: int, bmm1_scale: float, bmm2_scale: float, batch_size: int, cum_seq_lens_q: torch.Tensor, cum_seq_lens_kv: torch.Tensor, block_tables: Optional[torch.Tensor] = None, out: Optional[torch.Tensor] = None, out_dtype: Union[str, torch.dtype, NoneType] = None, sinks: Optional[List[torch.Tensor]] = None, pos_encoding_mode: str = None, logits_soft_cap_scale: Optional[float] = None, mask_mode: str = 'causal', window_left: int = -1, chunked_attention_size: int = 0, save_softmax_stats: bool = False, skip_softmax_threshold_scale_factor: float = 0) -> Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]]",
+            "input_layout": "Q_PAGED_KV_NHD",
+            "decode_entry": null
+          },
+          "gpu_us_rounds": [
+            1592.5960540771484,
+            1575.369954109192,
+            1586.374044418335,
+            1568.6980485916138,
+            1586.5379571914673,
+            1569.432020187378,
+            1636.705994606018,
+            1738.6239767074585,
+            1807.4320554733276
+          ],
+          "graph_calls_per_replay": 16,
+          "gpu_us_p50": 1586.5379571914673
+        }
+      ],
+      "telemetry_after": {
+        "available": true,
+        "devices": [
+          {
+            "index": 0,
+            "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+            "driver_version": "595.99.02",
+            "performance_state": "P0",
+            "power_draw_watts": 72.81,
+            "power_limit_watts": null,
+            "sm_clock_mhz": 2482,
+            "memory_clock_mhz": 12001,
+            "temperature_celsius": 51
+          }
+        ],
+        "error": null
+      },
+      "order": "forward in even rounds; reverse in odd rounds; one repeated-operator graph per trial"
+    },
+    {
+      "case": {
+        "id": "prefill-b1-l2048-hq32-hkv8-d64-bf16-dense",
+        "phase": "prefill",
+        "batch": 1,
+        "kv_len": 2048,
+        "query_len": 2048,
+        "head_dim": 64,
+        "heads_q": 32,
+        "heads_kv": 8,
+        "dtype": "bf16",
+        "layout": "dense",
+        "page_size": 16,
+        "causal": true,
+        "shape": {
+          "q": [
+            1,
+            2048,
+            32,
+            64
+          ],
+          "k": [
+            1,
+            2048,
+            8,
+            64
+          ],
+          "v": [
+            1,
+            2048,
+            8,
+            64
+          ],
+          "kv_lens": [
+            2048
+          ],
+          "block_table": null,
+          "heads_q": 32,
+          "heads_kv": 8,
+          "head_dim": 64,
+          "batch": 1,
+          "query_len": 2048,
+          "kv_len": 2048
+        }
+      },
+      "trials": [
+        {
+          "variant": "reference",
+          "provider": "ours",
+          "choice": {
+            "config": {
+              "block_m": 64,
+              "block_n": 64,
+              "num_stages": 2
+            },
+            "num_splits": null
+          },
+          "validation": {
+            "validated": true,
+            "max_abs_error": 0.0078125,
+            "max_relative_error_atol_floor": 0.1007080078125,
+            "atol": 0.02,
+            "rtol": 0.02,
+            "normalized_rms_error": 0.0020963976520047443,
+            "normalized_rms_tolerance": 0.05
+          },
+          "status": "ok",
+          "metadata": {
+            "api": "fa5060.tilelang.prefill",
+            "backend": "tilelang",
+            "package_versions": {
+              "tilelang": "0.1.15",
+              "apache-tvm-ffi": "0.1.12"
+            },
+            "preallocated_output": true,
+            "preallocated_workspace": false,
+            "config": {
+              "block_m": 64,
+              "block_n": 64,
+              "num_stages": 2
+            },
+            "num_splits": null,
+            "native_paged": false,
+            "eager_allocates_output": true,
+            "eager_allocates_workspace": false,
+            "graph_boundary": "complete operator including all decode splits and merge"
+          },
+          "gpu_us_rounds": [
+            751.1360049247742,
+            754.535973072052,
+            752.9860138893127,
+            740.336000919342,
+            761.5879774093628,
+            745.9999918937683,
+            749.8279809951782,
+            753.1800270080566,
+            780.5299758911133
+          ],
+          "graph_calls_per_replay": 16,
+          "gpu_us_p50": 752.9860138893127
+        },
+        {
+          "variant": "register",
+          "provider": "ours",
+          "choice": {
+            "config": {
+              "block_m": 64,
+              "block_n": 64,
+              "num_stages": 1
+            },
+            "num_splits": null
+          },
+          "validation": {
+            "validated": true,
+            "max_abs_error": 0.0078125,
+            "max_relative_error_atol_floor": 0.1007080078125,
+            "atol": 0.02,
+            "rtol": 0.02,
+            "normalized_rms_error": 0.002096399552592558,
+            "normalized_rms_tolerance": 0.05
+          },
+          "status": "ok",
+          "metadata": {
+            "api": "fa5060.tilelang.prefill",
+            "backend": "tilelang",
+            "package_versions": {
+              "tilelang": "0.1.15",
+              "apache-tvm-ffi": "0.1.12"
+            },
+            "preallocated_output": true,
+            "preallocated_workspace": false,
+            "config": {
+              "block_m": 64,
+              "block_n": 64,
+              "num_stages": 1
+            },
+            "num_splits": null,
+            "native_paged": false,
+            "eager_allocates_output": true,
+            "eager_allocates_workspace": false,
+            "graph_boundary": "complete operator including all decode splits and merge"
+          },
+          "gpu_us_rounds": [
+            623.2720017433167,
+            616.4100170135498,
+            615.9080266952515,
+            609.4560027122498,
+            635.5559825897217,
+            624.2640018463135,
+            635.0659728050232,
+            616.0039901733398,
+            664.6639704704285
+          ],
+          "graph_calls_per_replay": 16,
+          "gpu_us_p50": 623.2720017433167
+        },
+        {
+          "variant": "external",
+          "provider": "torch_flash",
+          "choice": null,
+          "validation": {
+            "validated": true,
+            "max_abs_error": 0.0078125,
+            "max_relative_error_atol_floor": 0.1007080078125,
+            "atol": 0.02,
+            "rtol": 0.02,
+            "normalized_rms_error": 0.002101984091938154,
+            "normalized_rms_tolerance": 0.05
+          },
+          "status": "ok",
+          "metadata": {
+            "api": "torch.nn.functional.scaled_dot_product_attention",
+            "forced_backend": "FLASH_ATTENTION",
+            "q_layout": "BHSD view of BSHD",
+            "kv_layout": "BHSD view of BSHD",
+            "gqa_expansion": false,
+            "input_copies": false,
+            "preallocated_output": false
+          },
+          "gpu_us_rounds": [
+            598.9140272140503,
+            593.9139723777771,
+            604.8780083656311,
+            607.5959801673889,
+            603.2059788703918,
+            598.0799794197083,
+            607.1159839630127,
+            599.2199778556824,
+            675.7299900054932
+          ],
+          "graph_calls_per_replay": 16,
+          "gpu_us_p50": 603.2059788703918
+        },
+        {
+          "variant": "external",
+          "provider": "torch_cudnn",
+          "choice": null,
+          "validation": {
+            "validated": true,
+            "max_abs_error": 0.0078125,
+            "max_relative_error_atol_floor": 0.1007080078125,
+            "atol": 0.02,
+            "rtol": 0.02,
+            "normalized_rms_error": 0.0020964075996135366,
+            "normalized_rms_tolerance": 0.05
+          },
+          "status": "ok",
+          "metadata": {
+            "api": "torch.nn.functional.scaled_dot_product_attention",
+            "forced_backend": "CUDNN_ATTENTION",
+            "q_layout": "BHSD view of BSHD",
+            "kv_layout": "BHSD view of BSHD",
+            "gqa_expansion": false,
+            "input_copies": false,
+            "preallocated_output": false
+          },
+          "gpu_us_rounds": [
+            606.7839860916138,
+            609.220027923584,
+            614.6339774131775,
+            606.5660119056702,
+            624.888002872467,
+            620.7699775695801,
+            614.2100095748901,
+            613.8499975204468,
+            703.1300067901611
+          ],
+          "graph_calls_per_replay": 16,
+          "gpu_us_p50": 614.2100095748901
+        },
+        {
+          "variant": "external",
+          "provider": "torch_efficient",
+          "choice": null,
+          "status": "error",
+          "reason": "UnsupportedProvider: Torch can_use_efficient_attention rejected the exact strided/GQA inputs; backend=EFFICIENT_ATTENTION, case=prefill-b1-l2048-hq32-hkv8-d64-bf16-dense"
+        },
+        {
+          "variant": "external",
+          "provider": "fa4",
+          "choice": null,
+          "validation": {
+            "validated": true,
+            "max_abs_error": 0.0078125,
+            "max_relative_error_atol_floor": 0.1007080078125,
+            "atol": 0.02,
+            "rtol": 0.02,
+            "normalized_rms_error": 0.0021018590981812515,
+            "normalized_rms_tolerance": 0.05
+          },
+          "status": "ok",
+          "metadata": {
+            "api": "flash_attn.cute.interface.flash_attn_func",
+            "signature": "(q: torch.Tensor, k: torch.Tensor, v: torch.Tensor, qv: Optional[torch.Tensor] = None, gather_kv_indices: Optional[torch.Tensor] = None, softmax_scale: Optional[float] = None, causal: bool = False, window_size: Tuple[Optional[int], Optional[int]] = (None, None), learnable_sink: Optional[torch.Tensor] = None, softcap: float = 0.0, num_splits: int = 1, pack_gqa: Optional[bool] = None, deterministic: bool = False, score_mod: Optional[Callable] = None, score_mod_bwd: Optional[Callable] = None, mask_mod: Optional[Callable] = None, aux_tensors: Optional[list] = None, aux_scalars: Optional[tuple] = None, block_sparse_tensors: Optional[flash_attn.cute.block_sparsity.BlockSparseTensorsTorch] = None, block_sparse_tensors_bwd: Optional[flash_attn.cute.block_sparsity.BlockSparseTensorsTorch] = None, return_lse: bool = False, gather_bwd_recompute_p: bool = False, gather_bwd_token_chunk: Optional[int] = None)",
+            "q_layout": "BSHD",
+            "kv_layout": "BSHD",
+            "input_copies": false,
+            "gqa_expansion": false,
+            "preallocated_output": false
+          },
+          "gpu_us_rounds": [
+            626.937985420227,
+            630.4420232772827,
+            638.23002576828,
+            643.2459950447083,
+            632.673978805542,
+            634.3219876289368,
+            627.6460289955139,
+            647.0040082931519,
+            740.4940128326416
+          ],
+          "graph_calls_per_replay": 16,
+          "gpu_us_p50": 634.3219876289368
+        },
+        {
+          "variant": "external",
+          "provider": "flashinfer_fa2",
+          "choice": null,
+          "validation": {
+            "validated": true,
+            "max_abs_error": 0.0078125,
+            "max_relative_error_atol_floor": 0.1007080078125,
+            "atol": 0.02,
+            "rtol": 0.02,
+            "normalized_rms_error": 0.0020561245631427246,
+            "normalized_rms_tolerance": 0.05
+          },
+          "status": "ok",
+          "metadata": {
+            "backend": "fa2",
+            "workspace_bytes": 134217728,
+            "planning_timed": false,
+            "input_copies": false,
+            "gqa_expansion": false,
+            "preallocated_output": true,
+            "native_paged": false,
+            "kv_layout": "NHD",
+            "api": "flashinfer.BatchPrefillWithRaggedKVCacheWrapper.run",
+            "constructor_signature": "(float_workspace_buffer: torch.Tensor, kv_layout: str = 'NHD', use_cuda_graph: bool = False, qo_indptr_buf: Optional[torch.Tensor] = None, kv_indptr_buf: Optional[torch.Tensor] = None, custom_mask_buf: Optional[torch.Tensor] = None, mask_indptr_buf: Optional[torch.Tensor] = None, backend: str = 'auto', jit_args: Optional[List[Any]] = None, jit_kwargs: Optional[Dict[str, Any]] = None, variant_owns_mask: bool = False) -> None",
+            "run_signature": "(q: torch.Tensor, k: torch.Tensor, v: torch.Tensor, *args, q_scale: Optional[float] = None, k_scale: Optional[float] = None, v_scale: Optional[float] = None, o_scale: Optional[float] = None, out: Optional[torch.Tensor] = None, lse: Optional[torch.Tensor] = None, return_lse: bool = False, lse_base: str = 'log2', lse_layout: str = 'NH', enable_pdl: Optional[bool] = None, kv_cache_sf: Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor], NoneType] = None) -> Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]]",
+            "resolved_backend": "fa2"
+          },
+          "gpu_us_rounds": [
+            695.7399845123291,
+            710.3919982910156,
+            707.4999809265137,
+            715.6720161437988,
+            713.2779955863953,
+            713.670015335083,
+            702.8599977493286,
+            726.8900275230408,
+            833.9020013809204
+          ],
+          "graph_calls_per_replay": 16,
+          "gpu_us_p50": 713.2779955863953
+        },
+        {
+          "variant": "external",
+          "provider": "flashinfer_fmha_v2",
+          "choice": null,
+          "validation": {
+            "validated": true,
+            "max_abs_error": 0.0078125,
+            "max_relative_error_atol_floor": 0.1190185546875,
+            "atol": 0.02,
+            "rtol": 0.02,
+            "normalized_rms_error": 0.00324515710286447,
+            "normalized_rms_tolerance": 0.05
+          },
+          "status": "ok",
+          "metadata": {
+            "backend": "fmha_v2",
+            "workspace_bytes": 134217728,
+            "planning_timed": false,
+            "input_copies": true,
+            "gqa_expansion": false,
+            "preallocated_output": true,
+            "native_paged": false,
+            "kv_layout": "NHD",
+            "api": "flashinfer.BatchPrefillWithRaggedKVCacheWrapper.run",
+            "input_layout": "CONTIGUOUS_Q_KV",
+            "packing_timed": true,
+            "packing": "public FlashInfer run() internally torch.stack((k,v), dim=1)",
+            "constructor_signature": "(float_workspace_buffer: torch.Tensor, kv_layout: str = 'NHD', use_cuda_graph: bool = False, qo_indptr_buf: Optional[torch.Tensor] = None, kv_indptr_buf: Optional[torch.Tensor] = None, custom_mask_buf: Optional[torch.Tensor] = None, mask_indptr_buf: Optional[torch.Tensor] = None, backend: str = 'auto', jit_args: Optional[List[Any]] = None, jit_kwargs: Optional[Dict[str, Any]] = None, variant_owns_mask: bool = False) -> None",
+            "run_signature": "(q: torch.Tensor, k: torch.Tensor, v: torch.Tensor, *args, q_scale: Optional[float] = None, k_scale: Optional[float] = None, v_scale: Optional[float] = None, o_scale: Optional[float] = None, out: Optional[torch.Tensor] = None, lse: Optional[torch.Tensor] = None, return_lse: bool = False, lse_base: str = 'log2', lse_layout: str = 'NH', enable_pdl: Optional[bool] = None, kv_cache_sf: Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor], NoneType] = None) -> Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]]",
+            "resolved_backend": "fmha_v2",
+            "decode_entry": null
+          },
+          "gpu_us_rounds": [
+            1440.6980276107788,
+            1464.7020101547241,
+            1453.8600444793701,
+            1482.2319746017456,
+            1457.4400186538696,
+            1496.9760179519653,
+            1449.8319625854492,
+            1489.5459413528442,
+            1766.2220001220703
+          ],
+          "graph_calls_per_replay": 16,
+          "gpu_us_p50": 1464.7020101547241
+        }
+      ],
+      "telemetry_after": {
+        "available": true,
+        "devices": [
+          {
+            "index": 0,
+            "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+            "driver_version": "595.99.02",
+            "performance_state": "P0",
+            "power_draw_watts": 66.88,
+            "power_limit_watts": null,
+            "sm_clock_mhz": 2647,
+            "memory_clock_mhz": 12001,
+            "temperature_celsius": 52
+          }
+        ],
+        "error": null
+      },
+      "order": "forward in even rounds; reverse in odd rounds; one repeated-operator graph per trial"
+    }
+  ]
+}

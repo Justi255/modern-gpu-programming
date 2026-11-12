@@ -1,0 +1,65 @@
+from pathlib import Path
+from importlib import import_module, metadata
+import hashlib, json, os, re, subprocess, tempfile, traceback
+assert os.environ.get('CUDA_VISIBLE_DEVICES') == ''
+import tilelang
+from tilelang import tvm
+from tilelang.engine import lower
+from tilelang.contrib import nvcc
+import fa5060.tilelang.attention as api
+ROOT=Path('/home/justi/Workspace/cuda/fa')
+OUT=ROOT/'results/optimization-2026-11-11/compiler'
+PREFIX='contiguous-reduce-cpu'
+
+def capture(prim, **kw): return prim,kw
+api._compile=capture
+snapshot={str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest() for p in (ROOT/'src/fa5060/tilelang').glob('*.py')}
+
+def strides(shape):
+    out=[]; prod=1
+    for v in reversed(shape): out.append(prod); prod*=v
+    return tuple(reversed(out))
+
+def run(name,module, *, bm=16,bn=32,d=128,page=16,capacity=8192,splits=16,threads=128,sq=1,grouped=True,hq=32,hkv=8,segmented=None,stages=2,paged=True,dtype='float16'):
+    qshape=(1,sq,hq,d); kshape=(capacity//page+5,page,hkv,d) if paged else (1,capacity,hkv,d)
+    qs=strides(qshape); ks=strides(kshape)
+    extra={'grouped':grouped}
+    if segmented is not None: extra['segmented_reduce']=segmented
+    prim,kw=candidate._prefill_kernel(1,sq,hq,hkv,d,capacity,kshape[0],page,dtype,qs,ks,ks,qs,capacity//page if paged else 0,True,paged,not grouped,1.4426950408889634/d**.5,bm,bn,stages,threads,splits,**extra)
+    passes={tilelang.PassConfigKey.TL_DISABLE_WARP_SPECIALIZED:True}
+    if kw.get('manual_bounds'): passes[tilelang.PassConfigKey.TL_DISABLE_SAFE_MEMORY_ACCESS]=True
+    if kw.get('manual_sync'): passes[tilelang.PassConfigKey.TL_DISABLE_THREAD_STORAGE_SYNC]=True
+    if kw.get('tma'): passes[tilelang.PassConfigKey.TIR_USE_ASYNC_COPY]=False
+    with tvm.transform.PassContext(opt_level=3,config=passes), tvm.target.Target({'kind':'cuda','arch':'sm_120'}):
+        art=lower(prim,target={'kind':'cuda','arch':'sm_120'})
+    cuda=art.kernel_source
+    for suffix,text in (('.cu',cuda),('-host-tir.txt',art.host_mod.script()),('-device-tir.txt',art.device_mod.script())):
+        path=OUT/(PREFIX+'-'+name+suffix)
+        with path.open('x') as fp: fp.write(text)
+    opts=nvcc.default_compile_options()+['--ptxas-options=-v']
+    record=dict(name=name,module=module,bm=bm,bn=bn,d=d,page=page,capacity=capacity,splits=splits,threads=threads,sq=sq,grouped=grouped,segmented=segmented,stages=stages,paged=paged,dtype=dtype,compile_keywords=kw,cuda_sha256=hashlib.sha256(cuda.encode()).hexdigest())
+    try:
+        with tempfile.TemporaryDirectory(prefix='fa5060-sync-v2-review-') as temp:
+            cubin=nvcc.compile_cuda(cuda,target_format='cubin',arch='sm_120',options=opts)
+            p=Path(temp)/'kernel.cubin';p.write_bytes(cubin)
+            rr=subprocess.run(['/usr/local/cuda-13.1/bin/cuobjdump','--dump-resource-usage',str(p)],capture_output=True,text=True,check=True)
+            resource=rr.stdout+rr.stderr
+            with (OUT/(PREFIX+'-'+name+'-resources.txt')).open('x') as fp: fp.write(resource)
+            record['resources']=resource
+    except Exception as e:
+        record['resource_error']=str(e)
+    print(json.dumps(record),flush=True)
+    return record
+
+import importlib.util
+spec=importlib.util.spec_from_file_location('fa5060.tilelang._decode_contiguous', ROOT/'.work/decode_contiguous.py')
+candidate=importlib.util.module_from_spec(spec);spec.loader.exec_module(candidate)
+cases=[(f'm{m}n{n}d{d}', 'contiguous', dict(bm=m,bn=n,d=d,hkv=1 if m==32 else 8,segmented=True)) for m in (16,32) for n in (32,64) for d in (64,128)]
+results=[]
+for name,module,args in cases:
+    try: results.append(run(name,module,**args))
+    except Exception as exc:
+        results.append(dict(name=name,error=str(exc),traceback=traceback.format_exc()))
+        print(json.dumps(results[-1]),flush=True)
+record={'purpose':'CPU-only TileLang lowering and NVCC compilation; CUDA_VISIBLE_DEVICES empty; no adapter, launch, GPU query or GPU execution','packages':{n:metadata.version(n) for n in ['tilelang','apache-tvm-ffi','torch']},'source_sha256_start':snapshot,'source_sha256_end':{str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest() for p in (ROOT/'src/fa5060/tilelang').glob('*.py')},'cases':results}
+with (OUT/(PREFIX+'-manifest.json')).open('x') as fp: json.dump(record,fp,indent=2)

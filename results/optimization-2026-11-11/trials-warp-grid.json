@@ -1,0 +1,186 @@
+{
+  "decode": [
+    {
+      "variant": "reference",
+      "config": {
+        "mode": "grouped",
+        "block_n": 64,
+        "num_stages": 2,
+        "num_warps": 4
+      },
+      "num_splits": 16
+    },
+    {
+      "variant": "pipeline_scalar",
+      "config": {
+        "mode": "grouped",
+        "block_n": 32,
+        "num_stages": 2,
+        "num_warps": 4
+      },
+      "num_splits": 32
+    },
+    {
+      "variant": "pipeline",
+      "config": {
+        "mode": "grouped",
+        "block_n": 32,
+        "num_stages": 2,
+        "num_warps": 4
+      },
+      "num_splits": 16
+    },
+    {
+      "variant": "pipeline",
+      "config": {
+        "mode": "grouped",
+        "block_n": 32,
+        "num_stages": 2,
+        "num_warps": 4
+      },
+      "num_splits": 32
+    },
+    {
+      "variant": "pipeline",
+      "config": {
+        "mode": "grouped",
+        "block_n": 32,
+        "num_stages": 2,
+        "num_warps": 4
+      },
+      "num_splits": 64
+    },
+    {
+      "variant": "pipeline",
+      "config": {
+        "mode": "grouped",
+        "block_n": 64,
+        "num_stages": 2,
+        "num_warps": 4
+      },
+      "num_splits": 16
+    },
+    {
+      "variant": "pipeline",
+      "config": {
+        "mode": "grouped",
+        "block_n": 64,
+        "num_stages": 2,
+        "num_warps": 4
+      },
+      "num_splits": 32
+    },
+    {
+      "variant": "pipeline",
+      "config": {
+        "mode": "grouped",
+        "block_n": 32,
+        "num_stages": 2,
+        "num_warps": 2
+      },
+      "num_splits": 32
+    },
+    {
+      "variant": "pipeline",
+      "config": {
+        "mode": "grouped",
+        "block_n": 32,
+        "num_stages": 2,
+        "num_warps": 1
+      },
+      "num_splits": 32
+    }
+  ],
+  "prefill": [
+    {
+      "variant": "reference",
+      "config": {
+        "block_m": 64,
+        "block_n": 64,
+        "num_warps": 4,
+        "num_stages": 1
+      },
+      "num_splits": null
+    },
+    {
+      "variant": "register",
+      "config": {
+        "block_m": 64,
+        "block_n": 32,
+        "num_warps": 4,
+        "num_stages": 1
+      },
+      "num_splits": null
+    },
+    {
+      "variant": "register",
+      "config": {
+        "block_m": 64,
+        "block_n": 64,
+        "num_warps": 4,
+        "num_stages": 1
+      },
+      "num_splits": null
+    },
+    {
+      "variant": "register",
+      "config": {
+        "block_m": 32,
+        "block_n": 32,
+        "num_warps": 2,
+        "num_stages": 1
+      },
+      "num_splits": null
+    },
+    {
+      "variant": "register",
+      "config": {
+        "block_m": 32,
+        "block_n": 64,
+        "num_warps": 2,
+        "num_stages": 1
+      },
+      "num_splits": null
+    },
+    {
+      "variant": "register",
+      "config": {
+        "block_m": 16,
+        "block_n": 32,
+        "num_warps": 1,
+        "num_stages": 1
+      },
+      "num_splits": null
+    },
+    {
+      "variant": "register",
+      "config": {
+        "block_m": 16,
+        "block_n": 64,
+        "num_warps": 1,
+        "num_stages": 1
+      },
+      "num_splits": null
+    },
+    {
+      "variant": "register",
+      "config": {
+        "block_m": 64,
+        "block_n": 64,
+        "num_warps": 2,
+        "num_stages": 1
+      },
+      "num_splits": null
+    },
+    {
+      "variant": "register",
+      "config": {
+        "block_m": 128,
+        "block_n": 32,
+        "num_warps": 4,
+        "num_stages": 1
+      },
+      "num_splits": null
+    }
+  ]
+}

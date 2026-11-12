@@ -1,0 +1,1313 @@
+{
+  "purpose": "diagnostic subset; no full-suite performance claim",
+  "variant": "register",
+  "fast_math": false,
+  "environment": {
+    "schema_version": 1,
+    "timestamp_utc": "2026-11-11T02:48:20.533313+00:00",
+    "python": {
+      "version": "3.13.13",
+      "sys_version": "3.13.13 | packaged by Anaconda, Inc. | (main, Apr 14 2026, 06:19:41) [GCC 14.3.0]",
+      "implementation": "CPython",
+      "compiler": "GCC 14.3.0",
+      "executable": "/home/justi/Workspace/cuda/fa/.venv-tilelang/bin/python"
+    },
+    "platform": {
+      "system": "Linux",
+      "release": "7.0.0-42-generic",
+      "machine": "x86_64",
+      "description": "Linux-7.0.0-42-generic-x86_64-with-glibc2.43"
+    },
+    "packages": {
+      "modern-gpu-programming-5060": "0.1.0",
+      "numpy": "2.5.0",
+      "torch": "2.12.1",
+      "triton": "3.7.1",
+      "tilelang": "0.1.15",
+      "apache-tvm-ffi": "0.1.12",
+      "flashinfer-python": "0.7.2.post1",
+      "flash-attn-4": "4.0.0b37",
+      "flash-attn": null
+    },
+    "cuda_build": "13.0",
+    "cuda_available": true,
+    "gpus": [
+      {
+        "index": 0,
+        "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+        "compute_capability": [
+          12,
+          0
+        ],
+        "sm_count": 26,
+        "total_memory_bytes": 8055947264,
+        "l2_cache_bytes": 33554432,
+        "shared_memory_per_block_bytes": 49152,
+        "shared_memory_per_block_optin_bytes": 101376,
+        "shared_memory_per_sm_bytes": 102400,
+        "warp_size": 32,
+        "max_threads_per_block": 1024
+      }
+    ],
+    "gpu_unavailable_reason": null,
+    "nvidia_smi": {
+      "available": true,
+      "devices": [
+        {
+          "index": 0,
+          "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+          "driver_version": "595.99.02",
+          "performance_state": "P2",
+          "power_draw_watts": 27.62,
+          "power_limit_watts": null,
+          "sm_clock_mhz": 1620,
+          "memory_clock_mhz": 11001,
+          "temperature_celsius": 53
+        }
+      ],
+      "error": null
+    },
+    "compiler": {
+      "nvcc": {
+        "available": true,
+        "output": "nvcc: NVIDIA (R) Cuda compiler driver\nCopyright (c) 2005-2025 NVIDIA Corporation\nBuilt on Tue_Dec_16_07:23:41_PM_PST_2025\nCuda compilation tools, release 13.1, V13.1.115\nBuild cuda_13.1.r13.1/compiler.37061995_0",
+        "returncode": 0,
+        "error": null
+      },
+      "ptxas": {
+        "available": true,
+        "output": "ptxas: NVIDIA (R) Ptx optimizing assembler\nCopyright (c) 2005-2025 NVIDIA Corporation\nBuilt on Tue_Dec_16_07:22:11_PM_PST_2025\nCuda compilation tools, release 13.1, V13.1.115\nBuild cuda_13.1.r13.1/compiler.37061995_0",
+        "returncode": 0,
+        "error": null
+      },
+      "triton_version": "3.7.1",
+      "tilelang_version": "0.1.15",
+      "apache_tvm_ffi_version": "0.1.12",
+      "sources": {
+        "triton": null,
+        "tilelang": null,
+        "apache-tvm-ffi": null
+      }
+    }
+  },
+  "sources": {
+    "src/fa5060/__init__.py": "e009aee507c220fbb22bf82d7885d21a3bd58d1c3d9000132361bca615c3470f",
+    "src/fa5060/_workspace.py": "afac44fb2ee4a30b41ca801cca17ac78cb3ed6bfee16ef214699d6b1436ae883",
+    "src/fa5060/attention.py": "cab5e8a31657601824dba4766f97eea82c4b0ab8a9ce1cd86a9f8ffbe0ed1d97",
+    "src/fa5060/attention_tma.py": "b8f68a2b97574b89b7dcdb327bf22048d5443546c579b41f7b02f88771232715",
+    "src/fa5060/benchmark.py": "d9c8e24871c10ffffb6ae55a42c323f743fd22efa115e469a8ec40241fa025e0",
+    "src/fa5060/experiments.py": "93363510166806fd2a1539922b071d2744ff96804e622b83d0bbbefc6c926a00",
+    "src/fa5060/fundamentals.py": "1a760e87d02f6959b13e92c337e4c4ce686ffb5e45ce8dbecab42663268a7ced",
+    "src/fa5060/probe.py": "c766bb1adc56913d46dce32dad62ab8792c8ad389faeb7f999409f595da5cb89",
+    "src/fa5060/reference.py": "747ff84da8c952776bc2b7a176e177ddd0106a4effc05d186377ace802088da4",
+    "src/fa5060/tilelang/__init__.py": "35f081a2cc70c29a8ba689bb4fde4a70a674d8d930604b382ab360507a1f2a4a",
+    "src/fa5060/tilelang/_contracts.py": "c2329bba4f36df11f4344ba5e66ea7bd2891524f2ab6443e23886c87072a3360",
+    "src/fa5060/tilelang/_decode_simt.py": "c9b7ae1a4c083ade8a269a42216d4f3243615dc940c1d4a04fe68517d132beec",
+    "src/fa5060/tilelang/_decode_warp.py": "00f42d0a7eaa557672c4cc02aed310091f92a0761af05440b0f4d07d9ce7868e",
+    "src/fa5060/tilelang/_prefill_async.py": "d0dbedca78c1971f622fc9666041c0e4dd0843b4eabfaa3bc20a21bce90a3a45",
+    "src/fa5060/tilelang/_prefill_mma.py": "aba865ebedfe1c8b8bb28f80ba47a133c8d177f93539e528ccf1f32d7c7b74e0",
+    "src/fa5060/tilelang/_prefill_qregister.py": "bbcbf83b6984368947f125bcd634c3ec6197470188515ae11f525382181d1ebe",
+    "src/fa5060/tilelang/_prefill_register.py": "e8f22018445335e3796a1e2b71db497f867373fb7a1c86176ea259eb036f46c4",
+    "src/fa5060/tilelang/attention.py": "24713e15f2ab93c09fd471ea0ae0338e585e9da40f8a654e589b9e796b1c617b",
+    "src/fa5060/tilelang/fundamentals.py": "0d6a97788365a5765fe0fe186bdaffd9c21733b390e64bd65556bfd9d1a5eddd",
+    "src/fa5060/workloads.py": "978681c26528370aa57fe9de55765f148367f9d15f17566573348f8336e74f1c"
+  },
+  "cases": [
+    {
+      "case": {
+        "id": "decode-b1-l512-hq32-hkv32-d64-fp16-dense",
+        "phase": "decode",
+        "batch": 1,
+        "kv_len": 512,
+        "query_len": 1,
+        "head_dim": 64,
+        "heads_q": 32,
+        "heads_kv": 32,
+        "dtype": "fp16",
+        "layout": "dense",
+        "page_size": 16,
+        "causal": false,
+        "shape": {
+          "q": [
+            1,
+            32,
+            64
+          ],
+          "k": [
+            1,
+            512,
+            32,
+            64
+          ],
+          "v": [
+            1,
+            512,
+            32,
+            64
+          ],
+          "kv_lens": [
+            512
+          ],
+          "block_table": null,
+          "heads_q": 32,
+          "heads_kv": 32,
+          "head_dim": 64,
+          "batch": 1,
+          "query_len": 1,
+          "kv_len": 512
+        }
+      },
+      "trials": [
+        {
+          "backend": "triton",
+          "provider": "ours",
+          "choice": null,
+          "validation": {
+            "validated": true,
+            "max_abs_error": 1.9073486328125e-06,
+            "max_relative_error_atol_floor": 0.0006357828970067203,
+            "atol": 0.003,
+            "rtol": 0.003,
+            "normalized_rms_error": 8.033159769483978e-07,
+            "normalized_rms_tolerance": 0.02
+          },
+          "first_call_wall_ms": 325.19538199994713,
+          "status": "ok",
+          "gpu_us_rounds": [
+            13.245750218629837,
+            13.144750148057938,
+            13.120999559760094,
+            13.175750151276588,
+            13.121750205755234,
+            13.129999861121178,
+            13.121499679982662
+          ],
+          "gpu_us_p50": 13.129999861121178,
+          "graph_calls_per_replay": 128,
+          "metadata": {
+            "api": "fa5060.attention.decode",
+            "backend": "triton",
+            "package_versions": {
+              "triton": "3.7.1"
+            },
+            "preallocated_output": true,
+            "preallocated_workspace": true,
+            "config": null,
+            "num_splits": null,
+            "native_paged": false,
+            "eager_allocates_output": true,
+            "eager_allocates_workspace": true,
+            "graph_boundary": "complete operator including all decode splits and merge"
+          },
+          "telemetry": {
+            "available": true,
+            "devices": [
+              {
+                "index": 0,
+                "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                "driver_version": "595.99.02",
+                "performance_state": "P2",
+                "power_draw_watts": 30.01,
+                "power_limit_watts": null,
+                "sm_clock_mhz": 2235,
+                "memory_clock_mhz": 11001,
+                "temperature_celsius": 53
+              }
+            ],
+            "error": null
+          }
+        },
+        {
+          "backend": "tilelang",
+          "provider": "ours",
+          "choice": {
+            "config": {
+              "mode": "grouped",
+              "block_n": 64,
+              "num_warps": 1,
+              "num_stages": 1
+            },
+            "num_splits": 1
+          },
+          "validation": {
+            "validated": true,
+            "max_abs_error": 0.000244140625,
+            "max_relative_error_atol_floor": 0.013033549301326275,
+            "atol": 0.003,
+            "rtol": 0.003,
+            "normalized_rms_error": 0.000324433441562469,
+            "normalized_rms_tolerance": 0.02
+          },
+          "first_call_wall_ms": 2351.536815993313,
+          "status": "ok",
+          "gpu_us_rounds": [
+            16.35175012052059,
+            14.720999635756016,
+            14.843249693512917,
+            14.869749546051025,
+            14.836500398814678,
+            14.832500368356705,
+            14.86399956047535
+          ],
+          "gpu_us_p50": 14.843249693512917,
+          "graph_calls_per_replay": 128,
+          "metadata": {
+            "api": "fa5060.tilelang.decode",
+            "backend": "tilelang",
+            "package_versions": {
+              "tilelang": "0.1.15",
+              "apache-tvm-ffi": "0.1.12"
+            },
+            "preallocated_output": true,
+            "preallocated_workspace": true,
+            "config": {
+              "mode": "grouped",
+              "block_n": 64,
+              "num_warps": 1,
+              "num_stages": 1
+            },
+            "num_splits": 1,
+            "native_paged": false,
+            "eager_allocates_output": true,
+            "eager_allocates_workspace": true,
+            "graph_boundary": "complete operator including all decode splits and merge"
+          },
+          "telemetry": {
+            "available": true,
+            "devices": [
+              {
+                "index": 0,
+                "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                "driver_version": "595.99.02",
+                "performance_state": "P2",
+                "power_draw_watts": 29.02,
+                "power_limit_watts": null,
+                "sm_clock_mhz": 2152,
+                "memory_clock_mhz": 11001,
+                "temperature_celsius": 53
+              }
+            ],
+            "error": null
+          }
+        },
+        {
+          "backend": "tilelang",
+          "provider": "ours",
+          "choice": {
+            "config": {
+              "mode": "grouped",
+              "block_n": 64,
+              "num_warps": 1,
+              "num_stages": 1
+            },
+            "num_splits": 4
+          },
+          "validation": {
+            "validated": true,
+            "max_abs_error": 0.0001220703125,
+            "max_relative_error_atol_floor": 0.011761982925236225,
+            "atol": 0.003,
+            "rtol": 0.003,
+            "normalized_rms_error": 0.00028090997240163646,
+            "normalized_rms_tolerance": 0.02
+          },
+          "first_call_wall_ms": 2386.7054450020078,
+          "status": "ok",
+          "gpu_us_rounds": [
+            7.202500011771917,
+            7.023749873042107,
+            6.996749900281429,
+            7.015500217676163,
+            7.094750180840492,
+            7.088500075042248,
+            7.0027499459683895
+          ],
+          "gpu_us_p50": 7.023749873042107,
+          "graph_calls_per_replay": 128,
+          "metadata": {
+            "api": "fa5060.tilelang.decode",
+            "backend": "tilelang",
+            "package_versions": {
+              "tilelang": "0.1.15",
+              "apache-tvm-ffi": "0.1.12"
+            },
+            "preallocated_output": true,
+            "preallocated_workspace": true,
+            "config": {
+              "mode": "grouped",
+              "block_n": 64,
+              "num_warps": 1,
+              "num_stages": 1
+            },
+            "num_splits": 4,
+            "native_paged": false,
+            "eager_allocates_output": true,
+            "eager_allocates_workspace": true,
+            "graph_boundary": "complete operator including all decode splits and merge"
+          },
+          "telemetry": {
+            "available": true,
+            "devices": [
+              {
+                "index": 0,
+                "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                "driver_version": "595.99.02",
+                "performance_state": "P2",
+                "power_draw_watts": 30.28,
+                "power_limit_watts": null,
+                "sm_clock_mhz": 2182,
+                "memory_clock_mhz": 11001,
+                "temperature_celsius": 55
+              }
+            ],
+            "error": null
+          }
+        },
+        {
+          "backend": "tilelang",
+          "provider": "ours",
+          "choice": {
+            "config": {
+              "mode": "grouped",
+              "block_n": 64,
+              "num_warps": 1,
+              "num_stages": 1
+            },
+            "num_splits": 16
+          },
+          "validation": {
+            "validated": true,
+            "max_abs_error": 0.0001220703125,
+            "max_relative_error_atol_floor": 0.0095367431640625,
+            "atol": 0.003,
+            "rtol": 0.003,
+            "normalized_rms_error": 0.0002530449691836105,
+            "normalized_rms_tolerance": 0.02
+          },
+          "first_call_wall_ms": 2283.473147996119,
+          "status": "ok",
+          "gpu_us_rounds": [
+            9.613499976694584,
+            9.411499835550785,
+            9.38399974256754,
+            9.404749609529972,
+            9.476499632000923,
+            9.519999846816063,
+            9.506000205874443
+          ],
+          "gpu_us_p50": 9.476499632000923,
+          "graph_calls_per_replay": 128,
+          "metadata": {
+            "api": "fa5060.tilelang.decode",
+            "backend": "tilelang",
+            "package_versions": {
+              "tilelang": "0.1.15",
+              "apache-tvm-ffi": "0.1.12"
+            },
+            "preallocated_output": true,
+            "preallocated_workspace": true,
+            "config": {
+              "mode": "grouped",
+              "block_n": 64,
+              "num_warps": 1,
+              "num_stages": 1
+            },
+            "num_splits": 16,
+            "native_paged": false,
+            "eager_allocates_output": true,
+            "eager_allocates_workspace": true,
+            "graph_boundary": "complete operator including all decode splits and merge"
+          },
+          "telemetry": {
+            "available": true,
+            "devices": [
+              {
+                "index": 0,
+                "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                "driver_version": "595.99.02",
+                "performance_state": "P2",
+                "power_draw_watts": 29.45,
+                "power_limit_watts": null,
+                "sm_clock_mhz": 2175,
+                "memory_clock_mhz": 11001,
+                "temperature_celsius": 53
+              }
+            ],
+            "error": null
+          }
+        },
+        {
+          "backend": "tilelang",
+          "provider": "ours",
+          "choice": {
+            "config": {
+              "mode": "grouped",
+              "block_n": 64,
+              "num_warps": 1,
+              "num_stages": 1
+            },
+            "num_splits": 32
+          },
+          "validation": {
+            "validated": true,
+            "max_abs_error": 0.0001220703125,
+            "max_relative_error_atol_floor": 0.01049041748046875,
+            "atol": 0.003,
+            "rtol": 0.003,
+            "normalized_rms_error": 0.0002342881893054611,
+            "normalized_rms_tolerance": 0.02
+          },
+          "first_call_wall_ms": 2276.7532329962705,
+          "status": "ok",
+          "gpu_us_rounds": [
+            13.933500275015831,
+            13.73250037431717,
+            13.818499632179737,
+            13.812749646604061,
+            13.814999721944332,
+            13.826250098645687,
+            13.824500143527985
+          ],
+          "gpu_us_p50": 13.818499632179737,
+          "graph_calls_per_replay": 128,
+          "metadata": {
+            "api": "fa5060.tilelang.decode",
+            "backend": "tilelang",
+            "package_versions": {
+              "tilelang": "0.1.15",
+              "apache-tvm-ffi": "0.1.12"
+            },
+            "preallocated_output": true,
+            "preallocated_workspace": true,
+            "config": {
+              "mode": "grouped",
+              "block_n": 64,
+              "num_warps": 1,
+              "num_stages": 1
+            },
+            "num_splits": 32,
+            "native_paged": false,
+            "eager_allocates_output": true,
+            "eager_allocates_workspace": true,
+            "graph_boundary": "complete operator including all decode splits and merge"
+          },
+          "telemetry": {
+            "available": true,
+            "devices": [
+              {
+                "index": 0,
+                "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                "driver_version": "595.99.02",
+                "performance_state": "P2",
+                "power_draw_watts": 30.05,
+                "power_limit_watts": null,
+                "sm_clock_mhz": 2160,
+                "memory_clock_mhz": 11001,
+                "temperature_celsius": 54
+              }
+            ],
+            "error": null
+          }
+        },
+        {
+          "backend": "external",
+          "provider": "fa4",
+          "choice": null,
+          "validation": {
+            "validated": true,
+            "max_abs_error": 0.0001220703125,
+            "max_relative_error_atol_floor": 0.011126200668513775,
+            "atol": 0.003,
+            "rtol": 0.003,
+            "normalized_rms_error": 0.00029512378843720425,
+            "normalized_rms_tolerance": 0.02
+          },
+          "first_call_wall_ms": 1937.0450759961386,
+          "status": "ok",
+          "gpu_us_rounds": [
+            36.5775004029274,
+            29.774000868201256,
+            30.68700060248375,
+            29.28999997675419,
+            30.20774945616722,
+            31.915750354528427,
+            29.223749414086342
+          ],
+          "gpu_us_p50": 30.20774945616722,
+          "graph_calls_per_replay": 128,
+          "metadata": {
+            "api": "flash_attn.cute.interface.flash_attn_func",
+            "signature": "(q: torch.Tensor, k: torch.Tensor, v: torch.Tensor, qv: Optional[torch.Tensor] = None, gather_kv_indices: Optional[torch.Tensor] = None, softmax_scale: Optional[float] = None, causal: bool = False, window_size: Tuple[Optional[int], Optional[int]] = (None, None), learnable_sink: Optional[torch.Tensor] = None, softcap: float = 0.0, num_splits: int = 1, pack_gqa: Optional[bool] = None, deterministic: bool = False, score_mod: Optional[Callable] = None, score_mod_bwd: Optional[Callable] = None, mask_mod: Optional[Callable] = None, aux_tensors: Optional[list] = None, aux_scalars: Optional[tuple] = None, block_sparse_tensors: Optional[flash_attn.cute.block_sparsity.BlockSparseTensorsTorch] = None, block_sparse_tensors_bwd: Optional[flash_attn.cute.block_sparsity.BlockSparseTensorsTorch] = None, return_lse: bool = False, gather_bwd_recompute_p: bool = False, gather_bwd_token_chunk: Optional[int] = None)",
+            "q_layout": "BSHD",
+            "kv_layout": "BSHD",
+            "input_copies": false,
+            "gqa_expansion": false,
+            "preallocated_output": false
+          },
+          "telemetry": {
+            "available": true,
+            "devices": [
+              {
+                "index": 0,
+                "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                "driver_version": "595.99.02",
+                "performance_state": "P2",
+                "power_draw_watts": 28.83,
+                "power_limit_watts": null,
+                "sm_clock_mhz": 2220,
+                "memory_clock_mhz": 11001,
+                "temperature_celsius": 54
+              }
+            ],
+            "error": null
+          }
+        },
+        {
+          "backend": "external",
+          "provider": "torch_flash",
+          "choice": null,
+          "validation": {
+            "validated": true,
+            "max_abs_error": 0.0001220703125,
+            "max_relative_error_atol_floor": 0.011126200668513775,
+            "atol": 0.003,
+            "rtol": 0.003,
+            "normalized_rms_error": 0.00029512378843720425,
+            "normalized_rms_tolerance": 0.02
+          },
+          "first_call_wall_ms": 3.254817995184567,
+          "status": "ok",
+          "gpu_us_rounds": [
+            37.281498312950134,
+            32.43250027298927,
+            34.818001091480255,
+            30.942250043153763,
+            30.82975000143051,
+            38.23250159621239,
+            29.673250392079353
+          ],
+          "gpu_us_p50": 32.43250027298927,
+          "graph_calls_per_replay": 128,
+          "metadata": {
+            "api": "torch.nn.functional.scaled_dot_product_attention",
+            "forced_backend": "FLASH_ATTENTION",
+            "q_layout": "BHSD view of BSHD",
+            "kv_layout": "BHSD view of BSHD",
+            "gqa_expansion": false,
+            "input_copies": false,
+            "preallocated_output": false
+          },
+          "telemetry": {
+            "available": true,
+            "devices": [
+              {
+                "index": 0,
+                "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                "driver_version": "595.99.02",
+                "performance_state": "P2",
+                "power_draw_watts": 30.4,
+                "power_limit_watts": null,
+                "sm_clock_mhz": 2347,
+                "memory_clock_mhz": 12001,
+                "temperature_celsius": 55
+              }
+            ],
+            "error": null
+          }
+        },
+        {
+          "backend": "external",
+          "provider": "torch_cudnn",
+          "choice": null,
+          "validation": {
+            "validated": true,
+            "max_abs_error": 0.000244140625,
+            "max_relative_error_atol_floor": 0.0116030378267169,
+            "atol": 0.003,
+            "rtol": 0.003,
+            "normalized_rms_error": 0.000314019349332474,
+            "normalized_rms_tolerance": 0.02
+          },
+          "first_call_wall_ms": 35.62743999646045,
+          "status": "ok",
+          "gpu_us_rounds": [
+            6.225250195711851,
+            6.129750050604343,
+            6.056000012904406,
+            6.103749852627516,
+            6.08500000089407,
+            6.1507499776780605,
+            6.1667500995099545
+          ],
+          "gpu_us_p50": 6.129750050604343,
+          "graph_calls_per_replay": 128,
+          "metadata": {
+            "api": "torch.nn.functional.scaled_dot_product_attention",
+            "forced_backend": "CUDNN_ATTENTION",
+            "q_layout": "BHSD view of BSHD",
+            "kv_layout": "BHSD view of BSHD",
+            "gqa_expansion": false,
+            "input_copies": false,
+            "preallocated_output": false
+          },
+          "telemetry": {
+            "available": true,
+            "devices": [
+              {
+                "index": 0,
+                "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                "driver_version": "595.99.02",
+                "performance_state": "P2",
+                "power_draw_watts": 32.27,
+                "power_limit_watts": null,
+                "sm_clock_mhz": 2347,
+                "memory_clock_mhz": 12001,
+                "temperature_celsius": 55
+              }
+            ],
+            "error": null
+          }
+        },
+        {
+          "backend": "external",
+          "provider": "flashinfer_fa2",
+          "choice": null,
+          "validation": {
+            "validated": true,
+            "max_abs_error": 0.0001220703125,
+            "max_relative_error_atol_floor": 0.008900959976017475,
+            "atol": 0.003,
+            "rtol": 0.003,
+            "normalized_rms_error": 0.00027502883756692974,
+            "normalized_rms_tolerance": 0.02
+          },
+          "first_call_wall_ms": 296.9655139968381,
+          "status": "ok",
+          "gpu_us_rounds": [
+            13.327499851584435,
+            8.662750013172626,
+            9.122000075876713,
+            9.141500107944012,
+            9.123500436544418,
+            8.665749803185463,
+            8.65199975669384
+          ],
+          "gpu_us_p50": 9.122000075876713,
+          "graph_calls_per_replay": 128,
+          "metadata": {
+            "backend": "fa2",
+            "workspace_bytes": 134217728,
+            "planning_timed": false,
+            "input_copies": false,
+            "gqa_expansion": false,
+            "preallocated_output": true,
+            "native_paged": false,
+            "kv_layout": "NHD",
+            "dense_storage_view": "zero-copy page16 view for native decode wrapper",
+            "api": "flashinfer.BatchDecodeWithPagedKVCacheWrapper.run",
+            "constructor_signature": "(float_workspace_buffer: torch.Tensor, kv_layout: str = 'NHD', use_cuda_graph: bool = False, use_tensor_cores: bool = False, paged_kv_indptr_buffer: Optional[torch.Tensor] = None, paged_kv_indices_buffer: Optional[torch.Tensor] = None, paged_kv_last_page_len_buffer: Optional[torch.Tensor] = None, backend: str = 'auto', jit_args: Optional[List[Any]] = None) -> None",
+            "run_signature": "(q: torch.Tensor, paged_kv_cache: Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]], *args, q_scale: Optional[float] = None, k_scale: Optional[float] = None, v_scale: Optional[float] = None, out: Optional[torch.Tensor] = None, lse: Optional[torch.Tensor] = None, return_lse: bool = False, enable_pdl: Optional[bool] = None, window_left: Optional[int] = None, sinks: Optional[torch.Tensor] = None, q_len_per_req: Optional[int] = None, skip_softmax_threshold_scale_factor: Optional[float] = None, kv_cache_sf: Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor], NoneType] = None) -> Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]]",
+            "resolved_backend": "fa2"
+          },
+          "telemetry": {
+            "available": true,
+            "devices": [
+              {
+                "index": 0,
+                "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                "driver_version": "595.99.02",
+                "performance_state": "P2",
+                "power_draw_watts": 33.71,
+                "power_limit_watts": null,
+                "sm_clock_mhz": 2272,
+                "memory_clock_mhz": 11001,
+                "temperature_celsius": 54
+              }
+            ],
+            "error": null
+          }
+        },
+        {
+          "backend": "external",
+          "provider": "flashinfer_fmha_v2",
+          "choice": null,
+          "validation": {
+            "validated": true,
+            "max_abs_error": 0.00030517578125,
+            "max_relative_error_atol_floor": 0.0546773262321949,
+            "atol": 0.003,
+            "rtol": 0.003,
+            "normalized_rms_error": 0.0009473686238438031,
+            "normalized_rms_tolerance": 0.02
+          },
+          "first_call_wall_ms": 255.39693899918348,
+          "status": "ok",
+          "gpu_us_rounds": [
+            22.382250055670738,
+            30.541999265551567,
+            25.554999709129333,
+            24.855999276041985,
+            30.943749472498894,
+            25.42874962091446,
+            26.43449977040291
+          ],
+          "gpu_us_p50": 25.554999709129333,
+          "graph_calls_per_replay": 128,
+          "metadata": {
+            "backend": "fmha_v2",
+            "workspace_bytes": 134217728,
+            "planning_timed": false,
+            "input_copies": true,
+            "gqa_expansion": false,
+            "preallocated_output": true,
+            "native_paged": false,
+            "kv_layout": "NHD",
+            "api": "flashinfer.BatchPrefillWithRaggedKVCacheWrapper.run",
+            "input_layout": "CONTIGUOUS_Q_KV",
+            "packing_timed": true,
+            "packing": "public FlashInfer run() internally torch.stack((k,v), dim=1)",
+            "constructor_signature": "(float_workspace_buffer: torch.Tensor, kv_layout: str = 'NHD', use_cuda_graph: bool = False, qo_indptr_buf: Optional[torch.Tensor] = None, kv_indptr_buf: Optional[torch.Tensor] = None, custom_mask_buf: Optional[torch.Tensor] = None, mask_indptr_buf: Optional[torch.Tensor] = None, backend: str = 'auto', jit_args: Optional[List[Any]] = None, jit_kwargs: Optional[Dict[str, Any]] = None, variant_owns_mask: bool = False) -> None",
+            "run_signature": "(q: torch.Tensor, k: torch.Tensor, v: torch.Tensor, *args, q_scale: Optional[float] = None, k_scale: Optional[float] = None, v_scale: Optional[float] = None, o_scale: Optional[float] = None, out: Optional[torch.Tensor] = None, lse: Optional[torch.Tensor] = None, return_lse: bool = False, lse_base: str = 'log2', lse_layout: str = 'NH', enable_pdl: Optional[bool] = None, kv_cache_sf: Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor], NoneType] = None) -> Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]]",
+            "resolved_backend": "fmha_v2",
+            "decode_entry": "one-query native FMHAv2"
+          },
+          "telemetry": {
+            "available": true,
+            "devices": [
+              {
+                "index": 0,
+                "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                "driver_version": "595.99.02",
+                "performance_state": "P2",
+                "power_draw_watts": 35.6,
+                "power_limit_watts": null,
+                "sm_clock_mhz": 2197,
+                "memory_clock_mhz": 11001,
+                "temperature_celsius": 54
+              }
+            ],
+            "error": null
+          }
+        }
+      ]
+    },
+    {
+      "case": {
+        "id": "decode-b1-l8192-hq32-hkv8-d128-fp16-paged16",
+        "phase": "decode",
+        "batch": 1,
+        "kv_len": 8192,
+        "query_len": 1,
+        "head_dim": 128,
+        "heads_q": 32,
+        "heads_kv": 8,
+        "dtype": "fp16",
+        "layout": "paged",
+        "page_size": 16,
+        "causal": false,
+        "shape": {
+          "q": [
+            1,
+            32,
+            128
+          ],
+          "k": [
+            512,
+            16,
+            8,
+            128
+          ],
+          "v": [
+            512,
+            16,
+            8,
+            128
+          ],
+          "kv_lens": [
+            8192
+          ],
+          "block_table": [
+            1,
+            512
+          ],
+          "heads_q": 32,
+          "heads_kv": 8,
+          "head_dim": 128,
+          "batch": 1,
+          "query_len": 1,
+          "kv_len": 8192
+        }
+      },
+      "trials": [
+        {
+          "backend": "triton",
+          "provider": "ours",
+          "choice": null,
+          "validation": {
+            "validated": true,
+            "max_abs_error": 6.103515625e-05,
+            "max_relative_error_atol_floor": 0.0039736428298056126,
+            "atol": 0.003,
+            "rtol": 0.003,
+            "normalized_rms_error": 0.00026881945497029343,
+            "normalized_rms_tolerance": 0.02
+          },
+          "first_call_wall_ms": 5.49897100427188,
+          "status": "ok",
+          "gpu_us_rounds": [
+            56.463249027729034,
+            63.15600126981735,
+            71.62000238895416,
+            56.203749030828476,
+            72.41574674844742,
+            51.32275074720383,
+            65.76675176620483
+          ],
+          "gpu_us_p50": 63.15600126981735,
+          "graph_calls_per_replay": 128,
+          "metadata": {
+            "api": "fa5060.attention.decode",
+            "backend": "triton",
+            "package_versions": {
+              "triton": "3.7.1"
+            },
+            "preallocated_output": true,
+            "preallocated_workspace": true,
+            "config": null,
+            "num_splits": null,
+            "native_paged": true,
+            "eager_allocates_output": true,
+            "eager_allocates_workspace": true,
+            "graph_boundary": "complete operator including all decode splits and merge"
+          },
+          "telemetry": {
+            "available": true,
+            "devices": [
+              {
+                "index": 0,
+                "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                "driver_version": "595.99.02",
+                "performance_state": "P2",
+                "power_draw_watts": 39.29,
+                "power_limit_watts": null,
+                "sm_clock_mhz": 2197,
+                "memory_clock_mhz": 12001,
+                "temperature_celsius": 58
+              }
+            ],
+            "error": null
+          }
+        },
+        {
+          "backend": "tilelang",
+          "provider": "ours",
+          "choice": {
+            "config": {
+              "mode": "grouped",
+              "block_n": 64,
+              "num_warps": 1,
+              "num_stages": 1
+            },
+            "num_splits": 1
+          },
+          "validation": {
+            "validated": true,
+            "max_abs_error": 6.103515625e-05,
+            "max_relative_error_atol_floor": 0.003814697265625,
+            "atol": 0.003,
+            "rtol": 0.003,
+            "normalized_rms_error": 0.0002881948171287637,
+            "normalized_rms_tolerance": 0.02
+          },
+          "first_call_wall_ms": 2576.0205690021394,
+          "status": "ok",
+          "gpu_us_rounds": [
+            2274.949789047241,
+            2311.180830001831,
+            2277.723789215088,
+            2397.2456455230713,
+            2339.902400970459,
+            2313.955545425415,
+            2242.0616149902344
+          ],
+          "gpu_us_p50": 2311.180830001831,
+          "graph_calls_per_replay": 128,
+          "metadata": {
+            "api": "fa5060.tilelang.decode",
+            "backend": "tilelang",
+            "package_versions": {
+              "tilelang": "0.1.15",
+              "apache-tvm-ffi": "0.1.12"
+            },
+            "preallocated_output": true,
+            "preallocated_workspace": true,
+            "config": {
+              "mode": "grouped",
+              "block_n": 64,
+              "num_warps": 1,
+              "num_stages": 1
+            },
+            "num_splits": 1,
+            "native_paged": true,
+            "eager_allocates_output": true,
+            "eager_allocates_workspace": true,
+            "graph_boundary": "complete operator including all decode splits and merge"
+          },
+          "telemetry": {
+            "available": true,
+            "devices": [
+              {
+                "index": 0,
+                "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                "driver_version": "595.99.02",
+                "performance_state": "P0",
+                "power_draw_watts": 48.45,
+                "power_limit_watts": null,
+                "sm_clock_mhz": 2797,
+                "memory_clock_mhz": 12001,
+                "temperature_celsius": 56
+              }
+            ],
+            "error": null
+          }
+        },
+        {
+          "backend": "tilelang",
+          "provider": "ours",
+          "choice": {
+            "config": {
+              "mode": "grouped",
+              "block_n": 64,
+              "num_warps": 1,
+              "num_stages": 1
+            },
+            "num_splits": 4
+          },
+          "validation": {
+            "validated": true,
+            "max_abs_error": 6.103515625e-05,
+            "max_relative_error_atol_floor": 0.003496503457427025,
+            "atol": 0.003,
+            "rtol": 0.003,
+            "normalized_rms_error": 0.00029841369053519107,
+            "normalized_rms_tolerance": 0.02
+          },
+          "first_call_wall_ms": 2973.7072059942875,
+          "status": "ok",
+          "gpu_us_rounds": [
+            419.01901364326477,
+            383.35326313972473,
+            403.50475907325745,
+            395.2862620353699,
+            388.95300030708313,
+            394.70475912094116,
+            390.2917504310608
+          ],
+          "gpu_us_p50": 394.70475912094116,
+          "graph_calls_per_replay": 128,
+          "metadata": {
+            "api": "fa5060.tilelang.decode",
+            "backend": "tilelang",
+            "package_versions": {
+              "tilelang": "0.1.15",
+              "apache-tvm-ffi": "0.1.12"
+            },
+            "preallocated_output": true,
+            "preallocated_workspace": true,
+            "config": {
+              "mode": "grouped",
+              "block_n": 64,
+              "num_warps": 1,
+              "num_stages": 1
+            },
+            "num_splits": 4,
+            "native_paged": true,
+            "eager_allocates_output": true,
+            "eager_allocates_workspace": true,
+            "graph_boundary": "complete operator including all decode splits and merge"
+          },
+          "telemetry": {
+            "available": true,
+            "devices": [
+              {
+                "index": 0,
+                "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                "driver_version": "595.99.02",
+                "performance_state": "P2",
+                "power_draw_watts": 54.86,
+                "power_limit_watts": null,
+                "sm_clock_mhz": 2797,
+                "memory_clock_mhz": 12001,
+                "temperature_celsius": 57
+              }
+            ],
+            "error": null
+          }
+        },
+        {
+          "backend": "tilelang",
+          "provider": "ours",
+          "choice": {
+            "config": {
+              "mode": "grouped",
+              "block_n": 64,
+              "num_warps": 1,
+              "num_stages": 1
+            },
+            "num_splits": 16
+          },
+          "validation": {
+            "validated": true,
+            "max_abs_error": 6.103515625e-05,
+            "max_relative_error_atol_floor": 0.0039736428298056126,
+            "atol": 0.003,
+            "rtol": 0.003,
+            "normalized_rms_error": 0.00026882044941010133,
+            "normalized_rms_tolerance": 0.02
+          },
+          "first_call_wall_ms": 2889.289768994786,
+          "status": "ok",
+          "gpu_us_rounds": [
+            331.0525119304657,
+            319.63375210762024,
+            342.83626079559326,
+            322.49075174331665,
+            304.35600876808167,
+            317.96449422836304,
+            320.97023725509644
+          ],
+          "gpu_us_p50": 320.97023725509644,
+          "graph_calls_per_replay": 128,
+          "metadata": {
+            "api": "fa5060.tilelang.decode",
+            "backend": "tilelang",
+            "package_versions": {
+              "tilelang": "0.1.15",
+              "apache-tvm-ffi": "0.1.12"
+            },
+            "preallocated_output": true,
+            "preallocated_workspace": true,
+            "config": {
+              "mode": "grouped",
+              "block_n": 64,
+              "num_warps": 1,
+              "num_stages": 1
+            },
+            "num_splits": 16,
+            "native_paged": true,
+            "eager_allocates_output": true,
+            "eager_allocates_workspace": true,
+            "graph_boundary": "complete operator including all decode splits and merge"
+          },
+          "telemetry": {
+            "available": true,
+            "devices": [
+              {
+                "index": 0,
+                "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                "driver_version": "595.99.02",
+                "performance_state": "P0",
+                "power_draw_watts": 57.17,
+                "power_limit_watts": null,
+                "sm_clock_mhz": 2797,
+                "memory_clock_mhz": 12001,
+                "temperature_celsius": 57
+              }
+            ],
+            "error": null
+          }
+        },
+        {
+          "backend": "tilelang",
+          "provider": "ours",
+          "choice": {
+            "config": {
+              "mode": "grouped",
+              "block_n": 64,
+              "num_warps": 1,
+              "num_stages": 1
+            },
+            "num_splits": 32
+          },
+          "validation": {
+            "validated": true,
+            "max_abs_error": 6.103515625e-05,
+            "max_relative_error_atol_floor": 0.0031789143104106188,
+            "atol": 0.003,
+            "rtol": 0.003,
+            "normalized_rms_error": 0.00026192640777555193,
+            "normalized_rms_tolerance": 0.02
+          },
+          "first_call_wall_ms": 2980.469510999683,
+          "status": "ok",
+          "gpu_us_rounds": [
+            274.2452621459961,
+            297.3387539386749,
+            301.9522428512573,
+            291.6187644004822,
+            303.25326323509216,
+            291.1652624607086,
+            288.19701075553894
+          ],
+          "gpu_us_p50": 291.6187644004822,
+          "graph_calls_per_replay": 128,
+          "metadata": {
+            "api": "fa5060.tilelang.decode",
+            "backend": "tilelang",
+            "package_versions": {
+              "tilelang": "0.1.15",
+              "apache-tvm-ffi": "0.1.12"
+            },
+            "preallocated_output": true,
+            "preallocated_workspace": true,
+            "config": {
+              "mode": "grouped",
+              "block_n": 64,
+              "num_warps": 1,
+              "num_stages": 1
+            },
+            "num_splits": 32,
+            "native_paged": true,
+            "eager_allocates_output": true,
+            "eager_allocates_workspace": true,
+            "graph_boundary": "complete operator including all decode splits and merge"
+          },
+          "telemetry": {
+            "available": true,
+            "devices": [
+              {
+                "index": 0,
+                "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                "driver_version": "595.99.02",
+                "performance_state": "P2",
+                "power_draw_watts": 38.28,
+                "power_limit_watts": null,
+                "sm_clock_mhz": 2580,
+                "memory_clock_mhz": 12001,
+                "temperature_celsius": 57
+              }
+            ],
+            "error": null
+          }
+        },
+        {
+          "backend": "external",
+          "provider": "flashinfer_fa2",
+          "choice": null,
+          "validation": {
+            "validated": true,
+            "max_abs_error": 6.103515625e-05,
+            "max_relative_error_atol_floor": 0.0063578286208212376,
+            "atol": 0.003,
+            "rtol": 0.003,
+            "normalized_rms_error": 0.000362198852460448,
+            "normalized_rms_tolerance": 0.02
+          },
+          "first_call_wall_ms": 23.72303800075315,
+          "status": "ok",
+          "gpu_us_rounds": [
+            47.18274995684624,
+            40.90625047683716,
+            50.761498510837555,
+            50.34999921917915,
+            54.94249984622002,
+            56.39750137925148,
+            41.16224870085716
+          ],
+          "gpu_us_p50": 50.34999921917915,
+          "graph_calls_per_replay": 128,
+          "metadata": {
+            "backend": "fa2",
+            "workspace_bytes": 134217728,
+            "planning_timed": false,
+            "input_copies": false,
+            "gqa_expansion": false,
+            "preallocated_output": true,
+            "native_paged": true,
+            "kv_layout": "NHD",
+            "api": "flashinfer.BatchDecodeWithPagedKVCacheWrapper.run",
+            "constructor_signature": "(float_workspace_buffer: torch.Tensor, kv_layout: str = 'NHD', use_cuda_graph: bool = False, use_tensor_cores: bool = False, paged_kv_indptr_buffer: Optional[torch.Tensor] = None, paged_kv_indices_buffer: Optional[torch.Tensor] = None, paged_kv_last_page_len_buffer: Optional[torch.Tensor] = None, backend: str = 'auto', jit_args: Optional[List[Any]] = None) -> None",
+            "run_signature": "(q: torch.Tensor, paged_kv_cache: Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]], *args, q_scale: Optional[float] = None, k_scale: Optional[float] = None, v_scale: Optional[float] = None, out: Optional[torch.Tensor] = None, lse: Optional[torch.Tensor] = None, return_lse: bool = False, enable_pdl: Optional[bool] = None, window_left: Optional[int] = None, sinks: Optional[torch.Tensor] = None, q_len_per_req: Optional[int] = None, skip_softmax_threshold_scale_factor: Optional[float] = None, kv_cache_sf: Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor], NoneType] = None) -> Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]]",
+            "resolved_backend": "fa2"
+          },
+          "telemetry": {
+            "available": true,
+            "devices": [
+              {
+                "index": 0,
+                "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                "driver_version": "595.99.02",
+                "performance_state": "P2",
+                "power_draw_watts": 40.75,
+                "power_limit_watts": null,
+                "sm_clock_mhz": 2632,
+                "memory_clock_mhz": 12001,
+                "temperature_celsius": 60
+              }
+            ],
+            "error": null
+          }
+        },
+        {
+          "backend": "external",
+          "provider": "flashinfer_fmha_v2",
+          "choice": null,
+          "validation": {
+            "validated": true,
+            "max_abs_error": 0.0009765625,
+            "max_relative_error_atol_floor": 0.06335616111755371,
+            "atol": 0.003,
+            "rtol": 0.003,
+            "normalized_rms_error": 0.0035150015178601487,
+            "normalized_rms_tolerance": 0.02
+          },
+          "first_call_wall_ms": 247.01413200091338,
+          "status": "ok",
+          "gpu_us_rounds": [
+            570.376992225647,
+            564.7327303886414,
+            561.360776424408,
+            562.7260208129883,
+            556.9362640380859,
+            558.4732294082642,
+            570.2972412109375
+          ],
+          "gpu_us_p50": 562.7260208129883,
+          "graph_calls_per_replay": 128,
+          "metadata": {
+            "backend": "fmha_v2",
+            "workspace_bytes": 134217728,
+            "planning_timed": false,
+            "input_copies": false,
+            "gqa_expansion": false,
+            "preallocated_output": true,
+            "native_paged": true,
+            "kv_layout": "NHD",
+            "block_table_format": "[B,2,M] native K/V block offsets; static preprocessing",
+            "api": "flashinfer.prefill.trtllm_fmha_v2_prefill",
+            "signature": "(qkv: Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor], Tuple[torch.Tensor, torch.Tensor, torch.Tensor]], input_layout: str, workspace_buffer: torch.Tensor, seq_lens: torch.Tensor, max_q_len: int, max_kv_len: int, bmm1_scale: float, bmm2_scale: float, batch_size: int, cum_seq_lens_q: torch.Tensor, cum_seq_lens_kv: torch.Tensor, block_tables: Optional[torch.Tensor] = None, out: Optional[torch.Tensor] = None, out_dtype: Union[str, torch.dtype, NoneType] = None, sinks: Optional[List[torch.Tensor]] = None, pos_encoding_mode: str = None, logits_soft_cap_scale: Optional[float] = None, mask_mode: str = 'causal', window_left: int = -1, chunked_attention_size: int = 0, save_softmax_stats: bool = False, skip_softmax_threshold_scale_factor: float = 0) -> Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]]",
+            "input_layout": "Q_PAGED_KV_NHD",
+            "decode_entry": "one-query native FMHAv2"
+          },
+          "telemetry": {
+            "available": true,
+            "devices": [
+              {
+                "index": 0,
+                "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                "driver_version": "595.99.02",
+                "performance_state": "P2",
+                "power_draw_watts": 59.35,
+                "power_limit_watts": null,
+                "sm_clock_mhz": 2760,
+                "memory_clock_mhz": 12001,
+                "temperature_celsius": 59
+              }
+            ],
+            "error": null
+          }
+        }
+      ]
+    }
+  ]
+}

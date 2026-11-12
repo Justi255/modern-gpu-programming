@@ -1,0 +1,160 @@
+{
+  "prefill": [
+    {
+      "variant": "qasync",
+      "config": {
+        "block_m": 64,
+        "block_n": 32,
+        "num_warps": 4,
+        "num_stages": 2
+      },
+      "num_splits": null,
+      "fast_math": false
+    },
+    {
+      "variant": "qasync",
+      "config": {
+        "block_m": 64,
+        "block_n": 64,
+        "num_warps": 4,
+        "num_stages": 2
+      },
+      "num_splits": null,
+      "fast_math": false
+    },
+    {
+      "variant": "qasync",
+      "config": {
+        "block_m": 64,
+        "block_n": 32,
+        "num_warps": 4,
+        "num_stages": 2
+      },
+      "num_splits": null,
+      "fast_math": true
+    },
+    {
+      "variant": "qasync",
+      "config": {
+        "block_m": 64,
+        "block_n": 64,
+        "num_warps": 4,
+        "num_stages": 2
+      },
+      "num_splits": null,
+      "fast_math": true
+    },
+    {
+      "variant": "qregister",
+      "config": {
+        "block_m": 64,
+        "block_n": 64,
+        "num_warps": 4,
+        "num_stages": 1
+      },
+      "num_splits": null,
+      "fast_math": false
+    },
+    {
+      "variant": "qasync",
+      "config": {
+        "block_m": 128,
+        "block_n": 32,
+        "num_warps": 4,
+        "num_stages": 2
+      },
+      "num_splits": null,
+      "fast_math": false
+    },
+    {
+      "variant": "qasync",
+      "config": {
+        "block_m": 128,
+        "block_n": 64,
+        "num_warps": 4,
+        "num_stages": 2
+      },
+      "num_splits": null,
+      "fast_math": false
+    },
+    {
+      "variant": "qregister",
+      "config": {
+        "block_m": 128,
+        "block_n": 64,
+        "num_warps": 4,
+        "num_stages": 1
+      },
+      "num_splits": null,
+      "fast_math": false
+    },
+    {
+      "variant": "qregister",
+      "config": {
+        "block_m": 64,
+        "block_n": 64,
+        "num_warps": 4,
+        "num_stages": 1
+      },
+      "num_splits": null,
+      "fast_math": true
+    },
+    {
+      "variant": "qasync",
+      "config": {
+        "block_m": 128,
+        "block_n": 32,
+        "num_warps": 4,
+        "num_stages": 2
+      },
+      "num_splits": null,
+      "fast_math": true
+    },
+    {
+      "variant": "qasync",
+      "config": {
+        "block_m": 128,
+        "block_n": 64,
+        "num_warps": 4,
+        "num_stages": 2
+      },
+      "num_splits": null,
+      "fast_math": true
+    },
+    {
+      "variant": "qregister",
+      "config": {
+        "block_m": 128,
+        "block_n": 64,
+        "num_warps": 4,
+        "num_stages": 1
+      },
+      "num_splits": null,
+      "fast_math": true
+    }
+  ],
+  "decode": [
+    {
+      "variant": "pipeline_segmented",
+      "config": {
+        "mode": "grouped",
+        "block_n": 32,
+        "num_warps": 4,
+        "num_stages": 2
+      },
+      "num_splits": 32,
+      "fast_math": false
+    },
+    {
+      "variant": "pipeline_segmented",
+      "config": {
+        "mode": "grouped",
+        "block_n": 32,
+        "num_warps": 4,
+        "num_stages": 2
+      },
+      "num_splits": 32,
+      "fast_math": true
+    }
+  ]
+}

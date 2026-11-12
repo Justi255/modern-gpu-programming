@@ -1,0 +1,15 @@
+========= COMPUTE-SANITIZER
+....                                                                     [100%]
+=============================== warnings summary ===============================
+tests/test_attention_optimization.py: 59 warnings
+  /home/justi/Workspace/cuda/fa/.venv-tilelang/lib/python3.13/site-packages/tilelang/language/eager/builder.py:1171: DeprecationWarning: Failing to pass a value to the 'type_params' parameter of 'typing._eval_type' is deprecated, as it leads to incorrect behaviour when calling typing._eval_type on a stringified annotation that references a PEP 695 type parameter. It will be disallowed in Python 3.15.
+    hints[name] = _eval_type(value, globalns=globalns, localns=localns)
+
+tests/test_attention_optimization.py::test_pipeline_grouped_decode_graph_and_boundary_lengths[False-128-dtype0-16]
+tests/test_attention_optimization.py::test_pipeline_grouped_decode_graph_and_boundary_lengths[False-128-dtype0-16]
+  /home/justi/Workspace/cuda/fa/.venv-tilelang/lib/python3.13/site-packages/tilelang/language/tir/op.py:404: DeprecationWarning: T.reinterpret(dtype, value) is deprecated, use reinterpret(value, dtype) instead
+    deprecated_warning("T.reinterpret(dtype, value)", "reinterpret(value, dtype)")
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+4 passed, 61 warnings in 12.73s
+========= RACECHECK SUMMARY: 0 hazards displayed (0 errors, 0 warnings)

@@ -1,0 +1,169 @@
+{
+  "purpose": "CPU-only TileLang lowering and NVCC compilation; CUDA_VISIBLE_DEVICES empty; no adapter, launch, GPU query or GPU execution",
+  "packages": {
+    "tilelang": "0.1.15",
+    "apache-tvm-ffi": "0.1.12",
+    "torch": "2.12.1"
+  },
+  "source_sha256": {
+    "src/fa5060/tilelang/attention.py": "10ba6031c9fceda147c76370d34cfe90af23afb56c12607a9871bc6773fddd88",
+    "src/fa5060/tilelang/_prefill_qasync.py": "616ce00a8603e322be32e5228311fecc8777434524a439913f679113da5098ee",
+    "src/fa5060/tilelang/_decode_pipeline.py": "d64fa38fc7330dad4e4d9d31d9793db6f8797fc6aac5d026091e44005c80c2ff",
+    "src/fa5060/tilelang/_contracts.py": "8b4ba3de283393c32921b76bef0253545af98c88b77d85c73ace5e9831608fa1",
+    "src/fa5060/tilelang/_prefill_async.py": "bb1f9e8bc5a3fedc7b79c84baaefb0d9b898fd85eda1857618383fa774f47c48",
+    "src/fa5060/tilelang/_prefill_mma.py": "aba865ebedfe1c8b8bb28f80ba47a133c8d177f93539e528ccf1f32d7c7b74e0",
+    "src/fa5060/tilelang/__init__.py": "35f081a2cc70c29a8ba689bb4fde4a70a674d8d930604b382ab360507a1f2a4a",
+    "src/fa5060/tilelang/_prefill_qregister.py": "bb54103385a8afdb429edc5378d093bc3710552ac5f04f94f0c6a374abcc4c7a",
+    "src/fa5060/tilelang/_decode_simt.py": "c9b7ae1a4c083ade8a269a42216d4f3243615dc940c1d4a04fe68517d132beec",
+    "src/fa5060/tilelang/_decode_warp.py": "00f42d0a7eaa557672c4cc02aed310091f92a0761af05440b0f4d07d9ce7868e",
+    "src/fa5060/tilelang/fundamentals.py": "0d6a97788365a5765fe0fe186bdaffd9c21733b390e64bd65556bfd9d1a5eddd",
+    "src/fa5060/tilelang/_prefill_register.py": "b2551dc9a72559660741b23c986c6b43a64ef9f67b873c7098e82f6985d9fcc9"
+  },
+  "cases": [
+    {
+      "name": "reference-bn128d128-s1",
+      "module": "attention",
+      "bm": 16,
+      "bn": 128,
+      "d": 128,
+      "page": 16,
+      "capacity": 8192,
+      "splits": 16,
+      "threads": 128,
+      "sq": 1,
+      "grouped": true,
+      "segmented": null,
+      "stages": 1,
+      "paged": true,
+      "dtype": "float16",
+      "compile_keywords": {
+        "tma": false
+      },
+      "cuda_sha256": "b2174cc83879639558bc57f135ba8d906fbd45af0011eaec6ae957a29dfb5a6e",
+      "resources": "\nResource usage:\n Common:\n  GLOBAL:9 CONSTANT[4]:72\n Function kernel_kernel:\n  REG:90 STACK:0 SHARED:1024 LOCAL:0 CONSTANT[0]:960 TEXTURE:0 SURFACE:0 SAMPLER:0\n"
+    },
+    {
+      "name": "pipeline-bn128d128-s1",
+      "module": "_decode_pipeline",
+      "bm": 16,
+      "bn": 128,
+      "d": 128,
+      "page": 16,
+      "capacity": 8192,
+      "splits": 16,
+      "threads": 128,
+      "sq": 1,
+      "grouped": true,
+      "segmented": true,
+      "stages": 1,
+      "paged": true,
+      "dtype": "float16",
+      "compile_keywords": {
+        "tma": false,
+        "manual_bounds": true,
+        "manual_sync": true
+      },
+      "cuda_sha256": "aabf2289005d7ad330daf396425104f5485f35c6db33e41bfe4c1952a2b83e6b",
+      "resources": "\nResource usage:\n Common:\n  GLOBAL:9 CONSTANT[4]:72\n Function kernel_kernel:\n  REG:117 STACK:0 SHARED:1024 LOCAL:0 CONSTANT[0]:960 TEXTURE:0 SURFACE:0 SAMPLER:0\n"
+    },
+    {
+      "name": "pipeline-bn32d128-w8",
+      "error": "No valid warp partition for T.gemm: M=16, N=32 cannot be evenly covered by 8 warps (policy=Square). Each warp must own a multiple of 16 rows and 8 columns; adjust `threads` or the block tile shape.",
+      "traceback": "Traceback (most recent call last):\n  File \"/tmp/fa5060-sync-v2-cpu-review-config.py\", line 64, in <module>\n    try: results.append(run(name,module,**args))\n                        ~~~^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/fa5060-sync-v2-cpu-review-config.py\", line 33, in run\n    art=lower(prim,target={'kind':'cuda','arch':'sm_120'})\n  File \"/home/justi/Workspace/cuda/fa/.venv-tilelang/lib/python3.13/site-packages/tilelang/engine/lower.py\", line 238, in lower\n    return lower_with_context(\n        func_or_mod,\n    ...<3 lines>...\n        enable_device_compile=enable_device_compile,\n    )\n  File \"/home/justi/Workspace/cuda/fa/.venv-tilelang/lib/python3.13/site-packages/tilelang/engine/lower.py\", line 165, in lower_with_context\n    return _lower_with_context_impl(\n        func_or_mod,\n    ...<3 lines>...\n        enable_device_compile=enable_device_compile,\n    )\n  File \"/home/justi/Workspace/cuda/fa/.venv-tilelang/lib/python3.13/site-packages/tilelang/engine/lower.py\", line 184, in _lower_with_context_impl\n    host_mod, device_mod, params, target, target_host = lower_to_host_device_ir(\n                                                        ~~~~~~~~~~~~~~~~~~~~~~~^\n        func_or_mod,\n        ^^^^^^^^^^^^\n        context,\n        ^^^^^^^^\n        runtime_only=runtime_only,\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^\n    )\n    ^\n  File \"/home/justi/Workspace/cuda/fa/.venv-tilelang/lib/python3.13/site-packages/tilelang/engine/lower.py\", line 136, in lower_to_host_device_ir\n    mod = context.lower(mod)\n  File \"/home/justi/Workspace/cuda/fa/.venv-tilelang/lib/python3.13/site-packages/tilelang/backend/module.py\", line 214, in lower\n    return self.module.lower(mod, self.target)\n           ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^\n  File \"/home/justi/Workspace/cuda/fa/.venv-tilelang/lib/python3.13/site-packages/tilelang/backend/module.py\", line 115, in lower\n    return self.get_pipeline(target).lower(mod, target)\n           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^\n  File \"/home/justi/Workspace/cuda/fa/.venv-tilelang/lib/python3.13/site-packages/tilelang/backend/pass_pipeline/pipeline.py\", line 31, in lower\n    return self._lower(mod, target)\n           ~~~~~~~~~~~^^^^^^^^^^^^^\n  File \"/home/justi/Workspace/cuda/fa/.venv-tilelang/lib/python3.13/site-packages/tilelang/cuda/pipeline.py\", line 171, in CUDAPassPipelineBody\n    mod = CUDAPassPipelineBodyPrologue(mod, target)\n  File \"/home/justi/Workspace/cuda/fa/.venv-tilelang/lib/python3.13/site-packages/tilelang/cuda/pipeline.py\", line 134, in CUDAPassPipelineBodyPrologue\n    mod = tilelang.transform.LayoutInference()(mod)\n  File \"/home/justi/Workspace/cuda/fa/.venv-tilelang/lib/python3.13/site-packages/tilelang/3rdparty/tvm/python/tvm/ir/transform.py\", line 171, in __call__\n    return _ffi_transform_api.RunPass(self, mod)\n           ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^\n  File \"python/tvm_ffi/cython/function.pxi\", line 968, in tvm_ffi.core.Function.__call__\n  File \"<unknown>\", line 0, in tvm::transform::Pass::operator()(tvm::IRModule) const\n  File \"<unknown>\", line 0, in tvm::transform::Pass::operator()(tvm::IRModule, tvm::transform::PassContext const&) const\n  File \"<unknown>\", line 0, in tvm::tirx::transform::PrimFuncPassNode::operator()(tvm::IRModule, tvm::transform::PassContext const&) const\n  File \"<unknown>\", line 0, in tvm::tl::LayoutInferencer::Substitute(tvm::tirx::PrimFunc)\n  File \"<unknown>\", line 0, in tvm::tl::BufferUseDefCollector::Run()\n  File \"<unknown>\", line 0, in tvm::tl::BufferUseDefCollector::RunInferStep(int, tvm::tl::InferLevel, bool, tvm::ffi::Map<tvm::tirx::Buffer, tvm::tl::Layout, void>&, tvm::ffi::Map<tvm::tirx::Buffer, tvm::tl::Layout, void> const&, std::deque<int, std::allocator<int> >&, std::vector<bool, std::allocator<bool> >&, int)\n  File \"<unknown>\", line 0, in tvm::tl::GemmNode::InferLayout(tvm::tl::LayoutInferArgs const&, tvm::tl::InferLevel) const\n  File \"<unknown>\", line 0, in TVMFFIPyCallback(void*, TVMFFIAny const*, int, TVMFFIAny*)\n  File \"<unknown>\", line 0, in TVMFFIPyCallManager::ForwardPyErrorToFFI()\n  File \"<unknown>\", line 0, in TVMFFICyErrorSetRaisedFromPyError(_object*)\n  File \"/home/justi/Workspace/cuda/fa/.venv-tilelang/lib/python3.13/site-packages/tilelang/tileop/gemm/__init__.py\", line 15, in gemm_infer_layout\n    return gemm.infer_layout(target, thread_nums)\n    \n  File \"/home/justi/Workspace/cuda/fa/.venv-tilelang/lib/python3.13/site-packages/tilelang/tileop/gemm/__init__.py\", line 105, in infer_layout\n    return impl_class(self).infer_layout(target, thread_nums)\n    \n  File \"/home/justi/Workspace/cuda/fa/.venv-tilelang/lib/python3.13/site-packages/tilelang/cuda/op/gemm/gemm_mma.py\", line 43, in infer_layout\n    mma_emitter = self._make_mma_emitter(target, thread_nums)\n    \n  File \"/home/justi/Workspace/cuda/fa/.venv-tilelang/lib/python3.13/site-packages/tilelang/cuda/op/gemm/gemm_mma.py\", line 24, in _make_mma_emitter\n    m_warp, n_warp = self.policy.compute_warp_partition(self.M, self.N, thread_nums, target, GEMM_INST_MMA)\n    \n  File \"/home/justi/Workspace/cuda/fa/.venv-tilelang/lib/python3.13/site-packages/tilelang/ir.py\", line 32, in compute_warp_partition\n    _ffi_api.GemmWarpPolicyComputeWarpPartition(self, int(M), int(N), int(block_size), target, gemm_inst)\n    \n  File \"python/tvm_ffi/cython/function.pxi\", line 968, in tvm_ffi.core.Function.__call__\n  File \"<unknown>\", line 0, in tvm::tl::GemmWarpPolicyNode::ComputeWarpPartition(int, int, int, tvm::Target, tvm::ffi::String) const\n  File \"<unknown>\", line 0, in tvm::runtime::detail::LogFatal::~LogFatal()\ntvm.error.InternalError: No valid warp partition for T.gemm: M=16, N=32 cannot be evenly covered by 8 warps (policy=Square). Each warp must own a multiple of 16 rows and 8 columns; adjust `threads` or the block tile shape.\n"
+    },
+    {
+      "name": "pipeline-bm32-bn32d128",
+      "module": "_decode_pipeline",
+      "bm": 32,
+      "bn": 32,
+      "d": 128,
+      "page": 16,
+      "capacity": 8192,
+      "splits": 16,
+      "threads": 128,
+      "sq": 1,
+      "grouped": true,
+      "segmented": true,
+      "stages": 2,
+      "paged": true,
+      "dtype": "float16",
+      "compile_keywords": {
+        "tma": false,
+        "manual_bounds": true,
+        "manual_sync": true
+      },
+      "cuda_sha256": "62128a0b96de494cc7dd49e31d6653762791126beb3bb47bb3522af7b048f023",
+      "resources": "\nResource usage:\n Common:\n  GLOBAL:9 CONSTANT[4]:72\n Function kernel_kernel:\n  REG:106 STACK:0 SHARED:1024 LOCAL:0 CONSTANT[0]:960 TEXTURE:0 SURFACE:0 SAMPLER:0\n"
+    },
+    {
+      "name": "async-m64n64d128-s4",
+      "module": "_prefill_async",
+      "bm": 64,
+      "bn": 64,
+      "d": 128,
+      "page": 16,
+      "capacity": 208,
+      "splits": 1,
+      "threads": 128,
+      "sq": 129,
+      "grouped": false,
+      "segmented": null,
+      "stages": 4,
+      "paged": true,
+      "dtype": "float16",
+      "compile_keywords": {
+        "tma": false,
+        "manual_bounds": true,
+        "manual_sync": true
+      },
+      "cuda_sha256": "4d931f10cca2cc94b48660ee1b3d23e435bc71eb1f7cb5f1833f4392036e17fa",
+      "resources": "\nResource usage:\n Common:\n  GLOBAL:9 CONSTANT[4]:72\n Function kernel_kernel:\n  REG:188 STACK:0 SHARED:1024 LOCAL:0 CONSTANT[0]:944 TEXTURE:0 SURFACE:0 SAMPLER:0\n"
+    },
+    {
+      "name": "reference-dense-bn128d128-s1",
+      "module": "attention",
+      "bm": 16,
+      "bn": 128,
+      "d": 128,
+      "page": 16,
+      "capacity": 8192,
+      "splits": 16,
+      "threads": 128,
+      "sq": 1,
+      "grouped": true,
+      "segmented": null,
+      "stages": 1,
+      "paged": false,
+      "dtype": "float16",
+      "compile_keywords": {
+        "tma": false
+      },
+      "cuda_sha256": "97524b1f91606eaf783cceba6c7fb5aafedcc8316d6e9bad8a6c3de4afc4671d",
+      "resources": "\nResource usage:\n Common:\n  GLOBAL:9 CONSTANT[4]:72\n Function kernel_kernel:\n  REG:110 STACK:0 SHARED:1024 LOCAL:0 CONSTANT[0]:952 TEXTURE:0 SURFACE:0 SAMPLER:0\n"
+    },
+    {
+      "name": "pipeline-dense-bn128d128-s1",
+      "module": "_decode_pipeline",
+      "bm": 16,
+      "bn": 128,
+      "d": 128,
+      "page": 16,
+      "capacity": 8192,
+      "splits": 16,
+      "threads": 128,
+      "sq": 1,
+      "grouped": true,
+      "segmented": true,
+      "stages": 1,
+      "paged": false,
+      "dtype": "float16",
+      "compile_keywords": {
+        "tma": false,
+        "manual_bounds": true,
+        "manual_sync": true
+      },
+      "cuda_sha256": "a567c03f979f92d1eb6eb9f32cb2852c180c0f6c6858bc229a372313f94f9ee1",
+      "resources": "\nResource usage:\n Common:\n  GLOBAL:9 CONSTANT[4]:72\n Function kernel_kernel:\n  REG:124 STACK:0 SHARED:1024 LOCAL:0 CONSTANT[0]:952 TEXTURE:0 SURFACE:0 SAMPLER:0\n"
+    }
+  ]
+}

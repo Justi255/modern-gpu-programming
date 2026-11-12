@@ -1,0 +1,33 @@
+2026-11-11 11:24:49  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-11 11:24:53  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-11 11:24:53  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-11 11:24:57  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-11 11:24:58  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-11 11:25:01  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+prefill-b1-l2048-hq32-hkv8-d128-bf16-paged16 reference ours 2739.8219108581543
+prefill-b1-l2048-hq32-hkv8-d128-bf16-paged16 register ours 1294.160008430481
+prefill-b1-l2048-hq32-hkv8-d128-bf16-paged16 register ours 1379.5340061187744
+prefill-b1-l2048-hq32-hkv8-d128-bf16-paged16 async ours 1267.0420408248901
+prefill-b1-l2048-hq32-hkv8-d128-bf16-paged16 async ours 1512.1400356292725
+prefill-b1-l2048-hq32-hkv8-d128-bf16-paged16 async ours 1574.9380588531494
+prefill-b1-l2048-hq32-hkv8-d128-bf16-paged16 external flashinfer_fa2 1343.6319828033447
+prefill-b1-l2048-hq32-hkv8-d128-bf16-paged16 external flashinfer_fmha_v2 1650.928020477295
+/home/justi/Workspace/cuda/fa/.venv-tilelang/lib/python3.13/site-packages/nvidia_cutlass_dsl/dsl_packages/cutlass/base_dsl/dsl.py:2300: UserWarning: Argument aux_data (position 17) cannot be converted to a JitArgument for function 'cutlass___call___flash_attncuteflash_fwd_sm120FlashAttentionForwardSm120_object_at__Tensorgmemoi64i64i641_Tensorgmemoi64i64i641_Tensorgmemoi64i64i641_Tensorgmemoi64i64i641_None_012'. Its type `<class 'flash_attn.cute.utils.AuxData'>` is not supported. If the value is known at compile time, annotate it: `aux_data: Constexpr`. Otherwise, implement the `JitArgument` or `DynamicExpression` protocol for type `<class 'flash_attn.cute.utils.AuxData'>`, or register a custom argument adapter.
+  exe_args, func_types, adapted_args = self.generate_mlir_function_types(
+2026-11-11 11:25:07  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-11 11:25:10  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-11 11:25:10  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-11 11:25:13  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-11 11:25:14  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-11 11:25:16  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+prefill-b1-l2048-hq32-hkv8-d64-bf16-dense reference ours 728.5540103912354
+prefill-b1-l2048-hq32-hkv8-d64-bf16-dense register ours 665.798008441925
+prefill-b1-l2048-hq32-hkv8-d64-bf16-dense register ours 661.2399816513062
+prefill-b1-l2048-hq32-hkv8-d64-bf16-dense async ours 634.4040036201477
+prefill-b1-l2048-hq32-hkv8-d64-bf16-dense async ours 623.2540011405945
+prefill-b1-l2048-hq32-hkv8-d64-bf16-dense async ours 651.2860059738159
+prefill-b1-l2048-hq32-hkv8-d64-bf16-dense external torch_flash 588.2840156555176
+prefill-b1-l2048-hq32-hkv8-d64-bf16-dense external torch_cudnn 587.6799821853638
+prefill-b1-l2048-hq32-hkv8-d64-bf16-dense external fa4 608.2879900932312
+prefill-b1-l2048-hq32-hkv8-d64-bf16-dense external flashinfer_fa2 719.1900014877319
+prefill-b1-l2048-hq32-hkv8-d64-bf16-dense external flashinfer_fmha_v2 1543.67995262146

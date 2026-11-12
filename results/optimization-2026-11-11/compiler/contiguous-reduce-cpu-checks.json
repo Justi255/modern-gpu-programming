@@ -1,0 +1,74 @@
+[
+  {
+    "name": "contiguous-reduce-cpu-m16n32d128.cu",
+    "cta_barriers": 4,
+    "reduction_templates": [
+      "AllReduce<tl::MaxOp, 4, 1, 0, tl::NamedBarrier<128>",
+      "AllReduce<tl::SumOp, 4, 1, 0, tl::NamedBarrier<128>"
+    ],
+    "cta_reduction": false
+  },
+  {
+    "name": "contiguous-reduce-cpu-m16n32d64.cu",
+    "cta_barriers": 4,
+    "reduction_templates": [
+      "AllReduce<tl::MaxOp, 4, 1, 0, tl::NamedBarrier<128>",
+      "AllReduce<tl::SumOp, 4, 1, 0, tl::NamedBarrier<128>"
+    ],
+    "cta_reduction": false
+  },
+  {
+    "name": "contiguous-reduce-cpu-m16n64d128.cu",
+    "cta_barriers": 4,
+    "reduction_templates": [
+      "AllReduce<tl::MaxOp, 4, 1, 0, tl::NamedBarrier<128>",
+      "AllReduce<tl::SumOp, 4, 1, 0, tl::NamedBarrier<128>"
+    ],
+    "cta_reduction": false
+  },
+  {
+    "name": "contiguous-reduce-cpu-m16n64d64.cu",
+    "cta_barriers": 4,
+    "reduction_templates": [
+      "AllReduce<tl::MaxOp, 4, 1, 0, tl::NamedBarrier<128>",
+      "AllReduce<tl::SumOp, 4, 1, 0, tl::NamedBarrier<128>"
+    ],
+    "cta_reduction": false
+  },
+  {
+    "name": "contiguous-reduce-cpu-m32n32d128.cu",
+    "cta_barriers": 4,
+    "reduction_templates": [
+      "AllReduce<tl::MaxOp, 4, 1, 0, tl::NamedBarrier<128>",
+      "AllReduce<tl::SumOp, 4, 1, 0, tl::NamedBarrier<128>"
+    ],
+    "cta_reduction": false
+  },
+  {
+    "name": "contiguous-reduce-cpu-m32n32d64.cu",
+    "cta_barriers": 4,
+    "reduction_templates": [
+      "AllReduce<tl::MaxOp, 4, 1, 0, tl::NamedBarrier<128>",
+      "AllReduce<tl::SumOp, 4, 1, 0, tl::NamedBarrier<128>"
+    ],
+    "cta_reduction": false
+  },
+  {
+    "name": "contiguous-reduce-cpu-m32n64d128.cu",
+    "cta_barriers": 4,
+    "reduction_templates": [
+      "AllReduce<tl::MaxOp, 4, 1, 0, tl::NamedBarrier<128>",
+      "AllReduce<tl::SumOp, 4, 1, 0, tl::NamedBarrier<128>"
+    ],
+    "cta_reduction": false
+  },
+  {
+    "name": "contiguous-reduce-cpu-m32n64d64.cu",
+    "cta_barriers": 4,
+    "reduction_templates": [
+      "AllReduce<tl::MaxOp, 4, 1, 0, tl::NamedBarrier<128>",
+      "AllReduce<tl::SumOp, 4, 1, 0, tl::NamedBarrier<128>"
+    ],
+    "cta_reduction": false
+  }
+]

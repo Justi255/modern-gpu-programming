@@ -1,0 +1,47 @@
+{
+  "purpose": "source freeze for full-optimized.json; kernel source unchanged while run is in progress",
+  "base_commit": "2358dbc5d41058009267ff45fd13611b69647072",
+  "backend": "tilelang",
+  "source_sha256": {
+    "src/fa5060/__init__.py": "e009aee507c220fbb22bf82d7885d21a3bd58d1c3d9000132361bca615c3470f",
+    "src/fa5060/_workspace.py": "afac44fb2ee4a30b41ca801cca17ac78cb3ed6bfee16ef214699d6b1436ae883",
+    "src/fa5060/attention.py": "cab5e8a31657601824dba4766f97eea82c4b0ab8a9ce1cd86a9f8ffbe0ed1d97",
+    "src/fa5060/attention_tma.py": "b8f68a2b97574b89b7dcdb327bf22048d5443546c579b41f7b02f88771232715",
+    "src/fa5060/benchmark.py": "8783894bf6c3becd740c85e1d1dfbd8183092e382a106a9adf085718aea7a94e",
+    "src/fa5060/experiments.py": "93363510166806fd2a1539922b071d2744ff96804e622b83d0bbbefc6c926a00",
+    "src/fa5060/fundamentals.py": "1a760e87d02f6959b13e92c337e4c4ce686ffb5e45ce8dbecab42663268a7ced",
+    "src/fa5060/probe.py": "c766bb1adc56913d46dce32dad62ab8792c8ad389faeb7f999409f595da5cb89",
+    "src/fa5060/reference.py": "747ff84da8c952776bc2b7a176e177ddd0106a4effc05d186377ace802088da4",
+    "src/fa5060/tilelang/__init__.py": "35f081a2cc70c29a8ba689bb4fde4a70a674d8d930604b382ab360507a1f2a4a",
+    "src/fa5060/tilelang/_contracts.py": "8b4ba3de283393c32921b76bef0253545af98c88b77d85c73ace5e9831608fa1",
+    "src/fa5060/tilelang/_decode_pipeline.py": "19be47f8ebac8f20948dd987b620d5a39ffa8c78dbf37daffa053a7b340ed050",
+    "src/fa5060/tilelang/_decode_simt.py": "c9b7ae1a4c083ade8a269a42216d4f3243615dc940c1d4a04fe68517d132beec",
+    "src/fa5060/tilelang/_decode_warp.py": "00f42d0a7eaa557672c4cc02aed310091f92a0761af05440b0f4d07d9ce7868e",
+    "src/fa5060/tilelang/_prefill_async.py": "bb1f9e8bc5a3fedc7b79c84baaefb0d9b898fd85eda1857618383fa774f47c48",
+    "src/fa5060/tilelang/_prefill_mma.py": "aba865ebedfe1c8b8bb28f80ba47a133c8d177f93539e528ccf1f32d7c7b74e0",
+    "src/fa5060/tilelang/_prefill_qasync.py": "3d9cb88fa740697354be61ca0fb5d1aa6392a15e375d9ef99c38b5cab2879270",
+    "src/fa5060/tilelang/_prefill_qregister.py": "bb54103385a8afdb429edc5378d093bc3710552ac5f04f94f0c6a374abcc4c7a",
+    "src/fa5060/tilelang/_prefill_register.py": "b2551dc9a72559660741b23c986c6b43a64ef9f67b873c7098e82f6985d9fcc9",
+    "src/fa5060/tilelang/attention.py": "6c6cf035d947565c8714e0de5859c362e9f7e878021384fdca75a19ce33cffea",
+    "src/fa5060/tilelang/fundamentals.py": "0d6a97788365a5765fe0fe186bdaffd9c21733b390e64bd65556bfd9d1a5eddd",
+    "src/fa5060/workloads.py": "978681c26528370aa57fe9de55765f148367f9d15f17566573348f8336e74f1c"
+  },
+  "run_timestamp_utc": "2026-11-11T08:02:47.933918+00:00",
+  "ours_choice": {
+    "config": {
+      "implementation": "optimized"
+    },
+    "num_splits": null
+  },
+  "suite_sha256": "9aeed686fe6d7570599b5a98742d35d69d260b584e4aff57d9706d98578701d6",
+  "seed": 20261102,
+  "thresholds": {
+    "prefill_gm": 1.1,
+    "decode_gm": 1.1,
+    "worst": 0.95,
+    "fp16_atol": 0.003,
+    "fp16_rtol": 0.003,
+    "bf16_atol": 0.02,
+    "bf16_rtol": 0.02
+  }
+}

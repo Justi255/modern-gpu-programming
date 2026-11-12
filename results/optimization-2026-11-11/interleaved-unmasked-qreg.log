@@ -1,0 +1,53 @@
+2026-11-11 15:44:13  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-11 15:44:16  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-11 15:44:16  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-11 15:44:19  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-11 15:44:19  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-11 15:44:23  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-11 15:44:23  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-11 15:44:28  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-11 15:44:28  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-11 15:44:32  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-11 15:44:32  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-11 15:44:35  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-11 15:44:35  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-11 15:44:38  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+prefill-b1-l2048-hq32-hkv8-d128-bf16-paged16 reference ours 2549.177885055542
+prefill-b1-l2048-hq32-hkv8-d128-bf16-paged16 register ours 1193.7479972839355
+prefill-b1-l2048-hq32-hkv8-d128-bf16-paged16 register ours 1301.509976387024
+prefill-b1-l2048-hq32-hkv8-d128-bf16-paged16 async ours 1178.6919832229614
+prefill-b1-l2048-hq32-hkv8-d128-bf16-paged16 async ours 1368.5259819030762
+prefill-b1-l2048-hq32-hkv8-d128-bf16-paged16 async ours 1419.4799661636353
+prefill-b1-l2048-hq32-hkv8-d128-bf16-paged16 qregister ours 1176.3540506362915
+prefill-b1-l2048-hq32-hkv8-d128-bf16-paged16 qregister ours 1237.794041633606
+prefill-b1-l2048-hq32-hkv8-d128-bf16-paged16 external flashinfer_fa2 1270.9259986877441
+prefill-b1-l2048-hq32-hkv8-d128-bf16-paged16 external flashinfer_fmha_v2 1526.0640382766724
+/home/justi/Workspace/cuda/fa/.venv-tilelang/lib/python3.13/site-packages/nvidia_cutlass_dsl/dsl_packages/cutlass/base_dsl/dsl.py:2300: UserWarning: Argument aux_data (position 17) cannot be converted to a JitArgument for function 'cutlass___call___flash_attncuteflash_fwd_sm120FlashAttentionForwardSm120_object_at__Tensorgmemoi64i64i641_Tensorgmemoi64i64i641_Tensorgmemoi64i64i641_Tensorgmemoi64i64i641_None_012'. Its type `<class 'flash_attn.cute.utils.AuxData'>` is not supported. If the value is known at compile time, annotate it: `aux_data: Constexpr`. Otherwise, implement the `JitArgument` or `DynamicExpression` protocol for type `<class 'flash_attn.cute.utils.AuxData'>`, or register a custom argument adapter.
+  exe_args, func_types, adapted_args = self.generate_mlir_function_types(
+2026-11-11 15:44:44  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-11 15:44:46  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-11 15:44:46  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-11 15:44:49  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-11 15:44:49  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-11 15:44:52  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-11 15:44:53  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-11 15:44:56  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-11 15:44:56  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-11 15:44:59  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-11 15:45:00  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-11 15:45:02  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-11 15:45:03  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-11 15:45:05  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+prefill-b1-l2048-hq32-hkv8-d64-bf16-dense reference ours 726.8040180206299
+prefill-b1-l2048-hq32-hkv8-d64-bf16-dense register ours 582.5819969177246
+prefill-b1-l2048-hq32-hkv8-d64-bf16-dense register ours 581.0139775276184
+prefill-b1-l2048-hq32-hkv8-d64-bf16-dense async ours 597.2399711608887
+prefill-b1-l2048-hq32-hkv8-d64-bf16-dense async ours 589.7499918937683
+prefill-b1-l2048-hq32-hkv8-d64-bf16-dense async ours 626.0979771614075
+prefill-b1-l2048-hq32-hkv8-d64-bf16-dense qregister ours 579.945981502533
+prefill-b1-l2048-hq32-hkv8-d64-bf16-dense qregister ours 574.865996837616
+prefill-b1-l2048-hq32-hkv8-d64-bf16-dense external torch_flash 583.2560062408447
+prefill-b1-l2048-hq32-hkv8-d64-bf16-dense external torch_cudnn 588.234007358551
+prefill-b1-l2048-hq32-hkv8-d64-bf16-dense external fa4 608.5619926452637
+prefill-b1-l2048-hq32-hkv8-d64-bf16-dense external flashinfer_fa2 680.9020042419434
+prefill-b1-l2048-hq32-hkv8-d64-bf16-dense external flashinfer_fmha_v2 1450.8060216903687

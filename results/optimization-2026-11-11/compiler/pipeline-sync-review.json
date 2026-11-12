@@ -1,0 +1,117 @@
+{
+  "purpose": "CPU-only sync review; no GPU execution",
+  "candidate_source_sha256": "88493204f649a46069e7b5f5b1ee07bfe156b1bf302d536d0c02ba9fd4abec5e",
+  "shape": {
+    "b": 1,
+    "sq": 1,
+    "hq": 32,
+    "hkv": 8,
+    "d": 128,
+    "capacity": 8192,
+    "page": 16,
+    "bm": 16,
+    "splits": 16,
+    "threads": 128,
+    "stages": 2,
+    "dtype": "float16",
+    "grouped": true
+  },
+  "cases": [
+    {
+      "manual_sync": false,
+      "bn": 32,
+      "cuda": "results/optimization-2026-11-11/compiler/pipeline-sync-auto-bm16-bn32-d128-g4-s16.cu",
+      "cuda_sha256": "8313b284d60022f1bb6bf52483c13f0a61fe10f5a278c3197ce1c56018199366",
+      "resource_file": "results/optimization-2026-11-11/compiler/pipeline-sync-auto-bm16-bn32-d128-g4-s16-resources.txt",
+      "resources": {
+        "REG": 91,
+        "STACK": 0,
+        "SHARED": 1024,
+        "LOCAL": 0
+      },
+      "dynamic_shared_bytes": 38912,
+      "total_shared_bytes": 39936,
+      "syncthreads_sites_preloop": 1,
+      "syncthreads_sites_inloop": 5,
+      "wait0_sites_inloop": 1,
+      "allreduce_templates": [
+        "tl::MaxOp, 128, 32, 0, tl::NamedBarrier<128",
+        "tl::MaxOp, 4, 1, 0, tl::NamedBarrier<128",
+        "tl::SumOp, 128, 32, 0, tl::NamedBarrier<128",
+        "tl::SumOp, 4, 1, 0, tl::NamedBarrier<128"
+      ]
+    },
+    {
+      "manual_sync": false,
+      "bn": 64,
+      "cuda": "results/optimization-2026-11-11/compiler/pipeline-sync-auto-bm16-bn64-d128-g4-s16.cu",
+      "cuda_sha256": "8e704fc488e2fee723f6f8f2f28eb7e1b2221799c61f2f56a559569515ae0a4a",
+      "resource_file": "results/optimization-2026-11-11/compiler/pipeline-sync-auto-bm16-bn64-d128-g4-s16-resources.txt",
+      "resources": {
+        "REG": 116,
+        "STACK": 0,
+        "SHARED": 1024,
+        "LOCAL": 0
+      },
+      "dynamic_shared_bytes": 72704,
+      "total_shared_bytes": 73728,
+      "syncthreads_sites_preloop": 1,
+      "syncthreads_sites_inloop": 5,
+      "wait0_sites_inloop": 1,
+      "allreduce_templates": [
+        "tl::MaxOp, 128, 32, 0, tl::NamedBarrier<128",
+        "tl::MaxOp, 4, 1, 0, tl::NamedBarrier<128",
+        "tl::SumOp, 128, 32, 0, tl::NamedBarrier<128",
+        "tl::SumOp, 4, 1, 0, tl::NamedBarrier<128"
+      ]
+    },
+    {
+      "manual_sync": true,
+      "bn": 32,
+      "cuda": "results/optimization-2026-11-11/compiler/pipeline-sync-manual-bm16-bn32-d128-g4-s16.cu",
+      "cuda_sha256": "ecd48eb6261c517f23967a2b58c372e4fd1b71b8f1cea670df51d335527f6ea4",
+      "resource_file": "results/optimization-2026-11-11/compiler/pipeline-sync-manual-bm16-bn32-d128-g4-s16-resources.txt",
+      "resources": {
+        "REG": 91,
+        "STACK": 0,
+        "SHARED": 1024,
+        "LOCAL": 0
+      },
+      "dynamic_shared_bytes": 38912,
+      "total_shared_bytes": 39936,
+      "syncthreads_sites_preloop": 0,
+      "syncthreads_sites_inloop": 2,
+      "wait0_sites_inloop": 1,
+      "allreduce_templates": [
+        "tl::MaxOp, 128, 32, 0, tl::NamedBarrier<128",
+        "tl::MaxOp, 4, 1, 0, tl::NamedBarrier<128",
+        "tl::SumOp, 128, 32, 0, tl::NamedBarrier<128",
+        "tl::SumOp, 4, 1, 0, tl::NamedBarrier<128"
+      ]
+    },
+    {
+      "manual_sync": true,
+      "bn": 64,
+      "cuda": "results/optimization-2026-11-11/compiler/pipeline-sync-manual-bm16-bn64-d128-g4-s16.cu",
+      "cuda_sha256": "53b9372be4cce5792da89cd48dceac4c57b35bddadc105e2c11dc9d6f023ea34",
+      "resource_file": "results/optimization-2026-11-11/compiler/pipeline-sync-manual-bm16-bn64-d128-g4-s16-resources.txt",
+      "resources": {
+        "REG": 116,
+        "STACK": 0,
+        "SHARED": 1024,
+        "LOCAL": 0
+      },
+      "dynamic_shared_bytes": 72704,
+      "total_shared_bytes": 73728,
+      "syncthreads_sites_preloop": 0,
+      "syncthreads_sites_inloop": 2,
+      "wait0_sites_inloop": 1,
+      "allreduce_templates": [
+        "tl::MaxOp, 128, 32, 0, tl::NamedBarrier<128",
+        "tl::MaxOp, 4, 1, 0, tl::NamedBarrier<128",
+        "tl::SumOp, 128, 32, 0, tl::NamedBarrier<128",
+        "tl::SumOp, 4, 1, 0, tl::NamedBarrier<128"
+      ]
+    }
+  ]
+}

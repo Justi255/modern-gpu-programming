@@ -18,9 +18,25 @@ def _dummy(device, floating=False):
     return torch.empty((1,), dtype=torch.float32 if floating else torch.int32, device=device)
 
 
-def _compile(prim, *, tma=False):
+def _compile(prim, *, tma=False, manual_bounds=False, manual_sync=False, scalar_memory=False):
     import tilelang
     passes = {tilelang.PassConfigKey.TL_DISABLE_WARP_SPECIALIZED: True}
+    if scalar_memory:
+        # Torch views may begin at a two-byte storage offset. The compiler's
+        # default tensor alignment is stronger, so use scalar global traffic
+        # and synchronous copies for this metadata-selected fallback.
+        passes[tilelang.PassConfigKey.TIR_DISABLE_VECTORIZE] = True
+        passes[tilelang.PassConfigKey.TL_ENABLE_ASYNC_COPY] = False
+        passes[tilelang.PassConfigKey.TIR_USE_ASYNC_COPY] = False
+    if manual_bounds:
+        # These factories predicate logical tails explicitly. Live page indices
+        # obey the public metadata contract, so duplicating their range checks
+        # at every K/V use only repeats address-dependent loads.
+        passes[tilelang.PassConfigKey.TL_DISABLE_SAFE_MEMORY_ACCESS] = True
+    if manual_sync:
+        # Only factories with explicit producer/consumer and buffer-reuse
+        # barriers may opt out of automatic shared-memory synchronization.
+        passes[tilelang.PassConfigKey.TL_DISABLE_THREAD_STORAGE_SYNC] = True
     if tma:
         # 0.1.15's pipeline planner otherwise rewrites even explicit TMA
         # preferences into cp.async; a dynamic KV trip count then produces
@@ -32,7 +48,7 @@ def _compile(prim, *, tma=False):
 
 
 @lru_cache(maxsize=None)
-def _zero_output(shape, strides, dtype):
+def _zero_output(shape, strides, dtype, scalar_memory=False):
     """Empty KV has no softmax reductions or tensor-map descriptors."""
     import tilelang.language as T
     b, sq, hq, d = shape
@@ -45,14 +61,14 @@ def _zero_output(shape, strides, dtype):
                 if index < count:
                     Out[index // (sq * hq * d), index // (hq * d) % sq,
                         index // d % hq, index % d] = 0
-    return _compile(kernel)
+    return _compile(kernel, scalar_memory=scalar_memory)
 
 
 @lru_cache(maxsize=None)
 def _prefill_kernel(b, sq, hq, hkv, d, capacity, pages, page, dtype,
                     qs, ks, vs, os, table_stride, has_lengths, paged, causal,
                     scale_log2, bm, bn, stages, threads, splits=1,
-                    grouped=False, tma=False):
+                    grouped=False, tma=False, scalar_memory=False):
     """One query tile/head (prefill), or KV-head group/split (decode).
 
     Logical pages are translated inside the kernel. No dense gather or head
@@ -182,13 +198,13 @@ def _prefill_kernel(b, sq, hq, hkv, d, capacity, pages, page, dtype,
                     if i < group:
                         Maxima[batch, head * group + i, split] = maximum[i]
                         Sums[batch, head * group + i, split] = denom[i]
-    return _compile(kernel, tma=tma)
+    return _compile(kernel, tma=tma, scalar_memory=scalar_memory)
 
 
 @lru_cache(maxsize=None)
 def _decode_vector_kernel(b, hq, hkv, d, capacity, pages, page, dtype,
                           qs, ks, vs, os, table_stride, paged, scale_log2,
-                          bn, threads, splits):
+                          bn, threads, splits, scalar_memory=False):
     """FP32 SIMT dot/reduction; no Tensor Core padding for a single query."""
     import tilelang.language as T
     group = hq // hkv
@@ -268,7 +284,7 @@ def _decode_vector_kernel(b, hq, hkv, d, capacity, pages, page, dtype,
             if splits > 1:
                 Maxima[batch, h, split] = maximum[0]
                 Sums[batch, h, split] = denom[0]
-    return _compile(kernel)
+    return _compile(kernel, scalar_memory=scalar_memory)
 
 
 def _decode_grouped_kernel(*args, **kwargs):
@@ -277,7 +293,7 @@ def _decode_grouped_kernel(*args, **kwargs):
 
 
 @lru_cache(maxsize=None)
-def _merge_splits(b, hq, d, splits, dtype, os):
+def _merge_splits(b, hq, d, splits, dtype, os, scalar_memory=False):
     """Merge unnormalized FP32 states without exp(-inf - -inf)."""
     import tilelang.language as T
     @T.prim_func
@@ -304,7 +320,7 @@ def _merge_splits(b, hq, d, splits, dtype, os):
             T.reduce_sum(values, result, dim=0)
             for z in T.Parallel(d):
                 Out[batch, h, z] = result[z] / T.max(normalizer[0], T.float32(1e-30))
-    return _compile(kernel)
+    return _compile(kernel, scalar_memory=scalar_memory)
 
 
 def prefill(q, k, v, *, causal=True, scale=None, kv_lens=None, block_table=None,
@@ -312,7 +328,14 @@ def prefill(q, k, v, *, causal=True, scale=None, kv_lens=None, block_table=None,
     """BSHD inference attention, right-aligned causal, native dense/paged KV."""
     b, hq, hkv, d, capacity = _validate(q, k, v, kv_lens, block_table, 4)
     c = _configuration(config)
+    if c['implementation'] == 'optimized':
+        explicit = config or {}
+        if 'block_m' not in explicit:
+            c['block_m'] = 64
+        if 'block_n' not in explicit:
+            c['block_n'] = 32 if d == 128 else 64
     output = _output(q, k, v, out)
+    scalar_memory = any(x.data_ptr() % 16 for x in (q, k, v, output))
     if q.numel() == 0:
         return output
     tma = c["loader"] == "tma"
@@ -325,15 +348,23 @@ def prefill(q, k, v, *, causal=True, scale=None, kv_lens=None, block_table=None,
         raise ValueError("configuration exceeds SM120 shared memory budget")
     with torch.cuda.device(q.device):
         if capacity == 0:
-            _zero_output(tuple(output.shape), tuple(output.stride()), str(q.dtype).split(".")[-1])(output)
+            _zero_output(tuple(output.shape), tuple(output.stride()), str(q.dtype).split(".")[-1], scalar_memory)(output)
             return output
         ints = _dummy(q.device)
         floats = _dummy(q.device, True)
-        kernel = _prefill_kernel(b, q.shape[1], hq, hkv, d, capacity, k.shape[0],
+        factory = _prefill_kernel
+        if (c['implementation'] == 'optimized' and not tma and not scalar_memory and
+                c['block_m'] >= 16*c['num_warps']):
+            if c['num_stages'] >= 2:
+                from ._prefill_qasync import _prefill_kernel as factory
+            else:
+                from ._prefill_qregister import _prefill_kernel as factory
+        extra = {'scalar_memory': True} if scalar_memory else {}
+        kernel = factory(b, q.shape[1], hq, hkv, d, capacity, k.shape[0],
             k.shape[1], str(q.dtype).split(".")[-1], tuple(q.stride()), tuple(k.stride()),
             tuple(v.stride()), tuple(output.stride()), 0 if block_table is None else block_table.stride(0),
             kv_lens is not None, block_table is not None, bool(causal), _scale(d, scale),
-            c["block_m"], c["block_n"], c["num_stages"], c["num_warps"]*32, tma=tma)
+            c["block_m"], c["block_n"], c["num_stages"], c["num_warps"]*32, tma=tma, **extra)
         kernel(q, k, v, ints if kv_lens is None else kv_lens,
                ints if block_table is None else block_table, output, floats, floats, floats)
     return output
@@ -345,12 +376,13 @@ def decode(q, k, v, *, kv_lens, block_table=None, scale=None, out=None,
     b, hq, hkv, d, capacity = _validate(q, k, v, kv_lens, block_table, 3)
     c, mode, splits = _decode_parameters(q, k, block_table, num_splits, config)
     output = _output(q, k, v, out)
+    scalar_memory = any(x.data_ptr() % 16 for x in (q, k, v, output))
     if not b:
         return output
     with torch.cuda.device(q.device):
         if capacity == 0:
             output4 = output.unsqueeze(1)
-            _zero_output(tuple(output4.shape), tuple(output4.stride()), str(q.dtype).split(".")[-1])(output4)
+            _zero_output(tuple(output4.shape), tuple(output4.stride()), str(q.dtype).split(".")[-1], scalar_memory)(output4)
             return output
         if splits > 1:
             if workspace is None:
@@ -364,6 +396,7 @@ def decode(q, k, v, *, kv_lens, block_table=None, scale=None, out=None,
                     raise ValueError("workspace must contain contiguous CUDA FP32 tensors")
             check_workspace_disjoint(workspace, (q, k, v, kv_lens, block_table, output))
             partial, maxima, sums = workspace.partial, workspace.maxima, workspace.sums
+            scalar_memory = scalar_memory or any(x.data_ptr() % 16 for x in (partial, maxima, sums))
         else:
             partial = maxima = sums = _dummy(q.device, True)
         table = _dummy(q.device) if block_table is None else block_table
@@ -372,16 +405,25 @@ def decode(q, k, v, *, kv_lens, block_table=None, scale=None, out=None,
         if mode == "grouped":
             bm = max(16, 1 << (hq // hkv - 1).bit_length())
             q4, o4 = q.unsqueeze(1), output.unsqueeze(1)
-            kernel = _decode_grouped_kernel(b, 1, hq, hkv, d, capacity, k.shape[0], k.shape[1],
+            factory = _decode_grouped_kernel
+            extra = {'scalar_memory': True} if scalar_memory else {}
+            if c['implementation'] == 'optimized' and not scalar_memory:
+                from ._decode_pipeline import _prefill_kernel as factory
+                extra = {'grouped': True, 'segmented_reduce': True}
+            kernel = factory(b, 1, hq, hkv, d, capacity, k.shape[0], k.shape[1],
                 dtype, tuple(q4.stride()), tuple(k.stride()), tuple(v.stride()), tuple(o4.stride()),
                 ts, True, block_table is not None, False, _scale(d, scale),
-                bm, c["block_n"], c["num_stages"], c["num_warps"]*32, splits=splits)
+                bm, c["block_n"], c["num_stages"], c["num_warps"]*32, splits=splits, **extra)
             kernel(q4, k, v, kv_lens, table, o4, partial, maxima, sums)
         else:
-            kernel = _decode_vector_kernel(b, hq, hkv, d, capacity, k.shape[0], k.shape[1],
+            factory = _decode_vector_kernel
+            if c['implementation'] == 'optimized' and not scalar_memory:
+                from ._decode_warp import _decode_vector_kernel as factory
+            extra = {'scalar_memory': True} if scalar_memory else {}
+            kernel = factory(b, hq, hkv, d, capacity, k.shape[0], k.shape[1],
                 dtype, tuple(q.stride()), tuple(k.stride()), tuple(v.stride()), tuple(output.stride()),
-                ts, block_table is not None, _scale(d, scale), c["block_n"], c["num_warps"]*32, splits)
+                ts, block_table is not None, _scale(d, scale), c["block_n"], c["num_warps"]*32, splits, **extra)
             kernel(q, k, v, kv_lens, table, output, partial, maxima, sums)
         if splits > 1:
-            _merge_splits(b, hq, d, splits, dtype, tuple(output.stride()))(partial, maxima, sums, output)
+            _merge_splits(b, hq, d, splits, dtype, tuple(output.stride()), scalar_memory)(partial, maxima, sums, output)
     return output

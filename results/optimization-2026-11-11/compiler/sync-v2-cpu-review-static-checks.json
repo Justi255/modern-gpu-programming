@@ -1,0 +1,38 @@
+{
+  "bn32_shared_slot_ownership": {
+    "writes": 64,
+    "unique": 64,
+    "exact_range": [
+      0,
+      63
+    ],
+    "each_address_written_once": true,
+    "slot1_float_offset": 64,
+    "source": "sync-v2-cpu-review-target-seg-bn32.cu:159-164,215-220"
+  },
+  "causal_full_tile_guard": {
+    "admitted_tiles_checked": 1141,
+    "every_original_element_predicate_true": true
+  },
+  "ordered_uint32_transform": {
+    "non_nan_values_checked": 9976,
+    "numeric_order_preserved": true,
+    "bitwise_roundtrip_preserved": true,
+    "nan_semantics_validated": false
+  },
+  "base_offset_alignment_example": {
+    "device": "cpu",
+    "storage_offset": 1,
+    "strides": [
+      16384,
+      1024,
+      128,
+      1
+    ],
+    "last_dimension_contiguous": true,
+    "outer_strides_even": true,
+    "base_pointer_mod4": 2,
+    "base_pointer_mod16": 2,
+    "gpu_execution_performed": false
+  }
+}

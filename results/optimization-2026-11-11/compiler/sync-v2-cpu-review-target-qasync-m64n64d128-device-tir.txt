@@ -1,0 +1,148 @@
+# from tvm.script import ir as I
+# from tvm.script import tirx as T
+
+@I.ir_module
+class Module:
+    @T.prim_func
+    def kernel_kernel(K: T.handle("float16", "global"), Lengths: T.handle("int32", "global"), Out: T.handle("float16", "global"), Q: T.handle("float16", "global"), Table: T.handle("int32", "global"), V: T.handle("float16", "global")):
+        T.func_attr({"calling_conv": 2, "dyn_shared_memory_buf": 65536, "target": T.target({"arch": "sm_120", "keys": ["cuda", "gpu"], "kind": "cuda", "max_num_threads": 1024, "tag": "", "thread_warp_size": 32}), "thread_extent": {"blockIdx.x": 3, "blockIdx.y": 32, "blockIdx.z": 1, "threadIdx.x": 128, "threadIdx.y": 1, "threadIdx.z": 1}, "tirx.is_global_func": T.bool(True), "tirx.kernel_launch_params": ["blockIdx.x", "blockIdx.y", "blockIdx.z", "threadIdx.x", "threadIdx.y", "threadIdx.z", "tirx.use_dyn_shared_memory"], "tirx.noalias": True, "tl.non_restrict_params": [], "tl.readonly_param_indices": [0, 1, 3, 4, 5]})
+        Out_1 = T.decl_buffer((528384,), "float16", data=Out)
+        V_1 = T.decl_buffer((294912,), "float16", data=V)
+        K_1 = T.decl_buffer((294912,), "float16", data=K)
+        Table_1 = T.decl_buffer((13,), "int32", data=Table)
+        Q_1 = T.decl_buffer((528384,), "float16", data=Q)
+        Lengths_1 = T.decl_buffer((1,), "int32", data=Lengths)
+        bx = T.launch_thread("blockIdx.x", 3)
+        buf_dyn_shmem = T.alloc_buffer((65536,), "uint8", scope="shared.dyn")
+        Ks: T.handle("float16", "shared.dyn") = T.handle_add_byte_offset(buf_dyn_shmem.data, 0)
+        Vs: T.handle("float16", "shared.dyn") = T.handle_add_byte_offset(buf_dyn_shmem.data, 32768)
+        acc = T.alloc_buffer((64,), scope="local")
+        denom = T.alloc_buffer((2,), scope="local")
+        maximum = T.alloc_buffer((2,), scope="local")
+        Qs = T.alloc_buffer((64,), "float16", scope="local")
+        scores = T.alloc_buffer((32,), scope="local")
+        updated = T.alloc_buffer((2,), scope="local")
+        updated_pack = T.alloc_buffer((1,), "float32x2", scope="local")
+        correction = T.alloc_buffer((2,), scope="local")
+        rowsum = T.alloc_buffer((2,), scope="local")
+        rowsum_pack = T.alloc_buffer((1,), "float32x2", scope="local")
+        probs = T.alloc_buffer((32,), "float16", scope="local")
+        by = T.launch_thread("blockIdx.y", 32)
+        bz = T.launch_thread("blockIdx.z", 1)
+        thread_binding = T.launch_thread("threadIdx.x", 128)
+        ty = T.launch_thread("threadIdx.y", 1)
+        tz = T.launch_thread("threadIdx.z", 1)
+        Qs_1 = T.decl_buffer((64,), "float16", data=Qs.data, scope="local")
+        Ks_1 = T.decl_buffer((16384,), "float16", data=Ks, scope="shared.dyn")
+        Vs_1 = T.decl_buffer((16384,), "float16", data=Vs, scope="shared.dyn")
+        acc_1 = T.decl_buffer((64,), data=acc.data, scope="local")
+        maximum_1 = T.decl_buffer((2,), data=maximum.data, scope="local")
+        denom_1 = T.decl_buffer((2,), data=denom.data, scope="local")
+        length: T.int32 = Lengths_1[0]
+        for i in T.unroll(16):
+            acc_1[i * 4:i * 4 + 4] = T.Broadcast(T.float32(0.0), 4)
+        denom_1[0:2] = T.Broadcast(T.float32(0.0), 2)
+        maximum_1[0:2] = T.Broadcast(T.infinity("float32") * T.float32(-1.0), 2)
+        for i in T.unroll(32):
+            Qs_1[i * 2:i * 2 + 2] = T.if_then_else(bx * 64 + thread_binding // 32 * 16 + i % 2 * 8 + thread_binding % 32 // 4 < 129, Q_1[bx * 262144 + thread_binding // 32 * 65536 + i % 2 * 32768 + thread_binding % 32 // 4 * 4096 + by * 128 + i // 2 * 8 + thread_binding % 4 * 2:bx * 262144 + thread_binding // 32 * 65536 + i % 2 * 32768 + thread_binding % 32 // 4 * 4096 + by * 128 + i // 2 * 8 + thread_binding % 4 * 2 + 2], T.Broadcast(T.float16(0.0), 2))
+        if 0 < length and 65 < bx * 64 + length:
+            if 64 <= length and 129 <= bx * 64 + length:
+                for pg in range(4):
+                    physical: T.int32 = Table_1[pg]
+                    for i in T.unroll(2):
+                        T.ptx_cp_async(T.tvm_access_ptr(T.type_annotation("float16"), Ks, thread_binding % 16 // 8 * 4096 + pg * 1024 + i * 512 + thread_binding // 16 * 64 + (thread_binding // 64 + thread_binding % 8 // 4) % 2 * 32 + (thread_binding % 64 // 32 + thread_binding % 4 // 2) % 2 * 16 + (thread_binding % 32 // 16 + thread_binding % 2) % 2 * 8, 1, 2), T.tvm_access_ptr(T.type_annotation("float16"), K, T.Cast("int64", physical) * T.int64(16384) + T.Cast("int64", i) * T.int64(8192) + T.Cast("int64", thread_binding) // T.int64(16) * T.int64(1024) + T.Cast("int64", by) // T.int64(4) * T.int64(128) + T.Cast("int64", thread_binding) % T.int64(16) * T.int64(8), 1, 1), 8)
+                    for i in T.unroll(2):
+                        T.ptx_cp_async(T.tvm_access_ptr(T.type_annotation("float16"), Vs, thread_binding % 16 // 8 * 4096 + pg * 1024 + i * 512 + thread_binding // 16 * 64 + (thread_binding // 64 + thread_binding % 8 // 4) % 2 * 32 + (thread_binding % 64 // 32 + thread_binding % 4 // 2) % 2 * 16 + (thread_binding % 32 // 16 + thread_binding % 2) % 2 * 8, 1, 2), T.tvm_access_ptr(T.type_annotation("float16"), V, T.Cast("int64", physical) * T.int64(16384) + T.Cast("int64", i) * T.int64(8192) + T.Cast("int64", thread_binding) // T.int64(16) * T.int64(1024) + T.Cast("int64", by) // T.int64(4) * T.int64(128) + T.Cast("int64", thread_binding) % T.int64(16) * T.int64(8), 1, 1), 8)
+                T.ptx_commit_group()
+            else:
+                for i in T.unroll(8):
+                    if i * 8 + thread_binding // 16 < length and i * 8 + thread_binding // 16 + 65 < bx * 64 + length:
+                        physical: T.int32 = Table_1[i // 2]
+                        Ks_1[thread_binding % 16 // 8 * 4096 + i * 512 + thread_binding // 16 * 64 + (thread_binding // 64 + thread_binding % 8 // 4) % 2 * 32 + (thread_binding % 64 // 32 + thread_binding % 4 // 2) % 2 * 16 + (thread_binding % 32 // 16 + thread_binding % 2) % 2 * 8:thread_binding % 16 // 8 * 4096 + i * 512 + thread_binding // 16 * 64 + (thread_binding // 64 + thread_binding % 8 // 4) % 2 * 32 + (thread_binding % 64 // 32 + thread_binding % 4 // 2) % 2 * 16 + (thread_binding % 32 // 16 + thread_binding % 2) % 2 * 8 + 8] = K_1[T.Cast("int64", physical) * T.int64(16384) + T.Cast("int64", i) % T.int64(2) * T.int64(8192) + T.Cast("int64", thread_binding) // T.int64(16) * T.int64(1024) + T.Cast("int64", by) // T.int64(4) * T.int64(128) + T.Cast("int64", thread_binding) % T.int64(16) * T.int64(8):T.Cast("int64", physical) * T.int64(16384) + T.Cast("int64", i) % T.int64(2) * T.int64(8192) + T.Cast("int64", thread_binding) // T.int64(16) * T.int64(1024) + T.Cast("int64", by) // T.int64(4) * T.int64(128) + T.Cast("int64", thread_binding) % T.int64(16) * T.int64(8) + T.int64(8)]
+                        Vs_1[thread_binding % 16 // 8 * 4096 + i * 512 + thread_binding // 16 * 64 + (thread_binding // 64 + thread_binding % 8 // 4) % 2 * 32 + (thread_binding % 64 // 32 + thread_binding % 4 // 2) % 2 * 16 + (thread_binding % 32 // 16 + thread_binding % 2) % 2 * 8:thread_binding % 16 // 8 * 4096 + i * 512 + thread_binding // 16 * 64 + (thread_binding // 64 + thread_binding % 8 // 4) % 2 * 32 + (thread_binding % 64 // 32 + thread_binding % 4 // 2) % 2 * 16 + (thread_binding % 32 // 16 + thread_binding % 2) % 2 * 8 + 8] = V_1[T.Cast("int64", physical) * T.int64(16384) + T.Cast("int64", i) % T.int64(2) * T.int64(8192) + T.Cast("int64", thread_binding) // T.int64(16) * T.int64(1024) + T.Cast("int64", by) // T.int64(4) * T.int64(128) + T.Cast("int64", thread_binding) % T.int64(16) * T.int64(8):T.Cast("int64", physical) * T.int64(16384) + T.Cast("int64", i) % T.int64(2) * T.int64(8192) + T.Cast("int64", thread_binding) // T.int64(16) * T.int64(1024) + T.Cast("int64", by) // T.int64(4) * T.int64(128) + T.Cast("int64", thread_binding) % T.int64(16) * T.int64(8) + T.int64(8)]
+                    else:
+                        Ks_1[thread_binding % 16 // 8 * 4096 + i * 512 + thread_binding // 16 * 64 + (thread_binding // 64 + thread_binding % 8 // 4) % 2 * 32 + (thread_binding % 64 // 32 + thread_binding % 4 // 2) % 2 * 16 + (thread_binding % 32 // 16 + thread_binding % 2) % 2 * 8:thread_binding % 16 // 8 * 4096 + i * 512 + thread_binding // 16 * 64 + (thread_binding // 64 + thread_binding % 8 // 4) % 2 * 32 + (thread_binding % 64 // 32 + thread_binding % 4 // 2) % 2 * 16 + (thread_binding % 32 // 16 + thread_binding % 2) % 2 * 8 + 8] = T.Broadcast(T.float16(0.0), 8)
+                        Vs_1[thread_binding % 16 // 8 * 4096 + i * 512 + thread_binding // 16 * 64 + (thread_binding // 64 + thread_binding % 8 // 4) % 2 * 32 + (thread_binding % 64 // 32 + thread_binding % 4 // 2) % 2 * 16 + (thread_binding % 32 // 16 + thread_binding % 2) % 2 * 8:thread_binding % 16 // 8 * 4096 + i * 512 + thread_binding // 16 * 64 + (thread_binding // 64 + thread_binding % 8 // 4) % 2 * 32 + (thread_binding % 64 // 32 + thread_binding % 4 // 2) % 2 * 16 + (thread_binding % 32 // 16 + thread_binding % 2) % 2 * 8 + 8] = T.Broadcast(T.float16(0.0), 8)
+        for block in range((T.max(0, T.min(T.min(length, bx * 64 + length - 65), 208)) + 63) // 64):
+            scores_1 = T.decl_buffer((32,), data=scores.data, scope="local")
+            probs_1 = T.decl_buffer((32,), "float16", data=probs.data, scope="local")
+            updated_1 = T.decl_buffer((2,), data=updated.data, scope="local")
+            rowsum_1 = T.decl_buffer((2,), data=rowsum.data, scope="local")
+            correction_1 = T.decl_buffer((2,), data=correction.data, scope="local")
+            T.ptx_wait_group(0)
+            T.tvm_storage_sync("shared")
+            if block + 1 < (T.max(0, T.min(T.min(length, bx * 64 + length - 65), 208)) + 63) // 64:
+                if block * 64 + 128 <= length and block * 64 + 193 <= bx * 64 + length and block <= 1:
+                    for pg in range(4):
+                        physical: T.int32 = Table_1[block * 4 + pg + 4]
+                        for i in T.unroll(2):
+                            T.ptx_cp_async(T.tvm_access_ptr(T.type_annotation("float16"), Ks, (block + 1) % 2 * 8192 + thread_binding % 16 // 8 * 4096 + pg * 1024 + i * 512 + thread_binding // 16 * 64 + (thread_binding // 64 + thread_binding % 8 // 4) % 2 * 32 + (thread_binding % 64 // 32 + thread_binding % 4 // 2) % 2 * 16 + (thread_binding % 32 // 16 + thread_binding % 2) % 2 * 8, 1, 2), T.tvm_access_ptr(T.type_annotation("float16"), K, T.Cast("int64", physical) * T.int64(16384) + T.Cast("int64", i) * T.int64(8192) + T.Cast("int64", thread_binding) // T.int64(16) * T.int64(1024) + T.Cast("int64", by) // T.int64(4) * T.int64(128) + T.Cast("int64", thread_binding) % T.int64(16) * T.int64(8), 1, 1), 8)
+                        for i in T.unroll(2):
+                            T.ptx_cp_async(T.tvm_access_ptr(T.type_annotation("float16"), Vs, (block + 1) % 2 * 8192 + thread_binding % 16 // 8 * 4096 + pg * 1024 + i * 512 + thread_binding // 16 * 64 + (thread_binding // 64 + thread_binding % 8 // 4) % 2 * 32 + (thread_binding % 64 // 32 + thread_binding % 4 // 2) % 2 * 16 + (thread_binding % 32 // 16 + thread_binding % 2) % 2 * 8, 1, 2), T.tvm_access_ptr(T.type_annotation("float16"), V, T.Cast("int64", physical) * T.int64(16384) + T.Cast("int64", i) * T.int64(8192) + T.Cast("int64", thread_binding) // T.int64(16) * T.int64(1024) + T.Cast("int64", by) // T.int64(4) * T.int64(128) + T.Cast("int64", thread_binding) % T.int64(16) * T.int64(8), 1, 1), 8)
+                    T.ptx_commit_group()
+                else:
+                    for i in T.unroll(8):
+                        if block * 64 + i * 8 + thread_binding // 16 + 64 < length and block * 64 + i * 8 + thread_binding // 16 + 129 < bx * 64 + length and block * 4 + i // 2 < 9:
+                            physical: T.int32 = Table_1[block * 4 + i // 2 + 4]
+                            Ks_1[(block + 1) % 2 * 8192 + thread_binding % 16 // 8 * 4096 + i * 512 + thread_binding // 16 * 64 + (thread_binding // 64 + thread_binding % 8 // 4) % 2 * 32 + (thread_binding % 64 // 32 + thread_binding % 4 // 2) % 2 * 16 + (thread_binding % 32 // 16 + thread_binding % 2) % 2 * 8:(block + 1) % 2 * 8192 + thread_binding % 16 // 8 * 4096 + i * 512 + thread_binding // 16 * 64 + (thread_binding // 64 + thread_binding % 8 // 4) % 2 * 32 + (thread_binding % 64 // 32 + thread_binding % 4 // 2) % 2 * 16 + (thread_binding % 32 // 16 + thread_binding % 2) % 2 * 8 + 8] = K_1[T.Cast("int64", physical) * T.int64(16384) + T.Cast("int64", i) % T.int64(2) * T.int64(8192) + T.Cast("int64", thread_binding) // T.int64(16) * T.int64(1024) + T.Cast("int64", by) // T.int64(4) * T.int64(128) + T.Cast("int64", thread_binding) % T.int64(16) * T.int64(8):T.Cast("int64", physical) * T.int64(16384) + T.Cast("int64", i) % T.int64(2) * T.int64(8192) + T.Cast("int64", thread_binding) // T.int64(16) * T.int64(1024) + T.Cast("int64", by) // T.int64(4) * T.int64(128) + T.Cast("int64", thread_binding) % T.int64(16) * T.int64(8) + T.int64(8)]
+                            Vs_1[(block + 1) % 2 * 8192 + thread_binding % 16 // 8 * 4096 + i * 512 + thread_binding // 16 * 64 + (thread_binding // 64 + thread_binding % 8 // 4) % 2 * 32 + (thread_binding % 64 // 32 + thread_binding % 4 // 2) % 2 * 16 + (thread_binding % 32 // 16 + thread_binding % 2) % 2 * 8:(block + 1) % 2 * 8192 + thread_binding % 16 // 8 * 4096 + i * 512 + thread_binding // 16 * 64 + (thread_binding // 64 + thread_binding % 8 // 4) % 2 * 32 + (thread_binding % 64 // 32 + thread_binding % 4 // 2) % 2 * 16 + (thread_binding % 32 // 16 + thread_binding % 2) % 2 * 8 + 8] = V_1[T.Cast("int64", physical) * T.int64(16384) + T.Cast("int64", i) % T.int64(2) * T.int64(8192) + T.Cast("int64", thread_binding) // T.int64(16) * T.int64(1024) + T.Cast("int64", by) // T.int64(4) * T.int64(128) + T.Cast("int64", thread_binding) % T.int64(16) * T.int64(8):T.Cast("int64", physical) * T.int64(16384) + T.Cast("int64", i) % T.int64(2) * T.int64(8192) + T.Cast("int64", thread_binding) // T.int64(16) * T.int64(1024) + T.Cast("int64", by) // T.int64(4) * T.int64(128) + T.Cast("int64", thread_binding) % T.int64(16) * T.int64(8) + T.int64(8)]
+                        else:
+                            Ks_1[(block + 1) % 2 * 8192 + thread_binding % 16 // 8 * 4096 + i * 512 + thread_binding // 16 * 64 + (thread_binding // 64 + thread_binding % 8 // 4) % 2 * 32 + (thread_binding % 64 // 32 + thread_binding % 4 // 2) % 2 * 16 + (thread_binding % 32 // 16 + thread_binding % 2) % 2 * 8:(block + 1) % 2 * 8192 + thread_binding % 16 // 8 * 4096 + i * 512 + thread_binding // 16 * 64 + (thread_binding // 64 + thread_binding % 8 // 4) % 2 * 32 + (thread_binding % 64 // 32 + thread_binding % 4 // 2) % 2 * 16 + (thread_binding % 32 // 16 + thread_binding % 2) % 2 * 8 + 8] = T.Broadcast(T.float16(0.0), 8)
+                            Vs_1[(block + 1) % 2 * 8192 + thread_binding % 16 // 8 * 4096 + i * 512 + thread_binding // 16 * 64 + (thread_binding // 64 + thread_binding % 8 // 4) % 2 * 32 + (thread_binding % 64 // 32 + thread_binding % 4 // 2) % 2 * 16 + (thread_binding % 32 // 16 + thread_binding % 2) % 2 * 8:(block + 1) % 2 * 8192 + thread_binding % 16 // 8 * 4096 + i * 512 + thread_binding // 16 * 64 + (thread_binding // 64 + thread_binding % 8 // 4) % 2 * 32 + (thread_binding % 64 // 32 + thread_binding % 4 // 2) % 2 * 16 + (thread_binding % 32 // 16 + thread_binding % 2) % 2 * 8 + 8] = T.Broadcast(T.float16(0.0), 8)
+            for i in T.unroll(8):
+                scores_1[i * 4:i * 4 + 4] = T.Broadcast(T.float32(0.0), 4)
+            with T.attr(0, "lexical_alloc_scope", 1):
+                B_local = T.alloc_buffer((32,), "float16", scope="local")
+                for ki in range(8):
+                    for i in T.unroll(4):
+                        T.ptx_ldmatrix(T.bool(False), 4, T.tvm_access_ptr(T.type_annotation("float16"), Ks, block % 2 * 8192 + ki // 4 * 4096 + i * 1024 + thread_binding % 32 // 16 * 512 + thread_binding % 8 * 64 + (thread_binding % 8 // 4 + ki % 4 // 2) % 2 * 32 + (thread_binding % 4 // 2 + ki % 2) % 2 * 16 + (thread_binding % 16 // 8 + thread_binding % 2) % 2 * 8, 8, 1), T.tvm_access_ptr(T.type_annotation("float16"), B_local.data, i * 8, 8, 2))
+                    for j in range(4):
+                        T.ptx_mma("float32", "m16n8k16", "row", "col", "fp16", "fp16", "fp32", Qs.data, ki * 8, B_local.data, j * 8, scores.data, j * 8, T.bool(False))
+                        T.ptx_mma("float32", "m16n8k16", "row", "col", "fp16", "fp16", "fp32", Qs.data, ki * 8, B_local.data, j * 8 + 4, scores.data, j * 8 + 4, T.bool(False))
+            if block * 64 + 64 <= length and block * 64 + 129 <= bx * 64 + length and block <= 2 and block * 64 + 192 <= bx * 64 + length:
+                for i in T.unroll(8):
+                    scores_1[i * 4:i * 4 + 4] = scores_1[i * 4:i * 4 + 4] * T.Broadcast(T.float32(0.12751743082459868), 4)
+            else:
+                for i in T.unroll(32):
+                    scores_1[i] = T.if_then_else(T.bitwise_and(block * 64 + i // 4 * 8 + thread_binding % 4 * 2 + i % 2 < length and block * 64 + i // 4 * 8 + thread_binding % 4 * 2 + i % 2 + 65 < bx * 64 + length and block * 4 + i // 8 < 13, block * 64 + i // 4 * 8 + thread_binding % 4 * 2 + i % 2 + 129 <= bx * 64 + thread_binding // 32 * 16 + i % 4 // 2 * 8 + thread_binding % 32 // 4 + length), scores_1[i] * T.float32(0.12751743082459868), T.infinity("float32") * T.float32(-1.0))
+            for i in T.unroll(2):
+                updated_1[i] = T.float32("-inf")
+                for rv in T.unroll(16):
+                    updated_1[i] = T.max(updated_1[i], scores_1[rv % 8 * 4 + i * 2 + rv // 8])
+            updated_pack[0] = T.Shuffle([updated_1[0], updated_1[1]], [0, 1])
+            T.call_extern("handle", "tl::AllReduce<tl::MaxOp_f32x2, 4, 1, 0, tl::NamedBarrier<128>, 1, 128>::run_batch", T.address_of(updated_pack[0]))
+            updated_1[0] = T.Shuffle([updated_pack[0]], [0])
+            updated_1[1] = T.Shuffle([updated_pack[0]], [1])
+            for i in T.unroll(2):
+                updated_1[i] = T.max(maximum_1[i], updated_1[i])
+                correction_1[i] = T.exp2(maximum_1[i] - T.if_then_else(updated_1[i] == T.infinity("float32") * T.float32(-1.0), T.float32(0.0), updated_1[i]))
+            for i in T.unroll(16):
+                scores_1[i * 2:i * 2 + 2] = T.exp2(scores_1[i * 2:i * 2 + 2] - T.Broadcast(T.if_then_else(updated_1[i % 2] == T.infinity("float32") * T.float32(-1.0), T.float32(0.0), updated_1[i % 2]), 2))
+            for i in T.unroll(2):
+                rowsum_1[i] = T.float32(0.0)
+                for rv in T.unroll(16):
+                    rowsum_1[i] = rowsum_1[i] + scores_1[rv % 8 * 4 + i * 2 + rv // 8]
+            rowsum_pack[0] = T.Shuffle([rowsum_1[0], rowsum_1[1]], [0, 1])
+            T.call_extern("handle", "tl::AllReduce<tl::SumOp_f32x2, 4, 1, 0, tl::NamedBarrier<128>, 1, 128>::run_batch", T.address_of(rowsum_pack[0]))
+            rowsum_1[0] = T.Shuffle([rowsum_pack[0]], [0])
+            rowsum_1[1] = T.Shuffle([rowsum_pack[0]], [1])
+            denom_1[0:2] = denom_1[0:2] * correction_1[0:2] + rowsum_1[0:2]
+            maximum_1[0:2] = updated_1[0:2]
+            for i in T.unroll(32):
+                acc_1[i * 2:i * 2 + 2] = acc_1[i * 2:i * 2 + 2] * T.Broadcast(correction_1[i % 2], 2)
+            for i in T.unroll(8):
+                probs_1[i * 4:i * 4 + 4] = T.Cast("float16x4", scores_1[i * 4:i * 4 + 4])
+            T.attr(0, "lexical_alloc_scope", 1)
+            B_local = T.alloc_buffer((64,), "float16", scope="local")
+            for ki in range(4):
+                for i in T.unroll(8):
+                    T.ptx_ldmatrix(T.bool(True), 4, T.tvm_access_ptr(T.type_annotation("float16"), Vs, block % 2 * 8192 + i // 4 * 4096 + ki * 1024 + thread_binding % 16 * 64 + (thread_binding % 8 // 4 + i % 4 // 2) % 2 * 32 + (thread_binding % 4 // 2 + i % 2) % 2 * 16 + (thread_binding % 32 // 16 + thread_binding % 2) % 2 * 8, 8, 1), T.tvm_access_ptr(T.type_annotation("float16"), B_local.data, i * 8, 8, 2))
+                for j in range(8):
+                    T.ptx_mma("float32", "m16n8k16", "row", "col", "fp16", "fp16", "fp32", probs.data, ki * 8, B_local.data, j * 8, acc.data, j * 8, T.bool(False))
+                    T.ptx_mma("float32", "m16n8k16", "row", "col", "fp16", "fp16", "fp32", probs.data, ki * 8, B_local.data, j * 8 + 4, acc.data, j * 8 + 4, T.bool(False))
+        for i in T.unroll(32):
+            T.attr(0, "lexical_alloc_scope", 1)
+            Out_local_cast = T.alloc_buffer((2,), "float16", scope="local")
+            if bx * 64 + thread_binding // 32 * 16 + i % 2 * 8 + thread_binding % 32 // 4 < 129:
+                Out_local_cast[0:2] = T.Cast("float16x2", acc_1[i * 2:i * 2 + 2] / T.Broadcast(T.max(denom_1[i % 2], T.float32(1.0000000000000001e-30)), 2))
+                Out_1[bx * 262144 + thread_binding // 32 * 65536 + i % 2 * 32768 + thread_binding % 32 // 4 * 4096 + by * 128 + i // 2 * 8 + thread_binding % 4 * 2:bx * 262144 + thread_binding // 32 * 65536 + i % 2 * 32768 + thread_binding % 32 // 4 * 4096 + by * 128 + i // 2 * 8 + thread_binding % 4 * 2 + 2] = Out_local_cast[0:2]

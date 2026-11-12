@@ -1,0 +1,80 @@
+Running Sphinx v8.2.3
+loading translations [zh_CN]... done
+loading pickled environment... The configuration has changed (9 options: 'html_context', 'html_css_files', 'html_js_files', 'html_permalinks_icon', 'html_sourcelink_suffix', ...)
+done
+myst v4.0.1: MdParserConfig(commonmark_only=False, gfm_only=False, enable_extensions={'amsmath', 'dollarmath', 'colon_fence'}, disable_syntax=[], all_links_external=False, links_external_new_tab=False, url_schemes=('http', 'https', 'mailto', 'ftp'), ref_domains=None, fence_as_directive=set(), number_code_blocks=[], title_to_header=False, heading_anchors=3, heading_slug_func=None, html_meta={}, footnote_sort=True, footnote_transition=True, words_per_minute=200, substitutions={}, linkify_fuzzy_links=True, dmath_allow_labels=True, dmath_allow_space=True, dmath_allow_digits=True, dmath_double_inline=False, update_mathjax=True, mathjax_classes='tex2jax_process|mathjax_process|math|output_area', enable_checkboxes=False, suppress_warnings=[], highlight_code_blocks=True)
+building [mo]: targets for 0 po files that are out of date
+writing output... 
+building [html]: targets for 1 source files that are out of date
+updating environment: 0 added, 1 changed, 0 removed
+reading sources... [100%] 15-results
+
+looking for now-outdated files... none found
+pickling environment... done
+checking consistency... done
+preparing documents... Building prefix dict from the default dictionary ...
+Loading model from cache /tmp/jieba.cache
+Loading model cost 0.290 seconds.
+Prefix dict has been built successfully.
+done
+copying assets... 
+copying downloadable files... [  2%] ../../results/tilelang/basics.json
+copying downloadable files... [  5%] ../../results/tilelang/gemm.json
+copying downloadable files... [  8%] ../../results/tilelang/compiler/manifest.json
+copying downloadable files... [ 10%] ../../results/tilelang/attention.json
+copying downloadable files... [ 12%] ../../results/tilelang/environment.json
+copying downloadable files... [ 15%] ../../results/tilelang/compiler/gemm_tiled/main/kernel.ptx
+copying downloadable files... [ 18%] ../../results/tilelang/compiler/README.md
+copying downloadable files... [ 20%] ../../results/full-tuned.json
+copying downloadable files... [ 22%] ../../results/cases.csv
+copying downloadable files... [ 25%] ../../results/regressions.csv
+copying downloadable files... [ 28%] ../../results/providers.csv
+copying downloadable files... [ 30%] ../../results/manifest-full.json
+copying downloadable files... [ 32%] ../../results/selected-configs.json
+copying downloadable files... [ 35%] ../../results/full-telemetry.csv
+copying downloadable files... [ 38%] ../../results/provider-sources.json
+copying downloadable files... [ 40%] ../../results/smoke.json
+copying downloadable files... [ 42%] ../../results/basics.json
+copying downloadable files... [ 45%] ../../results/gemm.json
+copying downloadable files... [ 48%] ../../results/attention.json
+copying downloadable files... [ 50%] ../../results/verification.json
+copying downloadable files... [ 52%] ../../results/tilelang/release-analysis.json
+copying downloadable files... [ 55%] ../../results/tilelang/full-tuned-telemetry.csv
+copying downloadable files... [ 57%] ../../results/tilelang/full-completed-telemetry.csv
+copying downloadable files... [ 60%] ../../results/tilelang/paired-triton-telemetry.csv
+copying downloadable files... [ 62%] ../../results/tilelang/compiler/prefill_tma/main/kernel.cu
+copying downloadable files... [ 65%] ../../results/tilelang/compiler/prefill_tma/main/kernel.ptx
+copying downloadable files... [ 68%] ../../results/tilelang/compiler/decode_vector_split/main/cuobjdump-resources.txt
+copying downloadable files... [ 70%] ../../results/tilelang/full-completed.json
+copying downloadable files... [ 72%] ../../results/tilelang/full-tuned.json
+copying downloadable files... [ 75%] ../../results/tilelang/paired-triton.json
+copying downloadable files... [ 78%] ../../results/tilelang/comparison.csv
+copying downloadable files... [ 80%] ../../results/tilelang/comparison.json
+copying downloadable files... [ 82%] ../../results/tilelang/manifest-full.json
+copying downloadable files... [ 85%] ../../results/tilelang/completion-run.json
+copying downloadable files... [ 88%] ../../results/tilelang/default-smoke-comparison/comparison.json
+copying downloadable files... [ 90%] ../../results/tilelang/pytest-final.log
+copying downloadable files... [ 92%] ../../results/tilelang/cpu-final.log
+copying downloadable files... [ 95%] ../../results/optimization-2026-11-11/full-optimized-resumed.json
+copying downloadable files... [ 98%] ../../results/optimization-2026-11-11/full-optimized-analysis.json
+copying downloadable files... [100%] ../../results/optimization-2026-11-11/full-optimized-source-freeze.json
+
+copying static files... 
+Writing evaluated template result to /home/justi/Workspace/cuda/fa/_build/html/_static/basic.css
+Writing evaluated template result to /home/justi/Workspace/cuda/fa/_build/html/_static/documentation_options.js
+Writing evaluated template result to /home/justi/Workspace/cuda/fa/_build/html/_static/language_data.js
+Writing evaluated template result to /home/justi/Workspace/cuda/fa/_build/html/_static/copybutton.js
+copying static files: done
+copying extra files... 
+copying extra files: done
+copying assets: done
+writing output... [ 50%] 15-results
+writing output... [100%] index
+
+generating indices... genindex done
+writing additional pages... search done
+dumping search index in Chinese (code: zh)... done
+dumping object inventory... done
+build succeeded.
+
+The HTML pages are in _build/html.

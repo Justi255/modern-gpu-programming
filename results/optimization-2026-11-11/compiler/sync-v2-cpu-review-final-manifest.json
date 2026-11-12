@@ -1,0 +1,200 @@
+{
+  "purpose": "CPU-only TileLang lowering and NVCC compilation; CUDA_VISIBLE_DEVICES empty; no adapter, launch, GPU query or GPU execution",
+  "packages": {
+    "tilelang": "0.1.15",
+    "apache-tvm-ffi": "0.1.12",
+    "torch": "2.12.1"
+  },
+  "source_sha256_start": {
+    "src/fa5060/tilelang/attention.py": "10ba6031c9fceda147c76370d34cfe90af23afb56c12607a9871bc6773fddd88",
+    "src/fa5060/tilelang/_prefill_qasync.py": "616ce00a8603e322be32e5228311fecc8777434524a439913f679113da5098ee",
+    "src/fa5060/tilelang/_decode_pipeline.py": "754af6d3ccb5c5f6b5a0d401f84f49e231b51beedae0ebfc0459ff19044f20ff",
+    "src/fa5060/tilelang/_contracts.py": "8b4ba3de283393c32921b76bef0253545af98c88b77d85c73ace5e9831608fa1",
+    "src/fa5060/tilelang/_prefill_async.py": "bb1f9e8bc5a3fedc7b79c84baaefb0d9b898fd85eda1857618383fa774f47c48",
+    "src/fa5060/tilelang/_prefill_mma.py": "aba865ebedfe1c8b8bb28f80ba47a133c8d177f93539e528ccf1f32d7c7b74e0",
+    "src/fa5060/tilelang/__init__.py": "35f081a2cc70c29a8ba689bb4fde4a70a674d8d930604b382ab360507a1f2a4a",
+    "src/fa5060/tilelang/_prefill_qregister.py": "bb54103385a8afdb429edc5378d093bc3710552ac5f04f94f0c6a374abcc4c7a",
+    "src/fa5060/tilelang/_decode_simt.py": "c9b7ae1a4c083ade8a269a42216d4f3243615dc940c1d4a04fe68517d132beec",
+    "src/fa5060/tilelang/_decode_warp.py": "00f42d0a7eaa557672c4cc02aed310091f92a0761af05440b0f4d07d9ce7868e",
+    "src/fa5060/tilelang/fundamentals.py": "0d6a97788365a5765fe0fe186bdaffd9c21733b390e64bd65556bfd9d1a5eddd",
+    "src/fa5060/tilelang/_prefill_register.py": "b2551dc9a72559660741b23c986c6b43a64ef9f67b873c7098e82f6985d9fcc9"
+  },
+  "source_sha256_end": {
+    "src/fa5060/tilelang/attention.py": "10ba6031c9fceda147c76370d34cfe90af23afb56c12607a9871bc6773fddd88",
+    "src/fa5060/tilelang/_prefill_qasync.py": "616ce00a8603e322be32e5228311fecc8777434524a439913f679113da5098ee",
+    "src/fa5060/tilelang/_decode_pipeline.py": "754af6d3ccb5c5f6b5a0d401f84f49e231b51beedae0ebfc0459ff19044f20ff",
+    "src/fa5060/tilelang/_contracts.py": "8b4ba3de283393c32921b76bef0253545af98c88b77d85c73ace5e9831608fa1",
+    "src/fa5060/tilelang/_prefill_async.py": "bb1f9e8bc5a3fedc7b79c84baaefb0d9b898fd85eda1857618383fa774f47c48",
+    "src/fa5060/tilelang/_prefill_mma.py": "aba865ebedfe1c8b8bb28f80ba47a133c8d177f93539e528ccf1f32d7c7b74e0",
+    "src/fa5060/tilelang/__init__.py": "35f081a2cc70c29a8ba689bb4fde4a70a674d8d930604b382ab360507a1f2a4a",
+    "src/fa5060/tilelang/_prefill_qregister.py": "bb54103385a8afdb429edc5378d093bc3710552ac5f04f94f0c6a374abcc4c7a",
+    "src/fa5060/tilelang/_decode_simt.py": "c9b7ae1a4c083ade8a269a42216d4f3243615dc940c1d4a04fe68517d132beec",
+    "src/fa5060/tilelang/_decode_warp.py": "00f42d0a7eaa557672c4cc02aed310091f92a0761af05440b0f4d07d9ce7868e",
+    "src/fa5060/tilelang/fundamentals.py": "0d6a97788365a5765fe0fe186bdaffd9c21733b390e64bd65556bfd9d1a5eddd",
+    "src/fa5060/tilelang/_prefill_register.py": "b2551dc9a72559660741b23c986c6b43a64ef9f67b873c7098e82f6985d9fcc9"
+  },
+  "cases": [
+    {
+      "name": "seg-bn32",
+      "module": "_decode_pipeline",
+      "bm": 16,
+      "bn": 32,
+      "d": 128,
+      "page": 16,
+      "capacity": 8192,
+      "splits": 16,
+      "threads": 128,
+      "sq": 1,
+      "grouped": true,
+      "segmented": true,
+      "stages": 2,
+      "paged": true,
+      "dtype": "float16",
+      "compile_keywords": {
+        "tma": false,
+        "manual_bounds": true,
+        "manual_sync": true
+      },
+      "cuda_sha256": "f235eb6b732080e59c078b9c083c5ae4fb20ed2a4c4b66668404006f6c8220af",
+      "resources": "\nResource usage:\n Common:\n  GLOBAL:9 CONSTANT[4]:72\n Function kernel_kernel:\n  REG:91 STACK:0 SHARED:1024 LOCAL:0 CONSTANT[0]:960 TEXTURE:0 SURFACE:0 SAMPLER:0\n"
+    },
+    {
+      "name": "ordered-bn64",
+      "module": "_decode_pipeline",
+      "bm": 16,
+      "bn": 64,
+      "d": 128,
+      "page": 16,
+      "capacity": 8192,
+      "splits": 16,
+      "threads": 128,
+      "sq": 1,
+      "grouped": true,
+      "segmented": true,
+      "stages": 2,
+      "paged": true,
+      "dtype": "float16",
+      "compile_keywords": {
+        "tma": false,
+        "manual_bounds": true,
+        "manual_sync": true
+      },
+      "cuda_sha256": "7c93e4794e305f407f5c684296c86434df37a3a940c0276f232f15b353efc923",
+      "resources": "\nResource usage:\n Common:\n  GLOBAL:9 CONSTANT[4]:72\n Function kernel_kernel:\n  REG:116 STACK:0 SHARED:1024 LOCAL:0 CONSTANT[0]:960 TEXTURE:0 SURFACE:0 SAMPLER:0\n"
+    },
+    {
+      "name": "guard-bn128d128-s1",
+      "module": "_decode_pipeline",
+      "bm": 16,
+      "bn": 128,
+      "d": 128,
+      "page": 16,
+      "capacity": 8192,
+      "splits": 16,
+      "threads": 128,
+      "sq": 1,
+      "grouped": true,
+      "segmented": true,
+      "stages": 1,
+      "paged": true,
+      "dtype": "float16",
+      "compile_keywords": {
+        "tma": false
+      },
+      "cuda_sha256": "b2174cc83879639558bc57f135ba8d906fbd45af0011eaec6ae957a29dfb5a6e",
+      "resources": "\nResource usage:\n Common:\n  GLOBAL:9 CONSTANT[4]:72\n Function kernel_kernel:\n  REG:90 STACK:0 SHARED:1024 LOCAL:0 CONSTANT[0]:960 TEXTURE:0 SURFACE:0 SAMPLER:0\n"
+    },
+    {
+      "name": "guard-async-split4",
+      "module": "_prefill_async",
+      "bm": 64,
+      "bn": 64,
+      "d": 128,
+      "page": 16,
+      "capacity": 208,
+      "splits": 4,
+      "threads": 128,
+      "sq": 1,
+      "grouped": true,
+      "segmented": null,
+      "stages": 2,
+      "paged": true,
+      "dtype": "float16",
+      "compile_keywords": {
+        "tma": false
+      },
+      "cuda_sha256": "ddfb65fb7158c679116f91c166b0f76fc1e8c4b89fb9d8ec3883af2b1ca9d3c6",
+      "resources": "\nResource usage:\n Common:\n  GLOBAL:9 CONSTANT[4]:72\n Function kernel_kernel:\n  REG:194 STACK:0 SHARED:1024 LOCAL:0 CONSTANT[0]:960 TEXTURE:0 SURFACE:0 SAMPLER:0\n"
+    },
+    {
+      "name": "guard-qasync-split4",
+      "module": "_prefill_qasync",
+      "bm": 64,
+      "bn": 64,
+      "d": 128,
+      "page": 16,
+      "capacity": 208,
+      "splits": 4,
+      "threads": 128,
+      "sq": 1,
+      "grouped": true,
+      "segmented": null,
+      "stages": 2,
+      "paged": true,
+      "dtype": "float16",
+      "compile_keywords": {
+        "tma": false
+      },
+      "cuda_sha256": "ddfb65fb7158c679116f91c166b0f76fc1e8c4b89fb9d8ec3883af2b1ca9d3c6",
+      "resources": "\nResource usage:\n Common:\n  GLOBAL:9 CONSTANT[4]:72\n Function kernel_kernel:\n  REG:194 STACK:0 SHARED:1024 LOCAL:0 CONSTANT[0]:960 TEXTURE:0 SURFACE:0 SAMPLER:0\n"
+    },
+    {
+      "name": "seg-page64-bn32-s8",
+      "module": "_decode_pipeline",
+      "bm": 16,
+      "bn": 32,
+      "d": 128,
+      "page": 64,
+      "capacity": 192,
+      "splits": 8,
+      "threads": 128,
+      "sq": 1,
+      "grouped": true,
+      "segmented": true,
+      "stages": 2,
+      "paged": true,
+      "dtype": "float16",
+      "compile_keywords": {
+        "tma": false,
+        "manual_bounds": true,
+        "manual_sync": true
+      },
+      "cuda_sha256": "62f6e25bd76022b1c68651c32b22b46d2174959fe0551f7ea195e959ad0d1621",
+      "resources": "\nResource usage:\n Common:\n  GLOBAL:9 CONSTANT[4]:72\n Function kernel_kernel:\n  REG:77 STACK:0 SHARED:1024 LOCAL:0 CONSTANT[0]:960 TEXTURE:0 SURFACE:0 SAMPLER:0\n"
+    },
+    {
+      "name": "seg-page16-bn32-s8",
+      "module": "_decode_pipeline",
+      "bm": 16,
+      "bn": 32,
+      "d": 128,
+      "page": 16,
+      "capacity": 208,
+      "splits": 8,
+      "threads": 128,
+      "sq": 1,
+      "grouped": true,
+      "segmented": true,
+      "stages": 2,
+      "paged": true,
+      "dtype": "float16",
+      "compile_keywords": {
+        "tma": false,
+        "manual_bounds": true,
+        "manual_sync": true
+      },
+      "cuda_sha256": "0c178df20cd24099cf7f39d8cc05acd6c5c170ae6c00dfc296d136f6c12395a4",
+      "resources": "\nResource usage:\n Common:\n  GLOBAL:9 CONSTANT[4]:72\n Function kernel_kernel:\n  REG:77 STACK:0 SHARED:1024 LOCAL:0 CONSTANT[0]:960 TEXTURE:0 SURFACE:0 SAMPLER:0\n"
+    }
+  ]
+}

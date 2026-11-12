@@ -1,0 +1,83 @@
+/home/justi/Workspace/cuda/fa/.venv-tilelang/lib/python3.13/site-packages/nvidia_cutlass_dsl/dsl_packages/cutlass/base_dsl/dsl.py:2300: UserWarning: Argument aux_data (position 17) cannot be converted to a JitArgument for function 'cutlass___call___flash_attncuteflash_fwd_sm120FlashAttentionForwardSm120_object_at__Tensorgmemoi64i64i641_Tensorgmemoi64i64i641_Tensorgmemoi64i64i641_Tensorgmemoi64i64i641_None_012'. Its type `<class 'flash_attn.cute.utils.AuxData'>` is not supported. If the value is known at compile time, annotate it: `aux_data: Constexpr`. Otherwise, implement the `JitArgument` or `DynamicExpression` protocol for type `<class 'flash_attn.cute.utils.AuxData'>`, or register a custom argument adapter.
+  exe_args, func_types, adapted_args = self.generate_mlir_function_types(
+2026-11-12 09:56:48  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:56:51  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:56:53  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:56:56  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:56:57  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:57:00  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:57:01  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:57:04  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:57:05  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:57:08  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:57:09  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:57:12  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:57:13  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:57:16  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:57:17  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:57:20  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:57:21  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:57:24  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:57:25  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:57:28  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:57:29  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:57:32  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+prefill-b4-l8192-hq32-hkv32-d64-fp16-dense qasync ours 39737.03384399414
+prefill-b4-l8192-hq32-hkv32-d64-fp16-dense qasync ours 38768.69583129883
+prefill-b4-l8192-hq32-hkv32-d64-fp16-dense qasync ours 39536.54479980469
+prefill-b4-l8192-hq32-hkv32-d64-fp16-dense qasync ours 38667.6025390625
+prefill-b4-l8192-hq32-hkv32-d64-fp16-dense qregister ours 39599.89547729492
+prefill-b4-l8192-hq32-hkv32-d64-fp16-dense qasync ours 40300.13656616211
+prefill-b4-l8192-hq32-hkv32-d64-fp16-dense qasync ours 37506.046295166016
+prefill-b4-l8192-hq32-hkv32-d64-fp16-dense qregister ours 37902.950286865234
+prefill-b4-l8192-hq32-hkv32-d64-fp16-dense qregister ours 41832.64923095703
+prefill-b4-l8192-hq32-hkv32-d64-fp16-dense qasync ours 39349.81918334961
+prefill-b4-l8192-hq32-hkv32-d64-fp16-dense qasync ours 36923.88153076172
+prefill-b4-l8192-hq32-hkv32-d64-fp16-dense qregister ours 39274.688720703125
+prefill-b4-l8192-hq32-hkv32-d64-fp16-dense external torch_flash 37185.821533203125
+prefill-b4-l8192-hq32-hkv32-d64-fp16-dense external torch_cudnn 37800.811767578125
+prefill-b4-l8192-hq32-hkv32-d64-fp16-dense external torch_efficient 72641.80755615234
+prefill-b4-l8192-hq32-hkv32-d64-fp16-dense external fa4 37960.44158935547
+prefill-b4-l8192-hq32-hkv32-d64-fp16-dense external flashinfer_fa2 39548.2292175293
+prefill-b4-l8192-hq32-hkv32-d64-fp16-dense external flashinfer_fmha_v2 54208.946228027344
+/home/justi/Workspace/cuda/fa/.venv-tilelang/lib/python3.13/site-packages/nvidia_cutlass_dsl/dsl_packages/cutlass/base_dsl/dsl.py:2300: UserWarning: Argument aux_data (position 17) cannot be converted to a JitArgument for function 'cutlass___call___flash_attncuteflash_fwd_sm120FlashAttentionForwardSm120_object_at__Tensorgmemoi64i64i641_Tensorgmemoi64i64i641_Tensorgmemoi64i64i641_Tensorgmemoi64i64i641_None_008'. Its type `<class 'flash_attn.cute.utils.AuxData'>` is not supported. If the value is known at compile time, annotate it: `aux_data: Constexpr`. Otherwise, implement the `JitArgument` or `DynamicExpression` protocol for type `<class 'flash_attn.cute.utils.AuxData'>`, or register a custom argument adapter.
+  exe_args, func_types, adapted_args = self.generate_mlir_function_types(
+2026-11-12 09:59:35  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:59:39  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:59:39  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:59:43  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:59:43  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:59:47  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:59:47  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:59:50  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:59:50  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:59:55  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 09:59:55  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 09:59:59  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 10:00:00  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 10:00:03  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 10:00:03  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 10:00:06  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 10:00:06  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 10:00:11  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 10:00:11  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 10:00:15  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+2026-11-12 10:00:15  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `kernel` with `out_idx=None`
+2026-11-12 10:00:19  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `kernel`
+prefill-b1-l512-hq32-hkv1-d128-fp16-dense qasync ours 99.25799816846848
+prefill-b1-l512-hq32-hkv1-d128-fp16-dense qasync ours 120.52199989557266
+prefill-b1-l512-hq32-hkv1-d128-fp16-dense qasync ours 94.70000118017197
+prefill-b1-l512-hq32-hkv1-d128-fp16-dense qasync ours 111.47800087928772
+prefill-b1-l512-hq32-hkv1-d128-fp16-dense qregister ours 102.51600295305252
+prefill-b1-l512-hq32-hkv1-d128-fp16-dense qasync ours 119.39399689435959
+prefill-b1-l512-hq32-hkv1-d128-fp16-dense qasync ours 164.69000279903412
+prefill-b1-l512-hq32-hkv1-d128-fp16-dense qregister ours 135.16199588775635
+prefill-b1-l512-hq32-hkv1-d128-fp16-dense qregister ours 99.80399906635284
+prefill-b1-l512-hq32-hkv1-d128-fp16-dense qasync ours 114.49400335550308
+prefill-b1-l512-hq32-hkv1-d128-fp16-dense qasync ours 148.53399991989136
+prefill-b1-l512-hq32-hkv1-d128-fp16-dense qregister ours 125.7220059633255
+prefill-b1-l512-hq32-hkv1-d128-fp16-dense external torch_flash 114.42799866199493
+prefill-b1-l512-hq32-hkv1-d128-fp16-dense external torch_cudnn 113.09000104665756
+prefill-b1-l512-hq32-hkv1-d128-fp16-dense external fa4 102.86799818277359
+prefill-b1-l512-hq32-hkv1-d128-fp16-dense external flashinfer_fa2 109.9499985575676
+prefill-b1-l512-hq32-hkv1-d128-fp16-dense external flashinfer_fmha_v2 84.51200276613235

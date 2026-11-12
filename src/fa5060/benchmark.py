@@ -537,11 +537,13 @@ def _run_provider(case, inputs, reference, name, rounds, choice=None, *, backend
         return {**_failure(exc, stage, provider.metadata if provider else None), "startup": startup}
 
 
-def _run_ours(case, inputs, reference, rounds, tune, *, backend="triton"):
+def _run_ours(case, inputs, reference, rounds, tune, *, backend="triton", choice=None):
+    if tune and choice is not None:
+        raise ValueError('explicit choice and offline tuning are mutually exclusive')
     if not tune:
-        result = _run_provider(case, inputs, reference, "ours", rounds, backend=backend)
-        result["selected_config"] = {"config": None, "num_splits": None}
-        result["configuration_mode"] = "public_default"
+        result = _run_provider(case, inputs, reference, "ours", rounds, choice, backend=backend)
+        result["selected_config"] = choice or {"config": None, "num_splits": None}
+        result["configuration_mode"] = "explicit_configuration" if choice else "public_default"
         return result
     trials = []
     for choice in tuning_candidates(case, backend=backend):
@@ -567,7 +569,7 @@ def _run_ours(case, inputs, reference, rounds, tune, *, backend="triton"):
 
 
 def benchmark_case(case: AttentionCase, *, rounds: int = 5, tune: bool = False,
-                   backend: str = "triton") -> dict[str, Any]:
+                   backend: str = "triton", ours_choice=None) -> dict[str, Any]:
     """Validate against blockwise fp32 reference before timing any provider."""
     _check_backend(backend)
     record = {**case.to_dict(), "backend": backend, "seed": 20261102, "providers": {}}
@@ -599,7 +601,8 @@ def benchmark_case(case: AttentionCase, *, rounds: int = 5, tune: bool = False,
                                    "tf32": False}
             for name in names:
                 if name == "ours":
-                    result = _run_ours(case, inputs, reference, rounds, tune, backend=backend)
+                    kwargs = {} if ours_choice is None else {'choice': ours_choice}
+                    result = _run_ours(case, inputs, reference, rounds, tune, backend=backend, **kwargs)
                 else:
                     result = _run_provider(case, inputs, reference, name, rounds)
                 record["providers"][name] = result
@@ -750,6 +753,17 @@ def tuning_candidates(case: AttentionCase, *, backend: str = "triton") -> tuple[
                 candidates.append({"config": {"block_n": 64, "num_warps": 4,
                                               "num_stages": 1, "mode": mode},
                                    "num_splits": splits})
+    if backend == 'tilelang':
+        if case.phase == 'prefill':
+            for bn, stages in ((32, 1), (32, 2), (64, 2)):
+                candidates.append({'config': {'implementation': 'optimized',
+                    'block_m': 64, 'block_n': bn, 'num_warps': 4,
+                    'num_stages': stages, 'loader': 'pointer'}, 'num_splits': None})
+        else:
+            for splits in (1, 4, 8, 16, 32):
+                candidates.append({'config': {'implementation': 'optimized',
+                    'block_n': 32, 'num_warps': 4, 'num_stages': 2,
+                    'mode': 'grouped'}, 'num_splits': splits})
     return tuple(candidates)
 
 
@@ -774,7 +788,7 @@ def _resume_report(source, output, expected, cases):
         report = json.loads(snapshot)
         # Strict serialization also rejects nonfinite JSON constants accepted by json.loads.
         json.dumps(report, allow_nan=False)
-        for name in ("schema_version", "backend", "backend_packages", "configuration_mode",
+        for name in ("schema_version", "backend", "backend_packages", "configuration_mode", "ours_choice",
                      "suite", "rounds", "tune", "seed", "timing"):
             if name not in report or not _same_json(report[name], expected[name]):
                 raise ValueError(f"resume run contract differs: {name}")
@@ -823,11 +837,13 @@ def _resume_report(source, output, expected, cases):
 def run_benchmark(cases, *, output: str | Path, environment: dict[str, Any],
                   suite: str = "smoke", rounds: int = 5, tune: bool = False,
                   case_runner: Callable | None = None, backend: str = "triton",
-                  resume_from: str | Path | None = None) -> dict[str, Any]:
+                  resume_from: str | Path | None = None, ours_choice=None) -> dict[str, Any]:
     """Checkpoint each completed case; optionally continue into a new output file."""
     _check_backend(backend)
     if rounds < 1:
         raise ValueError("rounds must be positive")
+    if tune and ours_choice is not None:
+        raise ValueError('explicit choice and offline tuning are mutually exclusive')
     cases = tuple(cases)
     runner = benchmark_case if case_runner is None else case_runner
     parameters = inspect.signature(runner).parameters
@@ -835,10 +851,15 @@ def run_benchmark(cases, *, output: str | Path, environment: dict[str, Any],
                        any(p.kind == inspect.Parameter.VAR_KEYWORD for p in parameters.values()))
     if not accepts_backend and backend != "triton":
         raise ValueError("a custom case_runner must accept backend for a TileLang report")
+    if ours_choice is not None and not ('ours_choice' in parameters or any(
+            p.kind == inspect.Parameter.VAR_KEYWORD for p in parameters.values())):
+        raise ValueError('case_runner must accept ours_choice for an explicit configuration')
     report = {
         "schema_version": SCHEMA_VERSION, "environment": environment,
         "backend": backend, "backend_packages": _backend_packages(environment.get("packages", {}), backend),
-        "configuration_mode": "offline_tuned" if tune else "public_default",
+        "configuration_mode": ("explicit_configuration" if ours_choice is not None else
+                               "offline_tuned" if tune else "public_default"),
+        "ours_choice": ours_choice,
         "suite": suite, "rounds": rounds, "tune": tune, "seed": 20261102,
         "timing": {
             "gpu_us_p50": "median of per-round CUDA-event single repeated-operator graph replay / batch count",
@@ -866,6 +887,8 @@ def run_benchmark(cases, *, output: str | Path, environment: dict[str, Any],
         kwargs = {"rounds": rounds, "tune": tune}
         if accepts_backend:
             kwargs["backend"] = backend
+        if ours_choice is not None:
+            kwargs['ours_choice'] = ours_choice
         record = runner(case, **kwargs)
         if record.get("backend", backend) != backend:
             raise ValueError("case_runner returned a different backend")
@@ -882,6 +905,8 @@ def main(argv=None) -> int:
     parser.add_argument("--suite", choices=("smoke", "full"), default="smoke")
     parser.add_argument("--phase", choices=("all", "prefill", "decode"), default="all")
     parser.add_argument("--backend", choices=BACKENDS, default="triton")
+    parser.add_argument('--implementation', choices=('reference', 'optimized'), default='reference',
+                        help='TileLang fixed optimized policy, or the existing reference/default grid')
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--resume-from", type=Path,
                         help="continue a compatible checkpoint into a different, new output file")
@@ -891,14 +916,18 @@ def main(argv=None) -> int:
     args = parser.parse_args(argv)
     if args.rounds < 1:
         parser.error("--rounds must be positive")
+    if args.implementation == 'optimized' and (args.backend != 'tilelang' or args.tune):
+        parser.error('--implementation optimized requires --backend tilelang and cannot use --tune')
+    choice = ({'config': {'implementation': 'optimized'}, 'num_splits': None}
+              if args.implementation == 'optimized' else None)
     from .probe import collect_environment
 
     cases = full_suite() if args.suite == "full" else smoke_suite()
     cases = tuple(case for case in cases if args.phase == "all" or case.phase == args.phase)
     case_numbers = {case.case_id: index + 1 for index, case in enumerate(cases)}
 
-    def runner(case, *, rounds, tune, backend):
-        result = benchmark_case(case, rounds=rounds, tune=tune, backend=backend)
+    def runner(case, *, rounds, tune, backend, ours_choice=None):
+        result = benchmark_case(case, rounds=rounds, tune=tune, backend=backend, ours_choice=ours_choice)
         states = ", ".join(f"{name}={provider['status']}" for name, provider in result["providers"].items())
         print(f"[{case_numbers[case.case_id]}/{len(cases)}] {case.case_id}: {states}",
               file=sys.stderr, flush=True)
@@ -906,7 +935,7 @@ def main(argv=None) -> int:
 
     report = run_benchmark(cases, output=args.output, environment=collect_environment(),
                            suite=args.suite, rounds=args.rounds, tune=args.tune, case_runner=runner,
-                           backend=args.backend, resume_from=args.resume_from)
+                           backend=args.backend, resume_from=args.resume_from, ours_choice=choice)
     print(json.dumps({"output": str(args.output), "summary": report["summary"]},
                      ensure_ascii=False, allow_nan=False))
     return 0

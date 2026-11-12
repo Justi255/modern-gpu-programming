@@ -1,0 +1,5135 @@
+{
+  "purpose": "Interleaved same-input A/B experiments; this subset cannot establish SOTA.",
+  "full_suite_target_met": false,
+  "environment": {
+    "schema_version": 1,
+    "timestamp_utc": "2026-11-11T07:48:42.734532+00:00",
+    "python": {
+      "version": "3.13.13",
+      "sys_version": "3.13.13 | packaged by Anaconda, Inc. | (main, Apr 14 2026, 06:19:41) [GCC 14.3.0]",
+      "implementation": "CPython",
+      "compiler": "GCC 14.3.0",
+      "executable": "/home/justi/Workspace/cuda/fa/.venv-tilelang/bin/python"
+    },
+    "platform": {
+      "system": "Linux",
+      "release": "7.0.0-42-generic",
+      "machine": "x86_64",
+      "description": "Linux-7.0.0-42-generic-x86_64-with-glibc2.43"
+    },
+    "packages": {
+      "modern-gpu-programming-5060": "0.1.0",
+      "numpy": "2.5.0",
+      "torch": "2.12.1",
+      "triton": "3.7.1",
+      "tilelang": "0.1.15",
+      "apache-tvm-ffi": "0.1.12",
+      "flashinfer-python": "0.7.2.post1",
+      "flash-attn-4": "4.0.0b37",
+      "flash-attn": null
+    },
+    "cuda_build": "13.0",
+    "cuda_available": true,
+    "gpus": [
+      {
+        "index": 0,
+        "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+        "compute_capability": [
+          12,
+          0
+        ],
+        "sm_count": 26,
+        "total_memory_bytes": 8055947264,
+        "l2_cache_bytes": 33554432,
+        "shared_memory_per_block_bytes": 49152,
+        "shared_memory_per_block_optin_bytes": 101376,
+        "shared_memory_per_sm_bytes": 102400,
+        "warp_size": 32,
+        "max_threads_per_block": 1024
+      }
+    ],
+    "gpu_unavailable_reason": null,
+    "nvidia_smi": {
+      "available": true,
+      "devices": [
+        {
+          "index": 0,
+          "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+          "driver_version": "595.99.02",
+          "performance_state": "P5",
+          "power_draw_watts": 8.51,
+          "power_limit_watts": null,
+          "sm_clock_mhz": 180,
+          "memory_clock_mhz": 810,
+          "temperature_celsius": 42
+        }
+      ],
+      "error": null
+    },
+    "compiler": {
+      "nvcc": {
+        "available": true,
+        "output": "nvcc: NVIDIA (R) Cuda compiler driver\nCopyright (c) 2005-2025 NVIDIA Corporation\nBuilt on Tue_Dec_16_07:23:41_PM_PST_2025\nCuda compilation tools, release 13.1, V13.1.115\nBuild cuda_13.1.r13.1/compiler.37061995_0",
+        "returncode": 0,
+        "error": null
+      },
+      "ptxas": {
+        "available": true,
+        "output": "ptxas: NVIDIA (R) Ptx optimizing assembler\nCopyright (c) 2005-2025 NVIDIA Corporation\nBuilt on Tue_Dec_16_07:22:11_PM_PST_2025\nCuda compilation tools, release 13.1, V13.1.115\nBuild cuda_13.1.r13.1/compiler.37061995_0",
+        "returncode": 0,
+        "error": null
+      },
+      "triton_version": "3.7.1",
+      "tilelang_version": "0.1.15",
+      "apache_tvm_ffi_version": "0.1.12",
+      "sources": {
+        "triton": null,
+        "tilelang": null,
+        "apache-tvm-ffi": null
+      }
+    }
+  },
+  "seed": 20261102,
+  "script_sha256": "88ec30418c8204e4d2ada00aeab7d6adcf9080f029638cd9d152bce804b2461d",
+  "sources": {
+    "src/fa5060/__init__.py": "e009aee507c220fbb22bf82d7885d21a3bd58d1c3d9000132361bca615c3470f",
+    "src/fa5060/_workspace.py": "afac44fb2ee4a30b41ca801cca17ac78cb3ed6bfee16ef214699d6b1436ae883",
+    "src/fa5060/attention.py": "cab5e8a31657601824dba4766f97eea82c4b0ab8a9ce1cd86a9f8ffbe0ed1d97",
+    "src/fa5060/attention_tma.py": "b8f68a2b97574b89b7dcdb327bf22048d5443546c579b41f7b02f88771232715",
+    "src/fa5060/benchmark.py": "d84852ab934c5d942c28acddc80ab221f2dc27b954e75a0aa32be8d330e7633f",
+    "src/fa5060/experiments.py": "93363510166806fd2a1539922b071d2744ff96804e622b83d0bbbefc6c926a00",
+    "src/fa5060/fundamentals.py": "1a760e87d02f6959b13e92c337e4c4ce686ffb5e45ce8dbecab42663268a7ced",
+    "src/fa5060/probe.py": "c766bb1adc56913d46dce32dad62ab8792c8ad389faeb7f999409f595da5cb89",
+    "src/fa5060/reference.py": "747ff84da8c952776bc2b7a176e177ddd0106a4effc05d186377ace802088da4",
+    "src/fa5060/tilelang/__init__.py": "35f081a2cc70c29a8ba689bb4fde4a70a674d8d930604b382ab360507a1f2a4a",
+    "src/fa5060/tilelang/_contracts.py": "60812ef5c26f6c03eb920310875804658c9d78e899f19f451acf797a7c0f6312",
+    "src/fa5060/tilelang/_decode_pipeline.py": "d64fa38fc7330dad4e4d9d31d9793db6f8797fc6aac5d026091e44005c80c2ff",
+    "src/fa5060/tilelang/_decode_simt.py": "c9b7ae1a4c083ade8a269a42216d4f3243615dc940c1d4a04fe68517d132beec",
+    "src/fa5060/tilelang/_decode_warp.py": "00f42d0a7eaa557672c4cc02aed310091f92a0761af05440b0f4d07d9ce7868e",
+    "src/fa5060/tilelang/_prefill_async.py": "72646ae99f97001cff675983ef0e9e3d8cf14b253ee3b547ef5f812f106974ee",
+    "src/fa5060/tilelang/_prefill_mma.py": "aba865ebedfe1c8b8bb28f80ba47a133c8d177f93539e528ccf1f32d7c7b74e0",
+    "src/fa5060/tilelang/_prefill_qasync.py": "7564591033edd5322d4c06ecbd3f41d40c99a7ba5ad24473d9c3c78c09a44bf7",
+    "src/fa5060/tilelang/_prefill_qregister.py": "bb54103385a8afdb429edc5378d093bc3710552ac5f04f94f0c6a374abcc4c7a",
+    "src/fa5060/tilelang/_prefill_register.py": "b2551dc9a72559660741b23c986c6b43a64ef9f67b873c7098e82f6985d9fcc9",
+    "src/fa5060/tilelang/attention.py": "e03a14b66cc8399b15f81f047baa56b4b3de8220147d9f2dbcc64da7c5f46667",
+    "src/fa5060/tilelang/fundamentals.py": "0d6a97788365a5765fe0fe186bdaffd9c21733b390e64bd65556bfd9d1a5eddd",
+    "src/fa5060/workloads.py": "978681c26528370aa57fe9de55765f148367f9d15f17566573348f8336e74f1c"
+  },
+  "cases": [
+    {
+      "case": {
+        "id": "prefill-b1-l2048-hq32-hkv8-d128-bf16-paged16",
+        "phase": "prefill",
+        "batch": 1,
+        "kv_len": 2048,
+        "query_len": 2048,
+        "head_dim": 128,
+        "heads_q": 32,
+        "heads_kv": 8,
+        "dtype": "bf16",
+        "layout": "paged",
+        "page_size": 16,
+        "causal": true,
+        "shape": {
+          "q": [
+            1,
+            2048,
+            32,
+            128
+          ],
+          "k": [
+            128,
+            16,
+            8,
+            128
+          ],
+          "v": [
+            128,
+            16,
+            8,
+            128
+          ],
+          "kv_lens": [
+            2048
+          ],
+          "block_table": [
+            1,
+            128
+          ],
+          "heads_q": 32,
+          "heads_kv": 8,
+          "head_dim": 128,
+          "batch": 1,
+          "query_len": 2048,
+          "kv_len": 2048
+        }
+      },
+      "trials": [
+        {
+          "variant": "reference",
+          "provider": "ours",
+          "choice": {
+            "config": {
+              "block_m": 64,
+              "block_n": 64,
+              "num_warps": 4,
+              "num_stages": 2
+            },
+            "num_splits": null
+          },
+          "validation": {
+            "validated": true,
+            "max_abs_error": 0.015625,
+            "max_relative_error_atol_floor": 0.11138916015625,
+            "atol": 0.02,
+            "rtol": 0.02,
+            "normalized_rms_error": 0.0021007840209551877,
+            "normalized_rms_tolerance": 0.05
+          },
+          "status": "ok",
+          "metadata": {
+            "api": "fa5060.tilelang.prefill",
+            "backend": "tilelang",
+            "package_versions": {
+              "tilelang": "0.1.15",
+              "apache-tvm-ffi": "0.1.12"
+            },
+            "preallocated_output": true,
+            "preallocated_workspace": false,
+            "config": {
+              "block_m": 64,
+              "block_n": 64,
+              "num_warps": 4,
+              "num_stages": 2
+            },
+            "num_splits": null,
+            "native_paged": true,
+            "eager_allocates_output": true,
+            "eager_allocates_workspace": false,
+            "graph_boundary": "complete operator including all decode splits and merge"
+          },
+          "gpu_us_rounds": [
+            2522.645950317383,
+            2523.8699913024902,
+            2519.129991531372,
+            2541.1760807037354,
+            2540.3358936309814,
+            2561.3598823547363,
+            2543.8520908355713,
+            2540.4820442199707,
+            2519.184112548828
+          ],
+          "graph_calls_per_replay": 16,
+          "telemetry_rounds": [
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P2",
+                  "power_draw_watts": 16.24,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1702,
+                  "memory_clock_mhz": 11001,
+                  "temperature_celsius": 49
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 49.17,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2175,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 51
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 47.51,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2175,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 51
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 47.33,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2137,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 50
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 48.15,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2137,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 50
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 48.67,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2130,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 51
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 48.49,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2130,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 50
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 48.51,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2122,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 51
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 48.7,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2122,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 50
+                }
+              ],
+              "error": null
+            }
+          ],
+          "gpu_us_p50": 2540.3358936309814
+        },
+        {
+          "variant": "async",
+          "provider": "ours",
+          "choice": {
+            "config": {
+              "block_m": 64,
+              "block_n": 32,
+              "num_warps": 4,
+              "num_stages": 2
+            },
+            "num_splits": null
+          },
+          "validation": {
+            "validated": true,
+            "max_abs_error": 0.015625,
+            "max_relative_error_atol_floor": 0.11138916015625,
+            "atol": 0.02,
+            "rtol": 0.02,
+            "normalized_rms_error": 0.0020873662032170385,
+            "normalized_rms_tolerance": 0.05
+          },
+          "status": "ok",
+          "metadata": {
+            "api": "fa5060.tilelang.prefill",
+            "backend": "tilelang",
+            "package_versions": {
+              "tilelang": "0.1.15",
+              "apache-tvm-ffi": "0.1.12"
+            },
+            "preallocated_output": true,
+            "preallocated_workspace": false,
+            "config": {
+              "block_m": 64,
+              "block_n": 32,
+              "num_warps": 4,
+              "num_stages": 2
+            },
+            "num_splits": null,
+            "native_paged": true,
+            "eager_allocates_output": true,
+            "eager_allocates_workspace": false,
+            "graph_boundary": "complete operator including all decode splits and merge"
+          },
+          "gpu_us_rounds": [
+            1173.4399795532227,
+            1180.9639930725098,
+            1151.9500017166138,
+            1163.1239652633667,
+            1180.0700426101685,
+            1190.0520324707031,
+            1146.9039916992188,
+            1168.4620380401611,
+            1164.0139818191528
+          ],
+          "graph_calls_per_replay": 16,
+          "telemetry_rounds": [
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P2",
+                  "power_draw_watts": 20.7,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1702,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 51
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 43.45,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2115,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 51
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 47.51,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2175,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 48
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 47.78,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2047,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 52
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 48.15,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2137,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 50
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 47.92,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2100,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 52
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 48.49,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2130,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 50
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 48.45,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2115,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 53
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 48.7,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2122,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 50
+                }
+              ],
+              "error": null
+            }
+          ],
+          "gpu_us_p50": 1168.4620380401611
+        },
+        {
+          "variant": "async",
+          "provider": "ours",
+          "choice": {
+            "config": {
+              "block_m": 64,
+              "block_n": 64,
+              "num_warps": 4,
+              "num_stages": 2
+            },
+            "num_splits": null
+          },
+          "validation": {
+            "validated": true,
+            "max_abs_error": 0.015625,
+            "max_relative_error_atol_floor": 0.11138916015625,
+            "atol": 0.02,
+            "rtol": 0.02,
+            "normalized_rms_error": 0.0021007817720908356,
+            "normalized_rms_tolerance": 0.05
+          },
+          "status": "ok",
+          "metadata": {
+            "api": "fa5060.tilelang.prefill",
+            "backend": "tilelang",
+            "package_versions": {
+              "tilelang": "0.1.15",
+              "apache-tvm-ffi": "0.1.12"
+            },
+            "preallocated_output": true,
+            "preallocated_workspace": false,
+            "config": {
+              "block_m": 64,
+              "block_n": 64,
+              "num_warps": 4,
+              "num_stages": 2
+            },
+            "num_splits": null,
+            "native_paged": true,
+            "eager_allocates_output": true,
+            "eager_allocates_workspace": false,
+            "graph_boundary": "complete operator including all decode splits and merge"
+          },
+          "gpu_us_rounds": [
+            1355.2440404891968,
+            1355.455994606018,
+            1382.6940059661865,
+            1379.449963569641,
+            1365.6660318374634,
+            1355.7920455932617,
+            1403.7760496139526,
+            1359.8599433898926,
+            1396.1260318756104
+          ],
+          "graph_calls_per_replay": 16,
+          "telemetry_rounds": [
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P2",
+                  "power_draw_watts": 20.7,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1702,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 51
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 43.45,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2115,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 51
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 47.51,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2175,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 48
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 47.78,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2047,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 52
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 48.45,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2137,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 50
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 47.92,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2100,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 52
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 48.31,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2130,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 50
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 48.45,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2115,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 53
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 48.43,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2122,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 50
+                }
+              ],
+              "error": null
+            }
+          ],
+          "gpu_us_p50": 1365.6660318374634
+        },
+        {
+          "variant": "async",
+          "provider": "ours",
+          "choice": {
+            "config": {
+              "block_m": 128,
+              "block_n": 32,
+              "num_warps": 4,
+              "num_stages": 2
+            },
+            "num_splits": null
+          },
+          "validation": {
+            "validated": true,
+            "max_abs_error": 0.015625,
+            "max_relative_error_atol_floor": 0.11138916015625,
+            "atol": 0.02,
+            "rtol": 0.02,
+            "normalized_rms_error": 0.0020873662032170385,
+            "normalized_rms_tolerance": 0.05
+          },
+          "status": "ok",
+          "metadata": {
+            "api": "fa5060.tilelang.prefill",
+            "backend": "tilelang",
+            "package_versions": {
+              "tilelang": "0.1.15",
+              "apache-tvm-ffi": "0.1.12"
+            },
+            "preallocated_output": true,
+            "preallocated_workspace": false,
+            "config": {
+              "block_m": 128,
+              "block_n": 32,
+              "num_warps": 4,
+              "num_stages": 2
+            },
+            "num_splits": null,
+            "native_paged": true,
+            "eager_allocates_output": true,
+            "eager_allocates_workspace": false,
+            "graph_boundary": "complete operator including all decode splits and merge"
+          },
+          "gpu_us_rounds": [
+            1431.4780235290527,
+            1439.0239715576172,
+            1399.9340534210205,
+            1398.0380296707153,
+            1422.5080013275146,
+            1422.9999780654907,
+            1443.750023841858,
+            1421.1679697036743,
+            1416.4079427719116
+          ],
+          "graph_calls_per_replay": 16,
+          "telemetry_rounds": [
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P2",
+                  "power_draw_watts": 23.93,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1702,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 51
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 43.14,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2115,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 53
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 47.51,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2175,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 48
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 48.28,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2047,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 53
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 48.45,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2137,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 50
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 48.19,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2100,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 52
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 48.31,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2130,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 50
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 48.43,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2115,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 53
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 48.43,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2122,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 49
+                }
+              ],
+              "error": null
+            }
+          ],
+          "gpu_us_p50": 1422.5080013275146
+        },
+        {
+          "variant": "qregister",
+          "provider": "ours",
+          "choice": {
+            "config": {
+              "block_m": 64,
+              "block_n": 32,
+              "num_warps": 4,
+              "num_stages": 1
+            },
+            "num_splits": null
+          },
+          "validation": {
+            "validated": true,
+            "max_abs_error": 0.015625,
+            "max_relative_error_atol_floor": 0.11138916015625,
+            "atol": 0.02,
+            "rtol": 0.02,
+            "normalized_rms_error": 0.0020873662032170385,
+            "normalized_rms_tolerance": 0.05
+          },
+          "status": "ok",
+          "metadata": {
+            "api": "fa5060.tilelang.prefill",
+            "backend": "tilelang",
+            "package_versions": {
+              "tilelang": "0.1.15",
+              "apache-tvm-ffi": "0.1.12"
+            },
+            "preallocated_output": true,
+            "preallocated_workspace": false,
+            "config": {
+              "block_m": 64,
+              "block_n": 32,
+              "num_warps": 4,
+              "num_stages": 1
+            },
+            "num_splits": null,
+            "native_paged": true,
+            "eager_allocates_output": true,
+            "eager_allocates_workspace": false,
+            "graph_boundary": "complete operator including all decode splits and merge"
+          },
+          "gpu_us_rounds": [
+            1173.077940940857,
+            1181.164026260376,
+            1174.5200157165527,
+            1169.2899465560913,
+            1163.60604763031,
+            1173.5659837722778,
+            1166.2260293960571,
+            1184.1340065002441,
+            1197.2739696502686
+          ],
+          "graph_calls_per_replay": 16,
+          "telemetry_rounds": [
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P2",
+                  "power_draw_watts": 23.93,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1702,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 51
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 43.14,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2115,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 53
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 47.51,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2145,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 48
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 48.28,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2047,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 53
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 48.59,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2152,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 49
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 48.19,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2100,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 52
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 48.33,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2130,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 49
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 48.43,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2115,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 53
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 48.43,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2175,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 49
+                }
+              ],
+              "error": null
+            }
+          ],
+          "gpu_us_p50": 1173.5659837722778
+        },
+        {
+          "variant": "qregister",
+          "provider": "ours",
+          "choice": {
+            "config": {
+              "block_m": 64,
+              "block_n": 64,
+              "num_warps": 4,
+              "num_stages": 1
+            },
+            "num_splits": null
+          },
+          "validation": {
+            "validated": true,
+            "max_abs_error": 0.015625,
+            "max_relative_error_atol_floor": 0.11138916015625,
+            "atol": 0.02,
+            "rtol": 0.02,
+            "normalized_rms_error": 0.0021007817720908356,
+            "normalized_rms_tolerance": 0.05
+          },
+          "status": "ok",
+          "metadata": {
+            "api": "fa5060.tilelang.prefill",
+            "backend": "tilelang",
+            "package_versions": {
+              "tilelang": "0.1.15",
+              "apache-tvm-ffi": "0.1.12"
+            },
+            "preallocated_output": true,
+            "preallocated_workspace": false,
+            "config": {
+              "block_m": 64,
+              "block_n": 64,
+              "num_warps": 4,
+              "num_stages": 1
+            },
+            "num_splits": null,
+            "native_paged": true,
+            "eager_allocates_output": true,
+            "eager_allocates_workspace": false,
+            "graph_boundary": "complete operator including all decode splits and merge"
+          },
+          "gpu_us_rounds": [
+            1303.9920330047607,
+            1215.6879901885986,
+            1254.4859647750854,
+            1249.5520114898682,
+            1278.630018234253,
+            1249.3679523468018,
+            1293.5899496078491,
+            1250.707983970642,
+            1236.5920543670654
+          ],
+          "graph_calls_per_replay": 16,
+          "telemetry_rounds": [
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P2",
+                  "power_draw_watts": 26.51,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2205,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 51
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 38.74,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2047,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 53
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 47.53,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2145,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 48
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 47.88,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2107,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 52
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 48.59,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2152,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 49
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 48.03,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2100,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 48
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 48.33,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2130,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 49
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 48.35,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2115,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 48
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 48.32,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2175,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 49
+                }
+              ],
+              "error": null
+            }
+          ],
+          "gpu_us_p50": 1250.707983970642
+        },
+        {
+          "variant": "qasync",
+          "provider": "ours",
+          "choice": {
+            "config": {
+              "block_m": 64,
+              "block_n": 32,
+              "num_warps": 4,
+              "num_stages": 2
+            },
+            "num_splits": null
+          },
+          "validation": {
+            "validated": true,
+            "max_abs_error": 0.015625,
+            "max_relative_error_atol_floor": 0.11138916015625,
+            "atol": 0.02,
+            "rtol": 0.02,
+            "normalized_rms_error": 0.0020873662032170385,
+            "normalized_rms_tolerance": 0.05
+          },
+          "status": "ok",
+          "metadata": {
+            "api": "fa5060.tilelang.prefill",
+            "backend": "tilelang",
+            "package_versions": {
+              "tilelang": "0.1.15",
+              "apache-tvm-ffi": "0.1.12"
+            },
+            "preallocated_output": true,
+            "preallocated_workspace": false,
+            "config": {
+              "block_m": 64,
+              "block_n": 32,
+              "num_warps": 4,
+              "num_stages": 2
+            },
+            "num_splits": null,
+            "native_paged": true,
+            "eager_allocates_output": true,
+            "eager_allocates_workspace": false,
+            "graph_boundary": "complete operator including all decode splits and merge"
+          },
+          "gpu_us_rounds": [
+            1131.7319869995117,
+            1133.4919929504395,
+            1118.4779405593872,
+            1125.506043434143,
+            1104.1120290756226,
+            1128.0720233917236,
+            1110.517978668213,
+            1114.1159534454346,
+            1130.3479671478271
+          ],
+          "graph_calls_per_replay": 16,
+          "telemetry_rounds": [
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P2",
+                  "power_draw_watts": 26.51,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2205,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 51
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 38.74,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2047,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 53
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 47.53,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2145,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 48
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 47.88,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2107,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 52
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 48.59,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2152,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 49
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 48.03,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2130,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 48
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 48.33,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2130,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 49
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 48.35,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2137,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 48
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 48.32,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2175,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 49
+                }
+              ],
+              "error": null
+            }
+          ],
+          "gpu_us_p50": 1125.506043434143
+        },
+        {
+          "variant": "qasync",
+          "provider": "ours",
+          "choice": {
+            "config": {
+              "block_m": 64,
+              "block_n": 64,
+              "num_warps": 4,
+              "num_stages": 2
+            },
+            "num_splits": null
+          },
+          "validation": {
+            "validated": true,
+            "max_abs_error": 0.015625,
+            "max_relative_error_atol_floor": 0.11138916015625,
+            "atol": 0.02,
+            "rtol": 0.02,
+            "normalized_rms_error": 0.0021007817720908356,
+            "normalized_rms_tolerance": 0.05
+          },
+          "status": "ok",
+          "metadata": {
+            "api": "fa5060.tilelang.prefill",
+            "backend": "tilelang",
+            "package_versions": {
+              "tilelang": "0.1.15",
+              "apache-tvm-ffi": "0.1.12"
+            },
+            "preallocated_output": true,
+            "preallocated_workspace": false,
+            "config": {
+              "block_m": 64,
+              "block_n": 64,
+              "num_warps": 4,
+              "num_stages": 2
+            },
+            "num_splits": null,
+            "native_paged": true,
+            "eager_allocates_output": true,
+            "eager_allocates_workspace": false,
+            "graph_boundary": "complete operator including all decode splits and merge"
+          },
+          "gpu_us_rounds": [
+            1375.9219646453857,
+            1367.0419454574585,
+            1415.861964225769,
+            1363.7020587921143,
+            1396.7560529708862,
+            1388.3639574050903,
+            1385.4140043258667,
+            1386.5339756011963,
+            1363.5480403900146
+          ],
+          "graph_calls_per_replay": 16,
+          "telemetry_rounds": [
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P2",
+                  "power_draw_watts": 28.77,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2205,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 52
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P2",
+                  "power_draw_watts": 35.18,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2047,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 52
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 47.4,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2145,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 51
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 47.75,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2107,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 51
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 48.42,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2152,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 48
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 48.18,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2130,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 48
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 48.33,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2130,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 49
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 48.39,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2137,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 49
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 48.46,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2175,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 48
+                }
+              ],
+              "error": null
+            }
+          ],
+          "gpu_us_p50": 1385.4140043258667
+        },
+        {
+          "variant": "external",
+          "provider": "torch_flash",
+          "choice": null,
+          "status": "error",
+          "reason": "UnsupportedProvider: forced Torch SDPA has no native paged-KV public API"
+        },
+        {
+          "variant": "external",
+          "provider": "torch_cudnn",
+          "choice": null,
+          "status": "error",
+          "reason": "UnsupportedProvider: forced Torch SDPA has no native paged-KV public API"
+        },
+        {
+          "variant": "external",
+          "provider": "torch_efficient",
+          "choice": null,
+          "status": "error",
+          "reason": "UnsupportedProvider: forced Torch SDPA has no native paged-KV public API"
+        },
+        {
+          "variant": "external",
+          "provider": "fa4",
+          "choice": null,
+          "status": "error",
+          "reason": "UnsupportedProvider: FA4 flash_attn_func adapter has no verified native page-table API"
+        },
+        {
+          "variant": "external",
+          "provider": "flashinfer_fa2",
+          "choice": null,
+          "validation": {
+            "validated": true,
+            "max_abs_error": 0.015625,
+            "max_relative_error_atol_floor": 0.11138916015625,
+            "atol": 0.02,
+            "rtol": 0.02,
+            "normalized_rms_error": 0.002051909427061344,
+            "normalized_rms_tolerance": 0.05
+          },
+          "status": "ok",
+          "metadata": {
+            "backend": "fa2",
+            "workspace_bytes": 134217728,
+            "planning_timed": false,
+            "input_copies": false,
+            "gqa_expansion": false,
+            "preallocated_output": true,
+            "native_paged": true,
+            "kv_layout": "NHD",
+            "api": "flashinfer.BatchPrefillWithPagedKVCacheWrapper.run",
+            "constructor_signature": "(float_workspace_buffer: torch.Tensor, kv_layout: str = 'NHD', use_cuda_graph: bool = False, qo_indptr_buf: Optional[torch.Tensor] = None, paged_kv_indptr_buf: Optional[torch.Tensor] = None, paged_kv_indices_buf: Optional[torch.Tensor] = None, paged_kv_last_page_len_buf: Optional[torch.Tensor] = None, custom_mask_buf: Optional[torch.Tensor] = None, mask_indptr_buf: Optional[torch.Tensor] = None, backend: str = 'auto', jit_args: Optional[List[Any]] = None, jit_kwargs: Optional[Dict[str, Any]] = None, variant_owns_mask: bool = False) -> None",
+            "run_signature": "(q: torch.Tensor, paged_kv_cache: Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]], *args, q_scale: Union[float, torch.Tensor, NoneType] = None, k_scale: Union[float, torch.Tensor, NoneType] = None, v_scale: Union[float, torch.Tensor, NoneType] = None, out: Optional[torch.Tensor] = None, lse: Optional[torch.Tensor] = None, return_lse: bool = False, lse_base: str = 'log2', lse_layout: str = 'NH', enable_pdl: Optional[bool] = None, window_left: Optional[int] = None, sinks: Optional[torch.Tensor] = None, kv_cache_sf: Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor], NoneType] = None, skip_softmax_threshold_scale_factor: Optional[float] = None, use_fp16_softmax: Optional[bool] = None, uses_spcompress: Optional[bool] = None) -> Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]]",
+            "resolved_backend": "fa2"
+          },
+          "gpu_us_rounds": [
+            1243.3760166168213,
+            1284.8860025405884,
+            1235.7540130615234,
+            1299.0959882736206,
+            1272.3959684371948,
+            1258.3099603652954,
+            1268.865942955017,
+            1290.1999950408936,
+            1263.3399963378906
+          ],
+          "graph_calls_per_replay": 16,
+          "telemetry_rounds": [
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P2",
+                  "power_draw_watts": 28.77,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2205,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 52
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P2",
+                  "power_draw_watts": 35.18,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2047,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 52
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 47.4,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2145,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 51
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 47.75,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2107,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 51
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 48.42,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2152,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 48
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 48.18,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2130,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 48
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 48.33,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2130,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 49
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 48.39,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2137,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 49
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 48.46,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2175,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 48
+                }
+              ],
+              "error": null
+            }
+          ],
+          "gpu_us_p50": 1268.865942955017
+        },
+        {
+          "variant": "external",
+          "provider": "flashinfer_fmha_v2",
+          "choice": null,
+          "validation": {
+            "validated": true,
+            "max_abs_error": 0.015625,
+            "max_relative_error_atol_floor": 0.11138916015625,
+            "atol": 0.02,
+            "rtol": 0.02,
+            "normalized_rms_error": 0.002100823030913825,
+            "normalized_rms_tolerance": 0.05
+          },
+          "status": "ok",
+          "metadata": {
+            "backend": "fmha_v2",
+            "workspace_bytes": 134217728,
+            "planning_timed": false,
+            "input_copies": false,
+            "gqa_expansion": false,
+            "preallocated_output": true,
+            "native_paged": true,
+            "kv_layout": "NHD",
+            "block_table_format": "[B,2,M] native K/V block offsets; static preprocessing",
+            "api": "flashinfer.prefill.trtllm_fmha_v2_prefill",
+            "signature": "(qkv: Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor], Tuple[torch.Tensor, torch.Tensor, torch.Tensor]], input_layout: str, workspace_buffer: torch.Tensor, seq_lens: torch.Tensor, max_q_len: int, max_kv_len: int, bmm1_scale: float, bmm2_scale: float, batch_size: int, cum_seq_lens_q: torch.Tensor, cum_seq_lens_kv: torch.Tensor, block_tables: Optional[torch.Tensor] = None, out: Optional[torch.Tensor] = None, out_dtype: Union[str, torch.dtype, NoneType] = None, sinks: Optional[List[torch.Tensor]] = None, pos_encoding_mode: str = None, logits_soft_cap_scale: Optional[float] = None, mask_mode: str = 'causal', window_left: int = -1, chunked_attention_size: int = 0, save_softmax_stats: bool = False, skip_softmax_threshold_scale_factor: float = 0) -> Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]]",
+            "input_layout": "Q_PAGED_KV_NHD",
+            "decode_entry": null
+          },
+          "gpu_us_rounds": [
+            1538.9820337295532,
+            1502.7179718017578,
+            1533.2059860229492,
+            1513.4459733963013,
+            1518.638014793396,
+            1530.6240320205688,
+            1502.8760433197021,
+            1530.0379991531372,
+            1525.5600214004517
+          ],
+          "graph_calls_per_replay": 16,
+          "telemetry_rounds": [
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P2",
+                  "power_draw_watts": 34.07,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2047,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 52
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P2",
+                  "power_draw_watts": 34.07,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2047,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 52
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 47.5,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2107,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 52
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 47.5,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2107,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 52
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 47.95,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2130,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 49
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 47.95,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2130,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 49
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 48.27,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2137,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 48
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 48.27,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2137,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 48
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 48.67,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2092,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 50
+                }
+              ],
+              "error": null
+            }
+          ],
+          "gpu_us_p50": 1525.5600214004517
+        }
+      ],
+      "telemetry_after": {
+        "available": true,
+        "devices": [
+          {
+            "index": 0,
+            "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+            "driver_version": "595.99.02",
+            "performance_state": "P0",
+            "power_draw_watts": 48.67,
+            "power_limit_watts": null,
+            "sm_clock_mhz": 2092,
+            "memory_clock_mhz": 12001,
+            "temperature_celsius": 50
+          }
+        ],
+        "error": null
+      },
+      "order": "forward in even rounds; reverse in odd rounds; one repeated-operator graph per trial"
+    },
+    {
+      "case": {
+        "id": "prefill-b1-l2048-hq32-hkv8-d64-bf16-dense",
+        "phase": "prefill",
+        "batch": 1,
+        "kv_len": 2048,
+        "query_len": 2048,
+        "head_dim": 64,
+        "heads_q": 32,
+        "heads_kv": 8,
+        "dtype": "bf16",
+        "layout": "dense",
+        "page_size": 16,
+        "causal": true,
+        "shape": {
+          "q": [
+            1,
+            2048,
+            32,
+            64
+          ],
+          "k": [
+            1,
+            2048,
+            8,
+            64
+          ],
+          "v": [
+            1,
+            2048,
+            8,
+            64
+          ],
+          "kv_lens": [
+            2048
+          ],
+          "block_table": null,
+          "heads_q": 32,
+          "heads_kv": 8,
+          "head_dim": 64,
+          "batch": 1,
+          "query_len": 2048,
+          "kv_len": 2048
+        }
+      },
+      "trials": [
+        {
+          "variant": "reference",
+          "provider": "ours",
+          "choice": {
+            "config": {
+              "block_m": 64,
+              "block_n": 64,
+              "num_warps": 4,
+              "num_stages": 2
+            },
+            "num_splits": null
+          },
+          "validation": {
+            "validated": true,
+            "max_abs_error": 0.0078125,
+            "max_relative_error_atol_floor": 0.1007080078125,
+            "atol": 0.02,
+            "rtol": 0.02,
+            "normalized_rms_error": 0.0020963976520047443,
+            "normalized_rms_tolerance": 0.05
+          },
+          "status": "ok",
+          "metadata": {
+            "api": "fa5060.tilelang.prefill",
+            "backend": "tilelang",
+            "package_versions": {
+              "tilelang": "0.1.15",
+              "apache-tvm-ffi": "0.1.12"
+            },
+            "preallocated_output": true,
+            "preallocated_workspace": false,
+            "config": {
+              "block_m": 64,
+              "block_n": 64,
+              "num_warps": 4,
+              "num_stages": 2
+            },
+            "num_splits": null,
+            "native_paged": false,
+            "eager_allocates_output": true,
+            "eager_allocates_workspace": false,
+            "graph_boundary": "complete operator including all decode splits and merge"
+          },
+          "gpu_us_rounds": [
+            751.3480186462402,
+            714.0840291976929,
+            714.2400145530701,
+            715.2220010757446,
+            714.5540118217468,
+            717.2319889068604,
+            715.4260277748108,
+            744.6619868278503,
+            719.5760011672974
+          ],
+          "graph_calls_per_replay": 16,
+          "telemetry_rounds": [
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P2",
+                  "power_draw_watts": 15.18,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1717,
+                  "memory_clock_mhz": 11001,
+                  "temperature_celsius": 51
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P2",
+                  "power_draw_watts": 37.13,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1950,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 50
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P2",
+                  "power_draw_watts": 37.62,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1980,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 51
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 35.92,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1890,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 49
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 35.72,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1927,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 51
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 36.12,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1935,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 51
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 36.48,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1935,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 49
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 36.47,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2070,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 48
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 36.47,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2070,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 48
+                }
+              ],
+              "error": null
+            }
+          ],
+          "gpu_us_p50": 715.4260277748108
+        },
+        {
+          "variant": "async",
+          "provider": "ours",
+          "choice": {
+            "config": {
+              "block_m": 64,
+              "block_n": 32,
+              "num_warps": 4,
+              "num_stages": 2
+            },
+            "num_splits": null
+          },
+          "validation": {
+            "validated": true,
+            "max_abs_error": 0.0078125,
+            "max_relative_error_atol_floor": 0.1007080078125,
+            "atol": 0.02,
+            "rtol": 0.02,
+            "normalized_rms_error": 0.0020801494616531297,
+            "normalized_rms_tolerance": 0.05
+          },
+          "status": "ok",
+          "metadata": {
+            "api": "fa5060.tilelang.prefill",
+            "backend": "tilelang",
+            "package_versions": {
+              "tilelang": "0.1.15",
+              "apache-tvm-ffi": "0.1.12"
+            },
+            "preallocated_output": true,
+            "preallocated_workspace": false,
+            "config": {
+              "block_m": 64,
+              "block_n": 32,
+              "num_warps": 4,
+              "num_stages": 2
+            },
+            "num_splits": null,
+            "native_paged": false,
+            "eager_allocates_output": true,
+            "eager_allocates_workspace": false,
+            "graph_boundary": "complete operator including all decode splits and merge"
+          },
+          "gpu_us_rounds": [
+            609.9799871444702,
+            578.5959959030151,
+            580.4659724235535,
+            584.5500230789185,
+            580.6199908256531,
+            611.4659905433655,
+            590.2680158615112,
+            605.5639982223511,
+            623.9699721336365
+          ],
+          "graph_calls_per_replay": 16,
+          "telemetry_rounds": [
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P2",
+                  "power_draw_watts": 15.18,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1717,
+                  "memory_clock_mhz": 11001,
+                  "temperature_celsius": 51
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P2",
+                  "power_draw_watts": 37.13,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1950,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 50
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P2",
+                  "power_draw_watts": 37.62,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1980,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 51
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 35.92,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1890,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 49
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 35.72,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1927,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 51
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 36.12,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1935,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 51
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 36.48,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1897,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 49
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 36.47,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2070,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 48
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 37.27,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2070,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 52
+                }
+              ],
+              "error": null
+            }
+          ],
+          "gpu_us_p50": 590.2680158615112
+        },
+        {
+          "variant": "async",
+          "provider": "ours",
+          "choice": {
+            "config": {
+              "block_m": 64,
+              "block_n": 64,
+              "num_warps": 4,
+              "num_stages": 2
+            },
+            "num_splits": null
+          },
+          "validation": {
+            "validated": true,
+            "max_abs_error": 0.0078125,
+            "max_relative_error_atol_floor": 0.1007080078125,
+            "atol": 0.02,
+            "rtol": 0.02,
+            "normalized_rms_error": 0.002096399552592558,
+            "normalized_rms_tolerance": 0.05
+          },
+          "status": "ok",
+          "metadata": {
+            "api": "fa5060.tilelang.prefill",
+            "backend": "tilelang",
+            "package_versions": {
+              "tilelang": "0.1.15",
+              "apache-tvm-ffi": "0.1.12"
+            },
+            "preallocated_output": true,
+            "preallocated_workspace": false,
+            "config": {
+              "block_m": 64,
+              "block_n": 64,
+              "num_warps": 4,
+              "num_stages": 2
+            },
+            "num_splits": null,
+            "native_paged": false,
+            "eager_allocates_output": true,
+            "eager_allocates_workspace": false,
+            "graph_boundary": "complete operator including all decode splits and merge"
+          },
+          "gpu_us_rounds": [
+            610.0220084190369,
+            618.6119914054871,
+            598.143994808197,
+            583.9959979057312,
+            594.5979952812195,
+            608.1920266151428,
+            594.1579937934875,
+            586.7679715156555,
+            593.4759974479675
+          ],
+          "graph_calls_per_replay": 16,
+          "telemetry_rounds": [
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P2",
+                  "power_draw_watts": 19.18,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1717,
+                  "memory_clock_mhz": 11001,
+                  "temperature_celsius": 51
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P2",
+                  "power_draw_watts": 37.13,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1950,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 50
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P2",
+                  "power_draw_watts": 37.53,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1980,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 48
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 35.92,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1890,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 49
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 35.72,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1927,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 51
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 36.68,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1935,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 49
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 36.48,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1897,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 49
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 36.54,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2070,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 48
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 37.27,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1860,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 52
+                }
+              ],
+              "error": null
+            }
+          ],
+          "gpu_us_p50": 594.5979952812195
+        },
+        {
+          "variant": "async",
+          "provider": "ours",
+          "choice": {
+            "config": {
+              "block_m": 128,
+              "block_n": 32,
+              "num_warps": 4,
+              "num_stages": 2
+            },
+            "num_splits": null
+          },
+          "validation": {
+            "validated": true,
+            "max_abs_error": 0.0078125,
+            "max_relative_error_atol_floor": 0.1007080078125,
+            "atol": 0.02,
+            "rtol": 0.02,
+            "normalized_rms_error": 0.0020801494616531297,
+            "normalized_rms_tolerance": 0.05
+          },
+          "status": "ok",
+          "metadata": {
+            "api": "fa5060.tilelang.prefill",
+            "backend": "tilelang",
+            "package_versions": {
+              "tilelang": "0.1.15",
+              "apache-tvm-ffi": "0.1.12"
+            },
+            "preallocated_output": true,
+            "preallocated_workspace": false,
+            "config": {
+              "block_m": 128,
+              "block_n": 32,
+              "num_warps": 4,
+              "num_stages": 2
+            },
+            "num_splits": null,
+            "native_paged": false,
+            "eager_allocates_output": true,
+            "eager_allocates_workspace": false,
+            "graph_boundary": "complete operator including all decode splits and merge"
+          },
+          "gpu_us_rounds": [
+            614.5899891853333,
+            641.7959928512573,
+            641.6640281677246,
+            639.7960186004639,
+            621.2559938430786,
+            630.7299733161926,
+            630.8720111846924,
+            623.1340169906616,
+            622.0359802246094
+          ],
+          "graph_calls_per_replay": 16,
+          "telemetry_rounds": [
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P2",
+                  "power_draw_watts": 19.18,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1717,
+                  "memory_clock_mhz": 11001,
+                  "temperature_celsius": 51
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P2",
+                  "power_draw_watts": 34.43,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1950,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 49
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P2",
+                  "power_draw_watts": 37.53,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1980,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 48
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 36.12,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1890,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 48
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 35.94,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1927,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 48
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 36.68,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1935,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 49
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 36.48,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1897,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 50
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 36.54,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2070,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 48
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 37.27,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1860,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 52
+                }
+              ],
+              "error": null
+            }
+          ],
+          "gpu_us_p50": 630.7299733161926
+        },
+        {
+          "variant": "qregister",
+          "provider": "ours",
+          "choice": {
+            "config": {
+              "block_m": 64,
+              "block_n": 32,
+              "num_warps": 4,
+              "num_stages": 1
+            },
+            "num_splits": null
+          },
+          "validation": {
+            "validated": true,
+            "max_abs_error": 0.0078125,
+            "max_relative_error_atol_floor": 0.1007080078125,
+            "atol": 0.02,
+            "rtol": 0.02,
+            "normalized_rms_error": 0.0020801494616531297,
+            "normalized_rms_tolerance": 0.05
+          },
+          "status": "ok",
+          "metadata": {
+            "api": "fa5060.tilelang.prefill",
+            "backend": "tilelang",
+            "package_versions": {
+              "tilelang": "0.1.15",
+              "apache-tvm-ffi": "0.1.12"
+            },
+            "preallocated_output": true,
+            "preallocated_workspace": false,
+            "config": {
+              "block_m": 64,
+              "block_n": 32,
+              "num_warps": 4,
+              "num_stages": 1
+            },
+            "num_splits": null,
+            "native_paged": false,
+            "eager_allocates_output": true,
+            "eager_allocates_workspace": false,
+            "graph_boundary": "complete operator including all decode splits and merge"
+          },
+          "gpu_us_rounds": [
+            572.2939968109131,
+            576.6680240631104,
+            576.5060186386108,
+            576.554000377655,
+            579.15198802948,
+            576.0480165481567,
+            582.3479890823364,
+            577.0260095596313,
+            605.6939959526062
+          ],
+          "graph_calls_per_replay": 16,
+          "telemetry_rounds": [
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P2",
+                  "power_draw_watts": 19.18,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1717,
+                  "memory_clock_mhz": 11001,
+                  "temperature_celsius": 51
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P2",
+                  "power_draw_watts": 34.43,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1950,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 49
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P2",
+                  "power_draw_watts": 37.53,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1980,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 48
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 36.12,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1890,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 48
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 35.94,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1927,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 48
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 36.68,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1935,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 49
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 36.48,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1897,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 50
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 36.66,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2070,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 52
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 36.57,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1860,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 51
+                }
+              ],
+              "error": null
+            }
+          ],
+          "gpu_us_p50": 576.6680240631104
+        },
+        {
+          "variant": "qregister",
+          "provider": "ours",
+          "choice": {
+            "config": {
+              "block_m": 64,
+              "block_n": 64,
+              "num_warps": 4,
+              "num_stages": 1
+            },
+            "num_splits": null
+          },
+          "validation": {
+            "validated": true,
+            "max_abs_error": 0.0078125,
+            "max_relative_error_atol_floor": 0.1007080078125,
+            "atol": 0.02,
+            "rtol": 0.02,
+            "normalized_rms_error": 0.002096399552592558,
+            "normalized_rms_tolerance": 0.05
+          },
+          "status": "ok",
+          "metadata": {
+            "api": "fa5060.tilelang.prefill",
+            "backend": "tilelang",
+            "package_versions": {
+              "tilelang": "0.1.15",
+              "apache-tvm-ffi": "0.1.12"
+            },
+            "preallocated_output": true,
+            "preallocated_workspace": false,
+            "config": {
+              "block_m": 64,
+              "block_n": 64,
+              "num_warps": 4,
+              "num_stages": 1
+            },
+            "num_splits": null,
+            "native_paged": false,
+            "eager_allocates_output": true,
+            "eager_allocates_workspace": false,
+            "graph_boundary": "complete operator including all decode splits and merge"
+          },
+          "gpu_us_rounds": [
+            569.0699815750122,
+            597.8599786758423,
+            571.1600184440613,
+            575.6499767303467,
+            591.2200212478638,
+            571.537971496582,
+            570.5599784851074,
+            567.4480199813843,
+            576.6479969024658
+          ],
+          "graph_calls_per_replay": 16,
+          "telemetry_rounds": [
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P2",
+                  "power_draw_watts": 20.82,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1717,
+                  "memory_clock_mhz": 11001,
+                  "temperature_celsius": 48
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P2",
+                  "power_draw_watts": 34.43,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1950,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 49
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 37.02,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1980,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 52
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 36.46,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1890,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 52
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 35.96,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1927,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 49
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 35.82,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1995,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 48
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 36.48,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1897,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 50
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 36.66,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2010,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 52
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 36.57,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1860,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 51
+                }
+              ],
+              "error": null
+            }
+          ],
+          "gpu_us_p50": 571.537971496582
+        },
+        {
+          "variant": "qasync",
+          "provider": "ours",
+          "choice": {
+            "config": {
+              "block_m": 64,
+              "block_n": 32,
+              "num_warps": 4,
+              "num_stages": 2
+            },
+            "num_splits": null
+          },
+          "validation": {
+            "validated": true,
+            "max_abs_error": 0.0078125,
+            "max_relative_error_atol_floor": 0.1007080078125,
+            "atol": 0.02,
+            "rtol": 0.02,
+            "normalized_rms_error": 0.0020801494616531297,
+            "normalized_rms_tolerance": 0.05
+          },
+          "status": "ok",
+          "metadata": {
+            "api": "fa5060.tilelang.prefill",
+            "backend": "tilelang",
+            "package_versions": {
+              "tilelang": "0.1.15",
+              "apache-tvm-ffi": "0.1.12"
+            },
+            "preallocated_output": true,
+            "preallocated_workspace": false,
+            "config": {
+              "block_m": 64,
+              "block_n": 32,
+              "num_warps": 4,
+              "num_stages": 2
+            },
+            "num_splits": null,
+            "native_paged": false,
+            "eager_allocates_output": true,
+            "eager_allocates_workspace": false,
+            "graph_boundary": "complete operator including all decode splits and merge"
+          },
+          "gpu_us_rounds": [
+            569.1840052604675,
+            591.8359756469727,
+            578.9240002632141,
+            571.2019801139832,
+            597.5379943847656,
+            568.6839818954468,
+            592.6060080528259,
+            603.0200123786926,
+            581.2579989433289
+          ],
+          "graph_calls_per_replay": 16,
+          "telemetry_rounds": [
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P2",
+                  "power_draw_watts": 20.82,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1717,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 48
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P2",
+                  "power_draw_watts": 33.38,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2115,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 48
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 37.02,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1980,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 52
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 36.46,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2017,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 52
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 35.96,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1927,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 49
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 35.82,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1995,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 48
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 36.45,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1897,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 51
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 36.66,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2010,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 52
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 36.57,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1860,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 51
+                }
+              ],
+              "error": null
+            }
+          ],
+          "gpu_us_p50": 581.2579989433289
+        },
+        {
+          "variant": "qasync",
+          "provider": "ours",
+          "choice": {
+            "config": {
+              "block_m": 64,
+              "block_n": 64,
+              "num_warps": 4,
+              "num_stages": 2
+            },
+            "num_splits": null
+          },
+          "validation": {
+            "validated": true,
+            "max_abs_error": 0.0078125,
+            "max_relative_error_atol_floor": 0.1007080078125,
+            "atol": 0.02,
+            "rtol": 0.02,
+            "normalized_rms_error": 0.002096399552592558,
+            "normalized_rms_tolerance": 0.05
+          },
+          "status": "ok",
+          "metadata": {
+            "api": "fa5060.tilelang.prefill",
+            "backend": "tilelang",
+            "package_versions": {
+              "tilelang": "0.1.15",
+              "apache-tvm-ffi": "0.1.12"
+            },
+            "preallocated_output": true,
+            "preallocated_workspace": false,
+            "config": {
+              "block_m": 64,
+              "block_n": 64,
+              "num_warps": 4,
+              "num_stages": 2
+            },
+            "num_splits": null,
+            "native_paged": false,
+            "eager_allocates_output": true,
+            "eager_allocates_workspace": false,
+            "graph_boundary": "complete operator including all decode splits and merge"
+          },
+          "gpu_us_rounds": [
+            558.4040284156799,
+            557.3899745941162,
+            556.734025478363,
+            557.5240254402161,
+            563.2100105285645,
+            580.6220173835754,
+            588.1800055503845,
+            593.8739776611328,
+            555.8760166168213
+          ],
+          "graph_calls_per_replay": 16,
+          "telemetry_rounds": [
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P2",
+                  "power_draw_watts": 23.1,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1920,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 48
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P2",
+                  "power_draw_watts": 33.38,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2115,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 48
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 37.02,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1867,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 52
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 36.46,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2017,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 52
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 35.96,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1897,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 49
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 35.82,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1995,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 48
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 36.45,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1897,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 51
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 36.11,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2010,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 50
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 36.36,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1860,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 48
+                }
+              ],
+              "error": null
+            }
+          ],
+          "gpu_us_p50": 558.4040284156799
+        },
+        {
+          "variant": "external",
+          "provider": "torch_flash",
+          "choice": null,
+          "validation": {
+            "validated": true,
+            "max_abs_error": 0.0078125,
+            "max_relative_error_atol_floor": 0.1007080078125,
+            "atol": 0.02,
+            "rtol": 0.02,
+            "normalized_rms_error": 0.002101984091938154,
+            "normalized_rms_tolerance": 0.05
+          },
+          "status": "ok",
+          "metadata": {
+            "api": "torch.nn.functional.scaled_dot_product_attention",
+            "forced_backend": "FLASH_ATTENTION",
+            "q_layout": "BHSD view of BSHD",
+            "kv_layout": "BHSD view of BSHD",
+            "gqa_expansion": false,
+            "input_copies": false,
+            "preallocated_output": false
+          },
+          "gpu_us_rounds": [
+            589.9500250816345,
+            575.402021408081,
+            577.6100158691406,
+            574.9319791793823,
+            577.6200294494629,
+            592.0799970626831,
+            573.9459991455078,
+            611.5339994430542,
+            584.2660069465637
+          ],
+          "graph_calls_per_replay": 16,
+          "telemetry_rounds": [
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P2",
+                  "power_draw_watts": 23.1,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1920,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 48
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P2",
+                  "power_draw_watts": 32.36,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2115,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 52
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 36.65,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1867,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 50
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 36.35,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2017,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 50
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 36.51,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1897,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 51
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 35.85,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1995,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 48
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 36.45,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1837,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 51
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 36.11,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2010,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 50
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 36.36,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1860,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 48
+                }
+              ],
+              "error": null
+            }
+          ],
+          "gpu_us_p50": 577.6200294494629
+        },
+        {
+          "variant": "external",
+          "provider": "torch_cudnn",
+          "choice": null,
+          "validation": {
+            "validated": true,
+            "max_abs_error": 0.0078125,
+            "max_relative_error_atol_floor": 0.1007080078125,
+            "atol": 0.02,
+            "rtol": 0.02,
+            "normalized_rms_error": 0.0020964075996135366,
+            "normalized_rms_tolerance": 0.05
+          },
+          "status": "ok",
+          "metadata": {
+            "api": "torch.nn.functional.scaled_dot_product_attention",
+            "forced_backend": "CUDNN_ATTENTION",
+            "q_layout": "BHSD view of BSHD",
+            "kv_layout": "BHSD view of BSHD",
+            "gqa_expansion": false,
+            "input_copies": false,
+            "preallocated_output": false
+          },
+          "gpu_us_rounds": [
+            621.9760179519653,
+            584.4460129737854,
+            584.1360092163086,
+            597.2200036048889,
+            585.1640105247498,
+            603.8339734077454,
+            584.8659873008728,
+            657.289981842041,
+            588.2319808006287
+          ],
+          "graph_calls_per_replay": 16,
+          "telemetry_rounds": [
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P2",
+                  "power_draw_watts": 23.1,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1920,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 48
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P2",
+                  "power_draw_watts": 32.36,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2115,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 52
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 36.65,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1867,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 50
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 36.35,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2017,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 50
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 36.51,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1897,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 51
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 35.85,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1995,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 48
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 35.86,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1837,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 51
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 36.11,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2010,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 50
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 36.36,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1837,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 48
+                }
+              ],
+              "error": null
+            }
+          ],
+          "gpu_us_p50": 588.2319808006287
+        },
+        {
+          "variant": "external",
+          "provider": "torch_efficient",
+          "choice": null,
+          "status": "error",
+          "reason": "UnsupportedProvider: Torch can_use_efficient_attention rejected the exact strided/GQA inputs; backend=EFFICIENT_ATTENTION, case=prefill-b1-l2048-hq32-hkv8-d64-bf16-dense"
+        },
+        {
+          "variant": "external",
+          "provider": "fa4",
+          "choice": null,
+          "validation": {
+            "validated": true,
+            "max_abs_error": 0.0078125,
+            "max_relative_error_atol_floor": 0.1007080078125,
+            "atol": 0.02,
+            "rtol": 0.02,
+            "normalized_rms_error": 0.0021018590981812515,
+            "normalized_rms_tolerance": 0.05
+          },
+          "status": "ok",
+          "metadata": {
+            "api": "flash_attn.cute.interface.flash_attn_func",
+            "signature": "(q: torch.Tensor, k: torch.Tensor, v: torch.Tensor, qv: Optional[torch.Tensor] = None, gather_kv_indices: Optional[torch.Tensor] = None, softmax_scale: Optional[float] = None, causal: bool = False, window_size: Tuple[Optional[int], Optional[int]] = (None, None), learnable_sink: Optional[torch.Tensor] = None, softcap: float = 0.0, num_splits: int = 1, pack_gqa: Optional[bool] = None, deterministic: bool = False, score_mod: Optional[Callable] = None, score_mod_bwd: Optional[Callable] = None, mask_mod: Optional[Callable] = None, aux_tensors: Optional[list] = None, aux_scalars: Optional[tuple] = None, block_sparse_tensors: Optional[flash_attn.cute.block_sparsity.BlockSparseTensorsTorch] = None, block_sparse_tensors_bwd: Optional[flash_attn.cute.block_sparsity.BlockSparseTensorsTorch] = None, return_lse: bool = False, gather_bwd_recompute_p: bool = False, gather_bwd_token_chunk: Optional[int] = None)",
+            "q_layout": "BSHD",
+            "kv_layout": "BSHD",
+            "input_copies": false,
+            "gqa_expansion": false,
+            "preallocated_output": false
+          },
+          "gpu_us_rounds": [
+            625.8519887924194,
+            630.8559775352478,
+            605.8779954910278,
+            637.2259855270386,
+            606.3460111618042,
+            617.6559925079346,
+            605.4239869117737,
+            640.1100158691406,
+            606.8300008773804
+          ],
+          "graph_calls_per_replay": 16,
+          "telemetry_rounds": [
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P2",
+                  "power_draw_watts": 25.81,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1920,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 49
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P2",
+                  "power_draw_watts": 32.36,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2115,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 52
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 36.49,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1867,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 50
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 36.35,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2017,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 50
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 36.51,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1897,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 51
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 38.05,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1995,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 53
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 35.86,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1837,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 51
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 37.5,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2010,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 49
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 36.81,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1837,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 48
+                }
+              ],
+              "error": null
+            }
+          ],
+          "gpu_us_p50": 617.6559925079346
+        },
+        {
+          "variant": "external",
+          "provider": "flashinfer_fa2",
+          "choice": null,
+          "validation": {
+            "validated": true,
+            "max_abs_error": 0.0078125,
+            "max_relative_error_atol_floor": 0.1007080078125,
+            "atol": 0.02,
+            "rtol": 0.02,
+            "normalized_rms_error": 0.0020561245631427246,
+            "normalized_rms_tolerance": 0.05
+          },
+          "status": "ok",
+          "metadata": {
+            "backend": "fa2",
+            "workspace_bytes": 134217728,
+            "planning_timed": false,
+            "input_copies": false,
+            "gqa_expansion": false,
+            "preallocated_output": true,
+            "native_paged": false,
+            "kv_layout": "NHD",
+            "api": "flashinfer.BatchPrefillWithRaggedKVCacheWrapper.run",
+            "constructor_signature": "(float_workspace_buffer: torch.Tensor, kv_layout: str = 'NHD', use_cuda_graph: bool = False, qo_indptr_buf: Optional[torch.Tensor] = None, kv_indptr_buf: Optional[torch.Tensor] = None, custom_mask_buf: Optional[torch.Tensor] = None, mask_indptr_buf: Optional[torch.Tensor] = None, backend: str = 'auto', jit_args: Optional[List[Any]] = None, jit_kwargs: Optional[Dict[str, Any]] = None, variant_owns_mask: bool = False) -> None",
+            "run_signature": "(q: torch.Tensor, k: torch.Tensor, v: torch.Tensor, *args, q_scale: Optional[float] = None, k_scale: Optional[float] = None, v_scale: Optional[float] = None, o_scale: Optional[float] = None, out: Optional[torch.Tensor] = None, lse: Optional[torch.Tensor] = None, return_lse: bool = False, lse_base: str = 'log2', lse_layout: str = 'NH', enable_pdl: Optional[bool] = None, kv_cache_sf: Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor], NoneType] = None) -> Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]]",
+            "resolved_backend": "fa2"
+          },
+          "gpu_us_rounds": [
+            712.6399874687195,
+            701.2280225753784,
+            674.0880012512207,
+            705.0480246543884,
+            675.7959723472595,
+            697.0040202140808,
+            673.009991645813,
+            694.0659880638123,
+            678.957998752594
+          ],
+          "graph_calls_per_replay": 16,
+          "telemetry_rounds": [
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P2",
+                  "power_draw_watts": 25.81,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1920,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 49
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P2",
+                  "power_draw_watts": 28.84,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2115,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 48
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 36.49,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1867,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 48
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 36.93,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2017,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 50
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 36.47,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1897,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 52
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 38.05,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1995,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 53
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 35.86,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1837,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 51
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 37.5,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2010,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 49
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 36.81,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1837,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 48
+                }
+              ],
+              "error": null
+            }
+          ],
+          "gpu_us_p50": 694.0659880638123
+        },
+        {
+          "variant": "external",
+          "provider": "flashinfer_fmha_v2",
+          "choice": null,
+          "validation": {
+            "validated": true,
+            "max_abs_error": 0.0078125,
+            "max_relative_error_atol_floor": 0.1190185546875,
+            "atol": 0.02,
+            "rtol": 0.02,
+            "normalized_rms_error": 0.00324515710286447,
+            "normalized_rms_tolerance": 0.05
+          },
+          "status": "ok",
+          "metadata": {
+            "backend": "fmha_v2",
+            "workspace_bytes": 134217728,
+            "planning_timed": false,
+            "input_copies": true,
+            "gqa_expansion": false,
+            "preallocated_output": true,
+            "native_paged": false,
+            "kv_layout": "NHD",
+            "api": "flashinfer.BatchPrefillWithRaggedKVCacheWrapper.run",
+            "input_layout": "CONTIGUOUS_Q_KV",
+            "packing_timed": true,
+            "packing": "public FlashInfer run() internally torch.stack((k,v), dim=1)",
+            "constructor_signature": "(float_workspace_buffer: torch.Tensor, kv_layout: str = 'NHD', use_cuda_graph: bool = False, qo_indptr_buf: Optional[torch.Tensor] = None, kv_indptr_buf: Optional[torch.Tensor] = None, custom_mask_buf: Optional[torch.Tensor] = None, mask_indptr_buf: Optional[torch.Tensor] = None, backend: str = 'auto', jit_args: Optional[List[Any]] = None, jit_kwargs: Optional[Dict[str, Any]] = None, variant_owns_mask: bool = False) -> None",
+            "run_signature": "(q: torch.Tensor, k: torch.Tensor, v: torch.Tensor, *args, q_scale: Optional[float] = None, k_scale: Optional[float] = None, v_scale: Optional[float] = None, o_scale: Optional[float] = None, out: Optional[torch.Tensor] = None, lse: Optional[torch.Tensor] = None, return_lse: bool = False, lse_base: str = 'log2', lse_layout: str = 'NH', enable_pdl: Optional[bool] = None, kv_cache_sf: Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor], NoneType] = None) -> Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]]",
+            "resolved_backend": "fmha_v2",
+            "decode_entry": null
+          },
+          "gpu_us_rounds": [
+            1471.3280200958252,
+            1465.33203125,
+            1470.0700044631958,
+            1438.7919902801514,
+            1426.7699718475342,
+            1451.0879516601562,
+            1405.892014503479,
+            1452.2680044174194,
+            1419.2919731140137
+          ],
+          "graph_calls_per_replay": 16,
+          "telemetry_rounds": [
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P2",
+                  "power_draw_watts": 25.81,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1920,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 49
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P2",
+                  "power_draw_watts": 28.84,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2115,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 48
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 36.49,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1867,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 48
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 36.93,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 2017,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 50
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 36.47,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1897,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 52
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 38.05,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1897,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 53
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 35.98,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1837,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 48
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 37.5,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1837,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 48
+                }
+              ],
+              "error": null
+            },
+            {
+              "available": true,
+              "devices": [
+                {
+                  "index": 0,
+                  "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+                  "driver_version": "595.99.02",
+                  "performance_state": "P0",
+                  "power_draw_watts": 37.26,
+                  "power_limit_watts": null,
+                  "sm_clock_mhz": 1837,
+                  "memory_clock_mhz": 12001,
+                  "temperature_celsius": 53
+                }
+              ],
+              "error": null
+            }
+          ],
+          "gpu_us_p50": 1451.0879516601562
+        }
+      ],
+      "telemetry_after": {
+        "available": true,
+        "devices": [
+          {
+            "index": 0,
+            "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+            "driver_version": "595.99.02",
+            "performance_state": "P0",
+            "power_draw_watts": 37.26,
+            "power_limit_watts": null,
+            "sm_clock_mhz": 1837,
+            "memory_clock_mhz": 12001,
+            "temperature_celsius": 53
+          }
+        ],
+        "error": null
+      },
+      "order": "forward in even rounds; reverse in odd rounds; one repeated-operator graph per trial"
+    }
+  ],
+  "trial_specification": {
+    "prefill": [
+      {
+        "variant": "reference",
+        "config": {
+          "block_m": 64,
+          "block_n": 64,
+          "num_warps": 4,
+          "num_stages": 2
+        },
+        "num_splits": null
+      },
+      {
+        "variant": "async",
+        "config": {
+          "block_m": 64,
+          "block_n": 32,
+          "num_warps": 4,
+          "num_stages": 2
+        },
+        "num_splits": null
+      },
+      {
+        "variant": "async",
+        "config": {
+          "block_m": 64,
+          "block_n": 64,
+          "num_warps": 4,
+          "num_stages": 2
+        },
+        "num_splits": null
+      },
+      {
+        "variant": "async",
+        "config": {
+          "block_m": 128,
+          "block_n": 32,
+          "num_warps": 4,
+          "num_stages": 2
+        },
+        "num_splits": null
+      },
+      {
+        "variant": "qregister",
+        "config": {
+          "block_m": 64,
+          "block_n": 32,
+          "num_warps": 4,
+          "num_stages": 1
+        },
+        "num_splits": null
+      },
+      {
+        "variant": "qregister",
+        "config": {
+          "block_m": 64,
+          "block_n": 64,
+          "num_warps": 4,
+          "num_stages": 1
+        },
+        "num_splits": null
+      },
+      {
+        "variant": "qasync",
+        "config": {
+          "block_m": 64,
+          "block_n": 32,
+          "num_warps": 4,
+          "num_stages": 2
+        },
+        "num_splits": null
+      },
+      {
+        "variant": "qasync",
+        "config": {
+          "block_m": 64,
+          "block_n": 64,
+          "num_warps": 4,
+          "num_stages": 2
+        },
+        "num_splits": null
+      }
+    ]
+  }
+}
